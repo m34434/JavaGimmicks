@@ -1,0 +1,150 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>net.sf.javagimmicks</groupId>
+	<artifactId>GimmickUtils</artifactId>
+	<version>0.73</version>
+
+	<packaging>jar</packaging>
+
+	<name>JavaGimmicks - GimmickUtils</name>
+	<description>Utility classes, APIs and tools for Java</description>
+	<url>https://sourceforge.net/projects/jgutils/</url>
+
+	<properties>
+		<maven.compiler.source>1.6</maven.compiler.source>
+		<maven.compiler.target>1.6</maven.compiler.target>
+	</properties>
+
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>dom4j</groupId>
+				<artifactId>dom4j</artifactId>
+				<version>1.6.1</version>
+				<optional>true</optional>
+			</dependency>
+			<dependency>
+				<groupId>org.easymock</groupId>
+				<artifactId>easymock</artifactId>
+				<version>3.1</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.11</version>
+				<optional>true</optional>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.2.1</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9</version>
+				<configuration>
+					<quiet>true</quiet>
+				</configuration>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>release-sign-artifacts</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.4</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+	<licenses>
+		<license>
+			<name>GNU General Public License (GPL) 3.0</name>
+			<url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<id>m34434</id>
+			<name>Michael Scholz</name>
+			<email>m34434@googlemail.com</email>
+		</developer>
+	</developers>
+
+	<scm>
+		<url>https://svn.code.sf.net/p/jgutils/code/GimmickUtils/tags/0.73</url>
+		<connection>scm:svn:https://svn.code.sf.net/p/jgutils/code/GimmickUtils/tags/0.73</connection>
+		<developerConnection>scm:svn:https://svn.code.sf.net/p/jgutils/code/GimmickUtils/tags/0.73</developerConnection>
+	</scm>
+
+</project>
