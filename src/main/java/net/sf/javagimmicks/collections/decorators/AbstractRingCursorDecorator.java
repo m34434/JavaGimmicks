@@ -4,18 +4,18 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sf.javagimmicks.collections.Traverser;
+import net.sf.javagimmicks.collections.RingCursor;
 
 /**
- * A basic class for {@link Traverser} decorators
+ * A basic class for {@link RingCursor} decorators
  * that simply forwards all calls to an internal
  * delegate instance.
  */
-public abstract class AbstractTraverserDecorator<E> implements Traverser<E>
+public abstract class AbstractRingCursorDecorator<E> implements RingCursor<E>
 {
-   protected final Traverser<E> _decorated;
+   protected final RingCursor<E> _decorated;
 
-   protected AbstractTraverserDecorator(Traverser<E> decorated)
+   protected AbstractRingCursorDecorator(RingCursor<E> decorated)
    {
       _decorated = decorated;
    }
@@ -23,7 +23,7 @@ public abstract class AbstractTraverserDecorator<E> implements Traverser<E>
    /**
     * Returns the decorated instance (the delegate)
     */
-   public Traverser<E> getDecorated()
+   public RingCursor<E> getDecorated()
    {
       return _decorated;
    }
@@ -98,9 +98,9 @@ public abstract class AbstractTraverserDecorator<E> implements Traverser<E>
       return getDecorated().toList();
    }
 
-   public Traverser<E> traverser()
+   public RingCursor<E> cursor()
    {
-      return getDecorated().traverser();
+      return getDecorated().cursor();
    }
 
    public Iterator<E> iterator()

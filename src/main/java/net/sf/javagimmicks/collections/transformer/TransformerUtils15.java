@@ -11,7 +11,7 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 
 import net.sf.javagimmicks.collections.Ring;
-import net.sf.javagimmicks.collections.Traverser;
+import net.sf.javagimmicks.collections.RingCursor;
 
 /**
  * This class is the central entry point to the Javagimmicks
@@ -254,14 +254,14 @@ public class TransformerUtils15
       return decorateKeyBased(valueTransformingMap, keyTransformer);
    }
 
-   public static <F, T> Traverser<T> decorate(Traverser<F> traverser, Transformer<F, T> transformer)
+   public static <F, T> RingCursor<T> decorate(RingCursor<F> ringCursor, Transformer<F, T> transformer)
    {
-      return new TransformingTraverser<F, T>(traverser, transformer);
+      return new TransformingRingCursor<F, T>(ringCursor, transformer);
    }
 
-   public static <F, T> Traverser<T> decorate(Traverser<F> traverser, BidiTransformer<F, T> transformer)
+   public static <F, T> RingCursor<T> decorate(RingCursor<F> ringCursor, BidiTransformer<F, T> transformer)
    {
-      return new BidiTransformingTraverser<F, T>(traverser, transformer);
+      return new BidiTransformingRingCursor<F, T>(ringCursor, transformer);
    }
 
    public static <F, T> Ring<T> decorate(Ring<F> ring, Transformer<F, T> transformer)

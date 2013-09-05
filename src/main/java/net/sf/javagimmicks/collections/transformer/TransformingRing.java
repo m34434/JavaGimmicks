@@ -2,7 +2,7 @@ package net.sf.javagimmicks.collections.transformer;
 
 import net.sf.javagimmicks.collections.AbstractRing;
 import net.sf.javagimmicks.collections.Ring;
-import net.sf.javagimmicks.collections.Traverser;
+import net.sf.javagimmicks.collections.RingCursor;
 
 class TransformingRing<F, T>
    extends AbstractRing<T>
@@ -26,9 +26,9 @@ class TransformingRing<F, T>
       return _tansformer;
    }
 
-   public Traverser<T> traverser()
+   public RingCursor<T> cursor()
    {
-      return TransformerUtils.decorate(_internalRing.traverser(), getTransformer());
+      return TransformerUtils.decorate(_internalRing.cursor(), getTransformer());
    }
 
    @Override

@@ -12,38 +12,38 @@ public abstract class AbstractRing<E> extends AbstractCollection<E> implements R
     // Method implementations overriding AbstractCollection
     public boolean add(E value)
     {
-        // Get the initial traverser add the element before the current position
+        // Get the initial RingCursor add the element before the current position
         // (this means at the 'end' of the ring)
-        traverser().insertBefore(value);
+        cursor().insertBefore(value);
         
         return true;
     }
 
     public boolean addAll(Collection<? extends E> collection)
     {
-        // Get the initial traverser add the elements before the current position
+        // Get the initial RingCursor add the elements before the current position
         // (this means at the 'end' of the ring)
-        traverser().insertBefore(collection);
+        cursor().insertBefore(collection);
         
         return true;
     }
     
     public Iterator<E> iterator()
     {
-        return traverser().iterator();
+        return cursor().iterator();
     }
 
     public String toString()
     {
-       return traverser().toString();
+       return cursor().toString();
     }
     
-    protected static abstract class BasicTraverser<E, R extends AbstractRing<E>> extends AbstractTraverser<E>
+    protected static abstract class BasicRingCursor<E, R extends AbstractRing<E>> extends AbstractRingCursor<E>
     {
         protected final R _ring;
         protected int _expectedModCount;
         
-        protected BasicTraverser(R ring)
+        protected BasicRingCursor(R ring)
         {
             _ring = ring;
             _expectedModCount = _ring._modCount;

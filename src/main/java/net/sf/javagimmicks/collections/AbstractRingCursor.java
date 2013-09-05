@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public abstract class AbstractTraverser<E> extends AbstractCursor<E> implements Traverser<E>
+public abstract class AbstractRingCursor<E> extends AbstractCursor<E> implements RingCursor<E>
 {
    public E next(int count)
    {
@@ -89,7 +89,7 @@ public abstract class AbstractTraverser<E> extends AbstractCursor<E> implements 
 
    public Iterator<E> iterator()
    {
-      return new RingIterator<E>(traverser());
+      return new RingIterator<E>(cursor());
    }
 
    public List<E> toList()
@@ -110,17 +110,17 @@ public abstract class AbstractTraverser<E> extends AbstractCursor<E> implements 
 
    protected static class RingIterator<E> implements Iterator<E>
    {
-      private final Traverser<E> _traverser;
+      private final RingCursor<E> _ringCursor;
       private final int _size;
 
       private int _counter = 0;
       private boolean _removeCalled = true;
 
-      public RingIterator(Traverser<E> traverser)
+      public RingIterator(RingCursor<E> ringCursor)
       {
-         _traverser = traverser;
-         _traverser.previous();
-         _size = traverser.size();
+         _ringCursor = ringCursor;
+         _ringCursor.previous();
+         _size = ringCursor.size();
       }
 
       public boolean hasNext()
@@ -138,7 +138,7 @@ public abstract class AbstractTraverser<E> extends AbstractCursor<E> implements 
          _removeCalled = false;
          ++_counter;
 
-         return _traverser.next();
+         return _ringCursor.next();
       }
 
       public void remove()
@@ -151,11 +151,11 @@ public abstract class AbstractTraverser<E> extends AbstractCursor<E> implements 
 
          _removeCalled = true;
 
-         _traverser.remove();
+         _ringCursor.remove();
 
-         if (!_traverser.isEmpty())
+         if (!_ringCursor.isEmpty())
          {
-            _traverser.previous();
+            _ringCursor.previous();
          }
       }
    }

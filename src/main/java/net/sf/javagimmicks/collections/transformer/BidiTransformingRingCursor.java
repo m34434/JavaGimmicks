@@ -1,18 +1,18 @@
 package net.sf.javagimmicks.collections.transformer;
 
-import net.sf.javagimmicks.collections.Traverser;
+import net.sf.javagimmicks.collections.RingCursor;
 
-class BidiTransformingTraverser<F, T>
-   extends TransformingTraverser<F, T>
+class BidiTransformingRingCursor<F, T>
+   extends TransformingRingCursor<F, T>
    implements BidiTransforming<F, T>
 {
    /**
     * @deprecated Use TranformerUtils.decorate() instead
     */
    @Deprecated
-   public BidiTransformingTraverser(Traverser<F> traverser, BidiTransformer<F, T> transformer)
+   public BidiTransformingRingCursor(RingCursor<F> ringCursor, BidiTransformer<F, T> transformer)
    {
-      super(traverser, transformer);
+      super(ringCursor, transformer);
    }
    
    public BidiTransformer<F, T> getBidiTransformer()
@@ -23,12 +23,12 @@ class BidiTransformingTraverser<F, T>
    @Override
    public void insertAfter(T value)
    {
-      _internalTraverser.insertAfter(getBidiTransformer().transformBack(value));
+      _internalRingCursor.insertAfter(getBidiTransformer().transformBack(value));
    }
 
    @Override
    public void insertBefore(T value)
    {
-      _internalTraverser.insertBefore(getBidiTransformer().transformBack(value));
+      _internalRingCursor.insertBefore(getBidiTransformer().transformBack(value));
    }
 }

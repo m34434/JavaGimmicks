@@ -22,9 +22,9 @@ public class ArrayRing<E> extends AbstractRing<E>
       return _backingList.size();
    }
 
-   public Traverser<E> traverser()
+   public RingCursor<E> cursor()
    {
-      return new ArrayTraverser<E>(this, 0);
+      return new ArrayRingCursor<E>(this, 0);
    }
 
    public void ensureCapacity(int minCapacity)
@@ -32,11 +32,11 @@ public class ArrayRing<E> extends AbstractRing<E>
       _backingList.ensureCapacity(minCapacity);
    }
 
-   private static class ArrayTraverser<E> extends BasicTraverser<E, ArrayRing<E>>
+   private static class ArrayRingCursor<E> extends BasicRingCursor<E, ArrayRing<E>>
    {
       private int _position;
 
-      private ArrayTraverser(ArrayRing<E> ring, int position)
+      private ArrayRingCursor(ArrayRing<E> ring, int position)
       {
          super(ring);
 
@@ -150,9 +150,9 @@ public class ArrayRing<E> extends AbstractRing<E>
          return result;
       }
 
-      public Traverser<E> traverser()
+      public RingCursor<E> cursor()
       {
-         return new ArrayTraverser<E>(_ring, _position);
+         return new ArrayRingCursor<E>(_ring, _position);
       }
    }
 }

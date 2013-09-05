@@ -1,7 +1,7 @@
 package net.sf.javagimmicks.collections.transformer;
 
 import net.sf.javagimmicks.collections.Ring;
-import net.sf.javagimmicks.collections.Traverser;
+import net.sf.javagimmicks.collections.RingCursor;
 
 class BidiTransformingRing<F, T>
    extends TransformingRing<F, T>
@@ -22,8 +22,8 @@ class BidiTransformingRing<F, T>
    }
 
    @Override
-   public Traverser<T> traverser()
+   public RingCursor<T> cursor()
    {
-      return TransformerUtils.decorate(_internalRing.traverser(), getBidiTransformer());
+      return TransformerUtils.decorate(_internalRing.cursor(), getBidiTransformer());
    }
 }

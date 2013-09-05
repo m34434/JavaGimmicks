@@ -88,7 +88,7 @@ public interface Cursor<E>
     * @throws NoSuchElementException
     *            if the underlying data structure is empty
     */
-   public abstract E get() throws NoSuchElementException;
+   E get() throws NoSuchElementException;
 
    /**
     * Replaces the element that currently lies under the {@link Cursor} with a
@@ -100,7 +100,7 @@ public interface Cursor<E>
     * @throws NoSuchElementException
     *            if the underlying data structure is empty
     */
-   public abstract E set(E value);
+   E set(E value);
 
    /**
     * Inserts a new element after the one that currently lies under the
@@ -113,7 +113,7 @@ public interface Cursor<E>
     * @param value
     *           the value to insert
     */
-   public abstract void insertAfter(E value);
+   void insertAfter(E value);
 
    /**
     * Inserts a new element before the one that currently lies under the
@@ -126,7 +126,7 @@ public interface Cursor<E>
     * @param value
     *           the value to insert
     */
-   public abstract void insertBefore(E value);
+   void insertBefore(E value);
 
    /**
     * Inserts a number of elements given as a {@link Iterable} after the one
@@ -136,7 +136,7 @@ public interface Cursor<E>
     * @param collection
     *           the {@link Iterable} of values to insert
     */
-   public abstract void insertAfter(Iterable<? extends E> collection);
+   void insertAfter(Iterable<? extends E> collection);
 
    /**
     * Inserts a number of elements given as a {@link Iterable} before the one
@@ -146,16 +146,16 @@ public interface Cursor<E>
     * @param collection
     *           the {@link Iterable} of values to insert
     */
-   public abstract void insertBefore(Iterable<? extends E> collection);
+   void insertBefore(Iterable<? extends E> collection);
 
    /**
     * Removes and returns the value that currently lies under the {@link Cursor}
     * .
     * 
-    * @return the remove value that lied under the {@link Cursor}.
+    * @return the removed value that lied under the {@link Cursor}.
     * @throws NoSuchElementException
     *            if the underlying data structure is empty
     */
-   public abstract E remove() throws NoSuchElementException;
+   E remove() throws NoSuchElementException;
 
 }

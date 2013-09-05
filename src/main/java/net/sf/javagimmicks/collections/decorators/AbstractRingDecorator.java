@@ -1,7 +1,7 @@
 package net.sf.javagimmicks.collections.decorators;
 
 import net.sf.javagimmicks.collections.Ring;
-import net.sf.javagimmicks.collections.Traverser;
+import net.sf.javagimmicks.collections.RingCursor;
 
 /**
  * A basic class for {@link Ring} decorators
@@ -26,8 +26,8 @@ public abstract class AbstractRingDecorator<E> extends AbstractCollectionDecorat
       return (Ring<E>)super.getDecorated();
    }
    
-   public Traverser<E> traverser()
+   public RingCursor<E> cursor()
    {
-      return getDecorated().traverser();
+      return getDecorated().cursor();
    }
 }

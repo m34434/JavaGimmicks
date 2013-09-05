@@ -15,16 +15,16 @@ import java.util.NoSuchElementException;
  * package.
  * 
  * @param <E>
- *           the type of elements this {@link Traverser} operates on
+ *           the type of elements this {@link RingCursor} operates on
  */
-public interface Traverser<E> extends Traversable<E>, Cursor<E>
+public interface RingCursor<E> extends RingCursorProvider<E>, Cursor<E>
 {
    /**
-    * Moves the {@link Traverser} forward by any number of elements and returns
-    * the one the finally lies under the {@link Traverser}.
+    * Moves the {@link RingCursor} forward by any number of elements and returns
+    * the one the finally lies under the {@link RingCursor}.
     * <p>
     * If the number of positions to move is bigger than the size of the
-    * {@link Traverser} it will simply circle through the data structure and
+    * {@link RingCursor} it will simply circle through the data structure and
     * start over from the original position.
     * 
     * @param count
@@ -39,11 +39,11 @@ public interface Traverser<E> extends Traversable<E>, Cursor<E>
    E next(int count) throws NoSuchElementException;
 
    /**
-    * Moves the {@link Traverser} backward by any number of elements and returns
-    * the one the finally lies under the {@link Traverser}.
+    * Moves the {@link RingCursor} backward by any number of elements and
+    * returns the one the finally lies under the {@link RingCursor}.
     * <p>
     * If the number of positions to move is bigger than the size of the
-    * {@link Traverser} it will simply circle through the data structure and
+    * {@link RingCursor} it will simply circle through the data structure and
     * start over from the original position.
     * 
     * @param count
@@ -57,13 +57,13 @@ public interface Traverser<E> extends Traversable<E>, Cursor<E>
    E previous(int count) throws NoSuchElementException;
 
    /**
-    * Creates and returns a new {@link Traverser} on the underlying data
-    * structure with the cursor pointing the current {@link Traverser}'s
+    * Creates and returns a new {@link RingCursor} on the underlying data
+    * structure with the cursor pointing the current {@link RingCursor}'s
     * position.
     * 
-    * @return the resulting {@link Traverser}
+    * @return the resulting {@link RingCursor}
     */
-   Traverser<E> traverser();
+   RingCursor<E> cursor();
 
    /**
     * Transforms the underlying data structure into a {@link List} with the same

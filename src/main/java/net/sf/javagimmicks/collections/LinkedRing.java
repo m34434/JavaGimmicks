@@ -13,9 +13,9 @@ public class LinkedRing<E> extends AbstractRing<E>
         return _size;
     }
     
-    public Traverser<E> traverser()
+    public RingCursor<E> cursor()
     {
-        return new LinkedTraverser<E>(this, _hook);
+        return new LinkedRingCursor<E>(this, _hook);
     }
 
     private static class RingElement<E>
@@ -26,11 +26,11 @@ public class LinkedRing<E> extends AbstractRing<E>
         private E _value;
     }
     
-    private static class LinkedTraverser<E> extends BasicTraverser<E, LinkedRing<E>>
+    private static class LinkedRingCursor<E> extends BasicRingCursor<E, LinkedRing<E>>
     {
         private RingElement<E> _current;
         
-        private LinkedTraverser(LinkedRing<E> ring, RingElement<E> current)
+        private LinkedRingCursor(LinkedRing<E> ring, RingElement<E> current)
         {
             super(ring);
             _current = current;
@@ -125,7 +125,7 @@ public class LinkedRing<E> extends AbstractRing<E>
                 _current._next = null;
                 _current._previous = null;
                 
-                // Relink the hook (if necessary) and the current Traverser position
+                // Relink the hook (if necessary) and the current RingCursor position
                 if(_ring._hook == _current)
                 {
                     _ring._hook = nextElement;
@@ -143,9 +143,9 @@ public class LinkedRing<E> extends AbstractRing<E>
             return result;
         }
         
-        public Traverser<E> traverser()
+        public RingCursor<E> cursor()
         {
-            return new LinkedTraverser<E>(_ring, _current);
+            return new LinkedRingCursor<E>(_ring, _current);
         }
 
         private void insert(E value, RingElement<E> previous, RingElement<E> next)

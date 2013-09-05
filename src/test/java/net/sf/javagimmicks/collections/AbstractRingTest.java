@@ -37,12 +37,12 @@ public abstract class AbstractRingTest
    {
       assertEquals(5, _ring.size());
 
-      Cursor<String> traverser = _ring.traverser();
-      assertEquals("A", traverser.get());
-      assertEquals("B", traverser.next());
-      assertEquals("C", traverser.next());
-      assertEquals("D", traverser.next());
-      assertEquals("E", traverser.next());
+      RingCursor<String> ringCursor = _ring.cursor();
+      assertEquals("A", ringCursor.get());
+      assertEquals("B", ringCursor.next());
+      assertEquals("C", ringCursor.next());
+      assertEquals("D", ringCursor.next());
+      assertEquals("E", ringCursor.next());
 
       Iterator<String> iterator = _ring.iterator();
       assertEquals("A", iterator.next());
@@ -70,48 +70,48 @@ public abstract class AbstractRingTest
    }
 
    @Test
-   public void testTraverserReadOperations() throws Exception
+   public void testRingCursorReadOperations() throws Exception
    {
-      Traverser<String> traverser = _ring.traverser();
-      assertEquals("A", traverser.get());
+      RingCursor<String> ringCursor = _ring.cursor();
+      assertEquals("A", ringCursor.get());
 
-      assertEquals("D", traverser.next(3));
-      assertEquals("B", traverser.next(3));
-      assertEquals("E", traverser.next(3));
-      assertEquals("C", traverser.next(3));
-      assertEquals("A", traverser.next(3));
+      assertEquals("D", ringCursor.next(3));
+      assertEquals("B", ringCursor.next(3));
+      assertEquals("E", ringCursor.next(3));
+      assertEquals("C", ringCursor.next(3));
+      assertEquals("A", ringCursor.next(3));
 
-      assertEquals("C", traverser.previous(3));
-      assertEquals("E", traverser.previous(3));
-      assertEquals("B", traverser.previous(3));
-      assertEquals("D", traverser.previous(3));
-      assertEquals("A", traverser.previous(3));
+      assertEquals("C", ringCursor.previous(3));
+      assertEquals("E", ringCursor.previous(3));
+      assertEquals("B", ringCursor.previous(3));
+      assertEquals("D", ringCursor.previous(3));
+      assertEquals("A", ringCursor.previous(3));
 
-      assertEquals("D", traverser.next(8));
-      assertEquals("B", traverser.next(13));
-      assertEquals("E", traverser.next(18));
-      assertEquals("C", traverser.next(23));
-      assertEquals("A", traverser.next(28));
+      assertEquals("D", ringCursor.next(8));
+      assertEquals("B", ringCursor.next(13));
+      assertEquals("E", ringCursor.next(18));
+      assertEquals("C", ringCursor.next(23));
+      assertEquals("A", ringCursor.next(28));
 
-      assertEquals("D", traverser.next(-2));
-      assertEquals("B", traverser.next(-7));
-      assertEquals("E", traverser.next(-12));
-      assertEquals("C", traverser.next(-17));
-      assertEquals("A", traverser.next(-22));
+      assertEquals("D", ringCursor.next(-2));
+      assertEquals("B", ringCursor.next(-7));
+      assertEquals("E", ringCursor.next(-12));
+      assertEquals("C", ringCursor.next(-17));
+      assertEquals("A", ringCursor.next(-22));
 
-      assertEquals("D", traverser.previous(-3));
-      assertEquals("B", traverser.previous(-8));
-      assertEquals("E", traverser.previous(-13));
-      assertEquals("C", traverser.previous(-18));
-      assertEquals("A", traverser.previous(-23));
+      assertEquals("D", ringCursor.previous(-3));
+      assertEquals("B", ringCursor.previous(-8));
+      assertEquals("E", ringCursor.previous(-13));
+      assertEquals("C", ringCursor.previous(-18));
+      assertEquals("A", ringCursor.previous(-23));
 
-      Cursor<String> traverser2 = traverser.traverser();
-      assertEquals(traverser.get(), traverser2.get());
+      RingCursor<String> ringCursor2 = ringCursor.cursor();
+      assertEquals(ringCursor.get(), ringCursor2.get());
 
-      assertEquals("B", traverser.next());
-      assertEquals("B", traverser2.next());
+      assertEquals("B", ringCursor.next());
+      assertEquals("B", ringCursor2.next());
 
-      Iterator<String> iterator = traverser.iterator();
+      Iterator<String> iterator = ringCursor.iterator();
       assertEquals("B", iterator.next());
       assertEquals("C", iterator.next());
       assertEquals("D", iterator.next());
@@ -121,47 +121,47 @@ public abstract class AbstractRingTest
    }
 
    @Test
-   public void testTraverserWriteOperations() throws Exception
+   public void testRingCursorWriteOperations() throws Exception
    {
-      Traverser<String> traverser = _ring.traverser();
-      assertEquals("A", traverser.get());
+      RingCursor<String> ringCursor = _ring.cursor();
+      assertEquals("A", ringCursor.get());
 
-      assertEquals("A", traverser.remove());
-      assertEquals("B", traverser.get());
+      assertEquals("A", ringCursor.remove());
+      assertEquals("B", ringCursor.get());
 
-      traverser.insertBefore("A");
-      assertEquals("B", traverser.get());
+      ringCursor.insertBefore("A");
+      assertEquals("B", ringCursor.get());
 
-      assertEquals("A", traverser.previous());
+      assertEquals("A", ringCursor.previous());
 
-      traverser.insertAfter(Arrays.asList("A1", "A2"));
-      assertEquals("A", traverser.get());
+      ringCursor.insertAfter(Arrays.asList("A1", "A2"));
+      assertEquals("A", ringCursor.get());
 
-      while (!traverser.isEmpty())
-         traverser.remove();
+      while (!ringCursor.isEmpty())
+         ringCursor.remove();
       assertTrue(_ring.isEmpty());
-      assertTrue(traverser.isEmpty());
+      assertTrue(ringCursor.isEmpty());
 
       try
       {
-         traverser.get();
+         ringCursor.get();
          fail(NoSuchElementException.class.getSimpleName() + " expected");
       }
       catch (NoSuchElementException ex)
       {
       }
       
-      traverser.insertAfter("A");
-      assertEquals("A", traverser.get());
+      ringCursor.insertAfter("A");
+      assertEquals("A", ringCursor.get());
    }
 
    @Test
    public void testConcurrentModification() throws Exception
    {
-      Traverser<String> t11 = _ring.traverser();
-      Traverser<String> t21 = _ring.traverser();
-      Cursor<String> t12 = t11.traverser();
-      Cursor<String> t22 = t21.traverser();
+      RingCursor<String> t11 = _ring.cursor();
+      RingCursor<String> t21 = _ring.cursor();
+      RingCursor<String> t12 = t11.cursor();
+      RingCursor<String> t22 = t21.cursor();
       Iterator<String> it1 = _ring.iterator();
       Iterator<String> it2 = t11.iterator();
 
@@ -216,27 +216,27 @@ public abstract class AbstractRingTest
    @Test
    public void testInsert() throws Exception
    {
-      Cursor<String> traverser = _ring.traverser();
+      Cursor<String> ringCursor = _ring.cursor();
 
-      traverser.insertAfter("ABB");
+      ringCursor.insertAfter("ABB");
       assertEquals(6, _ring.size());
-      assertEquals("ABB", traverser.next());
+      assertEquals("ABB", ringCursor.next());
 
-      traverser.insertBefore("AAB");
+      ringCursor.insertBefore("AAB");
       assertEquals(7, _ring.size());
-      assertEquals("AAB", traverser.previous());
+      assertEquals("AAB", ringCursor.previous());
 
       List<String> xyList = Arrays.asList(new String[] { "X", "Y" });
-      traverser.insertAfter(xyList);
+      ringCursor.insertAfter(xyList);
       assertEquals(9, _ring.size());
-      assertEquals("X", traverser.next());
-      assertEquals("Y", traverser.next());
+      assertEquals("X", ringCursor.next());
+      assertEquals("Y", ringCursor.next());
 
-      traverser.next();
-      traverser.insertBefore(xyList);
+      ringCursor.next();
+      ringCursor.insertBefore(xyList);
       assertEquals(11, _ring.size());
-      assertEquals("Y", traverser.previous());
-      assertEquals("X", traverser.previous());
+      assertEquals("Y", ringCursor.previous());
+      assertEquals("X", ringCursor.previous());
    }
 
    @Test
@@ -269,17 +269,17 @@ public abstract class AbstractRingTest
    @Test
    public void testReplace() throws Exception
    {
-      Cursor<String> traverser = _ring.traverser();
+      Cursor<String> ringCursor = _ring.cursor();
 
-      traverser.set("V");
-      traverser.next();
-      traverser.set("W");
-      traverser.next();
-      traverser.set("X");
-      traverser.next();
-      traverser.set("Y");
-      traverser.next();
-      traverser.set("Z");
+      ringCursor.set("V");
+      ringCursor.next();
+      ringCursor.set("W");
+      ringCursor.next();
+      ringCursor.set("X");
+      ringCursor.next();
+      ringCursor.set("Y");
+      ringCursor.next();
+      ringCursor.set("Z");
 
       Iterator<String> iterator = _ring.iterator();
       assertEquals("V", iterator.next());
@@ -298,7 +298,7 @@ public abstract class AbstractRingTest
 
       try
       {
-         _ring.traverser().remove();
+         _ring.cursor().remove();
       }
       catch (NoSuchElementException ex)
       {
@@ -314,7 +314,7 @@ public abstract class AbstractRingTest
 
       try
       {
-         _ring.traverser().set("X");
+         _ring.cursor().set("X");
       }
       catch (NoSuchElementException ex)
       {
