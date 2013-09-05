@@ -59,7 +59,7 @@ public class MultiThreadedTestHelper<R>
    /**
     * Returns if auto-fail is active 
     * @return if auto-fail is active
-    * @see {@link #setAutoFail(boolean)}
+    * @see #setAutoFail(boolean)
     */
    public boolean isAutoFail()
    {
@@ -144,7 +144,7 @@ public class MultiThreadedTestHelper<R>
     * after all "sub" workers have been started
     * @return the {@link TestResult} containing all test result details (including any thrown errors)
     * @throws AssertionError if anything in the test run went wrong and {@link #isAutoFail()} is <code>true</code>
-    * @see {@link #isAutoFail()}
+    * @see #isAutoFail()
     */
    public <F> TestResult<F, R> executeWorkers(Callable<F> mainWorker) throws AssertionError
    {
@@ -167,7 +167,7 @@ public class MultiThreadedTestHelper<R>
     * @param unit the unit of time to wait until the test run is aborted
     * @return the {@link TestResult} containing all test result details (including any thrown errors)
     * @throws AssertionError if anything in the test run went wrong and {@link #isAutoFail()} is <code>true</code>
-    * @see {@link #isAutoFail()}
+    * @see #isAutoFail()
     */
    public <F> TestResult<F, R> executeWorkers(Callable<F> mainWorker, final long timeout, final TimeUnit unit) throws AssertionError
    {
@@ -452,7 +452,7 @@ public class MultiThreadedTestHelper<R>
     * Acts as a container for the results of a test run which consists in particular of the results
     * of the "main" worker and the results of all "sub" workers.
     * @param <F> the result type of the "main" worker
-    * @param <R> the reulte type of the "sub" workers
+    * @param <R> the result type of the "sub" workers
     */
    public static class TestResult<F, R>
    {
@@ -511,7 +511,7 @@ public class MultiThreadedTestHelper<R>
       /**
        * Returns the result of the main worker's call as {@link TestResult} object
        * @return the result of the main worker's call
-       * @see {@link WorkerResult}
+       * @see WorkerResult
        */
       public WorkerResult<F> getMainWorkerResult()
       {
@@ -523,7 +523,7 @@ public class MultiThreadedTestHelper<R>
        * each worker by a unique numbers (matching the order in which the workers were
        * started)
        * @return a {@link SortedMap} containing all {@link WorkerResult}s of all workers
-       * @see {@link WorkerResult}
+       * @see WorkerResult
        */
       public SortedMap<Integer, WorkerResult<R>> getWorkerResults()
       {
@@ -535,7 +535,7 @@ public class MultiThreadedTestHelper<R>
        * which identifies each worker by a unique numbers
        * (matching the order in which the workers were started)
        * @return a {@link SortedMap} containing all {@link WorkerResult}s of all failed workers
-       * @see {@link WorkerResult}
+       * @see WorkerResult
        */
       public SortedMap<Integer, WorkerResult<R>> getFailedWorkerResults()
       {

@@ -5,6 +5,11 @@ import java.util.AbstractSet;
 import java.util.Collection;
 import java.util.Set;
 
+/**
+ * A basic class for unmodifiable {@link Set}
+ * decorators that simply forwards all read-calls
+ * to an internal delegate instance.
+ */
 public abstract class AbstractUnmodifiableSetDecorator<E> extends AbstractSet<E> implements Serializable
 {
    private static final long serialVersionUID = -2933050231778253100L;
@@ -16,6 +21,9 @@ public abstract class AbstractUnmodifiableSetDecorator<E> extends AbstractSet<E>
       _decorated = decorated;
    }
    
+   /**
+    * Returns the decorated instance (the delegate)
+    */
    public Set<E> getDecorated()
    {
       return _decorated;

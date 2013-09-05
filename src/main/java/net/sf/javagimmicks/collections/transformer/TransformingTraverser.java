@@ -4,7 +4,6 @@
 package net.sf.javagimmicks.collections.transformer;
 
 import net.sf.javagimmicks.collections.AbstractTraverser;
-import net.sf.javagimmicks.collections.Ring;
 import net.sf.javagimmicks.collections.Traverser;
 
 class TransformingTraverser<F, T>
@@ -27,6 +26,11 @@ class TransformingTraverser<F, T>
    public Transformer<F, T> getTransformer()
    {
       return _transformer;
+   }
+   
+   public int size()
+   {
+      return _internalTraverser.size();
    }
 
    public T get()
@@ -59,11 +63,6 @@ class TransformingTraverser<F, T>
       return getTransformer().transform(_internalTraverser.remove());
    }
 
-   public Ring<T> ring()
-   {
-      return TransformerUtils.decorate(_internalTraverser.ring(), getTransformer());
-   }
-   
    public Traverser<T> traverser()
    {
       return TransformerUtils.decorate(_internalTraverser.traverser(), getTransformer());

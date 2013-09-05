@@ -48,10 +48,10 @@ public abstract class AbstractRing<E> extends AbstractCollection<E> implements R
             _ring = ring;
             _expectedModCount = _ring._modCount;
         }
-        
-        public R ring()
+
+        public int size()
         {
-            return _ring;
+           return _ring.size();
         }
         
         protected void checkForModification()

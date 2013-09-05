@@ -3,7 +3,7 @@
 
 	<groupId>net.sf.javagimmicks</groupId>
 	<artifactId>GimmickUtils</artifactId>
-	<version>0.73</version>
+	<version>0.74-SNAPSHOT</version>
 
 	<packaging>jar</packaging>
 
@@ -142,9 +142,9 @@
 	</developers>
 
 	<scm>
-		<url>https://svn.code.sf.net/p/jgutils/code/GimmickUtils/tags/0.73</url>
-		<connection>scm:svn:https://svn.code.sf.net/p/jgutils/code/GimmickUtils/tags/0.73</connection>
-		<developerConnection>scm:svn:https://svn.code.sf.net/p/jgutils/code/GimmickUtils/tags/0.73</developerConnection>
+		<url>https://svn.code.sf.net/p/jgutils/code/GimmickUtils/trunk</url>
+		<connection>scm:svn:https://svn.code.sf.net/p/jgutils/code/GimmickUtils/trunk</connection>
+		<developerConnection>scm:svn:https://svn.code.sf.net/p/jgutils/code/GimmickUtils/trunk</developerConnection>
 	</scm>
 
 </project>

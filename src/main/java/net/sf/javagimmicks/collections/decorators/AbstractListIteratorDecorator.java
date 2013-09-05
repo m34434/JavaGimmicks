@@ -2,6 +2,11 @@ package net.sf.javagimmicks.collections.decorators;
 
 import java.util.ListIterator;
 
+/**
+ * A basic class for {@link ListIterator} decorators
+ * that simply forwards all calls to an internal
+ * delegate instance.
+ */
 public abstract class AbstractListIteratorDecorator<E> extends AbstractIteratorDecorator<E> implements ListIterator<E>
 {
    protected AbstractListIteratorDecorator(ListIterator<E> decorated)
@@ -9,6 +14,9 @@ public abstract class AbstractListIteratorDecorator<E> extends AbstractIteratorD
       super(decorated);
    }
 
+   /**
+    * Returns the decorated instance (the delegate)
+    */
    @Override
    public ListIterator<E> getDecorated()
    {

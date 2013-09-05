@@ -5,6 +5,11 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * A basic class for {@link Map} decorators
+ * that simply forwards all calls to an internal
+ * delegate instance.
+ */
 public abstract class AbstractMapDecorator<K, V> implements Map<K, V>, Serializable
 {
    private static final long serialVersionUID = 7755485389940064486L;
@@ -16,6 +21,9 @@ public abstract class AbstractMapDecorator<K, V> implements Map<K, V>, Serializa
       _decorated = decorated;
    }
    
+   /**
+    * Returns the decorated instance (the delegate)
+    */
    public Map<K, V> getDecorated()
    {
       return _decorated;

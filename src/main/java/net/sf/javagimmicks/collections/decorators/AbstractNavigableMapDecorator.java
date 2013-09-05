@@ -4,6 +4,11 @@ import java.util.Map;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
 
+/**
+ * A basic class for {@link NavigableMap} decorators
+ * that simply forwards all calls to an internal
+ * delegate instance.
+ */
 public abstract class AbstractNavigableMapDecorator<K, V> extends AbstractSortedMapDecorator<K, V> implements NavigableMap<K, V>
 {
    private static final long serialVersionUID = -1230904199447979932L;
@@ -13,6 +18,9 @@ public abstract class AbstractNavigableMapDecorator<K, V> extends AbstractSorted
       super(decorated);
    }
 
+   /**
+    * Returns the decorated instance (the delegate)
+    */
    @Override
    public NavigableMap<K, V> getDecorated()
    {

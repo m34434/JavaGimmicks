@@ -2,6 +2,11 @@ package net.sf.javagimmicks.collections.decorators;
 
 import java.util.NavigableSet;
 
+/**
+ * A basic class for unmodifiable {@link NavigableSet}
+ * decorators that simply forwards all read-calls
+ * to an internal delegate instance.
+ */
 public abstract class AbstractUnmodifiableNavigableSetDecorator<E> extends AbstractUnmodifiableSortedSetDecorator<E> implements NavigableSet<E>
 {
    private static final long serialVersionUID = -2004886060529930248L;
@@ -11,6 +16,9 @@ public abstract class AbstractUnmodifiableNavigableSetDecorator<E> extends Abstr
       super(decorated);
    }
 
+   /**
+    * Returns the decorated instance (the delegate)
+    */
    @Override
    public NavigableSet<E> getDecorated()
    {

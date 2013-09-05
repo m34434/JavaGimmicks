@@ -5,6 +5,8 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import net.sf.javagimmicks.lang.WritableObjectContainer;
+
 /**
  * This class serves as a container that allows (de-)registration of objects of
  * the specified type and provides blocking getter methods for them. This means
@@ -20,7 +22,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @param <E>
  *           the type of object the container can carry
  */
-public class BlockingObjectContainer<E>
+public class BlockingObjectContainer<E> implements WritableObjectContainer<E>
 {
    protected final Lock _lock = new ReentrantLock();
    protected Condition _condition;
@@ -35,7 +37,8 @@ public class BlockingObjectContainer<E>
     * 
     * @param allowOverwrite
     *           the setting for overwriting an existing instance
-    * @see {@link #set(Object)}, {@link #isAllowOverwrite()}
+    * @see WritableObjectContainer#set(Object)
+    * @see WritableObjectContainer#isAllowOverwrite()
     */
    public BlockingObjectContainer(boolean allowOverwrite)
    {
@@ -50,28 +53,13 @@ public class BlockingObjectContainer<E>
       this(false);
    }
 
-   /**
-    * Returns if an already set object instance may be replaced by another one
-    * 
-    * @return if an already set object instance my be replaced by another one
-    * @see #set(Object)
-    */
+   @Override
    public boolean isAllowOverwrite()
    {
       return _allowOverwrite;
    }
 
-   /**
-    * Registers an instance in the container
-    * 
-    * @param instance
-    *           the singleton instance to register
-    * @throws IllegalStateException
-    *            if the given instances is not <code>null</code> and there is
-    *            already another instance registered and
-    *            {@link #isAllowOverwrite()} is <code>true</code>
-    * @see #isAllowOverwrite()
-    */
+   @Override
    public void set(E instance) throws IllegalStateException
    {
       // Unset case
@@ -117,12 +105,7 @@ public class BlockingObjectContainer<E>
       }
    }
 
-   /**
-    * Removes the singleton from the container
-    * 
-    * @return the previously registered singleton instance or <code>null</code>
-    *         if none was registered
-    */
+   @Override
    public E remove()
    {
       _lock.lock();
@@ -141,15 +124,16 @@ public class BlockingObjectContainer<E>
    }
 
    /**
-    * Retrieves the singleton instance waiting uninterruptibly until it is
-    * registered (i.e. the waiting Thread will NOT react to
-    * {@link Thread#interrupt()} calls)
+    * Retrieves the instance waiting uninterruptibly until it is registered
+    * (i.e. the waiting Thread will NOT react to {@link Thread#interrupt()}
+    * calls)
     * <p>
     * Attention: this call blocks FOREVER - so you REALLY should take care that
     * the requested instance is finally registered
     * 
-    * @return the resulting singleton instance
+    * @return the resulting instance
     */
+   @Override
    public E get()
    {
       try
@@ -174,14 +158,14 @@ public class BlockingObjectContainer<E>
    }
 
    /**
-    * Retrieves the singleton instance waiting interruptibly until it is
+    * Retrieves the registered instance waiting interruptibly until it is
     * registered (i.e. the waiting Thread will react to
     * {@link Thread#interrupt()} calls)
     * <p>
     * Attention: this call block FOREVER (if not interrupted) - so you REALLY
     * should take care that the requested instance is finally registered
     * 
-    * @return the resulting singleton instance
+    * @return the resulting instance
     * @throws InterruptedException
     *            if the waiting Thread is interrupted while waiting
     */
@@ -198,7 +182,7 @@ public class BlockingObjectContainer<E>
    }
 
    /**
-    * Retrieves the singleton instance waiting interruptibly (i.e. the waiting
+    * Retrieves the registered instance waiting interruptibly (i.e. the waiting
     * Thread will react to {@link Thread#interrupt()} calls) until it is
     * registered or the given timeout has elapsed
     * 
@@ -207,7 +191,7 @@ public class BlockingObjectContainer<E>
     *           returns
     * @param timeUnit
     *           the {@link TimeUnit} of the given time amount to wait
-    * @return the resulting singleton instance
+    * @return the resulting instance
     * @throws InterruptedException
     *            if the waiting Thread is interrupted while waiting
     */
@@ -224,8 +208,8 @@ public class BlockingObjectContainer<E>
    }
 
    /**
-    * Retrieves the singleton instance if currently registered without
-    * potentially waiting for it (i.e. the call will always return immediately)
+    * Retrieves the instance if currently registered without potentially waiting
+    * for it (i.e. the call will always return immediately)
     * 
     * @return the registered singleton instance or <code>null</code> if non is
     *         registered

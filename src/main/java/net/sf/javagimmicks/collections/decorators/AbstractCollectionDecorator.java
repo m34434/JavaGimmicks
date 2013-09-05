@@ -4,6 +4,11 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
 
+/**
+ * A basic class for {@link Collection} decorators
+ * that simply forwards all calls to an internal
+ * delegate instance.
+ */
 public abstract class AbstractCollectionDecorator<E> implements Collection<E>, Serializable
 {
    private static final long serialVersionUID = -5203666410345126066L;
@@ -15,6 +20,9 @@ public abstract class AbstractCollectionDecorator<E> implements Collection<E>, S
       _decorated = decorated;
    }
    
+   /**
+    * Returns the decorated instance (the delegate)
+    */
    public Collection<E> getDecorated()
    {
       return _decorated;

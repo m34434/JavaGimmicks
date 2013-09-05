@@ -5,6 +5,11 @@ import java.util.AbstractList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * A basic class for unmodifiable {@link List}
+ * decorators that simply forwards all read-calls
+ * to an internal delegate instance.
+ */
 public abstract class AbstractUnmodifiableListDecorator<E> extends AbstractList<E> implements Serializable
 {
    private static final long serialVersionUID = 8953157735186723748L;
@@ -16,6 +21,9 @@ public abstract class AbstractUnmodifiableListDecorator<E> extends AbstractList<
       _decorated = decorated;
    }
    
+   /**
+    * Returns the decorated instance (the delegate)
+    */
    public List<E> getDecorated()
    {
       return _decorated;

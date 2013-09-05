@@ -4,6 +4,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
 
+/**
+ * A basic class for {@link List} decorators
+ * that simply forwards all calls to an internal
+ * delegate instance.
+ */
 public abstract class AbstractListDecorator<E> extends AbstractCollectionDecorator<E> implements List<E>
 {
    private static final long serialVersionUID = -1438615027180189129L;
@@ -13,6 +18,9 @@ public abstract class AbstractListDecorator<E> extends AbstractCollectionDecorat
       super(decorated);
    }
 
+   /**
+    * Returns the decorated instance (the delegate)
+    */
    @Override
    public List<E> getDecorated()
    {

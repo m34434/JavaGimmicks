@@ -3,6 +3,11 @@ package net.sf.javagimmicks.collections.decorators;
 import java.util.Iterator;
 import java.util.NavigableSet;
 
+/**
+ * A basic class for {@link NavigableSet} decorators
+ * that simply forwards all calls to an internal
+ * delegate instance.
+ */
 public abstract class AbstractNavigableSetDecorator<E> extends AbstractSortedSetDecorator<E> implements NavigableSet<E>
 {
    private static final long serialVersionUID = 6737555614624695847L;
@@ -12,6 +17,9 @@ public abstract class AbstractNavigableSetDecorator<E> extends AbstractSortedSet
       super(decorated);
    }
 
+   /**
+    * Returns the decorated instance (the delegate)
+    */
    public NavigableSet<E> getDecorated()
    {
       return (NavigableSet<E>)super.getDecorated();

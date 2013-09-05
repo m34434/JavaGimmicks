@@ -4,9 +4,13 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sf.javagimmicks.collections.Ring;
 import net.sf.javagimmicks.collections.Traverser;
 
+/**
+ * A basic class for {@link Traverser} decorators
+ * that simply forwards all calls to an internal
+ * delegate instance.
+ */
 public abstract class AbstractTraverserDecorator<E> implements Traverser<E>
 {
    protected final Traverser<E> _decorated;
@@ -16,9 +20,22 @@ public abstract class AbstractTraverserDecorator<E> implements Traverser<E>
       _decorated = decorated;
    }
    
+   /**
+    * Returns the decorated instance (the delegate)
+    */
    public Traverser<E> getDecorated()
    {
       return _decorated;
+   }
+   
+   public int size()
+   {
+      return getDecorated().size();
+   }
+   
+   public boolean isEmpty()
+   {
+      return getDecorated().isEmpty();
    }
 
    public E get()
@@ -69,11 +86,6 @@ public abstract class AbstractTraverserDecorator<E> implements Traverser<E>
    public E remove()
    {
       return getDecorated().remove();
-   }
-
-   public Ring<E> ring()
-   {
-      return getDecorated().ring();
    }
 
    public E set(E value)

@@ -4,6 +4,11 @@ import java.io.Serializable;
 import java.util.AbstractMap;
 import java.util.Map;
 
+/**
+ * A basic class for unmodifiable {@link Map}
+ * decorators that simply forwards all read-calls
+ * to an internal delegate instance.
+ */
 public abstract class AbstractUnmodifiableMapDecorator<K, V> extends AbstractMap<K, V> implements Serializable
 {
    private static final long serialVersionUID = -760336385294119474L;
@@ -15,6 +20,9 @@ public abstract class AbstractUnmodifiableMapDecorator<K, V> extends AbstractMap
       _decorated = decorated;
    }
    
+   /**
+    * Returns the decorated instance (the delegate)
+    */
    public Map<K, V> getDecorated()
    {
       return _decorated;

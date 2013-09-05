@@ -2,6 +2,11 @@ package net.sf.javagimmicks.collections.decorators;
 
 import java.util.NavigableMap;
 
+/**
+ * A basic class for unmodifiable {@link NavigableMap}
+ * decorators that simply forwards all read-calls
+ * to an internal delegate instance.
+ */
 public abstract class AbstractUnmodifiableNavigableMapDecorator<K, V> extends AbstractUnmodifiableSortedMapDecorator<K, V> implements NavigableMap<K, V>
 {
    private static final long serialVersionUID = 1571236822466623659L;
@@ -11,6 +16,9 @@ public abstract class AbstractUnmodifiableNavigableMapDecorator<K, V> extends Ab
       super(decorated);
    }
 
+   /**
+    * Returns the decorated instance (the delegate)
+    */
    @Override
    public NavigableMap<K, V> getDecorated()
    {

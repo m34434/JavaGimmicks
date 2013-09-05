@@ -4,6 +4,11 @@ import java.io.Serializable;
 import java.util.AbstractCollection;
 import java.util.Collection;
 
+/**
+ * A basic class for unmodifiable {@link Collection}
+ * decorators that simply forwards all read-calls
+ * to an internal delegate instance.
+ */
 public abstract class AbstractUnmodifiableCollectionDecorator<E> extends AbstractCollection<E> implements Serializable
 {
    private static final long serialVersionUID = -5485318485656641240L;

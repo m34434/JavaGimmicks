@@ -20,7 +20,7 @@ public class ReflectionFactory<E> implements Factory<E>
     * @param constructor the {@link Constructor} to invoke to create new instances
     * @param argFactory the {@link Factory} to invoke to get the constructor arguments
     * @throws IllegalArgumentException if the given {@link Constructor} is not public, throws any checked {@link Exception} or belongs to an abstract class
-    * @throws SecurityException if the given {@link Contructor} cannot be set accessible 
+    * @throws SecurityException if the given {@link Constructor} cannot be set accessible 
     */
    public ReflectionFactory(Constructor<? extends E> constructor, Factory<Object[]> argFactory) throws IllegalArgumentException, SecurityException
    {

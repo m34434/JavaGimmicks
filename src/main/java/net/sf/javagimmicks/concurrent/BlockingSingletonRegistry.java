@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import net.sf.javagimmicks.lang.WritableObjectContainer;
+
 /**
  * This class serves as a registry that allows (de-)registration of objects
  * following the singleton pattern and provides blocking getter methods for
@@ -21,7 +23,7 @@ import java.util.concurrent.TimeUnit;
  * static default instance can be used.
  * <p>
  * This class intensively uses {@link BlockingObjectContainer} internally
- * @see {@link BlockingObjectContainer}
+ * @see BlockingObjectContainer
  */
 public class BlockingSingletonRegistry
 {
@@ -93,7 +95,7 @@ public class BlockingSingletonRegistry
 
       // Get the matching container ...
       @SuppressWarnings("unchecked")
-      final BlockingObjectContainer<T> container = (BlockingObjectContainer<T>) _theContainers.remove(clazz);
+      final WritableObjectContainer<T> container = (WritableObjectContainer<T>) _theContainers.remove(clazz);
 
       // ... and remove the singleton from there if there was one
       if (container != null)
