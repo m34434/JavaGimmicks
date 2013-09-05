@@ -158,4 +158,11 @@ public interface Cursor<E>
     */
    E remove() throws NoSuchElementException;
 
+   /**
+    * Creates and returns a new {@link Cursor} at the current {@link Cursor}'s
+    * position
+    * 
+    * @return the new {@link Cursor}
+    */
+   Cursor<E> cursor();
 }

@@ -36,6 +36,7 @@ public interface RingCursor<E> extends RingCursorProvider<E>, Cursor<E>
     *            if the underlying data structure is empty
     * @see Cursor#next(int)
     */
+   @Override
    E next(int count) throws NoSuchElementException;
 
    /**
@@ -54,15 +55,16 @@ public interface RingCursor<E> extends RingCursorProvider<E>, Cursor<E>
     *            if the underlying data structure is empty
     * @see Cursor#previous(int)
     */
+   @Override
    E previous(int count) throws NoSuchElementException;
 
    /**
     * Creates and returns a new {@link RingCursor} on the underlying data
-    * structure with the cursor pointing the current {@link RingCursor}'s
-    * position.
+    * structure pointing the current {@link RingCursor}'s position.
     * 
     * @return the resulting {@link RingCursor}
     */
+   @Override
    RingCursor<E> cursor();
 
    /**

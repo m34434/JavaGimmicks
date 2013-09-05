@@ -13,7 +13,7 @@ package net.sf.javagimmicks.collections;
 public interface RingCursorProvider<E> extends Iterable<E>
 {
    /**
-    * Return a new {@link RingCursor} for the current data structure
+    * Returns a new {@link RingCursor} for the current data structure
     * 
     * @return a new {@link RingCursor}
     */

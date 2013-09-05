@@ -1,5 +1,5 @@
 /**
- * This package drags up the JavaGimmicks
+ * This package spans up the JavaGimmicks
  * transformation API, which allows to create instances of the
  * standard Java Collection API classes (and some more),
  * that internally work with another form of elements as

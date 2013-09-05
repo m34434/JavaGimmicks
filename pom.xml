@@ -82,6 +82,50 @@
 				<version>2.9</version>
 				<configuration>
 					<quiet>true</quiet>
+					<show>public</show>
+					<excludePackageNames>net.sf.javagimmicks.collections.bidimap</excludePackageNames>
+					<groups>
+						<group>
+							<title>Basic utilities (for everyone)</title>
+							<packages>net.sf.javagimmicks.beans*:net.sf.javagimmicks.io:net.sf.javagimmicks.lang*:net.sf.javagimmicks.util*</packages>
+						</group>
+						<group>
+							<title>Utilities for multi-threaded programming</title>
+							<packages>net.sf.javagimmicks.concurrent*</packages>
+						</group>
+						<group>
+							<title>Basic utilities for and around the Java Collection API</title>
+							<packages>net.sf.javagimmicks.collections:net.sf.javagimmicks.collections.builder*:net.sf.javagimmicks.collections.composite*:net.sf.javagimmicks.collections.decorators*:net.sf.javagimmicks.collections.filter*</packages>
+						</group>
+						<group>
+							<title>Observer pattern (events) for the Java Collection API</title>
+							<packages>net.sf.javagimmicks.collections.event*</packages>
+						</group>
+						<group>
+							<title>Implementations for dealing with n:m relationship data structures</title>
+							<packages>net.sf.javagimmicks.collections.mapping*</packages>
+						</group>
+						<group>
+							<title>Provides a "transforming decorator" API for the Java Collection API</title>
+							<packages>net.sf.javagimmicks.collections.transformer*</packages>
+						</group>
+						<group>
+							<title>A diff engine for finding differences between data structures or file system folders</title>
+							<packages>net.sf.javagimmicks.collections.diff*:net.sf.javagimmicks.io.folderdiff*</packages>
+						</group>
+						<group>
+							<title>Yet another (small) graph API</title>
+							<packages>net.sf.javagimmicks.graph*</packages>
+						</group>
+						<group>
+							<title>A few mathematical utilities</title>
+							<packages>net.sf.javagimmicks.math*</packages>
+						</group>
+						<group>
+							<title>Swing utilities and extensions</title>
+							<packages>net.sf.javagimmicks.swing*</packages>
+						</group>
+					</groups>
 				</configuration>
 				<executions>
 					<execution>
