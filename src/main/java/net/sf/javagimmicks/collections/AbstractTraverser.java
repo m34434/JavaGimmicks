@@ -1,37 +1,12 @@
 package net.sf.javagimmicks.collections;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public abstract class AbstractTraverser<E> implements Traverser<E>
+public abstract class AbstractTraverser<E> extends AbstractCursor<E> implements Traverser<E>
 {
-   public boolean isEmpty()
-   {
-      return size() == 0;
-   }
-
-   public void insertAfter(Collection<? extends E> collection)
-   {
-      for (E value : collection)
-      {
-         insertAfter(value);
-         next();
-      }
-
-      previous(collection.size());
-   }
-
-   public void insertBefore(Collection<? extends E> collection)
-   {
-      for (E value : collection)
-      {
-         insertBefore(value);
-      }
-   }
-
    public E next(int count)
    {
       if (count < 0)
@@ -96,13 +71,18 @@ public abstract class AbstractTraverser<E> implements Traverser<E>
       }
    }
 
+   public boolean isEmpty()
+   {
+      return size() == 0;
+   }
+
    public E set(E value)
    {
-      if(isEmpty())
+      if (isEmpty())
       {
          throw new NoSuchElementException("There is no element to replace");
       }
-      
+
       insertAfter(value);
       return remove();
    }
