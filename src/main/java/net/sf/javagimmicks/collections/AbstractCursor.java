@@ -1,12 +1,24 @@
 package net.sf.javagimmicks.collections;
 
-
+/**
+ * An abstract implementation of {@link Cursor} that provides default
+ * implementations for some derivable methods.
+ * <p>
+ * These are:
+ * <ul>
+ * <li>{@link #insertAfter(Iterable)}</li>
+ * <li>{@link #insertBefore(Iterable)}</li>
+ * <li>{@link #next(int)}</li>
+ * <li>{@link #previous(int)}</li>
+ * </ul>
+ */
 public abstract class AbstractCursor<E> implements Cursor<E>
 {
-   public void insertAfter(Iterable<? extends E> collection)
+   @Override
+   public void insertAfter(final Iterable<? extends E> collection)
    {
       int count = 0;
-      for (E value : collection)
+      for (final E value : collection)
       {
          insertAfter(value);
          next();
@@ -17,15 +29,17 @@ public abstract class AbstractCursor<E> implements Cursor<E>
       previous(count);
    }
 
-   public void insertBefore(Iterable<? extends E> collection)
+   @Override
+   public void insertBefore(final Iterable<? extends E> collection)
    {
-      for (E value : collection)
+      for (final E value : collection)
       {
          insertBefore(value);
       }
    }
 
-   public E next(int count)
+   @Override
+   public E next(final int count)
    {
       if (count < 0)
       {
@@ -46,7 +60,8 @@ public abstract class AbstractCursor<E> implements Cursor<E>
       return result;
    }
 
-   public E previous(int count)
+   @Override
+   public E previous(final int count)
    {
       if (count < 0)
       {

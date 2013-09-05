@@ -3,31 +3,55 @@ package net.sf.javagimmicks.collections;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
+/**
+ * An implementation of {@link Ring} that internally operates on an
+ * {@link ArrayList}.
+ */
 public class ArrayRing<E> extends AbstractRing<E>
 {
    private final ArrayList<E> _backingList;
 
+   /**
+    * Constructs a new instance with a default {@link ArrayList} in the
+    * background.
+    */
    public ArrayRing()
    {
       _backingList = new ArrayList<E>();
    }
 
-   public ArrayRing(int initialCapacity)
+   /**
+    * Constructs a new instance with a {@link ArrayList} in the background that
+    * has the given initial capacity.
+    * 
+    * @see ArrayList#ArrayList(int)
+    */
+   public ArrayRing(final int initialCapacity)
    {
       _backingList = new ArrayList<E>(initialCapacity);
    }
 
+   @Override
    public int size()
    {
       return _backingList.size();
    }
 
+   @Override
    public RingCursor<E> cursor()
    {
       return new ArrayRingCursor<E>(this, 0);
    }
 
-   public void ensureCapacity(int minCapacity)
+   /**
+    * Adjusts the underlying {@link ArrayList} to have the minimum given
+    * capacity.
+    * 
+    * @param minCapacity
+    *           the new minimal capacity
+    * @see {@link ArrayList#ensureCapacity(int)}
+    */
+   public void ensureCapacity(final int minCapacity)
    {
       _backingList.ensureCapacity(minCapacity);
    }
@@ -36,13 +60,14 @@ public class ArrayRing<E> extends AbstractRing<E>
    {
       private int _position;
 
-      private ArrayRingCursor(ArrayRing<E> ring, int position)
+      private ArrayRingCursor(final ArrayRing<E> ring, final int position)
       {
          super(ring);
 
          _position = position;
       }
 
+      @Override
       public E get()
       {
          checkForModification();
@@ -55,7 +80,8 @@ public class ArrayRing<E> extends AbstractRing<E>
          return _ring._backingList.get(_position);
       }
 
-      public void insertAfter(E value)
+      @Override
+      public void insertAfter(final E value)
       {
          checkForModification();
 
@@ -73,7 +99,8 @@ public class ArrayRing<E> extends AbstractRing<E>
          ++_expectedModCount;
       }
 
-      public void insertBefore(E value)
+      @Override
+      public void insertBefore(final E value)
       {
          checkForModification();
 
@@ -91,6 +118,7 @@ public class ArrayRing<E> extends AbstractRing<E>
          ++_expectedModCount;
       }
 
+      @Override
       public E next()
       {
          checkForModification();
@@ -110,6 +138,7 @@ public class ArrayRing<E> extends AbstractRing<E>
          return get();
       }
 
+      @Override
       public E previous()
       {
          checkForModification();
@@ -129,6 +158,7 @@ public class ArrayRing<E> extends AbstractRing<E>
          return get();
       }
 
+      @Override
       public E remove()
       {
          checkForModification();
@@ -138,8 +168,8 @@ public class ArrayRing<E> extends AbstractRing<E>
             throw new NoSuchElementException("Ring is empty");
          }
 
-         E result = _ring._backingList.remove(_position);
-         if(_position >= _ring._backingList.size())
+         final E result = _ring._backingList.remove(_position);
+         if (_position >= _ring._backingList.size())
          {
             --_position;
          }
@@ -150,6 +180,7 @@ public class ArrayRing<E> extends AbstractRing<E>
          return result;
       }
 
+      @Override
       public RingCursor<E> cursor()
       {
          return new ArrayRingCursor<E>(_ring, _position);

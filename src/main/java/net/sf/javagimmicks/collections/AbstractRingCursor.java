@@ -5,8 +5,30 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+/**
+ * An abstract implementation of {@link RingCursor} that provides default
+ * implementations for some derivable methods.
+ * <p>
+ * These are:
+ * <ul>
+ * <li>{@link #insertAfter(Iterable)}</li>
+ * <li>{@link #insertBefore(Iterable)}</li>
+ * <li>{@link #next(int)}</li>
+ * <li>{@link #previous(int)}</li>
+ * <li>{@link #isEmpty()}</li>
+ * <li>{@link #set(Object)}</li>
+ * <li>{@link #iterator()}</li>
+ * <li>{@link #toList()}</li>
+ * <li>{@link #toString()}</li>
+ * </ul>
+ */
 public abstract class AbstractRingCursor<E> extends AbstractCursor<E> implements RingCursor<E>
 {
+   /**
+    * A re-implementation of {@link AbstractCursor#next(int)} that optimizes the
+    * internal logic by leveraging advances {@link Ring} features.
+    */
+   @Override
    public E next(int count)
    {
       if (count < 0)
@@ -19,7 +41,7 @@ public abstract class AbstractRingCursor<E> extends AbstractCursor<E> implements
          return get();
       }
 
-      int size = size();
+      final int size = size();
       count = count % size;
 
       if (count > size / 2)
@@ -39,6 +61,11 @@ public abstract class AbstractRingCursor<E> extends AbstractCursor<E> implements
       }
    }
 
+   /**
+    * A re-implementation of {@link AbstractCursor#previous(int)} that optimizes
+    * the internal logic by leveraging advances {@link Ring} features.
+    */
+   @Override
    public E previous(int count)
    {
       if (count < 0)
@@ -51,7 +78,7 @@ public abstract class AbstractRingCursor<E> extends AbstractCursor<E> implements
          return get();
       }
 
-      int size = size();
+      final int size = size();
       count = count % size;
 
       if (count > size / 2)
@@ -71,12 +98,14 @@ public abstract class AbstractRingCursor<E> extends AbstractCursor<E> implements
       }
    }
 
+   @Override
    public boolean isEmpty()
    {
       return size() == 0;
    }
 
-   public E set(E value)
+   @Override
+   public E set(final E value)
    {
       if (isEmpty())
       {
@@ -87,15 +116,17 @@ public abstract class AbstractRingCursor<E> extends AbstractCursor<E> implements
       return remove();
    }
 
+   @Override
    public Iterator<E> iterator()
    {
       return new RingIterator<E>(cursor());
    }
 
+   @Override
    public List<E> toList()
    {
-      ArrayList<E> result = new ArrayList<E>(size());
-      for (E element : this)
+      final ArrayList<E> result = new ArrayList<E>(size());
+      for (final E element : this)
       {
          result.add(element);
       }
@@ -103,6 +134,7 @@ public abstract class AbstractRingCursor<E> extends AbstractCursor<E> implements
       return result;
    }
 
+   @Override
    public String toString()
    {
       return toList().toString();
@@ -116,18 +148,20 @@ public abstract class AbstractRingCursor<E> extends AbstractCursor<E> implements
       private int _counter = 0;
       private boolean _removeCalled = true;
 
-      public RingIterator(RingCursor<E> ringCursor)
+      public RingIterator(final RingCursor<E> ringCursor)
       {
          _ringCursor = ringCursor;
          _ringCursor.previous();
          _size = ringCursor.size();
       }
 
+      @Override
       public boolean hasNext()
       {
          return _counter != _size;
       }
 
+      @Override
       public E next()
       {
          if (!hasNext())
@@ -141,6 +175,7 @@ public abstract class AbstractRingCursor<E> extends AbstractCursor<E> implements
          return _ringCursor.next();
       }
 
+      @Override
       public void remove()
       {
          if (_removeCalled)

@@ -6,10 +6,23 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * An extension of {@link AbstractMap} that allows an alternate way to specify
+ * the entry set - i.e. by specifying the key set and the logic to derive the
+ * value from the key.
+ */
 public abstract class AbstractMap2<K, V> extends AbstractMap<K, V>
 {
    @Override
    abstract public Set<K> keySet();
+
+   /**
+    * Derives the value for a given key.
+    * 
+    * @param key
+    *           the given key
+    * @return the derived value for the given key
+    */
    abstract protected V getValue(K key);
 
    @Override
@@ -18,12 +31,12 @@ public abstract class AbstractMap2<K, V> extends AbstractMap<K, V>
       final Set<K> keySet = keySet();
       return new EntrySetProxy(keySet);
    }
-   
+
    protected class EntrySetProxy extends AbstractSet<Entry<K, V>>
    {
       protected final Set<K> _keySet;
 
-      protected EntrySetProxy(Set<K> keySet)
+      protected EntrySetProxy(final Set<K> keySet)
       {
          _keySet = keySet;
       }
@@ -41,29 +54,32 @@ public abstract class AbstractMap2<K, V> extends AbstractMap<K, V>
          return _keySet.size();
       }
    }
-   
+
    protected class EntryIteratorProxy implements Iterator<Entry<K, V>>
    {
       protected final Iterator<K> _keyIterator;
 
-      protected EntryIteratorProxy(Iterator<K> keyIterator)
+      protected EntryIteratorProxy(final Iterator<K> keyIterator)
       {
          _keyIterator = keyIterator;
       }
 
+      @Override
       public boolean hasNext()
       {
          return _keyIterator.hasNext();
       }
 
+      @Override
       public Entry<K, V> next()
       {
          final K key = _keyIterator.next();
          final V value = getValue(key);
-         
+
          return new EntryProxy(key, value);
       }
 
+      @Override
       public void remove()
       {
          _keyIterator.remove();
@@ -75,28 +91,31 @@ public abstract class AbstractMap2<K, V> extends AbstractMap<K, V>
       protected final K _key;
       protected final V _value;
 
-      private EntryProxy(K key, V value)
+      private EntryProxy(final K key, final V value)
       {
          _key = key;
          _value = value;
       }
 
+      @Override
       public K getKey()
       {
          return _key;
       }
 
+      @Override
       public V getValue()
       {
          return _value;
       }
 
-      public V setValue(V value)
+      @Override
+      public V setValue(final V value)
       {
          // !! DANGEROUS: May cause a ConcurrentModificationException when
-         // continuing to iterator over the map's entries
+         // continuing to iterate over the map's entries
          put(_key, value);
-         
+
          return _value;
       }
    }
