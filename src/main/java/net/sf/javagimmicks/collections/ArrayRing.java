@@ -49,7 +49,7 @@ public class ArrayRing<E> extends AbstractRing<E>
     * 
     * @param minCapacity
     *           the new minimal capacity
-    * @see {@link ArrayList#ensureCapacity(int)}
+    * @see ArrayList#ensureCapacity(int)
     */
    public void ensureCapacity(final int minCapacity)
    {

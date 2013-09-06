@@ -79,8 +79,9 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.9</version>
+				<version>2.9.1</version>
 				<configuration>
+					<javadocExecutable>/Library/Java/JavaVirtualMachines/jdk1.7.0_25.jdk/Contents/Home/bin/javadoc</javadocExecutable>
 					<quiet>true</quiet>
 					<show>public</show>
 					<excludePackageNames>net.sf.javagimmicks.collections.bidimap</excludePackageNames>

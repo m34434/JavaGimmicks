@@ -50,7 +50,7 @@ public abstract class CombinatoricOperator<T> implements
 		}
 		indices = new int[r];
 		this.elements = new ArrayList<T>(elements);
-		total = initialiseTotal(elements.size(), r);
+		total = calculateTotal(elements.size(), r);
 		reset();
 	}
 
@@ -97,7 +97,7 @@ public abstract class CombinatoricOperator<T> implements
 	 * @return The total number of elements is always bigger than 0. | result >=
 	 *         0
 	 */
-	protected abstract BigInteger initialiseTotal(int n, int r);
+	protected abstract BigInteger calculateTotal(int n, int r);
 
 	/**
 	 * Reset the iteration.

@@ -65,7 +65,7 @@ public class ListBuilder<E, T extends List<E>> extends CollectionBuilder<E, T>
    /**
     * Creates a new {@link ListBuilder} around a given internal {@link List}
     * 
-    * @param internalCollection
+    * @param internalList
     *           the {@link List} to wrap around
     */
    public ListBuilder(final T internalList)
