@@ -8,9 +8,9 @@ import net.sf.javagimmicks.lang.Factory;
 /**
  * A special {@link Map} decorator that wraps a given {@link Map} and there
  * automatically fills in (default) values if a call to {@link #get(Object)}
- * tries to receive the value for a not yet key. This is useful in some special
- * cases e.g. if {@link NullPointerException}s should be avoided and there is
- * some logic for creating default values.
+ * tries to receive the value for a not yet contained key. This is useful in
+ * some special cases e.g. if {@link NullPointerException}s should be avoided
+ * and there is some logic for creating default values.
  * <p>
  * Default values for auto-filling have to be provided/generated via a given
  * {@link Factory}.

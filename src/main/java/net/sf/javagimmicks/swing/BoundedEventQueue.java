@@ -4,21 +4,21 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.SwingUtilities;
 
-import net.sf.javagimmicks.collections.AutoSkippingQueueDecorator;
+import net.sf.javagimmicks.collections.AutoDroppingQueueDecorator;
 
 public class BoundedEventQueue
 {
-   private final AutoSkippingQueueDecorator<Runnable> _internalQueue;
+   private final AutoDroppingQueueDecorator<Runnable> _internalQueue;
    private WorkerThread _workerThread;
    
    public BoundedEventQueue(int maxSize, int skipCount)
    {
-      _internalQueue = new AutoSkippingQueueDecorator<Runnable>(maxSize, skipCount);
+      _internalQueue = new AutoDroppingQueueDecorator<Runnable>(maxSize, skipCount);
    }
    
    public BoundedEventQueue(int maxSize)
    {
-      _internalQueue = new AutoSkippingQueueDecorator<Runnable>(maxSize);
+      _internalQueue = new AutoDroppingQueueDecorator<Runnable>(maxSize);
    }
    
    public void startWorking()

@@ -6,86 +6,89 @@ import java.util.Queue;
 
 import net.sf.javagimmicks.collections.decorators.AbstractQueueDecorator;
 
-public class AutoSkippingQueueDecorator<E> extends AbstractQueueDecorator<E>
+public class AutoDroppingQueueDecorator<E> extends AbstractQueueDecorator<E>
 {
    private static final long serialVersionUID = 8775576852585456548L;
 
    private final int _maxSize;
-   private final int _skipCount;
-   
-   public AutoSkippingQueueDecorator(Queue<E> decorated, int maxSize, int skipCount)
+   private final int _dropCount;
+
+   public AutoDroppingQueueDecorator(final Queue<E> decorated, final int maxSize, final int dropCount)
    {
       super(decorated);
-      
-      if(maxSize < 1)
+
+      if (maxSize < 1)
       {
          throw new IllegalArgumentException("Max size must be 1 or greater!");
       }
-      
-      if(skipCount < 1)
+
+      if (dropCount < 1)
       {
          throw new IllegalArgumentException("Skip count must be 1 or greater!");
       }
-      
-      if(skipCount > maxSize)
+
+      if (dropCount > maxSize)
       {
          throw new IllegalArgumentException("Skip count mustn't be greater than max size!");
       }
-      
+
       _maxSize = maxSize;
-      _skipCount = skipCount;
+      _dropCount = dropCount;
    }
 
-   public AutoSkippingQueueDecorator(Queue<E> internalQueue, int maxSize)
+   public AutoDroppingQueueDecorator(final Queue<E> internalQueue, final int maxSize)
    {
       this(internalQueue, maxSize, maxSize);
    }
-   
-   public AutoSkippingQueueDecorator(int maxSize, int skipCount)
+
+   public AutoDroppingQueueDecorator(final int maxSize, final int skipCount)
    {
       this(new LinkedList<E>(), maxSize, skipCount);
    }
-   
-   public AutoSkippingQueueDecorator(int maxSize)
+
+   public AutoDroppingQueueDecorator(final int maxSize)
    {
       this(maxSize, maxSize);
    }
-   
-   public boolean add(E o)
+
+   @Override
+   public boolean add(final E o)
    {
-      boolean changed = size() == _maxSize;
-      
-      if(changed)
+      final boolean changed = size() == _maxSize;
+
+      if (changed)
       {
-         if(_skipCount == _maxSize)
+         if (_dropCount == _maxSize)
          {
             clear();
          }
          else
          {
-            for(int i = _skipCount; i > 0; --i)
+            for (int i = _dropCount; i > 0; --i)
             {
                remove();
             }
          }
       }
-      
+
       return getDecorated().add(o) || changed;
    }
 
-   public boolean addAll(Collection<? extends E> c)
+   @Override
+   public boolean addAll(final Collection<? extends E> c)
    {
       boolean changed = false;
-      
-      for(E element : c)
+
+      for (final E element : c)
       {
          changed |= add(element);
       }
-      
+
       return changed;
    }
 
-   public boolean offer(E o)
+   @Override
+   public boolean offer(final E o)
    {
       return add(o);
    }
