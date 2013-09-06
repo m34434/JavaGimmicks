@@ -186,9 +186,15 @@
 	</developers>
 
 	<scm>
+		<!-- ======================== OLD SourceForge SVN Connection ===================================
 		<url>https://svn.code.sf.net/p/jgutils/code/GimmickUtils/trunk</url>
 		<connection>scm:svn:https://svn.code.sf.net/p/jgutils/code/GimmickUtils/trunk</connection>
 		<developerConnection>scm:svn:https://svn.code.sf.net/p/jgutils/code/GimmickUtils/trunk</developerConnection>
+		==============================================================================================-->
+		
+		<url>https://github.com/m34434/GimmickUtils</url>
+		<connection>scm:git:https://github.com/m34434/GimmickUtils.git</connection>
+		<developerConnection>scm:git:https://github.com/m34434/GimmickUtils.git</developerConnection>
 	</scm>
 
 </project>
