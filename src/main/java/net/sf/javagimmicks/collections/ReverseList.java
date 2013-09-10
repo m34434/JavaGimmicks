@@ -6,34 +6,50 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+/**
+ * A decorator around {@link List} implementations the reverses the element
+ * order.
+ */
 public class ReverseList<E> extends AbstractList<E>
-{  
-   public static <E> ReverseList<E> decorate(List<E> list)
+{
+   /**
+    * Creates a new instance for the given {@link List}
+    * 
+    * @param list
+    *           the {@link List} whose element to reverse
+    * @return the decorated instance with reverse element order
+    */
+   public static <E> ReverseList<E> decorate(final List<E> list)
    {
       return new ReverseList<E>(list);
    }
-   
+
    protected final List<E> _internalList;
 
-   protected ReverseList(List<E> decorated)
+   protected ReverseList(final List<E> decorated)
    {
       _internalList = decorated;
    }
-   
+
+   /**
+    * Returns the decorated {@link List}
+    * 
+    * @return the decorated {@link List}
+    */
    public List<E> getInternalList()
    {
       return _internalList;
    }
 
    @Override
-   public boolean add(E e)
+   public boolean add(final E e)
    {
       _internalList.add(0, e);
       return true;
    }
 
    @Override
-   public void add(int index, E element)
+   public void add(final int index, final E element)
    {
       _internalList.add(getRevertedIndex(index) + 1, element);
    }
@@ -45,25 +61,25 @@ public class ReverseList<E> extends AbstractList<E>
    }
 
    @Override
-   public boolean contains(Object o)
+   public boolean contains(final Object o)
    {
       return _internalList.contains(o);
    }
 
    @Override
-   public boolean containsAll(Collection<?> c)
+   public boolean containsAll(final Collection<?> c)
    {
       return _internalList.containsAll(c);
    }
 
    @Override
-   public E get(int index)
+   public E get(final int index)
    {
       return _internalList.get(getRevertedIndex(index));
    }
 
    @Override
-   public int indexOf(Object o)
+   public int indexOf(final Object o)
    {
       return _internalList.lastIndexOf(o);
    }
@@ -81,7 +97,7 @@ public class ReverseList<E> extends AbstractList<E>
    }
 
    @Override
-   public int lastIndexOf(Object o)
+   public int lastIndexOf(final Object o)
    {
       return _internalList.indexOf(o);
    }
@@ -93,36 +109,37 @@ public class ReverseList<E> extends AbstractList<E>
    }
 
    @Override
-   public ListIterator<E> listIterator(int index)
+   public ListIterator<E> listIterator(final int index)
    {
       return new RevertingListIteratorDecorator(_internalList.listIterator(getRevertedIndex(index) + 1));
    }
 
    @Override
-   public E remove(int index)
+   public E remove(final int index)
    {
       return _internalList.remove(getRevertedIndex(index));
    }
 
    @Override
-   public boolean remove(Object o)
+   public boolean remove(final Object o)
    {
       return _internalList.remove(o);
    }
 
    @Override
-   public boolean removeAll(Collection<?> c)
+   public boolean removeAll(final Collection<?> c)
    {
       return _internalList.removeAll(c);
    }
 
-   public boolean retainAll(Collection<?> c)
+   @Override
+   public boolean retainAll(final Collection<?> c)
    {
       return _internalList.retainAll(c);
    }
 
    @Override
-   public E set(int index, E element)
+   public E set(final int index, final E element)
    {
       return _internalList.set(getRevertedIndex(index), element);
    }
@@ -134,67 +151,76 @@ public class ReverseList<E> extends AbstractList<E>
    }
 
    @Override
-   public List<E> subList(int fromIndex, int toIndex)
+   public List<E> subList(final int fromIndex, final int toIndex)
    {
       return new ReverseList<E>(_internalList.subList(getRevertedIndex(toIndex) + 1, getRevertedIndex(fromIndex) + 1));
    }
 
-   protected int getRevertedIndex(int index)
+   protected int getRevertedIndex(final int index)
    {
       return size() - index - 1;
    }
-   
+
    protected class RevertingListIteratorDecorator implements ListIterator<E>
-   {  
+   {
       protected final ListIterator<E> _internalIterator;
 
-      public RevertingListIteratorDecorator(ListIterator<E> decorated)
+      public RevertingListIteratorDecorator(final ListIterator<E> decorated)
       {
          _internalIterator = decorated;
       }
 
-      public void add(E e)
+      @Override
+      public void add(final E e)
       {
          _internalIterator.add(e);
          _internalIterator.previous();
       }
 
+      @Override
       public boolean hasNext()
       {
          return _internalIterator.hasPrevious();
       }
 
+      @Override
       public boolean hasPrevious()
       {
          return _internalIterator.hasNext();
       }
 
+      @Override
       public E next()
       {
          return _internalIterator.previous();
       }
 
+      @Override
       public int nextIndex()
       {
          return getRevertedIndex(_internalIterator.previousIndex());
       }
 
+      @Override
       public E previous()
       {
          return _internalIterator.next();
       }
 
+      @Override
       public int previousIndex()
       {
          return getRevertedIndex(_internalIterator.nextIndex());
       }
 
+      @Override
       public void remove()
       {
          _internalIterator.remove();
       }
 
-      public void set(E e)
+      @Override
+      public void set(final E e)
       {
          _internalIterator.set(e);
       }
