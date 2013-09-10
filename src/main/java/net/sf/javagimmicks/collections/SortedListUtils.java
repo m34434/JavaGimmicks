@@ -10,9 +10,23 @@ import net.sf.javagimmicks.collections.decorators.AbstractListDecorator;
 import net.sf.javagimmicks.collections.decorators.AbstractListIteratorDecorator;
 import net.sf.javagimmicks.util.ComparableComparator;
 
+/**
+ * Provided various utility methods for sorting {@link List}s
+ */
 public class SortedListUtils
 {
-   public static <T extends Comparable<? super T>> int getInsertIndex(List<T> list, T element)
+   /**
+    * Determines for a given (already sorted) {@link List} and a given new
+    * {@link Comparable} element the insert index so that the sorting order
+    * remains valid
+    * 
+    * @param list
+    *           the {@link List} where to insert the new element
+    * @param element
+    *           the new element to insert
+    * @return the respective insert index to keep the sorting order valid
+    */
+   public static <T extends Comparable<? super T>> int getInsertIndex(final List<T> list, final T element)
    {
       int index = Collections.binarySearch(list, element);
 
@@ -24,7 +38,20 @@ public class SortedListUtils
       return index;
    }
 
-   public static <T> int getInsertIndex(List<T> list, T element, Comparator<? super T> comparator)
+   /**
+    * Determines for a given (already sorted) {@link List} and a given new
+    * element the insert index so that the sorting order determined by the given
+    * {@link Comparator} remains valid
+    * 
+    * @param list
+    *           the {@link List} where to insert the new element
+    * @param element
+    *           the new element to insert
+    * @param comparator
+    *           the {@link Comparator} that determines the sorting order
+    * @return the respective insert index to keep the sorting order valid
+    */
+   public static <T> int getInsertIndex(final List<T> list, final T element, final Comparator<? super T> comparator)
    {
       int index = Collections.binarySearch(list, element, comparator);
 
@@ -36,49 +63,112 @@ public class SortedListUtils
       return index;
    }
 
-   public static <T extends Comparable<? super T>> void addSorted(List<T> list, T element)
+   /**
+    * Adds a given new {@link Comparable} element to a given (already sorted)
+    * {@link List} at the right location so that the sorting order remains valid
+    * 
+    * @param list
+    *           the {@link List} where to insert the new element
+    * @param element
+    *           the new element to insert
+    */
+   public static <T extends Comparable<? super T>> void addSorted(final List<T> list, final T element)
    {
       list.add(getInsertIndex(list, element), element);
    }
 
-   public static <T> void addSorted(List<T> list, T element, Comparator<? super T> comparator)
+   /**
+    * Adds a given new element to a given (already sorted) {@link List} at the
+    * right location so that the sorting order determined by the given
+    * {@link Comparator} remains valid
+    * 
+    * @param list
+    *           the {@link List} where to insert the new element
+    * @param element
+    *           the new element to insert
+    * @param comparator
+    *           the {@link Comparator} that determines the sorting order
+    */
+   public static <T> void addSorted(final List<T> list, final T element, final Comparator<? super T> comparator)
    {
       list.add(getInsertIndex(list, element, comparator), element);
    }
 
+   /**
+    * Decorates a given {@link List} of {@link Comparable} elements with a
+    * sorting facade that will sort the decorated {@link List} upon creation and
+    * from then will insert all new elements automatically a the right location
+    * so that the sorting order remains valid
+    * 
+    * @param list
+    *           the {@link List} to decorate
+    * @return the sorting facade {@link List}
+    */
    @SuppressWarnings("unchecked")
-   public static <T extends Comparable<? super T>> List<T> decorate(List<T> list)
+   public static <T extends Comparable<? super T>> List<T> decorate(final List<T> list)
    {
-      ComparableComparator<T> comparableComparator = (ComparableComparator<T>) ComparableComparator.INSTANCE;
+      final ComparableComparator<T> comparableComparator = (ComparableComparator<T>) ComparableComparator.INSTANCE;
       return new SortedListDecorator<T>(list, comparableComparator);
    }
 
-   public static <T> List<T> decorate(List<T> list, Comparator<? super T> comparator)
+   /**
+    * Decorates a given {@link List} with a sorting facade that will sort the
+    * decorated {@link List} upon creation and from then will insert all new
+    * elements automatically a the right location so that the sorting order
+    * remains valid.
+    * <p>
+    * The sorting order must be provided by a given {@link Comparator}
+    * 
+    * @param list
+    *           the {@link List} to decorate
+    * @param comparator
+    *           the {@link Comparator} that determines the sorting order
+    * @return the sorting facade {@link List}
+    */
+   public static <T> List<T> decorate(final List<T> list, final Comparator<? super T> comparator)
    {
       return new SortedListDecorator<T>(list, comparator);
    }
 
-   public static <T> void resort(List<T> list)
+   /**
+    * Resorts a given {@link List} that was created by {@link #decorate(List)}
+    * or {@link #decorate(List, Comparator)}.
+    * 
+    * @param list
+    *           the decorated {@link List} to resort
+    */
+   public static <T> void resort(final List<T> list)
    {
       if (!(list instanceof SortedListDecorator<?>))
       {
          throw new IllegalArgumentException("Provided list is not a decorated sorted list!");
       }
 
-      SortedListDecorator<T> sortedList = (SortedListDecorator<T>) list;
+      final SortedListDecorator<T> sortedList = (SortedListDecorator<T>) list;
       Collections.sort(sortedList.getDecorated(), sortedList._comparator);
    }
 
-   public static <T> List<T> exchangeComparator(List<T> list, Comparator<? super T> oComparator)
+   /**
+    * Changes the {@link Comparator} in a given {@link List} that was created by
+    * {@link #decorate(List)} or {@link #decorate(List, Comparator)} and resorts
+    * it afterwards
+    * 
+    * @param list
+    *           the decorated {@link List} where to exchange the
+    *           {@link Comparator}
+    * @param comparator
+    *           the new {@link Comparator} for the {@link List}
+    */
+   public static <T> List<T> exchangeComparator(final List<T> list, final Comparator<? super T> comparator)
    {
       if (!(list instanceof SortedListDecorator<?>))
       {
          throw new IllegalArgumentException("Provided list is not a decorated sorted list!");
       }
 
-      SortedListDecorator<T> sortedList = (SortedListDecorator<T>) list;
+      final SortedListDecorator<T> sortedList = (SortedListDecorator<T>) list;
 
-      return new SortedListDecorator<T>(sortedList.getDecorated(), oComparator);
+      return new SortedListDecorator<T>(sortedList.getDecorated(), comparator);
    }
 
    protected static final class SortedListDecorator<E> extends AbstractListDecorator<E>
@@ -89,7 +179,7 @@ public class SortedListUtils
 
       protected final Comparator<? super E> _comparator;
 
-      protected SortedListDecorator(final List<E> decorated, Comparator<? super E> comparator)
+      protected SortedListDecorator(final List<E> decorated, final Comparator<? super E> comparator)
       {
          super(decorated);
          _comparator = comparator;
@@ -97,21 +187,24 @@ public class SortedListUtils
          Collections.sort(decorated, _comparator);
       }
 
-      public boolean add(E element)
+      @Override
+      public boolean add(final E element)
       {
          addSorted(getDecorated(), element, _comparator);
 
          return true;
       }
 
-      public void add(int index, E element)
+      @Override
+      public void add(final int index, final E element)
       {
          throw new UnsupportedOperationException(MSG_ERROR_INDEX);
       }
 
-      public boolean addAll(Collection<? extends E> collection)
+      @Override
+      public boolean addAll(final Collection<? extends E> collection)
       {
-         for (E element : collection)
+         for (final E element : collection)
          {
             add(element);
          }
@@ -119,27 +212,32 @@ public class SortedListUtils
          return true;
       }
 
-      public boolean addAll(int index, Collection<? extends E> c)
+      @Override
+      public boolean addAll(final int index, final Collection<? extends E> c)
       {
          throw new UnsupportedOperationException(MSG_ERROR_INDEX);
       }
 
+      @Override
       public ListIterator<E> listIterator()
       {
          return new SortedListIteratorDecorator(getDecorated().listIterator());
       }
 
-      public ListIterator<E> listIterator(int index)
+      @Override
+      public ListIterator<E> listIterator(final int index)
       {
          return new SortedListIteratorDecorator(getDecorated().listIterator(index));
       }
 
-      public E set(int index, E element)
+      @Override
+      public E set(final int index, final E element)
       {
          throw new UnsupportedOperationException("Cannot set values by index in a sorted list!");
       }
 
-      public SortedListDecorator<E> subList(int fromIndex, int toIndex)
+      @Override
+      public SortedListDecorator<E> subList(final int fromIndex, final int toIndex)
       {
          throw new UnsupportedOperationException("Cannot create sub lists of a sorted list!");
       }
@@ -151,12 +249,14 @@ public class SortedListUtils
             super(decorated);
          }
 
-         public void add(E o)
+         @Override
+         public void add(final E o)
          {
             throw new UnsupportedOperationException("Cannot add to a sorted list via a ListIterator!");
          }
 
-         public void set(E o)
+         @Override
+         public void set(final E o)
          {
             throw new UnsupportedOperationException("Cannot set values in a a sorted list via a ListIterator!");
          }
