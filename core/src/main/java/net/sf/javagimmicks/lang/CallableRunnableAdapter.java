@@ -1,4 +1,4 @@
-package net.sf.javagimmicks.concurrent;
+package net.sf.javagimmicks.lang;
 
 import java.util.concurrent.Callable;
 

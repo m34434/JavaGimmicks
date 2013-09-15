@@ -15,5 +15,13 @@
 			<groupId>net.sf.javagimmicks</groupId>
 			<artifactId>GimmickUtils-core</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.javagimmicks</groupId>
+			<artifactId>GimmickUtils-testing</artifactId>
+		</dependency>
 	</dependencies>
 </project>

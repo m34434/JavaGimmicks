@@ -12,16 +12,21 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>dom4j</groupId>
-			<artifactId>dom4j</artifactId>
+			<groupId>net.sf.javagimmicks</groupId>
+			<artifactId>GimmickUtils-core</artifactId>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.easymock</groupId>
-			<artifactId>easymock</artifactId>
+			<groupId>net.sf.javagimmicks</groupId>
+			<artifactId>GimmickUtils-testing</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
 		</dependency>
 	</dependencies>
 

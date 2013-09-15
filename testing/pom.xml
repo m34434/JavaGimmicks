@@ -13,10 +13,6 @@
 	<dependencies>
 		<dependency>
 			<groupId>net.sf.javagimmicks</groupId>
-			<artifactId>GimmickUtils-concurrent</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>net.sf.javagimmicks</groupId>
 			<artifactId>GimmickUtils-core</artifactId>
 		</dependency>
 		<dependency>

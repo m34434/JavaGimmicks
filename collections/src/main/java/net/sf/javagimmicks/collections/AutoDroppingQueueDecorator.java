@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import net.sf.javagimmicks.collections.decorators.AbstractQueueDecorator;
-import net.sf.javagimmicks.swing.BoundedEventQueue;
 
 /**
  * A decorator for a given {@link Queue} that limits the maximum number of
@@ -16,10 +15,6 @@ import net.sf.javagimmicks.swing.BoundedEventQueue;
  * producer/consumer scenario from a long-running operation where each status
  * updates the previous one (so the previous one is obsolete and can be
  * dropped).
- * <p>
- * {@link BoundedEventQueue} makes use of this class for processing huge numbers
- * of Swing UI (component update) events without blocking Swing with too many of
- * them.
  */
 public class AutoDroppingQueueDecorator<E> extends AbstractQueueDecorator<E>
 {

@@ -16,7 +16,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-import net.sf.javagimmicks.concurrent.CallableRunnableAdapter;
+import net.sf.javagimmicks.lang.CallableRunnableAdapter;
 import net.sf.javagimmicks.lang.Factory;
 
 /**
