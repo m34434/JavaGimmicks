@@ -66,9 +66,9 @@ public class AutoDroppingQueueDecorator<E> extends AbstractQueueDecorator<E>
     * @param maxSize
     *           the size limit for the decorator
     */
-   public AutoDroppingQueueDecorator(final Queue<E> internalQueue, final int maxSize)
+   public AutoDroppingQueueDecorator(final Queue<E> decorated, final int maxSize)
    {
-      this(internalQueue, maxSize, maxSize);
+      this(decorated, maxSize, maxSize);
    }
 
    /**
@@ -80,9 +80,9 @@ public class AutoDroppingQueueDecorator<E> extends AbstractQueueDecorator<E>
     * @param dropCount
     *           the numer of entries to drop if the size threshold is reached
     */
-   public AutoDroppingQueueDecorator(final int maxSize, final int skipCount)
+   public AutoDroppingQueueDecorator(final int maxSize, final int dropCount)
    {
-      this(new LinkedList<E>(), maxSize, skipCount);
+      this(new LinkedList<E>(), maxSize, dropCount);
    }
 
    /**
