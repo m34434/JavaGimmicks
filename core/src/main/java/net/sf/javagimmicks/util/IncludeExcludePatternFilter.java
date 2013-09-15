@@ -3,11 +3,11 @@ package net.sf.javagimmicks.util;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
-import net.sf.javagimmicks.collections.transformer.Transformer;
-import net.sf.javagimmicks.collections.transformer.TransformerUtils;
 import net.sf.javagimmicks.lang.Filter;
 
 public class IncludeExcludePatternFilter implements Filter<CharSequence>
@@ -28,9 +28,7 @@ public class IncludeExcludePatternFilter implements Filter<CharSequence>
    
    public static IncludeExcludePatternFilter fromStringPatterns(Collection<String> includePatterns, Collection<String> excludePatterns)
    {
-      return fromPatterns(
-         TransformerUtils.decorate(includePatterns, _patternCompileTransformer),
-         TransformerUtils.decorate(excludePatterns, _patternCompileTransformer));
+      return fromPatterns(bulkCompile(includePatterns), bulkCompile(excludePatterns));
    }
    
    public static IncludeExcludePatternFilter fromStringPatterns(Collection<String> includePatterns)
@@ -66,12 +64,12 @@ public class IncludeExcludePatternFilter implements Filter<CharSequence>
    
    public void addIncludePatternString(String pattern)
    {
-      _includePatterns.add(_patternCompileTransformer.transform(pattern));
+      _includePatterns.add(Pattern.compile(pattern));
    }
    
    public void addIncludePatternStrings(Collection<String> patterns)
    {
-      _includePatterns.addAll(TransformerUtils.decorate(patterns, _patternCompileTransformer));
+      _includePatterns.addAll(bulkCompile(patterns));
    }
    
    public void addExcludePattern(Pattern pattern)
@@ -86,12 +84,12 @@ public class IncludeExcludePatternFilter implements Filter<CharSequence>
    
    public void addExcludePatternString(String pattern)
    {
-      _excludePatterns.add(_patternCompileTransformer.transform(pattern));
+      _excludePatterns.add(Pattern.compile(pattern));
    }
    
    public void addExcludePatternStrings(Collection<String> patterns)
    {
-      _excludePatterns.addAll(TransformerUtils.decorate(patterns, _patternCompileTransformer));
+      _excludePatterns.addAll(bulkCompile(patterns));
    }
    
    public List<Pattern> getIncludePatterns()
@@ -124,11 +122,14 @@ public class IncludeExcludePatternFilter implements Filter<CharSequence>
       return false;
    }
    
-   private static final Transformer<String, Pattern> _patternCompileTransformer = new Transformer<String, Pattern>()
+   private static Set<Pattern> bulkCompile(Collection<String> patterns)
    {
-      public Pattern transform(String regex)
+      final Set<Pattern> result = new HashSet<Pattern>();
+      for(String pattern : patterns)
       {
-         return Pattern.compile(regex);
+         result.add(Pattern.compile(pattern));
       }
-   };
+      
+      return result;
+   }
 }
