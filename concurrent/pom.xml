@@ -10,6 +10,10 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
+	<name>JavaGimmicks - GimmickUtils - Concurrent</name>
+	<description>Utilities for multi-threaded programming</description>
+	<url>http://jgutils.sourceforge.net</url>
+
 	<dependencies>
 		<dependency>
 			<groupId>net.sf.javagimmicks</groupId>

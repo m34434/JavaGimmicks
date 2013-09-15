@@ -10,6 +10,10 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
+	<name>JavaGimmicks - GimmickUtils - I/O</name>
+	<description>Basic I/O utilities and a diff engine for file system folders</description>
+	<url>http://jgutils.sourceforge.net</url>
+
 	<dependencies>
 		<dependency>
 			<groupId>net.sf.javagimmicks</groupId>

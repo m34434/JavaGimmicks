@@ -5,6 +5,12 @@
 	<artifactId>GimmickUtils</artifactId>
 	<version>0.80-SNAPSHOT</version>
 
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
+
 	<packaging>pom</packaging>
 
 	<name>JavaGimmicks - GimmickUtils</name>
@@ -15,12 +21,6 @@
 		<maven.compiler.source>1.6</maven.compiler.source>
 		<maven.compiler.target>1.6</maven.compiler.target>
 	</properties>
-
-	<parent>
-		<groupId>org.sonatype.oss</groupId>
-		<artifactId>oss-parent</artifactId>
-		<version>7</version>
-	</parent>
 
 	<dependencyManagement>
 		<dependencies>
@@ -122,8 +122,8 @@
 						<excludePackageNames>net.sf.javagimmicks.collections.bidimap</excludePackageNames>
 						<groups>
 							<group>
-								<title>Basic utilities (for everyone)</title>
-								<packages>net.sf.javagimmicks.beans*:net.sf.javagimmicks.io:net.sf.javagimmicks.lang*:net.sf.javagimmicks.util*</packages>
+								<title>Basic utilities</title>
+								<packages>net.sf.javagimmicks.beans*:net.sf.javagimmicks.lang*:net.sf.javagimmicks.util*</packages>
 							</group>
 							<group>
 								<title>Utilities for multi-threaded programming</title>
@@ -146,8 +146,12 @@
 								<packages>net.sf.javagimmicks.collections.transformer*</packages>
 							</group>
 							<group>
-								<title>A diff engine for finding differences between data structures or file system folders</title>
-								<packages>net.sf.javagimmicks.collections.diff*:net.sf.javagimmicks.io.folderdiff*</packages>
+								<title>A diff engine for finding differences between data structures</title>
+								<packages>net.sf.javagimmicks.collections.diff*</packages>
+							</group>
+							<group>
+								<title>Basic I/O utilities and a diff engine for file system folders</title>
+								<packages>net.sf.javagimmicks.io*</packages>
 							</group>
 							<group>
 								<title>Yet another (small) graph API</title>

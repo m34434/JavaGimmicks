@@ -10,6 +10,10 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
+	<name>JavaGimmicks - GimmickUtils - Core</name>
+	<description>Core utilities for many basic programming purposes</description>
+	<url>http://jgutils.sourceforge.net</url>
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
