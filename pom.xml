@@ -59,6 +59,7 @@
 				<artifactId>GimmickUtils-swing</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+			
 			<dependency>
 				<groupId>net.sf.javagimmicks</groupId>
 				<artifactId>GimmickUtils-testing</artifactId>
@@ -66,11 +67,6 @@
 				<scope>test</scope>
 			</dependency>
 		
-			<dependency>
-				<groupId>dom4j</groupId>
-				<artifactId>dom4j</artifactId>
-				<version>1.6.1</version>
-			</dependency>
 			<dependency>
 				<groupId>org.easymock</groupId>
 				<artifactId>easymock</artifactId>
