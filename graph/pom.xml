@@ -5,7 +5,7 @@
 
 	<parent>
 		<groupId>net.sf.javagimmicks</groupId>
-		<artifactId>GimmickUtils</artifactId>
+		<artifactId>GimmickUtils-parent</artifactId>
 		<version>0.80-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
