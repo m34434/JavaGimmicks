@@ -16,6 +16,10 @@
 	<description>Utility classes, APIs and tools for Java</description>
 	<url>http://jgutils.sourceforge.net/</url>
 	
+	<properties>
+		<autoVersionSubmodules>true</autoVersionSubmodules>
+	</properties>
+	
 	<modules>
 		<module>parent</module>
 		<module>all</module>
