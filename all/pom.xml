@@ -1,0 +1,62 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>GimmickUtils-all</artifactId>
+
+	<parent>
+		<groupId>net.sf.javagimmicks</groupId>
+		<artifactId>GimmickUtils</artifactId>
+		<version>0.75-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<dependencies>
+		<dependency>
+			<groupId>net.sf.javagimmicks</groupId>
+			<artifactId>GimmickUtils-collections</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.javagimmicks</groupId>
+			<artifactId>GimmickUtils-concurrent</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.javagimmicks</groupId>
+			<artifactId>GimmickUtils-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.javagimmicks</groupId>
+			<artifactId>GimmickUtils-graph</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.javagimmicks</groupId>
+			<artifactId>GimmickUtils-io</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.javagimmicks</groupId>
+			<artifactId>GimmickUtils-math</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.javagimmicks</groupId>
+			<artifactId>GimmickUtils-swing</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.javagimmicks</groupId>
+			<artifactId>GimmickUtils-testing</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<includeDependencySources>true</includeDependencySources>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
