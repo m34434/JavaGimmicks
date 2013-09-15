@@ -3,7 +3,7 @@
 
 	<groupId>net.sf.javagimmicks</groupId>
 	<artifactId>GimmickUtils-parent</artifactId>
-	<version>0.80-SNAPSHOT</version>
+	<version>0.80</version>
 
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
