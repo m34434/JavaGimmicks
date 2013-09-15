@@ -245,9 +245,9 @@
 		<developerConnection>scm:svn:https://svn.code.sf.net/p/jgutils/code/GimmickUtils/trunk</developerConnection>
 		==============================================================================================-->
 		
-		<url>https://github.com/m34434/GimmickUtils/parent/pom.xml</url>
-		<connection>scm:git:https://github.com/m34434/GimmickUtils.git/parent/pom.xml</connection>
-		<developerConnection>scm:git:https://github.com/m34434/GimmickUtils.git/parent/pom.xml</developerConnection>
+		<url>https://github.com/m34434/GimmickUtils</url>
+		<connection>scm:git:https://github.com/m34434/GimmickUtils.git</connection>
+		<developerConnection>scm:git:https://github.com/m34434/GimmickUtils.git</developerConnection>
 	</scm>
 
 </project>
