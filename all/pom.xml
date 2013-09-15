@@ -49,6 +49,7 @@
 
 	<build>
 		<plugins>
+			<!-- Disable default JAR packaging and deployment -->
 			<plugin>
 				<artifactId>maven-jar-plugin</artifactId>
 				<executions>
@@ -59,12 +60,25 @@
 				</executions>
 			</plugin>
 			<plugin>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>default-deploy</id>
+						<phase>none</phase>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Build cumulative JavaDoc -->
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<configuration>
 					<includeDependencySources>true</includeDependencySources>
 				</configuration>
 			</plugin>
+			
+			<!-- Build cumulative JAR -->
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<executions>
@@ -74,11 +88,12 @@
 						<goals>
 							<goal>single</goal>
 						</goals>
+						<configuration>
+							<appendAssemblyId>false</appendAssemblyId>
+							<descriptor>assembly.xml</descriptor>
+						</configuration>
 					</execution>
 				</executions>
-				<configuration>
-					<descriptor>assembly.xml</descriptor>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
