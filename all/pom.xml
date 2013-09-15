@@ -52,7 +52,7 @@
 
 	<build>
 		<plugins>
-			<!-- Disable default JAR packaging and deployment -->
+			<!-- Disable default JAR packaging -->
 			<plugin>
 				<artifactId>maven-jar-plugin</artifactId>
 				<executions>
@@ -62,6 +62,8 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<!-- Disable default deployment -->
 			<plugin>
 				<artifactId>maven-deploy-plugin</artifactId>
 				<executions>
