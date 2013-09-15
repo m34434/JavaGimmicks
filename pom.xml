@@ -9,7 +9,7 @@
 
 	<name>JavaGimmicks - GimmickUtils</name>
 	<description>Utility classes, APIs and tools for Java</description>
-	<url>https://sourceforge.net/projects/jgutils/</url>
+	<url>http://jgutils.sourceforge.net/</url>
 
 	<properties>
 		<maven.compiler.source>1.6</maven.compiler.source>
