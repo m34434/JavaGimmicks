@@ -1,27 +1,29 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>GimmickUtils-build</artifactId>
+	<groupId>net.sf.javagimmicks</groupId>
+	<artifactId>GimmickUtils-parent</artifactId>
+	<version>0.80</version>
 
 	<parent>
-		<groupId>net.sf.javagimmicks</groupId>
-		<artifactId>GimmickUtils-parent</artifactId>
-		<version>0.80</version>
-		<relativePath>parent/pom.xml</relativePath>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
 	</parent>
 
 	<packaging>pom</packaging>
 
-	<name>JavaGimmicks - GimmickUtils (Build)</name>
+	<name>JavaGimmicks - GimmickUtils (Parent)</name>
 	<description>Utility classes, APIs and tools for Java</description>
 	<url>http://jgutils.sourceforge.net/</url>
 	
 	<properties>
 		<autoVersionSubmodules>true</autoVersionSubmodules>
+		<maven.compiler.source>1.6</maven.compiler.source>
+		<maven.compiler.target>1.6</maven.compiler.target>
 	</properties>
 	
 	<modules>
-		<module>parent</module>
 		<module>all</module>
 		<module>collections</module>
 		<module>concurrent</module>
@@ -32,5 +34,220 @@
 		<module>swing</module>
 		<module>testing</module>
 	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>net.sf.javagimmicks</groupId>
+				<artifactId>GimmickUtils-collections</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.sf.javagimmicks</groupId>
+				<artifactId>GimmickUtils-concurrent</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.sf.javagimmicks</groupId>
+				<artifactId>GimmickUtils-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.sf.javagimmicks</groupId>
+				<artifactId>GimmickUtils-graph</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.sf.javagimmicks</groupId>
+				<artifactId>GimmickUtils-io</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.sf.javagimmicks</groupId>
+				<artifactId>GimmickUtils-math</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.sf.javagimmicks</groupId>
+				<artifactId>GimmickUtils-swing</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>net.sf.javagimmicks</groupId>
+				<artifactId>GimmickUtils-testing</artifactId>
+				<version>${project.version}</version>
+				<scope>test</scope>
+			</dependency>
+		
+			<dependency>
+				<groupId>org.easymock</groupId>
+				<artifactId>easymock</artifactId>
+				<version>3.1</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.11</version>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>2.2.1</version>
+					<executions>
+						<execution>
+							<id>attach-sources</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>jar-no-fork</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>2.9.1</version>
+					<configuration>
+						<javadocExecutable>/Library/Java/JavaVirtualMachines/jdk1.7.0_25.jdk/Contents/Home/bin/javadoc</javadocExecutable>
+						<quiet>true</quiet>
+						<show>public</show>
+						<excludePackageNames>net.sf.javagimmicks.collections.bidimap</excludePackageNames>
+						<groups>
+							<group>
+								<title>Basic utilities</title>
+								<packages>net.sf.javagimmicks.beans*:net.sf.javagimmicks.lang*:net.sf.javagimmicks.util*</packages>
+							</group>
+							<group>
+								<title>Utilities for multi-threaded programming</title>
+								<packages>net.sf.javagimmicks.concurrent*</packages>
+							</group>
+							<group>
+								<title>Basic utilities for and around the Java Collection API</title>
+								<packages>net.sf.javagimmicks.collections:net.sf.javagimmicks.collections.builder*:net.sf.javagimmicks.collections.composite*:net.sf.javagimmicks.collections.decorators*:net.sf.javagimmicks.collections.filter*</packages>
+							</group>
+							<group>
+								<title>Observer pattern (events) for the Java Collection API</title>
+								<packages>net.sf.javagimmicks.collections.event*</packages>
+							</group>
+							<group>
+								<title>Implementations for dealing with n:m relationship data structures</title>
+								<packages>net.sf.javagimmicks.collections.mapping*</packages>
+							</group>
+							<group>
+								<title>Provides a "transforming decorator" API for the Java Collection API</title>
+								<packages>net.sf.javagimmicks.collections.transformer*</packages>
+							</group>
+							<group>
+								<title>A diff engine for finding differences between data structures</title>
+								<packages>net.sf.javagimmicks.collections.diff*</packages>
+							</group>
+							<group>
+								<title>Basic I/O utilities and a diff engine for file system folders</title>
+								<packages>net.sf.javagimmicks.io*</packages>
+							</group>
+							<group>
+								<title>Yet another (small) graph API</title>
+								<packages>net.sf.javagimmicks.graph*</packages>
+							</group>
+							<group>
+								<title>A few mathematical utilities</title>
+								<packages>net.sf.javagimmicks.math*</packages>
+							</group>
+							<group>
+								<title>Swing utilities and extensions</title>
+								<packages>net.sf.javagimmicks.swing*</packages>
+							</group>
+						</groups>
+					</configuration>
+					<executions>
+						<execution>
+							<id>attach-javadocs</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>release-sign-artifacts</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.4</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+	<licenses>
+		<license>
+			<name>GNU General Public License (GPL) 3.0</name>
+			<url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<id>m34434</id>
+			<name>Michael Scholz</name>
+			<email>m34434@googlemail.com</email>
+		</developer>
+	</developers>
+
+	<scm>
+		<!-- ======================== OLD SourceForge SVN Connection ===================================
+		<url>https://svn.code.sf.net/p/jgutils/code/GimmickUtils/trunk</url>
+		<connection>scm:svn:https://svn.code.sf.net/p/jgutils/code/GimmickUtils/trunk</connection>
+		<developerConnection>scm:svn:https://svn.code.sf.net/p/jgutils/code/GimmickUtils/trunk</developerConnection>
+		==============================================================================================-->
+		
+		<url>https://github.com/m34434/GimmickUtils/parent/pom.xml</url>
+		<connection>scm:git:https://github.com/m34434/GimmickUtils.git/parent/pom.xml</connection>
+		<developerConnection>scm:git:https://github.com/m34434/GimmickUtils.git/parent/pom.xml</developerConnection>
+	</scm>
 
 </project>
