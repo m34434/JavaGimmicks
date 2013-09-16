@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>net.sf.javagimmicks</groupId>
@@ -16,13 +17,13 @@
 	<name>JavaGimmicks - GimmickUtils (Parent)</name>
 	<description>Utility classes, APIs and tools for Java</description>
 	<url>http://jgutils.sourceforge.net/</url>
-	
+
 	<properties>
 		<autoVersionSubmodules>true</autoVersionSubmodules>
 		<maven.compiler.source>1.6</maven.compiler.source>
 		<maven.compiler.target>1.6</maven.compiler.target>
 	</properties>
-	
+
 	<modules>
 		<module>all</module>
 		<module>collections</module>
@@ -72,14 +73,14 @@
 				<artifactId>GimmickUtils-swing</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>net.sf.javagimmicks</groupId>
 				<artifactId>GimmickUtils-testing</artifactId>
 				<version>${project.version}</version>
 				<scope>test</scope>
 			</dependency>
-		
+
 			<dependency>
 				<groupId>org.easymock</groupId>
 				<artifactId>easymock</artifactId>
@@ -94,7 +95,7 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	
+
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -139,19 +140,23 @@
 								<packages>net.sf.javagimmicks.collections.event*</packages>
 							</group>
 							<group>
-								<title>Implementations for dealing with n:m relationship data structures</title>
+								<title>Implementations for dealing with n:m relationship data
+									structures</title>
 								<packages>net.sf.javagimmicks.collections.mapping*</packages>
 							</group>
 							<group>
-								<title>Provides a "transforming decorator" API for the Java Collection API</title>
+								<title>Provides a "transforming decorator" API for the Java
+									Collection API</title>
 								<packages>net.sf.javagimmicks.collections.transformer*</packages>
 							</group>
 							<group>
-								<title>A diff engine for finding differences between data structures</title>
+								<title>A diff engine for finding differences between data
+									structures</title>
 								<packages>net.sf.javagimmicks.collections.diff*</packages>
 							</group>
 							<group>
-								<title>Basic I/O utilities and a diff engine for file system folders</title>
+								<title>Basic I/O utilities and a diff engine for file system
+									folders</title>
 								<packages>net.sf.javagimmicks.io*</packages>
 							</group>
 							<group>
@@ -177,6 +182,12 @@
 							</goals>
 						</execution>
 					</executions>
+				</plugin>
+				<plugin>
+					<artifactId>maven-release-plugin</artifactId>
+					<configuration>
+						<pushChanges>false</pushChanges>
+					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -239,12 +250,11 @@
 	</developers>
 
 	<scm>
-		<!-- ======================== OLD SourceForge SVN Connection ===================================
-		<url>https://svn.code.sf.net/p/jgutils/code/GimmickUtils/trunk</url>
-		<connection>scm:svn:https://svn.code.sf.net/p/jgutils/code/GimmickUtils/trunk</connection>
-		<developerConnection>scm:svn:https://svn.code.sf.net/p/jgutils/code/GimmickUtils/trunk</developerConnection>
-		==============================================================================================-->
-		
+		<!-- ======================== OLD SourceForge SVN Connection =================================== 
+			<url>https://svn.code.sf.net/p/jgutils/code/GimmickUtils/trunk</url> <connection>scm:svn:https://svn.code.sf.net/p/jgutils/code/GimmickUtils/trunk</connection> 
+			<developerConnection>scm:svn:https://svn.code.sf.net/p/jgutils/code/GimmickUtils/trunk</developerConnection> 
+			============================================================================================== -->
+
 		<url>https://github.com/m34434/GimmickUtils</url>
 		<connection>scm:git:https://github.com/m34434/GimmickUtils.git</connection>
 		<developerConnection>scm:git:https://github.com/m34434/GimmickUtils.git</developerConnection>
