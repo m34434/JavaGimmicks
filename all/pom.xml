@@ -17,6 +17,11 @@
 	<dependencies>
 		<dependency>
 			<groupId>net.sf.javagimmicks</groupId>
+			<artifactId>GimmickUtils-cdi</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.javagimmicks</groupId>
 			<artifactId>GimmickUtils-collections</artifactId>
 		</dependency>
 		<dependency>

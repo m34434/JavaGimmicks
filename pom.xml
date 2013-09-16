@@ -26,6 +26,7 @@
 
 	<modules>
 		<module>all</module>
+		<module>cdi</module>
 		<module>collections</module>
 		<module>concurrent</module>
 		<module>core</module>
@@ -38,6 +39,11 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>net.sf.javagimmicks</groupId>
+				<artifactId>GimmickUtils-cdi</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>net.sf.javagimmicks</groupId>
 				<artifactId>GimmickUtils-collections</artifactId>
@@ -74,6 +80,7 @@
 				<version>${project.version}</version>
 			</dependency>
 
+			<!-- GimmickUtils test dependencies -->
 			<dependency>
 				<groupId>net.sf.javagimmicks</groupId>
 				<artifactId>GimmickUtils-testing</artifactId>
@@ -81,6 +88,19 @@
 				<scope>test</scope>
 			</dependency>
 
+			<!-- External compile dependencies -->
+			<dependency>
+				<groupId>javax.enterprise</groupId>
+				<artifactId>cdi-api</artifactId>
+				<version>1.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.weld.se</groupId>
+				<artifactId>weld-se</artifactId>
+				<version>2.0.0.Final</version>
+			</dependency>
+
+			<!-- External test dependencies -->
 			<dependency>
 				<groupId>org.easymock</groupId>
 				<artifactId>easymock</artifactId>
