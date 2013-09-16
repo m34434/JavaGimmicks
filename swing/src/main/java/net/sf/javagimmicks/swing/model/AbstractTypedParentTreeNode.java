@@ -7,7 +7,7 @@ import java.util.List;
 import javax.swing.tree.TreeNode;
 
 import net.sf.javagimmicks.collections.transformer.Transformer;
-import net.sf.javagimmicks.collections.transformer.TransformerUtils15;
+import net.sf.javagimmicks.collections.transformer.TransformerUtils;
 
 public abstract class AbstractTypedParentTreeNode<Value, ChildValue, ChildNode extends TypedChildTreeNode<? extends ChildValue, Value, ? extends TypedParentTreeNode<?, ?, ?>>> extends AbstractTypedTreeNode<Value> implements TypedParentTreeNode<Value, ChildValue, ChildNode>
 {
@@ -58,7 +58,7 @@ public abstract class AbstractTypedParentTreeNode<Value, ChildValue, ChildNode e
             return Collections.emptyList();
         }
         
-        return TransformerUtils15.decorate(childValues, new Transformer<ChildValue, ChildNode>()
+        return TransformerUtils.decorate(childValues, new Transformer<ChildValue, ChildNode>()
         {
             public ChildNode transform(ChildValue childValue)
             {

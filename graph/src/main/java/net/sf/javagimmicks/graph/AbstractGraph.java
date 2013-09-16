@@ -7,7 +7,7 @@ import java.util.Set;
 
 import net.sf.javagimmicks.collections.AbstractMap2;
 import net.sf.javagimmicks.collections.transformer.Transformer;
-import net.sf.javagimmicks.collections.transformer.TransformerUtils15;
+import net.sf.javagimmicks.collections.transformer.TransformerUtils;
 import net.sf.javagimmicks.lang.Factory;
 import net.sf.javagimmicks.lang.LangUtils;
 
@@ -55,7 +55,7 @@ public abstract class AbstractGraph<V, E extends Edge<V, E>> implements Graph<V,
 
    public Set<V> targetsOf(V source)
    {
-      return TransformerUtils15.decorate(edgesOf(source), new EdgeToTargetTransformer<E, V>(source));
+      return TransformerUtils.decorate(edgesOf(source), new EdgeToTargetTransformer<E, V>(source));
    }
 
    public Set<E> getEdges(V source, V target)

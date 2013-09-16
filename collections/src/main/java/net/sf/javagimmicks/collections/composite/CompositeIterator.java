@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import net.sf.javagimmicks.collections.transformer.Transformer;
-import net.sf.javagimmicks.collections.transformer.TransformerUtils15;
+import net.sf.javagimmicks.collections.transformer.TransformerUtils;
 
 class CompositeIterator<E> implements Iterator<E>
 {
@@ -33,7 +33,7 @@ class CompositeIterator<E> implements Iterator<E>
          }
       };
       
-      final List<Iterator<E>> iteratorList = new ArrayList<Iterator<E>>(TransformerUtils15.decorate(collections, iteratorExtractor));
+      final List<Iterator<E>> iteratorList = new ArrayList<Iterator<E>>(TransformerUtils.decorate(collections, iteratorExtractor));
       
       return new CompositeIterator<E>(iteratorList);
    }
