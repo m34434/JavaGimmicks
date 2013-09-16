@@ -19,7 +19,7 @@
 	<url>http://jgutils.sourceforge.net/</url>
 
 	<properties>
-		<autoVersionSubmodules>true</autoVersionSubmodules>
+		
 		<maven.compiler.source>1.6</maven.compiler.source>
 		<maven.compiler.target>1.6</maven.compiler.target>
 	</properties>
@@ -186,6 +186,7 @@
 				<plugin>
 					<artifactId>maven-release-plugin</artifactId>
 					<configuration>
+						<autoVersionSubmodules>true</autoVersionSubmodules>
 						<pushChanges>false</pushChanges>
 					</configuration>
 				</plugin>
