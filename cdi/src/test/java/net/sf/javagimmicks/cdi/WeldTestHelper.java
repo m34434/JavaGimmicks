@@ -8,6 +8,7 @@ import javax.enterprise.inject.Instance;
 import javax.enterprise.util.TypeLiteral;
 
 import net.sf.javagimmicks.cdi.injectable.A;
+import net.sf.javagimmicks.cdi.injectable.B;
 
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
@@ -41,7 +42,7 @@ public class WeldTestHelper
       // @Inject private A lookup
       final A lookup = lookup(A.class);
 
-      assertEquals("Something", lookup.callB());
+      assertEquals(B.MESSAGE, lookup.callB());
    }
 
    protected <E> E lookup(final Class<E> clazz, final Annotation... annotations)

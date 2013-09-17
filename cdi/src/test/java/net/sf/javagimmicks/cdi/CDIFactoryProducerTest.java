@@ -1,5 +1,8 @@
 package net.sf.javagimmicks.cdi;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
 import javax.inject.Inject;
@@ -9,7 +12,6 @@ import net.sf.javagimmicks.cdi.injectable.FunnyClass;
 import net.sf.javagimmicks.cdi.qualifier.Cool;
 import net.sf.javagimmicks.lang.Factory;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 public class CDIFactoryProducerTest extends WeldTestHelper
@@ -18,7 +20,7 @@ public class CDIFactoryProducerTest extends WeldTestHelper
    public void test()
    {
       final CoolFunnyContainerBean funnyContainer = lookup(CoolFunnyContainerBean.class);
-      Assert.assertNotNull(funnyContainer);
+      assertNotNull(funnyContainer);
 
       check(funnyContainer.getNormal(), Coolness.NORMAL);
       check(funnyContainer.getLittle(), Coolness.LITTLE);
@@ -27,8 +29,8 @@ public class CDIFactoryProducerTest extends WeldTestHelper
 
    private static void check(final FunnyClass funny, final Coolness coolness)
    {
-      Assert.assertNotNull(funny);
-      Assert.assertSame(coolness, funny.getCoolness());
+      assertNotNull(funny);
+      assertSame(coolness, funny.getCoolness());
    }
 
    public static class CoolFunnyContainerBean
@@ -66,7 +68,14 @@ public class CDIFactoryProducerTest extends WeldTestHelper
    {
       public CoolFunnyClassProducer()
       {
-         super(getFactory());
+         super(new Factory<FunnyClass>()
+         {
+            @Override
+            public FunnyClass create()
+            {
+               return new FunnyClass("");
+            }
+         });
       }
 
       // Unfortunately - producer methods are not inherited, so we have to
@@ -90,18 +99,6 @@ public class CDIFactoryProducerTest extends WeldTestHelper
          {
             funny.setCoolness(cool.coolness());
          }
-      }
-
-      private static Factory<FunnyClass> getFactory()
-      {
-         return new Factory<FunnyClass>()
-         {
-            @Override
-            public FunnyClass create()
-            {
-               return new FunnyClass("");
-            }
-         };
       }
    }
 }
