@@ -26,7 +26,8 @@
 
 	<modules>
 		<module>all</module>
-<!-- 		<module>cdi</module> -->
+		<module>cdi</module>
+		<module>cdi-testing</module>
 		<module>collections</module>
 		<module>concurrent</module>
 		<module>core</module>
@@ -81,6 +82,12 @@
 			</dependency>
 
 			<!-- GimmickUtils test dependencies -->
+			<dependency>
+				<groupId>net.sf.javagimmicks</groupId>
+				<artifactId>GimmickUtils-cdi-testing</artifactId>
+				<version>${project.version}</version>
+				<scope>test</scope>
+			</dependency>
 			<dependency>
 				<groupId>net.sf.javagimmicks</groupId>
 				<artifactId>GimmickUtils-testing</artifactId>
