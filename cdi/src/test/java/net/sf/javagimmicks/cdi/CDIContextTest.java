@@ -42,7 +42,7 @@ public class CDIContextTest extends WeldTestHelper
       assertEquals(B.MESSAGE, new NonCDIGeneratedClass().callA());
    }
 
-   private static class NonCDIGeneratedClass extends CDIAware
+   private static class NonCDIGeneratedClass
    {
       // @Inject private A a;
       private final A a = CDIContext.lookup(A.class);

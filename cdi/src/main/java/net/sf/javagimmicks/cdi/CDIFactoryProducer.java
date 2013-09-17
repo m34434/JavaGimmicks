@@ -13,7 +13,7 @@ public abstract class CDIFactoryProducer<E>
       _factory = factory;
    }
 
-   protected E produce(final InjectionPoint injectionPoint)
+   protected final E produceInternal(final InjectionPoint injectionPoint)
    {
       final E result = _factory.create();
 

@@ -79,13 +79,12 @@ public class CDIFactoryProducerTest extends WeldTestHelper
       }
 
       // Unfortunately - producer methods are not inherited, so we have to
-      // re-implement it (with the right qualifier annotation(s))
-      @Override
+      // write a wrapper (with the right qualifier annotation(s))
       @Produces
       @Cool
       public FunnyClass produce(final InjectionPoint injectionPoint)
       {
-         return super.produce(injectionPoint);
+         return produceInternal(injectionPoint);
       }
 
       @Override
