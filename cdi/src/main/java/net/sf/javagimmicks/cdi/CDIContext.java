@@ -24,6 +24,17 @@ public class CDIContext
 
    public static BeanManager getBeanManager()
    {
+      if (_fallbackBeanManager != null)
+      {
+         synchronized (CDIContext.class)
+         {
+            if (_fallbackBeanManager != null)
+            {
+               return _fallbackBeanManager;
+            }
+         }
+      }
+
       try
       {
          return (BeanManager) InitialContext.doLookup("java:comp/BeanManager");
@@ -38,17 +49,6 @@ public class CDIContext
       }
       catch (final NamingException e)
       {
-      }
-
-      if (_fallbackBeanManager != null)
-      {
-         synchronized (CDIContext.class)
-         {
-            if (_fallbackBeanManager != null)
-            {
-               return _fallbackBeanManager;
-            }
-         }
       }
 
       throw new IllegalStateException("No BeanManager found!");

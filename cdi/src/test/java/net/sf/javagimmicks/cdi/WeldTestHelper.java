@@ -1,5 +1,7 @@
 package net.sf.javagimmicks.cdi;
 
+import static org.junit.Assert.assertEquals;
+
 import java.lang.annotation.Annotation;
 
 import javax.enterprise.event.Observes;
@@ -8,14 +10,15 @@ import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.util.TypeLiteral;
 import javax.inject.Inject;
 
+import net.sf.javagimmicks.cdi.injectable.A;
+
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
 import org.jboss.weld.environment.se.events.ContainerInitialized;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
+import org.junit.Test;
 
-@Ignore
 public class WeldTestHelper
 {
    private Weld _weld;
@@ -34,6 +37,15 @@ public class WeldTestHelper
       _weldContainer = null;
       _weld.shutdown();
       _weld = null;
+   }
+
+   @Test
+   public void testMyself()
+   {
+      // @Inject private A lookup
+      final A lookup = lookup(A.class);
+
+      assertEquals("Something", lookup.callB());
    }
 
    protected <E> E lookup(final Class<E> clazz, final Annotation... annotations)
