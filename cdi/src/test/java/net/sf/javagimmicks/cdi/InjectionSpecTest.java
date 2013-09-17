@@ -1,6 +1,5 @@
 package net.sf.javagimmicks.cdi;
 
-import static net.sf.javagimmicks.cdi.AnnotationLiteralHelper.annotationWithMembers;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
@@ -17,9 +16,6 @@ import org.junit.runner.RunWith;
 @RunWith(WeldJUnit4TestRunner.class)
 public class InjectionSpecTest
 {
-   private static final Cool COOL_LITERAL = annotationWithMembers(Cool.class).member("coolness", Coolness.NORMAL)
-         .get();
-
    @SuppressWarnings({ "rawtypes", "unchecked" })
    @Test
    public void testNormal() throws InstantiationException, IllegalAccessException
@@ -44,7 +40,7 @@ public class InjectionSpecTest
                   .<ArrayList> build()
                   .setClass(ArrayList.class)
                   .addTypeParameters(String.class)
-                  .addAnnotations(COOL_LITERAL)
+                  .annotation(Cool.class).member("coolness", Coolness.NORMAL).add()
                   .getInstance();
 
       assertNotNull(cdiGeneratedCoolArrayList);

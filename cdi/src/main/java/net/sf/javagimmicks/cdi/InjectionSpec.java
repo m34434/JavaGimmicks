@@ -174,6 +174,7 @@ public class InjectionSpec<E>
       private Class<? extends E> _class;
       private final List<Type> _typeParameters = new ArrayList<Type>();
       private final Set<Annotation> _annotations = new HashSet<Annotation>();
+
       private String _name;
 
       private Builder(final BeanManager beanManager)
@@ -216,6 +217,11 @@ public class InjectionSpec<E>
       public Builder<E> addAnnotations(final Annotation... annotation)
       {
          return addAnnotations(Arrays.asList(annotation));
+      }
+
+      public <A extends Annotation> AnnotationBuilder<A> annotation(final Class<A> annotationType)
+      {
+         return new AnnotationBuilder<A>(AnnotationLiteralHelper.annotationWithMembers(annotationType));
       }
 
       public Builder<E> setName(final String name)
@@ -265,5 +271,28 @@ public class InjectionSpec<E>
          }
       }
 
+      public class AnnotationBuilder<A extends Annotation>
+      {
+         private final AnnotationLiteralHelper.Builder<A> _delegate;
+
+         private AnnotationBuilder(final AnnotationLiteralHelper.Builder<A> delegate)
+         {
+            this._delegate = delegate;
+         }
+
+         public AnnotationBuilder<A> member(final String memberName, final Object value)
+         {
+            _delegate.member(memberName, value);
+
+            return this;
+         }
+
+         public Builder<E> add()
+         {
+            addAnnotations(_delegate.get());
+
+            return Builder.this;
+         }
+      }
    }
 }
