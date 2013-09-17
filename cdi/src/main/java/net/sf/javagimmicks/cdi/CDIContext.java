@@ -67,14 +67,7 @@ public class CDIContext
 
    public static <E> E lookup(final BeanManager beanManager, final Class<E> beanType, final Annotation... bindings)
    {
-      final Bean<?> bean = beanManager.resolve(beanManager.getBeans(beanType, bindings));
-      if (bean == null)
-      {
-         throw new UnsatisfiedResolutionException("Unable to resolve a bean for " + beanType + " with bindings "
-               + Arrays.asList(bindings));
-      }
-      final CreationalContext<?> cc = beanManager.createCreationalContext(bean);
-      return beanType.cast(beanManager.getReference(bean, beanType, cc));
+      return Injection.<E> build(beanManager).setClass(beanType).addAnnotations(bindings).getInstance();
    }
 
    public static <E> E lookup(final BeanManager beanManager, final Class<E> beanType)
@@ -82,16 +75,9 @@ public class CDIContext
       return lookup(beanManager, beanType, new Annotation[0]);
    }
 
-   @SuppressWarnings("unchecked")
    public static <E> E lookup(final BeanManager beanManager, final String name)
    {
-      final Bean<?> bean = beanManager.resolve(beanManager.getBeans(name));
-      if (bean == null)
-      {
-         throw new UnsatisfiedResolutionException("Unable to resolve a bean name " + name);
-      }
-      final CreationalContext<?> cc = beanManager.createCreationalContext(bean);
-      return (E) beanManager.getReference(bean, bean.getBeanClass(), cc);
+      return Injection.<E> build(beanManager).setName(name).getInstance();
    }
 
    @SuppressWarnings("unchecked")

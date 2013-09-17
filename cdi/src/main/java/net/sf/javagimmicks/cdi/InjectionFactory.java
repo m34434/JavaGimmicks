@@ -33,7 +33,7 @@ public class InjectionFactory<E> implements Factory<E>
          addAnnotations(annotations);
       }
 
-      final Instance<? extends E> instance = _instances.select(clazz, annotations.toArray(new Annotation[0]));
+      final Instance<? extends E> instance = getInstances().select(clazz, annotations.toArray(new Annotation[0]));
 
       return select(instance);
    }
@@ -49,5 +49,10 @@ public class InjectionFactory<E> implements Factory<E>
    protected E select(final Instance<? extends E> instance)
    {
       return instance.get();
+   }
+
+   private Instance<Object> getInstances()
+   {
+      return _instances;
    }
 }
