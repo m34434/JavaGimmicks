@@ -4,35 +4,45 @@ import java.lang.annotation.Annotation;
 import java.util.Arrays;
 
 import javax.enterprise.context.spi.CreationalContext;
+import javax.enterprise.event.Observes;
 import javax.enterprise.inject.UnsatisfiedResolutionException;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
+import javax.enterprise.inject.spi.BeforeBeanDiscovery;
+import javax.enterprise.inject.spi.BeforeShutdown;
+import javax.enterprise.inject.spi.CDI;
+import javax.enterprise.inject.spi.Extension;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 public class CDIContext
 {
-   private static BeanManager _fallbackBeanManager;
-
-   public static void setFallbackBeanManager(final BeanManager beanManager)
-   {
-      synchronized (CDIContext.class)
-      {
-         _fallbackBeanManager = beanManager;
-      }
-   }
+   private static BeanManager _currentBeanManager;
 
    public static BeanManager getBeanManager()
    {
-      if (_fallbackBeanManager != null)
+      if (_currentBeanManager != null)
       {
          synchronized (CDIContext.class)
          {
-            if (_fallbackBeanManager != null)
+            if (_currentBeanManager != null)
             {
-               return _fallbackBeanManager;
+               return _currentBeanManager;
             }
          }
+      }
+
+      try
+      {
+         final BeanManager result = CDI.current().getBeanManager();
+         if (result != null)
+         {
+            return result;
+         }
+      }
+      catch (final IllegalStateException ex)
+      {
+
       }
 
       try
@@ -96,5 +106,29 @@ public class CDIContext
    public static <E> E lookup(final String name)
    {
       return lookup(getBeanManager(), name);
+   }
+
+   private static void setCurrentBeanManager(final BeanManager beanManager)
+   {
+      synchronized (CDIContext.class)
+      {
+         _currentBeanManager = beanManager;
+      }
+   }
+
+   public static class CDIContextExtension implements Extension
+   {
+      // Called upon CDI context startup - additionally injects the BeanManager
+      // which is remembered here
+      public void startup(@Observes final BeforeBeanDiscovery event, final BeanManager beanManager)
+      {
+         setCurrentBeanManager(beanManager);
+      }
+
+      // Called upon CDI context shutdown - clear the internal BeanManager
+      public void shutdown(@Observes final BeforeShutdown event)
+      {
+         setCurrentBeanManager(null);
+      }
    }
 }

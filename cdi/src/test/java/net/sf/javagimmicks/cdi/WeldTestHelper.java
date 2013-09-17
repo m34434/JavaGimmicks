@@ -4,17 +4,13 @@ import static org.junit.Assert.assertEquals;
 
 import java.lang.annotation.Annotation;
 
-import javax.enterprise.event.Observes;
 import javax.enterprise.inject.Instance;
-import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.util.TypeLiteral;
-import javax.inject.Inject;
 
 import net.sf.javagimmicks.cdi.injectable.A;
 
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
-import org.jboss.weld.environment.se.events.ContainerInitialized;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -67,16 +63,5 @@ public class WeldTestHelper
    protected <E> Instance<E> lookup(final TypeLiteral<E> typeLiteral, final Annotation... annotations)
    {
       return _weldContainer.instance().select(typeLiteral, annotations);
-   }
-
-   public static final class SetupListener
-   {
-      @Inject
-      private BeanManager _beanManager;
-
-      public void onSetup(@Observes final ContainerInitialized event)
-      {
-         CDIContext.setFallbackBeanManager(_beanManager);
-      }
    }
 }
