@@ -10,21 +10,24 @@ import javax.inject.Inject;
 import net.sf.javagimmicks.cdi.injectable.Coolness;
 import net.sf.javagimmicks.cdi.injectable.FunnyClass;
 import net.sf.javagimmicks.cdi.qualifier.Cool;
+import net.sf.javagimmicks.cdi.testing.WeldJUnit4TestRunner;
 import net.sf.javagimmicks.lang.Factory;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class CDIFactoryProducerTest extends WeldTestHelper
+@RunWith(WeldJUnit4TestRunner.class)
+public class CDIFactoryProducerTest
 {
+   @Inject
+   private CoolFunnyContainerBean _funnyContainer;
+
    @Test
    public void test()
    {
-      final CoolFunnyContainerBean funnyContainer = lookup(CoolFunnyContainerBean.class);
-      assertNotNull(funnyContainer);
-
-      check(funnyContainer.getNormal(), Coolness.NORMAL);
-      check(funnyContainer.getLittle(), Coolness.LITTLE);
-      check(funnyContainer.getHorrible(), Coolness.HORRIBLE);
+      check(_funnyContainer.getNormal(), Coolness.NORMAL);
+      check(_funnyContainer.getLittle(), Coolness.LITTLE);
+      check(_funnyContainer.getHorrible(), Coolness.HORRIBLE);
    }
 
    private static void check(final FunnyClass funny, final Coolness coolness)

@@ -30,9 +30,8 @@
 			<artifactId>junit</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.jboss.weld.se</groupId>
-			<artifactId>weld-se</artifactId>
-			<scope>test</scope>
+			<groupId>net.sf.javagimmicks</groupId>
+			<artifactId>GimmickUtils-cdi-testing</artifactId>
 		</dependency>
 	</dependencies>
 </project>

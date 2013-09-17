@@ -10,8 +10,8 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<name>JavaGimmicks - GimmickUtils - CDI</name>
-	<description>CDI utilities and extensions</description>
+	<name>JavaGimmicks - GimmickUtils - CDI-Testing</name>
+	<description>JUnit extensions for testing CDI applications in a local container</description>
 	<url>http://jgutils.sourceforge.net</url>
 
 	<dependencies>
@@ -22,13 +22,19 @@
 		</dependency>
 
 		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>compile</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.jboss.weld.se</groupId>
-			<artifactId>weld-se</artifactId>
+			<artifactId>weld-se-core</artifactId>
 		</dependency>
 	</dependencies>
 </project>
