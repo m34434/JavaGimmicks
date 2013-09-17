@@ -67,7 +67,7 @@ public class CDIContext
 
    public static <E> E lookup(final BeanManager beanManager, final Class<E> beanType, final Annotation... bindings)
    {
-      return Injection.<E> build(beanManager).setClass(beanType).addAnnotations(bindings).getInstance();
+      return InjectionSpec.<E> build(beanManager).setClass(beanType).addAnnotations(bindings).getInstance();
    }
 
    public static <E> E lookup(final BeanManager beanManager, final Class<E> beanType)
@@ -77,7 +77,7 @@ public class CDIContext
 
    public static <E> E lookup(final BeanManager beanManager, final String name)
    {
-      return Injection.<E> build(beanManager).setName(name).getInstance();
+      return InjectionSpec.<E> build(beanManager).setName(name).getInstance();
    }
 
    @SuppressWarnings("unchecked")

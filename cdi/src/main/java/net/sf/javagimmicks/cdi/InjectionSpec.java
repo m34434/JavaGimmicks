@@ -16,7 +16,7 @@ import javax.enterprise.inject.UnsatisfiedResolutionException;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
 
-public class Injection<E>
+public class InjectionSpec<E>
 {
    private final Class<? extends E> _class;
    private final List<Type> _typeParameters;
@@ -34,7 +34,7 @@ public class Injection<E>
       return build(null);
    }
 
-   public Injection(final Class<? extends E> clazz, final List<Type> typeParameters,
+   public InjectionSpec(final Class<? extends E> clazz, final List<Type> typeParameters,
          final Collection<Annotation> annotations)
    {
       if (clazz == null)
@@ -50,12 +50,12 @@ public class Injection<E>
       _name = null;
    }
 
-   public Injection(final Class<E> clazz, final Annotation... annotations)
+   public InjectionSpec(final Class<E> clazz, final Annotation... annotations)
    {
       this(clazz, null, Arrays.asList(annotations));
    }
 
-   public Injection(final String name)
+   public InjectionSpec(final String name)
    {
       if (name == null || name.length() == 0)
       {
@@ -227,15 +227,15 @@ public class Injection<E>
          return this;
       }
 
-      public Injection<E> getInjection()
+      public InjectionSpec<E> getInjection()
       {
          if (_name != null)
          {
-            return new Injection<E>(_name);
+            return new InjectionSpec<E>(_name);
          }
          else if (_class != null)
          {
-            return new Injection<E>(_class, _typeParameters, _annotations);
+            return new InjectionSpec<E>(_class, _typeParameters, _annotations);
          }
          else
          {
