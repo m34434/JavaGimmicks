@@ -1,6 +1,7 @@
 package net.sf.javagimmicks.cdi;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
 import java.util.Arrays;
 
 import javax.enterprise.context.spi.CreationalContext;
@@ -81,16 +82,6 @@ public class CDIContext
       return lookup(beanManager, beanType, new Annotation[0]);
    }
 
-   public static <E> E lookup(final Class<E> beanType, final Annotation... bindings)
-   {
-      return lookup(getBeanManager(), beanType, bindings);
-   }
-
-   public static <E> E lookup(final Class<E> beanType)
-   {
-      return lookup(getBeanManager(), beanType);
-   }
-
    @SuppressWarnings("unchecked")
    public static <E> E lookup(final BeanManager beanManager, final String name)
    {
@@ -101,6 +92,34 @@ public class CDIContext
       }
       final CreationalContext<?> cc = beanManager.createCreationalContext(bean);
       return (E) beanManager.getReference(bean, bean.getBeanClass(), cc);
+   }
+
+   @SuppressWarnings("unchecked")
+   public static <E> E lookup(final BeanManager beanManager, final Type beanType, final Annotation... bindings)
+   {
+      final Bean<?> bean = beanManager.resolve(beanManager.getBeans(beanType, bindings));
+      if (bean == null)
+      {
+         throw new UnsatisfiedResolutionException("Unable to resolve a bean for " + beanType + " with bindings "
+               + Arrays.asList(bindings));
+      }
+      final CreationalContext<?> cc = beanManager.createCreationalContext(bean);
+      return (E) beanManager.getReference(bean, beanType, cc);
+   }
+
+   public static <E> E lookup(final BeanManager beanManager, final Type beanType)
+   {
+      return lookup(beanManager, beanType, new Annotation[0]);
+   }
+
+   public static <E> E lookup(final Class<E> beanType, final Annotation... bindings)
+   {
+      return lookup(getBeanManager(), beanType, bindings);
+   }
+
+   public static <E> E lookup(final Class<E> beanType)
+   {
+      return lookup(getBeanManager(), beanType);
    }
 
    public static <E> E lookup(final String name)
