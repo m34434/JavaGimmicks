@@ -15,21 +15,26 @@ import org.junit.Test;
 
 public class InjectionSpecTest extends WeldTestHelper
 {
-   @SuppressWarnings("rawtypes")
+   @SuppressWarnings({ "rawtypes", "unchecked" })
    @Test
-   public void test() throws InstantiationException, IllegalAccessException
+   public void testNormal() throws InstantiationException, IllegalAccessException
    {
       // Normal ArrayList<String>
-      final ArrayList<?> cdiGeneratedArrayList =
+      final ArrayList<String> cdiGeneratedArrayList =
             InjectionSpec.<ArrayList> build()
                   .setClass(ArrayList.class)
                   .addTypeParameters(String.class)
                   .getInstance();
 
       assertNotNull(cdiGeneratedArrayList);
+   }
 
+   @SuppressWarnings({ "rawtypes", "unchecked" })
+   @Test
+   public void testCool() throws InstantiationException, IllegalAccessException
+   {
       // @Cool annotated ArrayList<String>
-      final ArrayList<?> cdiGeneratedCoolArrayList =
+      final ArrayList<String> cdiGeneratedCoolArrayList =
             InjectionSpec.<ArrayList> build()
                   .setClass(ArrayList.class)
                   .addTypeParameters(String.class)
