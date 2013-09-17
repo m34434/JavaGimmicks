@@ -1,6 +1,8 @@
 package net.sf.javagimmicks.cdi;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -16,8 +18,8 @@ import javax.enterprise.inject.spi.BeanManager;
 
 public class Injection<E>
 {
-   private final Class<E> _class;
-   private final List<Class<?>> _typeParameters;
+   private final Class<? extends E> _class;
+   private final List<Type> _typeParameters;
    private final Set<Annotation> _annotations;
 
    private final String _name;
@@ -32,7 +34,8 @@ public class Injection<E>
       return build(null);
    }
 
-   public Injection(final Class<E> clazz, final List<Class<?>> typeParameters, final Collection<Annotation> annotations)
+   public Injection(final Class<? extends E> clazz, final List<Type> typeParameters,
+         final Collection<Annotation> annotations)
    {
       if (clazz == null)
       {
@@ -40,8 +43,8 @@ public class Injection<E>
       }
 
       _class = clazz;
-      _typeParameters = typeParameters != null ? new ArrayList<Class<?>>(typeParameters) : Collections
-            .<Class<?>> emptyList();
+      _typeParameters = typeParameters != null ? new ArrayList<Type>(typeParameters) : Collections
+            .<Type> emptyList();
       _annotations = annotations != null ? new HashSet<Annotation>(annotations) : Collections.<Annotation> emptySet();
 
       _name = null;
@@ -75,12 +78,12 @@ public class Injection<E>
       return _name != null;
    }
 
-   public Class<E> getType()
+   public Class<? extends E> getType()
    {
       return _class;
    }
 
-   public List<Class<?>> getTypeParameters()
+   public List<Type> getTypeParameters()
    {
       return Collections.unmodifiableList(_typeParameters);
    }
@@ -101,8 +104,10 @@ public class Injection<E>
       // Type-based case
       if (isTypeBased())
       {
+         final Type type = buildType();
+
          final Bean<?> bean = beanManager
-               .resolve(beanManager.getBeans(_class, _annotations.toArray(new Annotation[0])));
+               .resolve(beanManager.getBeans(type, _annotations.toArray(new Annotation[0])));
 
          if (bean == null)
          {
@@ -111,7 +116,7 @@ public class Injection<E>
          }
 
          final CreationalContext<?> cc = beanManager.createCreationalContext(bean);
-         return _class.cast(beanManager.getReference(bean, _class, cc));
+         return _class.cast(beanManager.getReference(bean, type, cc));
       }
 
       // Name-based case
@@ -131,12 +136,43 @@ public class Injection<E>
       }
    }
 
+   private Type buildType()
+   {
+      if (!_typeParameters.isEmpty())
+      {
+         return new ParameterizedType() {
+
+            @Override
+            public Type getRawType()
+            {
+               return _class;
+            }
+
+            @Override
+            public Type getOwnerType()
+            {
+               return null;
+            }
+
+            @Override
+            public Type[] getActualTypeArguments()
+            {
+               return _typeParameters.toArray(new Type[0]);
+            }
+         };
+      }
+      else
+      {
+         return _class;
+      }
+   }
+
    public static class Builder<E>
    {
       private final BeanManager _beanManager;
 
-      private Class<E> _class;
-      private final List<Class<?>> _typeParameters = new ArrayList<Class<?>>();
+      private Class<? extends E> _class;
+      private final List<Type> _typeParameters = new ArrayList<Type>();
       private final Set<Annotation> _annotations = new HashSet<Annotation>();
       private String _name;
 
@@ -145,7 +181,7 @@ public class Injection<E>
          _beanManager = beanManager;
       }
 
-      public Builder<E> setClass(final Class<E> clazz)
+      public Builder<E> setClass(final Class<? extends E> clazz)
       {
          checkHasName();
 
@@ -154,7 +190,7 @@ public class Injection<E>
          return this;
       }
 
-      public Builder<E> addTypeParameters(final Collection<Class<?>> typeParameters)
+      public Builder<E> addTypeParameters(final Collection<Type> typeParameters)
       {
          checkHasName();
 
@@ -163,7 +199,7 @@ public class Injection<E>
          return this;
       }
 
-      public Builder<E> addTypeParameters(final Class<?>... typeParameters)
+      public Builder<E> addTypeParameters(final Type... typeParameters)
       {
          return addTypeParameters(Arrays.asList(typeParameters));
       }
