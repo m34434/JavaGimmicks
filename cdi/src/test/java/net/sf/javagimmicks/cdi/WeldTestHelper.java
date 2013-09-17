@@ -2,11 +2,15 @@ package net.sf.javagimmicks.cdi;
 
 import java.lang.annotation.Annotation;
 
+import javax.enterprise.event.Observes;
 import javax.enterprise.inject.Instance;
+import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.util.TypeLiteral;
+import javax.inject.Inject;
 
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
+import org.jboss.weld.environment.se.events.ContainerInitialized;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -18,7 +22,7 @@ public class WeldTestHelper
    private WeldContainer _weldContainer;
 
    @Before
-   public void setUpClass() throws Exception
+   public void setUp() throws Exception
    {
       _weld = new Weld();
       _weldContainer = _weld.initialize();
@@ -53,4 +57,14 @@ public class WeldTestHelper
       return _weldContainer.instance().select(typeLiteral, annotations);
    }
 
+   public static final class SetupListener
+   {
+      @Inject
+      private BeanManager _beanManager;
+
+      public void onSetup(@Observes final ContainerInitialized event)
+      {
+         CDIContext.setFallbackBeanManager(_beanManager);
+      }
+   }
 }

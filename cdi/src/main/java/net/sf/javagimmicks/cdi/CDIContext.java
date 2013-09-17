@@ -1,9 +1,10 @@
 package net.sf.javagimmicks.cdi;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
-import java.util.Set;
+import java.util.Arrays;
 
+import javax.enterprise.context.spi.CreationalContext;
+import javax.enterprise.inject.UnsatisfiedResolutionException;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.naming.InitialContext;
@@ -11,6 +12,16 @@ import javax.naming.NamingException;
 
 public class CDIContext
 {
+   private static BeanManager _fallbackBeanManager;
+
+   public static void setFallbackBeanManager(final BeanManager beanManager)
+   {
+      synchronized (CDIContext.class)
+      {
+         _fallbackBeanManager = beanManager;
+      }
+   }
+
    public static BeanManager getBeanManager()
    {
       try
@@ -29,42 +40,30 @@ public class CDIContext
       {
       }
 
-      try
+      if (_fallbackBeanManager != null)
       {
-         final Class<?> oWeldContainerClass = Class.forName("org.jboss.weld.Container");
-         final Method oWeldContainerInstanceMethod = oWeldContainerClass.getDeclaredMethod("instance",
-               new Class[0]);
-         final Object oWeldContainer = oWeldContainerInstanceMethod.invoke(null);
-
-         if (oWeldContainer != null)
+         synchronized (CDIContext.class)
          {
-            final BeanManager tempBeanManager = (BeanManager) oWeldContainer.getClass()
-                  .getMethod("deploymentManager", new Class[0])
-                  .invoke(oWeldContainer);
-
-            return lookup(tempBeanManager, BeanManager.class);
+            if (_fallbackBeanManager != null)
+            {
+               return _fallbackBeanManager;
+            }
          }
-      }
-      catch (final Exception ignore)
-      {
-
       }
 
       throw new IllegalStateException("No BeanManager found!");
    }
 
-   @SuppressWarnings("unchecked")
-   public static <E> E lookup(final BeanManager beanManager, final Class<E> beanType, final Annotation... qualifiers)
+   public static <E> E lookup(final BeanManager beanManager, final Class<E> beanType, final Annotation... bindings)
    {
-      final Set<Bean<?>> beans = beanManager.getBeans(beanType, qualifiers);
-
-      if (beans.isEmpty())
+      final Bean<?> bean = beanManager.resolve(beanManager.getBeans(beanType, bindings));
+      if (bean == null)
       {
-         throw new IllegalArgumentException("Could not find a unique bean type for the given parameters!");
+         throw new UnsatisfiedResolutionException("Unable to resolve a bean for " + beanType + " with bindings "
+               + Arrays.asList(bindings));
       }
-
-      final Bean<E> bean = (Bean<E>) beanManager.resolve(beans);
-      return (E) beanManager.getReference(bean, beanType, beanManager.createCreationalContext(bean));
+      final CreationalContext<?> cc = beanManager.createCreationalContext(bean);
+      return beanType.cast(beanManager.getReference(bean, beanType, cc));
    }
 
    public static <E> E lookup(final BeanManager beanManager, final Class<E> beanType)
@@ -72,9 +71,9 @@ public class CDIContext
       return lookup(beanManager, beanType, new Annotation[0]);
    }
 
-   public static <E> E lookup(final Class<E> beanType, final Annotation... qualifiers)
+   public static <E> E lookup(final Class<E> beanType, final Annotation... bindings)
    {
-      return lookup(getBeanManager(), beanType, qualifiers);
+      return lookup(getBeanManager(), beanType, bindings);
    }
 
    public static <E> E lookup(final Class<E> beanType)
@@ -85,21 +84,17 @@ public class CDIContext
    @SuppressWarnings("unchecked")
    public static <E> E lookup(final BeanManager beanManager, final String name)
    {
-      final Set<Bean<?>> beans = beanManager.getBeans(name);
-
-      if (beans.isEmpty())
+      final Bean<?> bean = beanManager.resolve(beanManager.getBeans(name));
+      if (bean == null)
       {
-         throw new IllegalArgumentException("Could not find a unique bean type for the given parameters!");
+         throw new UnsatisfiedResolutionException("Unable to resolve a bean name " + name);
       }
-
-      final Bean<E> bean = (Bean<E>) beanManager.resolve(beans);
-      return (E) beanManager.getReference(bean, bean.getTypes().iterator().next(),
-            beanManager.createCreationalContext(bean));
+      final CreationalContext<?> cc = beanManager.createCreationalContext(bean);
+      return (E) beanManager.getReference(bean, bean.getBeanClass(), cc);
    }
 
    public static <E> E lookup(final String name)
    {
       return lookup(getBeanManager(), name);
    }
-
 }
