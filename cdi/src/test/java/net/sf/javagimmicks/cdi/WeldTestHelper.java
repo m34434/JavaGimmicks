@@ -18,7 +18,7 @@ public class WeldTestHelper
    private WeldContainer _weldContainer;
 
    @Before
-   public void setUp() throws Exception
+   public void setUpClass() throws Exception
    {
       _weld = new Weld();
       _weldContainer = _weld.initialize();
@@ -35,6 +35,11 @@ public class WeldTestHelper
    protected <E> E lookup(final Class<E> clazz, final Annotation... annotations)
    {
       return _weldContainer.instance().select(clazz, annotations).get();
+   }
+
+   protected <E> E lookup(final Class<E> clazz)
+   {
+      return _weldContainer.instance().select(clazz).get();
    }
 
    @SuppressWarnings("unchecked")
