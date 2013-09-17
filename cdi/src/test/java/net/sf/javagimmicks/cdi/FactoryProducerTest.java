@@ -16,7 +16,7 @@ import org.junit.runner.RunWith;
 @RunWith(WeldJUnit4TestRunner.class)
 public class FactoryProducerTest
 {
-   private static final String DEFAULT_NICENESS = "Nice!";
+   static final String DEFAULT_NICENESS = "Nice!";
 
    @Inject
    private NiceClass _nice;
@@ -34,7 +34,7 @@ public class FactoryProducerTest
       @Produces
       public NiceClass create()
       {
-         return new NiceClass(DEFAULT_NICENESS);
+         return new NiceClass(FactoryProducerTest.DEFAULT_NICENESS);
       }
    }
 }

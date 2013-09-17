@@ -13,10 +13,19 @@ public class WeldJUnitTestRunnerTest
    @Inject
    private ClassToLookup _injected;
 
+   @Inject
+   private SomeClass _some;
+
    @Test
-   public void test()
+   public void testDirect()
    {
       assertNotNull(_injected);
+   }
+
+   @Test
+   public void testProducer()
+   {
+      assertNotNull(_some);
    }
 
    public static class ClassToLookup

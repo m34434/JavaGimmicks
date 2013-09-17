@@ -11,10 +11,19 @@ public class WeldTestRuleTest
    public WeldTestRule _weld = new WeldTestRule();
 
    @Test
-   public void testTestRuleLookup()
+   public void testDirect()
    {
       // @Inject private ClassToLookup lookup
       final ClassToLookup lookup = _weld.lookup(ClassToLookup.class);
+
+      assertNotNull(lookup);
+   }
+
+   @Test
+   public void testProducer()
+   {
+      // @Inject private ClassToLookup lookup
+      final SomeClass lookup = _weld.lookup(SomeClass.class);
 
       assertNotNull(lookup);
    }

@@ -9,7 +9,6 @@ import org.junit.runners.model.Statement;
 
 public class WeldJUnit4TestRunner extends BlockJUnit4ClassRunner
 {
-   private Weld _weld;
    private WeldContainer _weldContainer;
 
    public WeldJUnit4TestRunner(final Class<?> klass) throws InitializationError
@@ -20,19 +19,27 @@ public class WeldJUnit4TestRunner extends BlockJUnit4ClassRunner
    @Override
    protected Statement methodBlock(final FrameworkMethod method)
    {
-      _weld = new Weld();
-      _weldContainer = _weld.initialize();
+      final Weld weld = new Weld();
 
-      try
-      {
-         return super.methodBlock(method);
-      }
-      finally
-      {
-         _weldContainer = null;
-         _weld.shutdown();
-         _weld = null;
-      }
+      _weldContainer = weld.initialize();
+      final Statement wrapped = super.methodBlock(method);
+      _weldContainer = null;
+
+      return new Statement() {
+
+         @Override
+         public void evaluate() throws Throwable
+         {
+            try
+            {
+               wrapped.evaluate();
+            }
+            finally
+            {
+               weld.shutdown();
+            }
+         }
+      };
    }
 
    @Override
