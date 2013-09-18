@@ -4,11 +4,27 @@ import java.lang.annotation.Annotation;
 
 import javax.enterprise.inject.Instance;
 import javax.enterprise.util.TypeLiteral;
+import javax.inject.Inject;
 
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
 import org.junit.rules.ExternalResource;
+import org.junit.rules.TestRule;
+import org.junit.runner.Runner;
+import org.junit.runners.BlockJUnit4ClassRunner;
 
+/**
+ * A JUnit {@link TestRule} implementation which sets up a local CDI context
+ * (using Weld-SE internally) for each test run. CDI beans can be retrieved via
+ * the additional methods provided by this class.
+ * <p>
+ * <b>Note:</b> if you don't need a special {@link Runner} for your test (other
+ * than {@link BlockJUnit4ClassRunner}), you can use
+ * {@link WeldJUnit4TestRunner} instead of this class which enables CDI
+ * injection directly into the test class using @{@link Inject}.
+ * 
+ * @see WeldJUnit4TestRunner
+ */
 public class WeldTestRule extends ExternalResource
 {
    private Weld _weld;
@@ -27,6 +43,11 @@ public class WeldTestRule extends ExternalResource
       _weldContainer = null;
       _weld.shutdown();
       _weld = null;
+   }
+
+   public Instance<Object> getCDIInstances()
+   {
+      return _weldContainer.instance();
    }
 
    public <E> E lookup(final Class<E> clazz, final Annotation... annotations)
