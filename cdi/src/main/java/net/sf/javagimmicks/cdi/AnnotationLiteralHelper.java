@@ -102,9 +102,21 @@ public class AnnotationLiteralHelper
        * @param value
        *           the value for the member
        * @return the {@link Builder} itself
+       * @throws IllegalArgumentException
+       *            if the given member name does not match a member of the
+       *            underlying {@link Annotation}
        */
       public Builder<A> member(final String memberName, final Object value)
       {
+         try
+         {
+            _class.getMethod(memberName);
+         }
+         catch (final NoSuchMethodException ex)
+         {
+            throw new IllegalArgumentException("'" + memberName + "' is not a member of " + _class);
+         }
+
          _memberValues.put(memberName, value);
 
          return this;

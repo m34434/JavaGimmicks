@@ -15,7 +15,17 @@ import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.UnsatisfiedResolutionException;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
+import javax.inject.Named;
+import javax.inject.Qualifier;
 
+/**
+ * Specifies a CDI bean injection and allows respective bean lookup from a given
+ * {@link BeanManager} - allows easy building via {@link #build()} and
+ * {@link #build(BeanManager)}.
+ * 
+ * @param <E>
+ *           the type of beans to lookup
+ */
 public class InjectionSpec<E>
 {
    private final Type _type;
@@ -23,16 +33,41 @@ public class InjectionSpec<E>
 
    private final String _name;
 
+   /**
+    * Creates a new {@link Builder} for building {@link InjectionSpec}s using
+    * the given {@link BeanManager}.
+    * 
+    * @param beanManager
+    *           the {@link BeanManager} to use for bean lookup
+    * @return a respective {@link Builder} to specify the injection
+    *         configuration
+    * @see Builder
+    */
    public static <E> Builder<E> build(final BeanManager beanManager)
    {
       return new Builder<E>(beanManager);
    }
 
+   /**
+    * Convenience method for {@link #build(BeanManager)} that will use the
+    * {@link BeanManager} from {@link CDIContext#getBeanManager()}.
+    * 
+    * @return a respective {@link Builder} to specify the injection
+    *         configuration
+    * @see Builder
+    * @see CDIContext#getBeanManager()
+    */
    public static <E> Builder<E> build()
    {
       return build(null);
    }
 
+   /**
+    * Creates a new instance looking up a {@link Named} bean
+    * 
+    * @param name
+    *           the name of the {@link Named} bean to lookup
+    */
    public InjectionSpec(final String name)
    {
       if (name == null || name.length() == 0)
@@ -45,6 +80,15 @@ public class InjectionSpec<E>
       _annotations = null;
    }
 
+   /**
+    * Creates a new instance looking up bean by {@link Type} and the given
+    * {@link Qualifier} {@link Annotation}s.
+    * 
+    * @param type
+    *           the {@link Type} of the beans to lookup
+    * @param annotations
+    *           the {@link Qualifier} {@link Annotation}s the bean must have
+    */
    public InjectionSpec(final Type type, final Collection<Annotation> annotations)
    {
       if (type == null)
@@ -58,47 +102,148 @@ public class InjectionSpec<E>
       _name = null;
    }
 
+   /**
+    * Creates a new instance looking up bean by {@link Type} and the given
+    * {@link Qualifier} {@link Annotation}s.
+    * 
+    * @param type
+    *           the {@link Type} of the beans to lookup
+    * @param annotations
+    *           the {@link Qualifier} {@link Annotation}s the bean must have
+    */
    public InjectionSpec(final Type type, final Annotation... annotations)
    {
       this(type, Arrays.asList(annotations));
    }
 
+   /**
+    * Creates a new instance looking up bean by an (optionally parameterized)
+    * {@link Class}, the given parameter {@link Type}s and the given
+    * {@link Qualifier} {@link Annotation}s.
+    * 
+    * @param clazz
+    *           the {@link Class} of the beans to lookup
+    * @param typeParameters
+    *           the {@link List} of {@link Type} in case of a parameterized
+    *           {@link Class}
+    * @param annotations
+    *           the {@link Qualifier} {@link Annotation}s the bean must have
+    */
    public InjectionSpec(final Class<? extends E> clazz, final List<Type> typeParameters,
          final Collection<Annotation> annotations)
    {
       this(buildType(clazz, typeParameters), annotations);
    }
 
-   public InjectionSpec(final Class<E> clazz, final Annotation... annotations)
+   /**
+    * Creates a new instance looking up bean by {@link Class} and the given
+    * {@link Qualifier} {@link Annotation}s.
+    * 
+    * @param clazz
+    *           the {@link Class} of the beans to lookup
+    * @param annotations
+    *           the {@link Qualifier} {@link Annotation}s the bean must have
+    */
+   public InjectionSpec(final Class<E> clazz, final Collection<Annotation> annotations)
    {
-      this(clazz, null, Arrays.asList(annotations));
+      this(clazz, null, annotations);
    }
 
+   /**
+    * Creates a new instance looking up bean by {@link Class} and the given
+    * {@link Qualifier} {@link Annotation}s.
+    * 
+    * @param clazz
+    *           the {@link Class} of the beans to lookup
+    * @param annotations
+    *           the {@link Qualifier} {@link Annotation}s the bean must have
+    */
+   public InjectionSpec(final Class<E> clazz, final Annotation... annotations)
+   {
+      this(clazz, Arrays.asList(annotations));
+   }
+
+   /**
+    * Checks if the current instance specifies a CDI injection on {@link Type}
+    * basis.
+    * <p>
+    * As an alternative, beans can be looked up by name if they are
+    * {@link Named} annotated
+    * 
+    * @return if the current instance specifies a CDI injection on {@link Type}
+    *         basis
+    * @see #isNameBased()
+    */
    public boolean isTypeBased()
    {
       return _type != null;
    }
 
+   /**
+    * Checks if the current instance specifies a CDI injection on name basis
+    * (i.e. looking up a {@link Named} annotated bean).
+    * <p>
+    * As an alternative, beans can be looked up on {@link Type} and
+    * {@link Qualifier} basis.
+    * 
+    * @return if the current instance specifies a CDI injection on name basis
+    * @see #isTypeBased()
+    */
    public boolean isNameBased()
    {
       return _name != null;
    }
 
+   /**
+    * Returns the {@link Type} of beans to lookup or {@code null} if the lookup
+    * is name based.
+    * 
+    * @return the {@link Type} of beans to lookup
+    * @see #isTypeBased()
+    * @see #isNameBased()
+    */
    public Type getType()
    {
       return _type;
    }
 
+   /**
+    * Returns the {@link Set} of {@link Qualifier} {@link Annotation}s used for
+    * lookup. This will be empty if the lookup is name based.
+    * 
+    * @return the {@link Set} of {@link Qualifier} {@link Annotation}s used for
+    *         lookup
+    * @see #isTypeBased()
+    * @see #isNameBased()
+    */
    public Set<Annotation> getAnnotations()
    {
       return Collections.unmodifiableSet(_annotations);
    }
 
+   /**
+    * Return the name to use for lookup or {@code null} if the lookup is
+    * {@link Type} based.
+    * 
+    * @return the name to use for lookup
+    * @see #isTypeBased()
+    * @see #isNameBased()
+    */
    public String getName()
    {
       return _name;
    }
 
+   /**
+    * Looks up a bean instance in the given {@link BeanManager} according to the
+    * internal injection configuration information.
+    * 
+    * @param beanManager
+    *           the {@link BeanManager} to use for lookup
+    * @return the resulting looked up bean
+    * @throws UnsatisfiedResolutionException
+    *            if no (unique) bean could be looked up
+    */
    @SuppressWarnings("unchecked")
    public E getInstance(final BeanManager beanManager)
    {
@@ -171,6 +316,13 @@ public class InjectionSpec<E>
       }
    }
 
+   /**
+    * A builder class for creating {@link InjectionSpec} instances using a
+    * fluent API.
+    * 
+    * @param <E>
+    *           the type of beans to lookup
+    */
    public static class Builder<E>
    {
       private final BeanManager _beanManager;
@@ -187,65 +339,19 @@ public class InjectionSpec<E>
          _beanManager = beanManager;
       }
 
-      public Builder<E> setClass(final Class<? extends E> clazz)
-      {
-         checkHasName();
-         checkHasType();
-
-         _class = clazz;
-
-         return this;
-      }
-
-      public Builder<E> addTypeParameters(final Collection<Type> typeParameters)
-      {
-         checkHasName();
-         checkHasType();
-
-         _typeParameters.addAll(typeParameters);
-
-         return this;
-      }
-
-      public Builder<E> addTypeParameters(final Type... typeParameters)
-      {
-         checkHasName();
-         checkHasType();
-
-         return addTypeParameters(Arrays.asList(typeParameters));
-      }
-
-      public Builder<E> addAnnotations(final Collection<Annotation> annotations)
-      {
-         checkHasName();
-
-         _annotations.addAll(annotations);
-
-         return this;
-      }
-
-      public Builder<E> addAnnotations(final Annotation... annotation)
-      {
-         return addAnnotations(Arrays.asList(annotation));
-      }
-
-      public <A extends Annotation> AnnotationBuilder<A> annotation(final Class<A> annotationType)
-      {
-         checkHasName();
-
-         return new AnnotationBuilder<A>(AnnotationLiteralHelper.annotationWithMembers(annotationType));
-      }
-
-      public Builder<E> setName(final String name)
-      {
-         checkHasClassOrTypeParameters();
-         checkHasType();
-
-         _name = name;
-
-         return this;
-      }
-
+      /**
+       * Registers a {@link Type} literal to be used for lookup.
+       * 
+       * @param type
+       *           the {@link Type} to use for lookup
+       * @return the {@link Builder} itself
+       * @throws IllegalStateException
+       *            if a {@link Class} was already registered via
+       *            {@link #setClass(Class)} or {@link Type} parameter was
+       *            already registered (e.g. via
+       *            {@link #addTypeParameters(Collection)}) or a name was
+       *            already registered via {@link #setName(String)}
+       */
       public Builder<E> setType(final Type type)
       {
          checkHasName();
@@ -256,6 +362,170 @@ public class InjectionSpec<E>
          return this;
       }
 
+      /**
+       * Registers a {@link Class} literal to be used for lookup.
+       * 
+       * @param clazz
+       *           the {@link Class} to use for lookup
+       * @return the {@link Builder} itself
+       * @throws IllegalStateException
+       *            if a {@link Type} was already registered via
+       *            {@link #setType(Type)} or a name was already registered via
+       *            {@link #setName(String)}
+       */
+      public Builder<E> setClass(final Class<? extends E> clazz)
+      {
+         checkHasName();
+         checkHasType();
+
+         _class = clazz;
+
+         return this;
+      }
+
+      /**
+       * Adds the given {@link Type} parameters to use for lookup - only makes
+       * sense in combination with a parameterized {@link Class} registered via
+       * {@link #setClass(Class)}.
+       * 
+       * @param typeParameters
+       *           the {@link Type} parameters to use for the registered
+       *           {@link Class}
+       * @return the {@link Builder} itself
+       * @throws IllegalStateException
+       *            if a {@link Type} was already registered via
+       *            {@link #setType(Type)} or a name was already registered via
+       *            {@link #setName(String)}
+       */
+      public Builder<E> addTypeParameters(final Collection<Type> typeParameters)
+      {
+         checkHasName();
+         checkHasType();
+
+         _typeParameters.addAll(typeParameters);
+
+         return this;
+      }
+
+      /**
+       * Adds the given {@link Type} parameters to use for lookup - only makes
+       * sense in combination with a parameterized {@link Class} registered via
+       * {@link #setClass(Class)}.
+       * 
+       * @param typeParameters
+       *           the {@link Type} parameters to use for the registered
+       *           {@link Class}
+       * @return the {@link Builder} itself
+       * @throws IllegalStateException
+       *            if a {@link Type} was already registered via
+       *            {@link #setType(Type)} or a name was already registered via
+       *            {@link #setName(String)}
+       */
+      public Builder<E> addTypeParameters(final Type... typeParameters)
+      {
+         checkHasName();
+         checkHasType();
+
+         return addTypeParameters(Arrays.asList(typeParameters));
+      }
+
+      /**
+       * Adds the given {@link Qualifier} {@link Annotation}s to use for lookup
+       * - only makes sense in combination with a provided {@link Type} (see
+       * {@link #setType(Type)}) or {@link Class} (see {@link #setClass(Class)}
+       * ).
+       * 
+       * @param annotations
+       *           the {@link Qualifier} {@link Annotation}s to add
+       * @return the {@link Builder} itself
+       * @throws IllegalStateException
+       *            if a name was already registered via
+       *            {@link #setName(String)}
+       */
+      public Builder<E> addAnnotations(final Collection<Annotation> annotations)
+      {
+         checkHasName();
+
+         _annotations.addAll(annotations);
+
+         return this;
+      }
+
+      /**
+       * Adds the given {@link Qualifier} {@link Annotation}s to use for lookup
+       * - only makes sense in combination with a provided {@link Type} (see
+       * {@link #setType(Type)}) or {@link Class} (see {@link #setClass(Class)}
+       * ).
+       * 
+       * @param annotations
+       *           the {@link Qualifier} {@link Annotation}s to add
+       * @return the {@link Builder} itself
+       * @throws IllegalStateException
+       *            if a name was already registered via
+       *            {@link #setName(String)}
+       */
+      public Builder<E> addAnnotations(final Annotation... annotation)
+      {
+         return addAnnotations(Arrays.asList(annotation));
+      }
+
+      /**
+       * Allows registration of {@link Qualifier} {@link Annotation}s to use for
+       * lookup via fluent API (i.e. an instance of {@link AnnotationBuilder}) -
+       * only makes sense in combination with a provided {@link Type} (see
+       * {@link #setType(Type)}) or {@link Class} (see {@link #setClass(Class)}
+       * ).
+       * 
+       * @param annotationType
+       *           the type of {@link Qualifier} {@link Annotation} to add for
+       *           lookup usage
+       * @return an {@link AnnotationBuilder} allowing to specify
+       *         {@link Annotation} details via fluent API
+       * @throws IllegalStateException
+       *            if a name was already registered via
+       *            {@link #setName(String)}
+       * @see AnnotationBuilder
+       */
+      public <A extends Annotation> AnnotationBuilder<A> annotation(final Class<A> annotationType)
+      {
+         checkHasName();
+
+         return new AnnotationBuilder<A>(AnnotationLiteralHelper.annotationWithMembers(annotationType));
+      }
+
+      /**
+       * Registers a name used for lookup of a {@link Named} bean.
+       * 
+       * @param name
+       *           the name to use for lookup
+       * @return the {@link Builder} itself
+       * @throws IllegalStateException
+       *            if a {@link Class} was already registered via
+       *            {@link #setClass(Class)} or {@link Type} parameter was
+       *            already registered (e.g. via
+       *            {@link #addTypeParameters(Collection)}) or {@link Type} was
+       *            already registered via {@link #setType(Type)}
+       */
+      public Builder<E> setName(final String name)
+      {
+         checkHasClassOrTypeParameters();
+         checkHasType();
+
+         _name = name;
+
+         return this;
+      }
+
+      /**
+       * Finishes the building process and generates a respective
+       * {@link InjectionSpec} object
+       * 
+       * @return an {@link InjectionSpec} the conforms to the specifications
+       *         done on this builder
+       * @throws IllegalStateException
+       *            if no or insufficient specifications information were
+       *            provided so far on this builder
+       */
       public InjectionSpec<E> getInjection()
       {
          if (_name != null)
@@ -276,6 +546,14 @@ public class InjectionSpec<E>
          }
       }
 
+      /**
+       * Finishes the building process and looks up a respective bean instance
+       * with in the internal {@link BeanManager}
+       * 
+       * @throws IllegalStateException
+       *            if no or insufficient specifications information were
+       *            provided so far on this builder
+       */
       public E getInstance()
       {
          final BeanManager beanManager = _beanManager == null ? CDIContext.getBeanManager() : _beanManager;
@@ -307,6 +585,13 @@ public class InjectionSpec<E>
          }
       }
 
+      /**
+       * A builder to specify additional information for {@link Qualifier}
+       * {@link Annotation} to use for bean lookup via fluent API.
+       * 
+       * @param <A>
+       *           the type of {@link Annotation} to specify
+       */
       public class AnnotationBuilder<A extends Annotation>
       {
          private final AnnotationLiteralHelper.Builder<A> _delegate;
@@ -316,6 +601,18 @@ public class InjectionSpec<E>
             this._delegate = delegate;
          }
 
+         /**
+          * Specifies the value for a member of the given {@link Annotation}
+          * 
+          * @param memberName
+          *           the member name
+          * @param value
+          *           the value for the given member
+          * @return the {@link AnnotationBuilder} itself
+          * @throws IllegalArgumentException
+          *            if the given member name does not match a member of the
+          *            underlying {@link Annotation}
+          */
          public AnnotationBuilder<A> member(final String memberName, final Object value)
          {
             _delegate.member(memberName, value);
@@ -323,6 +620,12 @@ public class InjectionSpec<E>
             return this;
          }
 
+         /**
+          * Finishes the building process
+          * 
+          * @return the {@link Builder} that originally created this
+          *         {@link AnnotationBuilder}
+          */
          public Builder<E> add()
          {
             addAnnotations(_delegate.get());
