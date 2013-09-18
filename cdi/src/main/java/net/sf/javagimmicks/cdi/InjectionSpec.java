@@ -464,9 +464,9 @@ public class InjectionSpec<E>
        *            if a name was already registered via
        *            {@link #setName(String)}
        */
-      public Builder<E> addAnnotations(final Annotation... annotation)
+      public Builder<E> addAnnotations(final Annotation... annotations)
       {
-         return addAnnotations(Arrays.asList(annotation));
+         return addAnnotations(Arrays.asList(annotations));
       }
 
       /**
