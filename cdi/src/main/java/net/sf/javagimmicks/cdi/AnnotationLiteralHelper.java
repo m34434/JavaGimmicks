@@ -15,7 +15,8 @@ import javax.enterprise.util.AnnotationLiteral;
 
 /**
  * Provides factory methods to create literal instances of {@link Annotation}
- * types.
+ * types - this is required for selecting CDI beans via non-annotation based
+ * APIs.
  * <p>
  * Generated instances are thread-safe and can be reused.
  * <p>

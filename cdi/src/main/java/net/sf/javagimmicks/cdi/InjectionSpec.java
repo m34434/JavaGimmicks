@@ -18,8 +18,7 @@ import javax.enterprise.inject.spi.BeanManager;
 
 public class InjectionSpec<E>
 {
-   private final Class<? extends E> _class;
-   private final List<Type> _typeParameters;
+   private final Type _type;
    private final Set<Annotation> _annotations;
 
    private final String _name;
@@ -34,27 +33,6 @@ public class InjectionSpec<E>
       return build(null);
    }
 
-   public InjectionSpec(final Class<? extends E> clazz, final List<Type> typeParameters,
-         final Collection<Annotation> annotations)
-   {
-      if (clazz == null)
-      {
-         throw new IllegalArgumentException("Class must be specified!");
-      }
-
-      _class = clazz;
-      _typeParameters = typeParameters != null ? new ArrayList<Type>(typeParameters) : Collections
-            .<Type> emptyList();
-      _annotations = annotations != null ? new HashSet<Annotation>(annotations) : Collections.<Annotation> emptySet();
-
-      _name = null;
-   }
-
-   public InjectionSpec(final Class<E> clazz, final Annotation... annotations)
-   {
-      this(clazz, null, Arrays.asList(annotations));
-   }
-
    public InjectionSpec(final String name)
    {
       if (name == null || name.length() == 0)
@@ -63,14 +41,42 @@ public class InjectionSpec<E>
       }
 
       _name = name;
-      _class = null;
-      _typeParameters = null;
+      _type = null;
       _annotations = null;
+   }
+
+   public InjectionSpec(final Type type, final Collection<Annotation> annotations)
+   {
+      if (type == null)
+      {
+         throw new IllegalArgumentException("Type must be specified!");
+      }
+
+      _type = type;
+      _annotations = annotations != null ? new HashSet<Annotation>(annotations) : Collections.<Annotation> emptySet();
+
+      _name = null;
+   }
+
+   public InjectionSpec(final Type type, final Annotation... annotations)
+   {
+      this(type, Arrays.asList(annotations));
+   }
+
+   public InjectionSpec(final Class<? extends E> clazz, final List<Type> typeParameters,
+         final Collection<Annotation> annotations)
+   {
+      this(buildType(clazz, typeParameters), annotations);
+   }
+
+   public InjectionSpec(final Class<E> clazz, final Annotation... annotations)
+   {
+      this(clazz, null, Arrays.asList(annotations));
    }
 
    public boolean isTypeBased()
    {
-      return _class != null;
+      return _type != null;
    }
 
    public boolean isNameBased()
@@ -78,14 +84,9 @@ public class InjectionSpec<E>
       return _name != null;
    }
 
-   public Class<? extends E> getType()
+   public Type getType()
    {
-      return _class;
-   }
-
-   public List<Type> getTypeParameters()
-   {
-      return Collections.unmodifiableList(_typeParameters);
+      return _type;
    }
 
    public Set<Annotation> getAnnotations()
@@ -104,19 +105,17 @@ public class InjectionSpec<E>
       // Type-based case
       if (isTypeBased())
       {
-         final Type type = buildType();
-
          final Bean<?> bean = beanManager
-               .resolve(beanManager.getBeans(type, _annotations.toArray(new Annotation[0])));
+               .resolve(beanManager.getBeans(_type, _annotations.toArray(new Annotation[0])));
 
          if (bean == null)
          {
-            throw new UnsatisfiedResolutionException("Unable to resolve a bean for " + _class + " with bindings "
+            throw new UnsatisfiedResolutionException("Unable to resolve a bean for " + _type + " with bindings "
                   + _annotations);
          }
 
          final CreationalContext<?> cc = beanManager.createCreationalContext(bean);
-         return _class.cast(beanManager.getReference(bean, type, cc));
+         return (E) beanManager.getReference(bean, _type, cc);
       }
 
       // Name-based case
@@ -136,16 +135,21 @@ public class InjectionSpec<E>
       }
    }
 
-   private Type buildType()
+   private static Type buildType(final Class<?> clazz, final Collection<Type> typeParameters)
    {
-      if (!_typeParameters.isEmpty())
+      if (clazz == null)
+      {
+         throw new IllegalArgumentException("Class must be specified!");
+      }
+
+      if (typeParameters != null && !typeParameters.isEmpty())
       {
          return new ParameterizedType() {
 
             @Override
             public Type getRawType()
             {
-               return _class;
+               return clazz;
             }
 
             @Override
@@ -157,13 +161,13 @@ public class InjectionSpec<E>
             @Override
             public Type[] getActualTypeArguments()
             {
-               return _typeParameters.toArray(new Type[0]);
+               return typeParameters.toArray(new Type[0]);
             }
          };
       }
       else
       {
-         return _class;
+         return clazz;
       }
    }
 
@@ -171,6 +175,7 @@ public class InjectionSpec<E>
    {
       private final BeanManager _beanManager;
 
+      private Type _type;
       private Class<? extends E> _class;
       private final List<Type> _typeParameters = new ArrayList<Type>();
       private final Set<Annotation> _annotations = new HashSet<Annotation>();
@@ -185,6 +190,7 @@ public class InjectionSpec<E>
       public Builder<E> setClass(final Class<? extends E> clazz)
       {
          checkHasName();
+         checkHasType();
 
          _class = clazz;
 
@@ -194,6 +200,7 @@ public class InjectionSpec<E>
       public Builder<E> addTypeParameters(final Collection<Type> typeParameters)
       {
          checkHasName();
+         checkHasType();
 
          _typeParameters.addAll(typeParameters);
 
@@ -202,6 +209,9 @@ public class InjectionSpec<E>
 
       public Builder<E> addTypeParameters(final Type... typeParameters)
       {
+         checkHasName();
+         checkHasType();
+
          return addTypeParameters(Arrays.asList(typeParameters));
       }
 
@@ -221,14 +231,27 @@ public class InjectionSpec<E>
 
       public <A extends Annotation> AnnotationBuilder<A> annotation(final Class<A> annotationType)
       {
+         checkHasName();
+
          return new AnnotationBuilder<A>(AnnotationLiteralHelper.annotationWithMembers(annotationType));
       }
 
       public Builder<E> setName(final String name)
       {
+         checkHasClassOrTypeParameters();
          checkHasType();
 
          _name = name;
+
+         return this;
+      }
+
+      public Builder<E> setType(final Type type)
+      {
+         checkHasName();
+         checkHasClassOrTypeParameters();
+
+         _type = type;
 
          return this;
       }
@@ -242,6 +265,10 @@ public class InjectionSpec<E>
          else if (_class != null)
          {
             return new InjectionSpec<E>(_class, _typeParameters, _annotations);
+         }
+         else if (_type != null)
+         {
+            return new InjectionSpec<E>(_type, _annotations);
          }
          else
          {
@@ -263,9 +290,18 @@ public class InjectionSpec<E>
          }
       }
 
+      private void checkHasClassOrTypeParameters()
+      {
+         if (_class != null || !_typeParameters.isEmpty())
+         {
+            throw new IllegalStateException(
+                  "There is already a class set or type parameters specified on this builder!");
+         }
+      }
+
       private void checkHasType()
       {
-         if (_class != null)
+         if (_type != null)
          {
             throw new IllegalStateException("There is already a type set on this builder!");
          }
