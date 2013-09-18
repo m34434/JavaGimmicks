@@ -14,7 +14,7 @@ import java.util.Map;
 import javax.enterprise.util.AnnotationLiteral;
 
 /**
- * Provided factory methods to create literal instances of {@link Annotation}
+ * Provides factory methods to create literal instances of {@link Annotation}
  * types.
  * <p>
  * Generated instances are thread-safe and can be reused.

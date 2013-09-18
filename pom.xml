@@ -156,8 +156,12 @@
 						<excludePackageNames>net.sf.javagimmicks.collections.bidimap</excludePackageNames>
 						<groups>
 							<group>
-								<title>Basic utilities</title>
-								<packages>net.sf.javagimmicks.beans*:net.sf.javagimmicks.lang*:net.sf.javagimmicks.util*</packages>
+								<title>Core utilities</title>
+								<packages>net.sf.javagimmicks.beans*:net.sf.javagimmicks.lang*:net.sf.javagimmicks.util*:net.sf.javagimmicks.xml.util*</packages>
+							</group>
+							<group>
+								<title>CDI utilities (Java API for context and dependency injection)</title>
+								<packages>net.sf.javagimmicks.cdi*</packages>
 							</group>
 							<group>
 								<title>Utilities for multi-threaded programming</title>

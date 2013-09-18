@@ -18,7 +18,11 @@
 		<dependency>
 			<groupId>net.sf.javagimmicks</groupId>
 			<artifactId>GimmickUtils-cdi</artifactId>
-			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.javagimmicks</groupId>
+			<artifactId>GimmickUtils-cdi-testing</artifactId>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.sf.javagimmicks</groupId>
@@ -48,10 +52,10 @@
 			<groupId>net.sf.javagimmicks</groupId>
 			<artifactId>GimmickUtils-swing</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>net.sf.javagimmicks</groupId>
 			<artifactId>GimmickUtils-testing</artifactId>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 
