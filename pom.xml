@@ -19,7 +19,7 @@
 	<url>http://jgutils.sourceforge.net/</url>
 
 	<properties>
-		
+
 		<maven.compiler.source>1.6</maven.compiler.source>
 		<maven.compiler.target>1.6</maven.compiler.target>
 	</properties>
@@ -141,6 +141,7 @@
 							<phase>verify</phase>
 							<goals>
 								<goal>jar-no-fork</goal>
+								<goal>test-jar-no-fork</goal>
 							</goals>
 						</execution>
 					</executions>
@@ -150,7 +151,6 @@
 					<artifactId>maven-javadoc-plugin</artifactId>
 					<version>2.9.1</version>
 					<configuration>
-						<javadocExecutable>/Library/Java/JavaVirtualMachines/jdk1.7.0_25.jdk/Contents/Home/bin/javadoc</javadocExecutable>
 						<quiet>true</quiet>
 						<show>public</show>
 						<excludePackageNames>net.sf.javagimmicks.collections.bidimap</excludePackageNames>
@@ -263,6 +263,29 @@
 						</executions>
 					</plugin>
 				</plugins>
+			</build>
+		</profile>
+		
+		<!-- Set the JavaDoc executable to jdk 1.7 on Max OS X -->
+		<profile>
+			<id>set-javadoc-executable</id>
+			<activation>
+				<os>
+					<name>Mac OS X</name>
+				</os>
+			</activation>
+			<build>
+				<pluginManagement>
+					<plugins>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-javadoc-plugin</artifactId>
+							<configuration>
+								<javadocExecutable>/Library/Java/JavaVirtualMachines/jdk1.7.0_25.jdk/Contents/Home/bin/javadoc</javadocExecutable>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
 			</build>
 		</profile>
 	</profiles>

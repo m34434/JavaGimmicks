@@ -22,10 +22,10 @@ public class WeldTestRuleTest
    @Test
    public void testProducer()
    {
-      // @Inject private SomeClass lookup
-      final SomeClass lookup = _weld.lookup(SomeClass.class);
+      // @Inject private SomeClass some
+      final SomeClass some = _weld.lookup(SomeClass.class);
 
-      assertNotNull(lookup);
+      assertNotNull(some);
    }
 
    public static class ClassToLookup
