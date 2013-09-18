@@ -11,7 +11,7 @@ import org.junit.runner.RunWith;
 public class InjectionFactoryTest
 {
    @Test
-   public void test()
+   public void testCreate()
    {
       // The factory is instantiated via normal constructor but the instances it
       // creates are created from CDI

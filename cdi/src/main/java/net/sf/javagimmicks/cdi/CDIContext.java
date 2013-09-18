@@ -8,13 +8,59 @@ import javax.enterprise.inject.spi.BeforeBeanDiscovery;
 import javax.enterprise.inject.spi.BeforeShutdown;
 import javax.enterprise.inject.spi.CDI;
 import javax.enterprise.inject.spi.Extension;
+import javax.inject.Named;
+import javax.inject.Qualifier;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+/**
+ * This is the central access point to the CDI {@link BeanManager} from non-CDI
+ * classes - also provides some simple bean lookup methods - use
+ * {@link InjectionSpec} for advanced lookups.
+ */
 public class CDIContext
 {
+   /**
+    * The JNDI name that a {@link BeanManager} should have in a full-stack EE
+    * application server
+    */
+   public static final String JNDI_FULL_EE = "java:comp/BeanManager";
+
+   /**
+    * The JNDI name that a {@link BeanManager} could have in some servlet
+    * containers (e.g. Tomcat)
+    */
+   public static final String JNDI_SERVLET = "java:comp/env/BeanManager";
+
    private static BeanManager _currentBeanManager;
 
+   private CDIContext()
+   {}
+
+   /**
+    * This method represents the core functionality of this class - it follows
+    * different strategies to get access to the CDI {@link BeanManager} instance
+    * and return it.
+    * <p>
+    * These are the following:
+    * <ol>
+    * <li>Register a CDI {@link Extension} which intercepts CDI container
+    * startup and shutdown events and stores the so provided {@link BeanManager}
+    * internally for later use - this is sufficient in most cases and makes the
+    * other strategies nearly unnecessary</li>
+    * <li>Try to get the {@link BeanManager} via the CDI API itself (call
+    * {@link CDI#current()} and then {@link CDI#getBeanManager()})</li>
+    * <li>Try to lookup the {@link BeanManager} in JNDI with name
+    * {@link #JNDI_FULL_EE}</li>
+    * <li>Try to lookup the {@link BeanManager} in JNDI with name
+    * {@link #JNDI_SERVLET}</li>
+    * <ol>
+    * 
+    * @return the current CDI {@link BeanManager} instance
+    * @throws IllegalStateException
+    *            if no {@link BeanManager} could be found with any of the name
+    *            strategies
+    */
    public static BeanManager getBeanManager()
    {
       if (_currentBeanManager != null)
@@ -38,12 +84,11 @@ public class CDIContext
       }
       catch (final IllegalStateException ex)
       {
-
       }
 
       try
       {
-         return (BeanManager) InitialContext.doLookup("java:comp/BeanManager");
+         return (BeanManager) InitialContext.doLookup(JNDI_FULL_EE);
       }
       catch (final NamingException e)
       {
@@ -51,7 +96,7 @@ public class CDIContext
 
       try
       {
-         return (BeanManager) InitialContext.doLookup("java:comp/env/BeanManager");
+         return (BeanManager) InitialContext.doLookup(JNDI_SERVLET);
       }
       catch (final NamingException e)
       {
@@ -60,16 +105,40 @@ public class CDIContext
       throw new IllegalStateException("No BeanManager found!");
    }
 
+   /**
+    * Looks up a bean of the given type and with the given {@link Qualifier}s
+    * within the CDI context.
+    * 
+    * @param beanType
+    *           the type of the bean to lookup
+    * @param bindings
+    *           the {@link Qualifier} annotations of the bean
+    * @return the resulting CDI bean
+    */
    public static <E> E lookup(final Class<E> beanType, final Annotation... bindings)
    {
       return InjectionSpec.<E> build(getBeanManager()).setClass(beanType).addAnnotations(bindings).getInstance();
    }
 
+   /**
+    * Looks up a bean of the given type within the CDI context.
+    * 
+    * @param beanType
+    *           the type of the bean to lookup
+    * @return the resulting CDI bean
+    */
    public static <E> E lookup(final Class<E> beanType)
    {
       return lookup(beanType, new Annotation[0]);
    }
 
+   /**
+    * Looks up a {@link Named} bean within the CDI context.
+    * 
+    * @param name
+    *           the name of the {@link Named} bean
+    * @return the resulting CDI bean
+    */
    public static <E> E lookup(final String name)
    {
       return InjectionSpec.<E> build(getBeanManager()).setName(name).getInstance();
@@ -83,16 +152,24 @@ public class CDIContext
       }
    }
 
+   /**
+    * Not for developer's use - will be internally called by the CDI container.
+    */
    public static class CDIContextExtension implements Extension
    {
-      // Called upon CDI context startup - additionally injects the BeanManager
-      // which is remembered here
+      /**
+       * Called upon CDI context startup - additionally injects the
+       * {@link BeanManager}
+       */
       public void startup(@Observes final BeforeBeanDiscovery event, final BeanManager beanManager)
       {
          setCurrentBeanManager(beanManager);
       }
 
-      // Called upon CDI context shutdown - clear the internal BeanManager
+      /**
+       * Called upon CDI context shutdown - clears the internal
+       * {@link BeanManager}
+       */
       public void shutdown(@Observes final BeforeShutdown event)
       {
          setCurrentBeanManager(null);

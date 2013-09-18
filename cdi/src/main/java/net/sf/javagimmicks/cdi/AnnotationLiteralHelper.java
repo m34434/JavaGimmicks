@@ -30,6 +30,9 @@ import javax.enterprise.util.AnnotationLiteral;
  */
 public class AnnotationLiteralHelper
 {
+   private AnnotationLiteralHelper()
+   {}
+
    /**
     * Creates a new {@link Annotation} literal for the given type with the
     * member values specified as {@link Map}&lt;String, Object&gt;

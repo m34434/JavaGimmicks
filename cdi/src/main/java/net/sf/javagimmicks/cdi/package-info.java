@@ -7,7 +7,7 @@
  * <b>Examples:</b>
  * <ul>
  * <li>Access the CDI context ({@link javax.enterprise.inject.spi.BeanManager}, lookups, etc.) via
- * 'plain old' Java (without using @{@link javax.inject.Inject})</li>
+ * 'plain old' Java (without using {@literal @}{@link javax.inject.Inject})</li>
  * <li>Build CDI injections via fluent API</li>
  * <li>Bridge CDI with {@link net.sf.javagimmicks.lang.Factory} API from <i>GimmickUtils-core</i></li>
  * </ul>
