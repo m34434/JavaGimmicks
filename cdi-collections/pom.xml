@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>GimmickUtils-cdi-collections</artifactId>
+
+	<parent>
+		<groupId>net.sf.javagimmicks</groupId>
+		<artifactId>GimmickUtils-parent</artifactId>
+		<version>0.81-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<name>JavaGimmicks - GimmickUtils - CDI-Collections</name>
+	<description>CDI extensions to JavaGimmicks - GimmickUtils - Collections API</description>
+	<url>http://jgutils.sourceforge.net</url>
+
+	<dependencies>
+		<dependency>
+			<groupId>net.sf.javagimmicks</groupId>
+			<artifactId>GimmickUtils-cdi</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.javagimmicks</groupId>
+			<artifactId>GimmickUtils-collections</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.enterprise</groupId>
+			<artifactId>cdi-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.javagimmicks</groupId>
+			<artifactId>GimmickUtils-cdi-testing</artifactId>
+		</dependency>
+	</dependencies>
+</project>

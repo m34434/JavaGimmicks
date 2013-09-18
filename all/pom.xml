@@ -19,6 +19,10 @@
 			<groupId>net.sf.javagimmicks</groupId>
 			<artifactId>GimmickUtils-cdi</artifactId>
 		</dependency>
+			<dependency>
+				<groupId>net.sf.javagimmicks</groupId>
+				<artifactId>GimmickUtils-cdi-collections</artifactId>
+			</dependency>
 		<dependency>
 			<groupId>net.sf.javagimmicks</groupId>
 			<artifactId>GimmickUtils-cdi-testing</artifactId>

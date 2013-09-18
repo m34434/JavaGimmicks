@@ -27,6 +27,7 @@
 	<modules>
 		<module>all</module>
 		<module>cdi</module>
+		<module>cdi-collections</module>
 		<module>cdi-testing</module>
 		<module>collections</module>
 		<module>concurrent</module>
@@ -43,6 +44,11 @@
 			<dependency>
 				<groupId>net.sf.javagimmicks</groupId>
 				<artifactId>GimmickUtils-cdi</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.sf.javagimmicks</groupId>
+				<artifactId>GimmickUtils-cdi-collections</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
