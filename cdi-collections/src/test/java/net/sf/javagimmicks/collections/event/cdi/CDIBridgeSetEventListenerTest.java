@@ -5,20 +5,23 @@ import java.util.HashSet;
 import javax.enterprise.event.Observes;
 
 import net.sf.javagimmicks.cdi.testing.WeldJUnit4TestRunner;
+import net.sf.javagimmicks.collections.event.ObservableEventSet;
+import net.sf.javagimmicks.collections.event.SetEvent;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(WeldJUnit4TestRunner.class)
-public class CDIEventSetTest
+public class CDIBridgeSetEventListenerTest
 {
    private static CDISetEvent _event;
 
    @Test
    public void testFireAndReceive()
    {
-      final CDIEventSet<String> set = new CDIEventSet<String>(new HashSet<String>());
+      final ObservableEventSet<String> set = new ObservableEventSet<String>(new HashSet<String>());
+      CDIBridgeSetEventListener.install(set);
 
       final String addedString = "Foo";
       set.add(addedString);
@@ -27,7 +30,7 @@ public class CDIEventSetTest
 
       Assert.assertNotNull(_event);
       Assert.assertSame(set, _event.getSource());
-      Assert.assertSame(CDISetEvent.Type.ADDED, _event.getType());
+      Assert.assertSame(SetEvent.Type.ADDED, _event.getType());
       Assert.assertNotNull(element);
       Assert.assertSame(addedString, element);
    }

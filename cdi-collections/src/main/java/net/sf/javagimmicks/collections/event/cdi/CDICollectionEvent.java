@@ -2,37 +2,36 @@ package net.sf.javagimmicks.collections.event.cdi;
 
 import java.util.Collection;
 
+import net.sf.javagimmicks.collections.event.CollectionEvent;
+import net.sf.javagimmicks.collections.event.CollectionEvent.Type;
+import net.sf.javagimmicks.collections.event.ObservableEventCollection;
+
 public class CDICollectionEvent
 {
-   public static enum Type
+   private final CollectionEvent<?> _origin;
+
+   public CDICollectionEvent(final CollectionEvent<?> origin)
    {
-      ADDED, REMOVED
-   };
-
-   protected final CDIEventCollection<?> _source;
-
-   protected final Type _type;
-   protected final Collection<?> _elements;
-
-   public <E> CDICollectionEvent(final CDIEventCollection<E> source, final Type type, final Collection<E> elements)
-   {
-      _source = source;
-      _type = type;
-      _elements = elements;
+      _origin = origin;
    }
 
    public Type getType()
    {
-      return _type;
+      return _origin.getType();
    }
 
    public Collection<?> getElements()
    {
-      return _elements;
+      return _origin.getElements();
    }
 
-   public CDIEventCollection<?> getSource()
+   public ObservableEventCollection<?> getSource()
    {
-      return _source;
+      return _origin.getSource();
+   }
+
+   public CollectionEvent<?> getOriginalEvent()
+   {
+      return _origin;
    }
 }

@@ -1,37 +1,35 @@
 package net.sf.javagimmicks.collections.event.cdi;
 
+import net.sf.javagimmicks.collections.event.ObservableEventSet;
+import net.sf.javagimmicks.collections.event.SetEvent;
+import net.sf.javagimmicks.collections.event.SetEvent.Type;
+
 public class CDISetEvent
 {
-   public static enum Type
+   private final SetEvent<?> _origin;
+
+   public CDISetEvent(final SetEvent<?> origin)
    {
-      ADDED, READDED, REMOVED
-   };
-
-   protected final CDIEventSet<?> _source;
-
-   protected final Type _type;
-   protected final Object _element;
-
-   public <E> CDISetEvent(final CDIEventSet<E> source, final Type type, final E element)
-   {
-      _source = source;
-
-      _type = type;
-      _element = element;
+      _origin = origin;
    }
 
    public Type getType()
    {
-      return _type;
+      return _origin.getType();
    }
 
    public Object getElement()
    {
-      return _element;
+      return _origin.getElement();
    }
 
-   public CDIEventSet<?> getSource()
+   public ObservableEventSet<?> getSource()
    {
-      return _source;
+      return _origin.getSource();
+   }
+
+   public SetEvent<?> getOriginalEvent()
+   {
+      return _origin;
    }
 }
