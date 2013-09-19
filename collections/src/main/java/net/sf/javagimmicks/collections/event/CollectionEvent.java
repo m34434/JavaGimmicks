@@ -2,34 +2,17 @@ package net.sf.javagimmicks.collections.event;
 
 import java.util.Collection;
 
-public class CollectionEvent<E>
+public interface CollectionEvent<E>
 {
-   public static enum Type {ADDED, REMOVED};
-   
-   protected final ObservableEventCollection<E> _source;
-   
-   protected final Type _type;
-   protected final Collection<E> _elements;
-   
-   public CollectionEvent(ObservableEventCollection<E> source, Type type, Collection<E> elements)
+   enum Type
    {
-      _source = source;
-      _type = type;
-      _elements = elements;
+      ADDED, REMOVED
    }
 
-   public Type getType()
-   {
-      return _type;
-   }
-   
-   public Collection<E> getElements()
-   {
-      return _elements;
-   }
+   Type getType();
 
-   public ObservableEventCollection<E> getSource()
-   {
-      return _source;
-   }
+   Collection<E> getElements();
+
+   ObservableEventCollection<E> getSource();
+
 }

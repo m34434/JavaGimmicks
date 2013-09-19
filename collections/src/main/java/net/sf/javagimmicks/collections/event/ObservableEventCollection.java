@@ -13,51 +13,83 @@ public class ObservableEventCollection<E> extends AbstractEventCollection<E>
 
    protected transient List<EventCollectionListener<E>> _listeners;
 
-   public ObservableEventCollection(Collection<E> decorated)
+   public ObservableEventCollection(final Collection<E> decorated)
    {
       super(decorated);
    }
 
-   public void addEventCollectionListener(EventCollectionListener<E> listener)
+   public void addEventCollectionListener(final EventCollectionListener<E> listener)
    {
-      if(_listeners == null)
+      if (_listeners == null)
       {
          _listeners = new ArrayList<EventCollectionListener<E>>();
       }
-      
+
       _listeners.add(listener);
    }
-   
-   public void removeEventCollectionListener(EventCollectionListener<E> listener)
+
+   public void removeEventCollectionListener(final EventCollectionListener<E> listener)
    {
-      if(_listeners != null)
+      if (_listeners != null)
       {
          _listeners.remove(listener);
       }
    }
 
    @Override
-   protected void fireElementsAdded(Collection<? extends E> elements)
+   protected void fireElementsAdded(final Collection<? extends E> elements)
    {
-      fireEvent(new CollectionEvent<E>(this, Type.ADDED, Collections.unmodifiableCollection(new ArrayList<E>(elements))));
+      fireEvent(new CollectionEventImpl(Type.ADDED, Collections.unmodifiableCollection(new ArrayList<E>(
+            elements))));
    }
-   
+
    @Override
-   protected void fireElementRemoved(E element)
+   protected void fireElementRemoved(final E element)
    {
-      fireEvent(new CollectionEvent<E>(this, Type.REMOVED, Collections.singleton(element)));
+      fireEvent(new CollectionEventImpl(Type.REMOVED, Collections.singleton(element)));
    }
-   
-   private void fireEvent(CollectionEvent<E> event)
+
+   private void fireEvent(final CollectionEvent<E> event)
    {
-      if(_listeners == null)
+      if (_listeners == null)
       {
          return;
       }
-      
-      for(EventCollectionListener<E> listener : _listeners)
+
+      for (final EventCollectionListener<E> listener : _listeners)
       {
          listener.eventOccured(event);
+      }
+   }
+
+   public class CollectionEventImpl implements CollectionEvent<E>
+   {
+      protected final Type _type;
+      protected final Collection<E> _elements;
+
+      public CollectionEventImpl(final Type type,
+            final Collection<E> elements)
+      {
+         _type = type;
+         _elements = elements;
+      }
+
+      @Override
+      public Type getType()
+      {
+         return _type;
+      }
+
+      @Override
+      public Collection<E> getElements()
+      {
+         return _elements;
+      }
+
+      @Override
+      public ObservableEventCollection<E> getSource()
+      {
+         return ObservableEventCollection.this;
       }
    }
 }
