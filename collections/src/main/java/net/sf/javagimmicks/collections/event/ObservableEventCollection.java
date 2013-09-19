@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.Collections;
 
 import net.sf.javagimmicks.collections.event.CollectionEvent.Type;
+import net.sf.javagimmicks.event.Observable;
+import net.sf.javagimmicks.event.ObservableBase;
 
 public class ObservableEventCollection<E> extends AbstractEventCollection<E> implements
       Observable<CollectionEvent<E>, EventCollectionListener<E>>

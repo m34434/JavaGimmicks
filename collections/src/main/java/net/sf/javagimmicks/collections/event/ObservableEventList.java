@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.List;
 
 import net.sf.javagimmicks.collections.event.ListEvent.Type;
+import net.sf.javagimmicks.event.Observable;
+import net.sf.javagimmicks.event.ObservableBase;
 
 public class ObservableEventList<E> extends AbstractEventList<E> implements
       Observable<ListEvent<E>, EventListListener<E>>

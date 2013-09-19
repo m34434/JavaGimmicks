@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import net.sf.javagimmicks.collections.event.MapEvent.Type;
+import net.sf.javagimmicks.event.Observable;
 import net.sf.javagimmicks.lang.LangUtils;
 
 import org.junit.Test;

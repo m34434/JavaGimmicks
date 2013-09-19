@@ -4,7 +4,7 @@ import java.util.List;
 
 import net.sf.javagimmicks.collections.event.EventListListener;
 import net.sf.javagimmicks.collections.event.ListEvent;
-import net.sf.javagimmicks.collections.event.Observable;
+import net.sf.javagimmicks.event.Observable;
 
 /**
  * A CDI compatible wrapper around a {@link ListEvent}.

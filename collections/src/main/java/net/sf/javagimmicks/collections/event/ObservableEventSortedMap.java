@@ -3,6 +3,8 @@ package net.sf.javagimmicks.collections.event;
 import java.util.SortedMap;
 
 import net.sf.javagimmicks.collections.event.SortedMapEvent.Type;
+import net.sf.javagimmicks.event.Observable;
+import net.sf.javagimmicks.event.ObservableBase;
 
 public class ObservableEventSortedMap<K, V> extends AbstractEventSortedMap<K, V> implements
       Observable<SortedMapEvent<K, V>, EventSortedMapListener<K, V>>

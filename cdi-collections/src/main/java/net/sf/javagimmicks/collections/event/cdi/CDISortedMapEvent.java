@@ -1,8 +1,8 @@
 package net.sf.javagimmicks.collections.event.cdi;
 
 import net.sf.javagimmicks.collections.event.EventSortedMapListener;
-import net.sf.javagimmicks.collections.event.Observable;
 import net.sf.javagimmicks.collections.event.SortedMapEvent;
+import net.sf.javagimmicks.event.Observable;
 
 /**
  * A CDI compatible wrapper around a {@link SortedMapEvent}.

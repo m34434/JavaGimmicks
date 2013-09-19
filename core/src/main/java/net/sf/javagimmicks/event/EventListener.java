@@ -1,4 +1,4 @@
-package net.sf.javagimmicks.collections.event;
+package net.sf.javagimmicks.event;
 
 /**
  * A generic event listener (observer) that can be registered within some

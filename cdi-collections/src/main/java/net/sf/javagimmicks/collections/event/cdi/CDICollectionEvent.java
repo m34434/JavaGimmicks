@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import net.sf.javagimmicks.collections.event.CollectionEvent;
 import net.sf.javagimmicks.collections.event.EventCollectionListener;
-import net.sf.javagimmicks.collections.event.Observable;
+import net.sf.javagimmicks.event.Observable;
 
 /**
  * A CDI compatible wrapper around a {@link CollectionEvent}.

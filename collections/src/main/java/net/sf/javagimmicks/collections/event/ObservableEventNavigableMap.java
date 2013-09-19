@@ -5,6 +5,8 @@ import java.util.NavigableSet;
 import java.util.SortedMap;
 
 import net.sf.javagimmicks.collections.event.NavigableMapEvent.Type;
+import net.sf.javagimmicks.event.Observable;
+import net.sf.javagimmicks.event.ObservableBase;
 
 public class ObservableEventNavigableMap<K, V> extends AbstractEventNavigableMap<K, V> implements
       Observable<NavigableMapEvent<K, V>, EventNavigableMapListener<K, V>>

@@ -3,6 +3,8 @@ package net.sf.javagimmicks.collections.event;
 import java.util.SortedSet;
 
 import net.sf.javagimmicks.collections.event.SortedSetEvent.Type;
+import net.sf.javagimmicks.event.Observable;
+import net.sf.javagimmicks.event.ObservableBase;
 
 public class ObservableEventSortedSet<E> extends AbstractEventSortedSet<E> implements
       Observable<SortedSetEvent<E>, EventSortedSetListener<E>>

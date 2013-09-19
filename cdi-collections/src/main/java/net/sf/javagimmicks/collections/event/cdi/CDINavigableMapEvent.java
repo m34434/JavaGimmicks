@@ -2,7 +2,7 @@ package net.sf.javagimmicks.collections.event.cdi;
 
 import net.sf.javagimmicks.collections.event.EventNavigableMapListener;
 import net.sf.javagimmicks.collections.event.NavigableMapEvent;
-import net.sf.javagimmicks.collections.event.Observable;
+import net.sf.javagimmicks.event.Observable;
 
 /**
  * A CDI compatible wrapper around a {@link NavigableMapEvent}.

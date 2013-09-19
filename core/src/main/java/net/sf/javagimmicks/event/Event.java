@@ -1,4 +1,4 @@
-package net.sf.javagimmicks.collections.event;
+package net.sf.javagimmicks.event;
 
 /**
  * A generic event interface which represents events that are fired by some

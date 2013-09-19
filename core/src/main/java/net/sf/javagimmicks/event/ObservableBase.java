@@ -1,8 +1,16 @@
-package net.sf.javagimmicks.collections.event;
+package net.sf.javagimmicks.event;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A base class for {@link Observable} implementations. It takes care of
+ * managing {@link EventListener}s and distributing {@link Event}s to them.
+ * <p>
+ * <b>Attention:</b> {@link EventListener} management within this class is
+ * <b>not thread-safe</b> - so you have to take care about synchronization
+ * manually if necessary!
+ */
 public class ObservableBase<Evt extends Event<Evt, L>, L extends EventListener<Evt, L>> implements Observable<Evt, L>
 {
    protected transient List<L> _listeners;
@@ -27,6 +35,16 @@ public class ObservableBase<Evt extends Event<Evt, L>, L extends EventListener<E
       }
    }
 
+   /**
+    * Distributes the provided {@link Event} to all registered
+    * {@link EventListener}s calling their
+    * {@link EventListener#eventOccured(Event)} mtehod.
+    * 
+    * @param event
+    *           the {@link Event} to distribute
+    * 
+    * @see EventListener#eventOccured(Event)
+    */
    public void fireEvent(final Evt event)
    {
       if (_listeners == null)

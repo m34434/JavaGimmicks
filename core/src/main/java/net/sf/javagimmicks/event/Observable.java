@@ -1,4 +1,4 @@
-package net.sf.javagimmicks.collections.event;
+package net.sf.javagimmicks.event;
 
 /**
  * A generic interfaces the describes an observable object that is able to fire

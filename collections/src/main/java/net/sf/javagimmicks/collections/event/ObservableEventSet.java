@@ -3,6 +3,8 @@ package net.sf.javagimmicks.collections.event;
 import java.util.Set;
 
 import net.sf.javagimmicks.collections.event.SetEvent.Type;
+import net.sf.javagimmicks.event.Observable;
+import net.sf.javagimmicks.event.ObservableBase;
 
 public class ObservableEventSet<E> extends AbstractEventSet<E> implements Observable<SetEvent<E>, EventSetListener<E>>
 {

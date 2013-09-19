@@ -4,6 +4,8 @@ import java.util.NavigableSet;
 import java.util.SortedSet;
 
 import net.sf.javagimmicks.collections.event.NavigableSetEvent.Type;
+import net.sf.javagimmicks.event.Observable;
+import net.sf.javagimmicks.event.ObservableBase;
 
 public class ObservableEventNavigableSet<E> extends AbstractEventNavigableSet<E> implements
       Observable<NavigableSetEvent<E>, EventNavigableSetListener<E>>

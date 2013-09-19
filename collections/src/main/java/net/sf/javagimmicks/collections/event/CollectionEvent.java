@@ -2,6 +2,9 @@ package net.sf.javagimmicks.collections.event;
 
 import java.util.Collection;
 
+import net.sf.javagimmicks.event.Event;
+import net.sf.javagimmicks.event.Observable;
+
 /**
  * Represents a change in a {@link Observable} {@link Collection} - e.g.
  * {@link ObservableEventCollection}.

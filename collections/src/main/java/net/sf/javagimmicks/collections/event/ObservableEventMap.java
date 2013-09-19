@@ -3,6 +3,8 @@ package net.sf.javagimmicks.collections.event;
 import java.util.Map;
 
 import net.sf.javagimmicks.collections.event.MapEvent.Type;
+import net.sf.javagimmicks.event.Observable;
+import net.sf.javagimmicks.event.ObservableBase;
 
 public class ObservableEventMap<K, V> extends AbstractEventMap<K, V> implements
       Observable<MapEvent<K, V>, EventMapListener<K, V>>
