@@ -128,17 +128,17 @@ public class EventMapTest
       @Override
       public boolean equals(final Object o)
       {
-         if (!(o instanceof MapEventImpl<?, ?>))
+         if (!(o instanceof MapEvent<?, ?>))
          {
             return false;
          }
 
-         final MapEventImpl<?, ?> other = (MapEventImpl<?, ?>) o;
-         return _source == other._source &&
-               _type == other._type &&
-               LangUtils.equalsNullSafe(_key, other._key) &&
-               LangUtils.equalsNullSafe(_value, other._value) &&
-               LangUtils.equalsNullSafe(_newValue, other._newValue);
+         final MapEvent<?, ?> other = (MapEvent<?, ?>) o;
+         return _source == other.getSource() &&
+               _type == other.getType() &&
+               LangUtils.equalsNullSafe(_key, other.getKey()) &&
+               LangUtils.equalsNullSafe(_value, other.getValue()) &&
+               LangUtils.equalsNullSafe(_newValue, other.getNewValue());
       }
    }
 }

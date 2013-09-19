@@ -1,45 +1,67 @@
 package net.sf.javagimmicks.collections.event.cdi;
 
 import net.sf.javagimmicks.collections.event.NavigableMapEvent;
-import net.sf.javagimmicks.collections.event.NavigableMapEvent.Type;
 import net.sf.javagimmicks.collections.event.ObservableEventNavigableMap;
 
-public class CDINavigableMapEvent
+/**
+ * A CDI compatible wrapper around a {@link NavigableMapEvent}.
+ * <p>
+ * CDI event objects may not have type parameters, so the type information needs
+ * to be erased for the wrapped {@link NavigableMapEvent}.
+ */
+public class CDINavigableMapEvent implements NavigableMapEvent<Object, Object>
 {
-   private final NavigableMapEvent<?, ?> _origin;
+   private final NavigableMapEvent<Object, Object> _origin;
 
+   /**
+    * Create a new instance for the given {@link NavigableMapEvent}.
+    * 
+    * @param origin
+    *           the original {@link NavigableMapEvent}
+    */
+   @SuppressWarnings("unchecked")
    public CDINavigableMapEvent(final NavigableMapEvent<?, ?> origin)
    {
-      _origin = origin;
+      _origin = (NavigableMapEvent<Object, Object>) origin;
    }
 
-   public ObservableEventNavigableMap<?, ?> getSource()
+   /**
+    * Provides access to the wrapped {@link NavigableMapEvent}
+    * 
+    * @return the wrapped {@link NavigableMapEvent}
+    */
+   public NavigableMapEvent<Object, Object> getWrappedEvent()
+   {
+      return _origin;
+   }
+
+   @Override
+   public ObservableEventNavigableMap<Object, Object> getSource()
    {
       return _origin.getSource();
    }
 
+   @Override
    public Type getType()
    {
       return _origin.getType();
    }
 
+   @Override
    public Object getKey()
    {
       return _origin.getKey();
    }
 
+   @Override
    public Object getValue()
    {
       return _origin.getValue();
    }
 
+   @Override
    public Object getNewValue()
    {
       return _origin.getNewValue();
-   }
-
-   public NavigableMapEvent<?, ?> getOriginalEvent()
-   {
-      return _origin;
    }
 }

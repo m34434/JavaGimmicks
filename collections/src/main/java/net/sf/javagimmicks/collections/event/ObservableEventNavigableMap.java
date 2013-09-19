@@ -13,30 +13,30 @@ public class ObservableEventNavigableMap<K, V> extends AbstractEventNavigableMap
    private static final long serialVersionUID = -4936595637793434597L;
 
    protected transient List<EventNavigableMapListener<K, V>> _listeners;
-   
-   public ObservableEventNavigableMap(NavigableMap<K, V> decorated)
+
+   public ObservableEventNavigableMap(final NavigableMap<K, V> decorated)
    {
       super(decorated);
    }
-   
-   public void addEventNavigableMapListener(EventNavigableMapListener<K, V> listener)
+
+   public void addEventNavigableMapListener(final EventNavigableMapListener<K, V> listener)
    {
-      if(_listeners == null)
+      if (_listeners == null)
       {
-         _listeners = new ArrayList<EventNavigableMapListener<K,V>>();
+         _listeners = new ArrayList<EventNavigableMapListener<K, V>>();
       }
-      
+
       _listeners.add(listener);
    }
-   
-   public void removeEventNavigableMapListener(EventNavigableMapListener<K, V> listener)
+
+   public void removeEventNavigableMapListener(final EventNavigableMapListener<K, V> listener)
    {
-      if(_listeners != null)
+      if (_listeners != null)
       {
          _listeners.remove(listener);
       }
    }
-   
+
    @Override
    public NavigableSet<K> descendingKeySet()
    {
@@ -52,7 +52,7 @@ public class ObservableEventNavigableMap<K, V> extends AbstractEventNavigableMap
    }
 
    @Override
-   public NavigableMap<K, V> headMap(K toKey, boolean inclusive)
+   public NavigableMap<K, V> headMap(final K toKey, final boolean inclusive)
    {
       // TODO Auto-generated method stub
       return super.headMap(toKey, inclusive);
@@ -66,99 +66,152 @@ public class ObservableEventNavigableMap<K, V> extends AbstractEventNavigableMap
    }
 
    @Override
-   public NavigableMap<K, V> subMap(K fromKey, boolean fromInclusive, K toKey, boolean toInclusive)
+   public NavigableMap<K, V> subMap(final K fromKey, final boolean fromInclusive, final K toKey,
+         final boolean toInclusive)
    {
       // TODO Auto-generated method stub
       return super.subMap(fromKey, fromInclusive, toKey, toInclusive);
    }
 
    @Override
-   public NavigableMap<K, V> tailMap(K fromKey, boolean inclusive)
+   public NavigableMap<K, V> tailMap(final K fromKey, final boolean inclusive)
    {
       // TODO Auto-generated method stub
       return super.tailMap(fromKey, inclusive);
    }
 
    @Override
-   public SortedMap<K, V> headMap(K toKey)
+   public SortedMap<K, V> headMap(final K toKey)
    {
       // TODO Auto-generated method stub
       return super.headMap(toKey);
    }
 
    @Override
-   public SortedMap<K, V> subMap(K fromKey, K toKey)
+   public SortedMap<K, V> subMap(final K fromKey, final K toKey)
    {
       // TODO Auto-generated method stub
       return super.subMap(fromKey, toKey);
    }
 
    @Override
-   public SortedMap<K, V> tailMap(K fromKey)
+   public SortedMap<K, V> tailMap(final K fromKey)
    {
       // TODO Auto-generated method stub
       return super.tailMap(fromKey);
    }
 
    @Override
-   protected void fireEntryAdded(K key, V value)
+   protected void fireEntryAdded(final K key, final V value)
    {
-      fireEvent(new NavigableMapEvent<K, V>(this, Type.ADDED, key, value));
+      fireEvent(new NavigableMapEventImpl(Type.ADDED, key, value));
    }
 
    @Override
-   protected void fireEntryRemoved(K key, V value)
+   protected void fireEntryRemoved(final K key, final V value)
    {
-      fireEvent(new NavigableMapEvent<K, V>(this, Type.REMOVED, key, value));
+      fireEvent(new NavigableMapEventImpl(Type.REMOVED, key, value));
    }
 
    @Override
-   protected void fireEntryUpdated(K key, V oldValue, V newValue)
+   protected void fireEntryUpdated(final K key, final V oldValue, final V newValue)
    {
-      fireEvent(new NavigableMapEvent<K, V>(this, Type.UPDATED, key, oldValue, newValue));
+      fireEvent(new NavigableMapEventImpl(Type.UPDATED, key, oldValue, newValue));
    }
 
-   private void fireEvent(NavigableMapEvent<K, V> event)
+   private void fireEvent(final NavigableMapEvent<K, V> event)
    {
-      if(_listeners == null)
+      if (_listeners == null)
       {
          return;
       }
-      
-      for(EventNavigableMapListener<K, V> listener : _listeners)
+
+      for (final EventNavigableMapListener<K, V> listener : _listeners)
       {
          listener.eventOccured(event);
       }
    }
-   
+
+   private class NavigableMapEventImpl implements NavigableMapEvent<K, V>
+   {
+      protected final Type _type;
+      protected final K _key;
+      protected final V _value;
+      protected final V _newValue;
+
+      public NavigableMapEventImpl(final Type type, final K key, final V value, final V newValue)
+      {
+         _type = type;
+         _key = key;
+         _value = value;
+         _newValue = newValue;
+      }
+
+      public NavigableMapEventImpl(final Type type, final K key, final V value)
+      {
+         this(type, key, value, null);
+      }
+
+      @Override
+      public ObservableEventNavigableMap<K, V> getSource()
+      {
+         return ObservableEventNavigableMap.this;
+      }
+
+      @Override
+      public Type getType()
+      {
+         return _type;
+      }
+
+      @Override
+      public K getKey()
+      {
+         return _key;
+      }
+
+      @Override
+      public V getValue()
+      {
+         return _value;
+      }
+
+      @Override
+      public V getNewValue()
+      {
+         return _newValue;
+      }
+   }
+
    protected static class ObservableEventSubNavigableMap<K, V> extends ObservableEventNavigableMap<K, V>
    {
       private static final long serialVersionUID = -863678987488740776L;
 
       protected final ObservableEventNavigableMap<K, V> _parent;
 
-      protected ObservableEventSubNavigableMap(ObservableEventNavigableMap<K, V> parent, NavigableMap<K, V> decorated)
+      protected ObservableEventSubNavigableMap(final ObservableEventNavigableMap<K, V> parent,
+            final NavigableMap<K, V> decorated)
       {
          super(decorated);
          _parent = parent;
       }
 
       @Override
-      protected void fireEntryAdded(K key, V value)
+      protected void fireEntryAdded(final K key, final V value)
       {
          super.fireEntryAdded(key, value);
          _parent.fireEntryAdded(key, value);
       }
 
       @Override
-      protected void fireEntryRemoved(K key, V value)
+      protected void fireEntryRemoved(final K key, final V value)
       {
          super.fireEntryRemoved(key, value);
          _parent.fireEntryRemoved(key, value);
       }
 
       @Override
-      protected void fireEntryUpdated(K key, V oldValue, V newValue)
+      protected void fireEntryUpdated(final K key, final V oldValue, final V newValue)
       {
          super.fireEntryUpdated(key, oldValue, newValue);
          _parent.fireEntryUpdated(key, oldValue, newValue);
