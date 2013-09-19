@@ -1,6 +1,4 @@
 package net.sf.javagimmicks.collections.event;
 
-public interface EventNavigableSetListener<E>
-{
-   public void eventOccured(NavigableSetEvent<E> event);
-}
+public interface EventNavigableSetListener<E> extends EventListener<NavigableSetEvent<E>, EventNavigableSetListener<E>>
+{}

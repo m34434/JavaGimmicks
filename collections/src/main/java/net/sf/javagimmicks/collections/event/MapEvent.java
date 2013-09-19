@@ -1,14 +1,12 @@
 package net.sf.javagimmicks.collections.event;
 
-public interface MapEvent<K, V>
+public interface MapEvent<K, V> extends Event<MapEvent<K, V>, EventMapListener<K, V>>
 {
 
    enum Type
    {
       ADDED, UPDATED, REMOVED
    }
-
-   ObservableEventMap<K, V> getSource();
 
    Type getType();
 

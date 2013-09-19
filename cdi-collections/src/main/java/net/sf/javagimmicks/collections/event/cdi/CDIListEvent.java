@@ -2,8 +2,9 @@ package net.sf.javagimmicks.collections.event.cdi;
 
 import java.util.List;
 
+import net.sf.javagimmicks.collections.event.EventListListener;
 import net.sf.javagimmicks.collections.event.ListEvent;
-import net.sf.javagimmicks.collections.event.ObservableEventList;
+import net.sf.javagimmicks.collections.event.Observable;
 
 /**
  * A CDI compatible wrapper around a {@link ListEvent}.
@@ -62,7 +63,7 @@ public class CDIListEvent implements ListEvent<Object>
    }
 
    @Override
-   public ObservableEventList<Object> getSource()
+   public Observable<ListEvent<Object>, EventListListener<Object>> getSource()
    {
       return _origin.getSource();
    }

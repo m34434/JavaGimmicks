@@ -1,6 +1,5 @@
 package net.sf.javagimmicks.collections.event;
 
-public interface EventNavigableMapListener<K, V>
-{  
-   public void eventOccured(NavigableMapEvent<K, V> event);
-}
+public interface EventNavigableMapListener<K, V> extends
+      EventListener<NavigableMapEvent<K, V>, EventNavigableMapListener<K, V>>
+{}

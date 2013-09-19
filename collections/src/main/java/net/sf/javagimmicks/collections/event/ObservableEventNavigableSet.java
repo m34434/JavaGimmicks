@@ -7,7 +7,8 @@ import java.util.SortedSet;
 
 import net.sf.javagimmicks.collections.event.NavigableSetEvent.Type;
 
-public class ObservableEventNavigableSet<E> extends AbstractEventNavigableSet<E>
+public class ObservableEventNavigableSet<E> extends AbstractEventNavigableSet<E> implements
+      Observable<NavigableSetEvent<E>, EventNavigableSetListener<E>>
 {
    private static final long serialVersionUID = -6812183248508925850L;
 
@@ -18,7 +19,8 @@ public class ObservableEventNavigableSet<E> extends AbstractEventNavigableSet<E>
       super(decorated);
    }
 
-   public void addEventNavigableSetListener(final EventNavigableSetListener<E> listener)
+   @Override
+   public void addEventListener(final EventNavigableSetListener<E> listener)
    {
       if (_listeners == null)
       {
@@ -28,7 +30,8 @@ public class ObservableEventNavigableSet<E> extends AbstractEventNavigableSet<E>
       _listeners.add(listener);
    }
 
-   public void removeEventNavigableSetListener(final EventNavigableSetListener<E> listener)
+   @Override
+   public void removeEventListener(final EventNavigableSetListener<E> listener)
    {
       if (_listeners != null)
       {

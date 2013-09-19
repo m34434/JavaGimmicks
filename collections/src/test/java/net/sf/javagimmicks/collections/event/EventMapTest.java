@@ -27,7 +27,7 @@ public class EventMapTest
 
       // Create mock listener and register it
       final EventMapListener<String, String> mockListener = createStrictMock(EventMapListener.class);
-      eventMap.addEventMapListener(mockListener);
+      eventMap.addEventListener(mockListener);
 
       // Record expected listener calls
       mockListener.eventOccured(new MapEventImpl<String, String>(eventMap, Type.ADDED, "1", "A"));
@@ -73,14 +73,15 @@ public class EventMapTest
 
    public static class MapEventImpl<K, V> implements MapEvent<K, V>
    {
-      protected final ObservableEventMap<K, V> _source;
+      protected final Observable<MapEvent<K, V>, EventMapListener<K, V>> _source;
 
       protected final Type _type;
       protected final K _key;
       protected final V _value;
       protected final V _newValue;
 
-      public MapEventImpl(final ObservableEventMap<K, V> source, final Type type, final K key, final V value,
+      public MapEventImpl(final Observable<MapEvent<K, V>, EventMapListener<K, V>> source, final Type type,
+            final K key, final V value,
             final V newValue)
       {
          _source = source;
@@ -96,7 +97,7 @@ public class EventMapTest
       }
 
       @Override
-      public ObservableEventMap<K, V> getSource()
+      public Observable<MapEvent<K, V>, EventMapListener<K, V>> getSource()
       {
          return _source;
       }
@@ -134,7 +135,7 @@ public class EventMapTest
          }
 
          final MapEvent<?, ?> other = (MapEvent<?, ?>) o;
-         return _source == other.getSource() &&
+         return (Object) _source == (Object) other.getSource() &&
                _type == other.getType() &&
                LangUtils.equalsNullSafe(_key, other.getKey()) &&
                LangUtils.equalsNullSafe(_value, other.getValue()) &&

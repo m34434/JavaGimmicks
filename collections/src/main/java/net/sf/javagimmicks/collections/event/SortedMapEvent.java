@@ -1,15 +1,11 @@
 package net.sf.javagimmicks.collections.event;
 
-
-public interface SortedMapEvent<K, V>
+public interface SortedMapEvent<K, V> extends Event<SortedMapEvent<K, V>, EventSortedMapListener<K, V>>
 {
-
    enum Type
    {
       ADDED, UPDATED, REMOVED
    }
-
-   ObservableEventSortedMap<K, V> getSource();
 
    Type getType();
 

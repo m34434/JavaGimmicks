@@ -1,7 +1,8 @@
 package net.sf.javagimmicks.collections.event.cdi;
 
+import net.sf.javagimmicks.collections.event.EventNavigableMapListener;
 import net.sf.javagimmicks.collections.event.NavigableMapEvent;
-import net.sf.javagimmicks.collections.event.ObservableEventNavigableMap;
+import net.sf.javagimmicks.collections.event.Observable;
 
 /**
  * A CDI compatible wrapper around a {@link NavigableMapEvent}.
@@ -30,7 +31,7 @@ public class CDINavigableMapEvent implements NavigableMapEvent<Object, Object>
    }
 
    @Override
-   public ObservableEventNavigableMap<Object, Object> getSource()
+   public Observable<NavigableMapEvent<Object, Object>, EventNavigableMapListener<Object, Object>> getSource()
    {
       return _origin.getSource();
    }

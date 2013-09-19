@@ -6,7 +6,8 @@ import java.util.SortedSet;
 
 import net.sf.javagimmicks.collections.event.SortedSetEvent.Type;
 
-public class ObservableEventSortedSet<E> extends AbstractEventSortedSet<E>
+public class ObservableEventSortedSet<E> extends AbstractEventSortedSet<E> implements
+      Observable<SortedSetEvent<E>, EventSortedSetListener<E>>
 {
    private static final long serialVersionUID = 7595639007080114146L;
 
@@ -17,7 +18,8 @@ public class ObservableEventSortedSet<E> extends AbstractEventSortedSet<E>
       super(decorated);
    }
 
-   public void addEventSortedSetListener(final EventSortedSetListener<E> listener)
+   @Override
+   public void addEventListener(final EventSortedSetListener<E> listener)
    {
       if (_listeners == null)
       {
@@ -27,7 +29,8 @@ public class ObservableEventSortedSet<E> extends AbstractEventSortedSet<E>
       _listeners.add(listener);
    }
 
-   public void removeEventSortedSetListener(final EventSortedSetListener<E> listener)
+   @Override
+   public void removeEventListener(final EventSortedSetListener<E> listener)
    {
       if (_listeners != null)
       {

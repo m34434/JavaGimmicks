@@ -6,7 +6,8 @@ import java.util.Map;
 
 import net.sf.javagimmicks.collections.event.MapEvent.Type;
 
-public class ObservableEventMap<K, V> extends AbstractEventMap<K, V>
+public class ObservableEventMap<K, V> extends AbstractEventMap<K, V> implements
+      Observable<MapEvent<K, V>, EventMapListener<K, V>>
 {
    private static final long serialVersionUID = 8006998141057065129L;
 
@@ -17,7 +18,8 @@ public class ObservableEventMap<K, V> extends AbstractEventMap<K, V>
       super(decorated);
    }
 
-   public void addEventMapListener(final EventMapListener<K, V> listener)
+   @Override
+   public void addEventListener(final EventMapListener<K, V> listener)
    {
       if (_listeners == null)
       {
@@ -27,7 +29,8 @@ public class ObservableEventMap<K, V> extends AbstractEventMap<K, V>
       _listeners.add(listener);
    }
 
-   public void removeEventMapListener(final EventMapListener<K, V> listener)
+   @Override
+   public void removeEventListener(final EventMapListener<K, V> listener)
    {
       if (_listeners != null)
       {

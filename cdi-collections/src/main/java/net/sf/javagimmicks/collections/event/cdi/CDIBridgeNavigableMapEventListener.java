@@ -29,7 +29,7 @@ public class CDIBridgeNavigableMapEventListener<K, V> extends CDIBrigeBase imple
    {
       final CDIBridgeNavigableMapEventListener<K, V> result = new CDIBridgeNavigableMapEventListener<K, V>();
 
-      map.addEventNavigableMapListener(result);
+      map.addEventListener(result);
 
       return result;
    }

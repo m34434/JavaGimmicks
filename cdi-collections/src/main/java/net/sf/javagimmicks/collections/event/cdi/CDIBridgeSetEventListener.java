@@ -29,7 +29,7 @@ public class CDIBridgeSetEventListener<E> extends CDIBrigeBase implements EventS
    {
       final CDIBridgeSetEventListener<E> result = new CDIBridgeSetEventListener<E>();
 
-      set.addEventSetListener(result);
+      set.addEventListener(result);
 
       return result;
    }

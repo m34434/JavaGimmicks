@@ -1,8 +1,7 @@
 package net.sf.javagimmicks.collections.event;
 
-public interface NavigableSetEvent<E>
+public interface NavigableSetEvent<E> extends Event<NavigableSetEvent<E>, EventNavigableSetListener<E>>
 {
-
    enum Type
    {
       ADDED, READDED, REMOVED
@@ -11,7 +10,4 @@ public interface NavigableSetEvent<E>
    Type getType();
 
    E getElement();
-
-   ObservableEventNavigableSet<E> getSource();
-
 }

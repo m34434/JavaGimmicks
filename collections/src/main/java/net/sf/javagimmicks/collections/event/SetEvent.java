@@ -1,6 +1,6 @@
 package net.sf.javagimmicks.collections.event;
 
-public interface SetEvent<E>
+public interface SetEvent<E> extends Event<SetEvent<E>, EventSetListener<E>>
 {
    enum Type
    {
@@ -10,7 +10,4 @@ public interface SetEvent<E>
    Type getType();
 
    E getElement();
-
-   ObservableEventSet<E> getSource();
-
 }

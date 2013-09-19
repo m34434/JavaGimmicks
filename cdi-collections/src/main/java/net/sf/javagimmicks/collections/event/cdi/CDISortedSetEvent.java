@@ -1,6 +1,7 @@
 package net.sf.javagimmicks.collections.event.cdi;
 
-import net.sf.javagimmicks.collections.event.ObservableEventSortedSet;
+import net.sf.javagimmicks.collections.event.EventSortedSetListener;
+import net.sf.javagimmicks.collections.event.Observable;
 import net.sf.javagimmicks.collections.event.SortedSetEvent;
 
 /**
@@ -42,7 +43,7 @@ public class CDISortedSetEvent implements SortedSetEvent<Object>
    }
 
    @Override
-   public ObservableEventSortedSet<Object> getSource()
+   public Observable<SortedSetEvent<Object>, EventSortedSetListener<Object>> getSource()
    {
       return _origin.getSource();
    }

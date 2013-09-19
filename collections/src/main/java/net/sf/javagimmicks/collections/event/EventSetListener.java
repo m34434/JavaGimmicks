@@ -1,6 +1,4 @@
 package net.sf.javagimmicks.collections.event;
 
-public interface EventSetListener<E>
-{
-   public void eventOccured(SetEvent<E> event);
-}
+public interface EventSetListener<E> extends EventListener<SetEvent<E>, EventSetListener<E>>
+{}

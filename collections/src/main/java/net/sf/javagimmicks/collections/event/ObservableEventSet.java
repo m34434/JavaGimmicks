@@ -6,7 +6,7 @@ import java.util.Set;
 
 import net.sf.javagimmicks.collections.event.SetEvent.Type;
 
-public class ObservableEventSet<E> extends AbstractEventSet<E>
+public class ObservableEventSet<E> extends AbstractEventSet<E> implements Observable<SetEvent<E>, EventSetListener<E>>
 {
    private static final long serialVersionUID = 4799365684601532982L;
 
@@ -17,7 +17,8 @@ public class ObservableEventSet<E> extends AbstractEventSet<E>
       super(decorated);
    }
 
-   public void addEventSetListener(final EventSetListener<E> listener)
+   @Override
+   public void addEventListener(final EventSetListener<E> listener)
    {
       if (_listeners == null)
       {
@@ -27,7 +28,8 @@ public class ObservableEventSet<E> extends AbstractEventSet<E>
       _listeners.add(listener);
    }
 
-   public void removeEventSetListener(final EventSetListener<E> listener)
+   @Override
+   public void removeEventListener(final EventSetListener<E> listener)
    {
       if (_listeners != null)
       {

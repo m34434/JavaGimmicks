@@ -1,7 +1,8 @@
 package net.sf.javagimmicks.collections.event.cdi;
 
+import net.sf.javagimmicks.collections.event.EventMapListener;
 import net.sf.javagimmicks.collections.event.MapEvent;
-import net.sf.javagimmicks.collections.event.ObservableEventMap;
+import net.sf.javagimmicks.collections.event.Observable;
 
 /**
  * A CDI compatible wrapper around a {@link MapEvent}.
@@ -30,7 +31,7 @@ public class CDIMapEvent implements MapEvent<Object, Object>
    }
 
    @Override
-   public ObservableEventMap<Object, Object> getSource()
+   public Observable<MapEvent<Object, Object>, EventMapListener<Object, Object>> getSource()
    {
       return _origin.getSource();
    }

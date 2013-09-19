@@ -29,7 +29,7 @@ public class CDIBridgeSortedSetEventListener<E> extends CDIBrigeBase implements 
    {
       final CDIBridgeSortedSetEventListener<E> result = new CDIBridgeSortedSetEventListener<E>();
 
-      set.addEventSortedSetListener(result);
+      set.addEventListener(result);
 
       return result;
    }

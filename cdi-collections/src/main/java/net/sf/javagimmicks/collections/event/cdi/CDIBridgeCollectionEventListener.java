@@ -29,7 +29,7 @@ public class CDIBridgeCollectionEventListener<E> extends CDIBrigeBase implements
    {
       final CDIBridgeCollectionEventListener<E> result = new CDIBridgeCollectionEventListener<E>();
 
-      collection.addEventCollectionListener(result);
+      collection.addEventListener(result);
 
       return result;
    }

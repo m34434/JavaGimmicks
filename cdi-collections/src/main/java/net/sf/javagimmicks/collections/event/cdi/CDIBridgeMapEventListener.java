@@ -29,7 +29,7 @@ public class CDIBridgeMapEventListener<K, V> extends CDIBrigeBase implements Eve
    {
       final CDIBridgeMapEventListener<K, V> result = new CDIBridgeMapEventListener<K, V>();
 
-      map.addEventMapListener(result);
+      map.addEventListener(result);
 
       return result;
    }

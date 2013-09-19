@@ -2,9 +2,8 @@ package net.sf.javagimmicks.collections.event;
 
 import java.util.List;
 
-public interface ListEvent<E>
+public interface ListEvent<E> extends Event<ListEvent<E>, EventListListener<E>>
 {
-
    enum Type
    {
       ADDED, UPDATED, REMOVED
@@ -19,7 +18,4 @@ public interface ListEvent<E>
    List<E> getElements();
 
    List<E> getNewElements();
-
-   ObservableEventList<E> getSource();
-
 }

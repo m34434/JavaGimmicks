@@ -6,7 +6,8 @@ import java.util.SortedMap;
 
 import net.sf.javagimmicks.collections.event.SortedMapEvent.Type;
 
-public class ObservableEventSortedMap<K, V> extends AbstractEventSortedMap<K, V>
+public class ObservableEventSortedMap<K, V> extends AbstractEventSortedMap<K, V> implements
+      Observable<SortedMapEvent<K, V>, EventSortedMapListener<K, V>>
 {
    private static final long serialVersionUID = -4377528012758388630L;
 
@@ -17,7 +18,8 @@ public class ObservableEventSortedMap<K, V> extends AbstractEventSortedMap<K, V>
       super(decorated);
    }
 
-   public void addEventSortedMapListener(final EventSortedMapListener<K, V> listener)
+   @Override
+   public void addEventListener(final EventSortedMapListener<K, V> listener)
    {
       if (_listeners == null)
       {
@@ -27,7 +29,8 @@ public class ObservableEventSortedMap<K, V> extends AbstractEventSortedMap<K, V>
       _listeners.add(listener);
    }
 
-   public void removeEventSortedMapListener(final EventSortedMapListener<K, V> listener)
+   @Override
+   public void removeEventListener(final EventSortedMapListener<K, V> listener)
    {
       if (_listeners != null)
       {

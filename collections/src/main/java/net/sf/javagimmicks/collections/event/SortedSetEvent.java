@@ -1,15 +1,13 @@
 package net.sf.javagimmicks.collections.event;
 
-
-public interface SortedSetEvent<E>
+public interface SortedSetEvent<E> extends Event<SortedSetEvent<E>, EventSortedSetListener<E>>
 {
-
-   enum Type {ADDED, READDED, REMOVED}
+   enum Type
+   {
+      ADDED, READDED, REMOVED
+   }
 
    Type getType();
 
    E getElement();
-
-   ObservableEventSortedSet<E> getSource();
-
 }

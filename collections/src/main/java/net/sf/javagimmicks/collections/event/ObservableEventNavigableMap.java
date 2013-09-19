@@ -8,7 +8,8 @@ import java.util.SortedMap;
 
 import net.sf.javagimmicks.collections.event.NavigableMapEvent.Type;
 
-public class ObservableEventNavigableMap<K, V> extends AbstractEventNavigableMap<K, V>
+public class ObservableEventNavigableMap<K, V> extends AbstractEventNavigableMap<K, V> implements
+      Observable<NavigableMapEvent<K, V>, EventNavigableMapListener<K, V>>
 {
    private static final long serialVersionUID = -4936595637793434597L;
 
@@ -19,7 +20,8 @@ public class ObservableEventNavigableMap<K, V> extends AbstractEventNavigableMap
       super(decorated);
    }
 
-   public void addEventNavigableMapListener(final EventNavigableMapListener<K, V> listener)
+   @Override
+   public void addEventListener(final EventNavigableMapListener<K, V> listener)
    {
       if (_listeners == null)
       {
@@ -29,7 +31,8 @@ public class ObservableEventNavigableMap<K, V> extends AbstractEventNavigableMap
       _listeners.add(listener);
    }
 
-   public void removeEventNavigableMapListener(final EventNavigableMapListener<K, V> listener)
+   @Override
+   public void removeEventListener(final EventNavigableMapListener<K, V> listener)
    {
       if (_listeners != null)
       {

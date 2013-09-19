@@ -7,7 +7,8 @@ import java.util.List;
 
 import net.sf.javagimmicks.collections.event.ListEvent.Type;
 
-public class ObservableEventList<E> extends AbstractEventList<E>
+public class ObservableEventList<E> extends AbstractEventList<E> implements
+      Observable<ListEvent<E>, EventListListener<E>>
 {
    private static final long serialVersionUID = -6317396247733734848L;
 
@@ -18,7 +19,8 @@ public class ObservableEventList<E> extends AbstractEventList<E>
       super(decorated);
    }
 
-   public void addEventListListener(final EventListListener<E> listener)
+   @Override
+   public void addEventListener(final EventListListener<E> listener)
    {
       if (_listeners == null)
       {
@@ -28,7 +30,8 @@ public class ObservableEventList<E> extends AbstractEventList<E>
       _listeners.add(listener);
    }
 
-   public void removeEventListListener(final EventListListener<E> listener)
+   @Override
+   public void removeEventListener(final EventListListener<E> listener)
    {
       if (_listeners != null)
       {

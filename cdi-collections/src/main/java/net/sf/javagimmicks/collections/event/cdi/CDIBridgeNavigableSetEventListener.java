@@ -29,7 +29,7 @@ public class CDIBridgeNavigableSetEventListener<E> extends CDIBrigeBase implemen
    {
       final CDIBridgeNavigableSetEventListener<E> result = new CDIBridgeNavigableSetEventListener<E>();
 
-      set.addEventNavigableSetListener(result);
+      set.addEventListener(result);
 
       return result;
    }

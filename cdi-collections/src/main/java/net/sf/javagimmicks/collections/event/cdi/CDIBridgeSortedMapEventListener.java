@@ -29,7 +29,7 @@ public class CDIBridgeSortedMapEventListener<K, V> extends CDIBrigeBase implemen
    {
       final CDIBridgeSortedMapEventListener<K, V> result = new CDIBridgeSortedMapEventListener<K, V>();
 
-      map.addEventSortedMapListener(result);
+      map.addEventListener(result);
 
       return result;
    }
