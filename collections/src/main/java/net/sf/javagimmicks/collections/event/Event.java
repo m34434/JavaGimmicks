@@ -1,8 +1,8 @@
 package net.sf.javagimmicks.collections.event;
 
-
 /**
- * This is the base event interface for the collection event API
+ * A generic event interface which represents events that are fired by some
+ * {@link Observable} and will be reported to some {@link EventListener}s.
  * 
  * @param <Evt>
  *           the concrete {@link Event} type

@@ -9,7 +9,7 @@ import java.util.Collection;
 public interface CollectionEvent<E> extends Event<CollectionEvent<E>, EventCollectionListener<E>>
 {
    /**
-    * The possible types of events.
+    * The possible types of {@link CollectionEvent}s.
     */
    enum Type
    {
@@ -24,7 +24,18 @@ public interface CollectionEvent<E> extends Event<CollectionEvent<E>, EventColle
       REMOVED
    }
 
+   /**
+    * The type of the event
+    * 
+    * @return the type of the event
+    * @see Type
+    */
    Type getType();
 
+   /**
+    * Return the elements that were added or removed
+    * 
+    * @return the elements that were added or removed
+    */
    Collection<E> getElements();
 }
