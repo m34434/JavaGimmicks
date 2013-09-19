@@ -1,7 +1,5 @@
 package net.sf.javagimmicks.collections.event;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.SortedMap;
 
 import net.sf.javagimmicks.collections.event.SortedMapEvent.Type;
@@ -11,7 +9,7 @@ public class ObservableEventSortedMap<K, V> extends AbstractEventSortedMap<K, V>
 {
    private static final long serialVersionUID = -4377528012758388630L;
 
-   protected transient List<EventSortedMapListener<K, V>> _listeners;
+   protected final ObservableBase<SortedMapEvent<K, V>, EventSortedMapListener<K, V>> _helper = new ObservableBase<SortedMapEvent<K, V>, EventSortedMapListener<K, V>>();
 
    public ObservableEventSortedMap(final SortedMap<K, V> decorated)
    {
@@ -21,21 +19,13 @@ public class ObservableEventSortedMap<K, V> extends AbstractEventSortedMap<K, V>
    @Override
    public void addEventListener(final EventSortedMapListener<K, V> listener)
    {
-      if (_listeners == null)
-      {
-         _listeners = new ArrayList<EventSortedMapListener<K, V>>();
-      }
-
-      _listeners.add(listener);
+      _helper.addEventListener(listener);
    }
 
    @Override
    public void removeEventListener(final EventSortedMapListener<K, V> listener)
    {
-      if (_listeners != null)
-      {
-         _listeners.remove(listener);
-      }
+      _helper.removeEventListener(listener);
    }
 
    @Override
@@ -59,32 +49,19 @@ public class ObservableEventSortedMap<K, V> extends AbstractEventSortedMap<K, V>
    @Override
    protected void fireEntryAdded(final K key, final V value)
    {
-      fireEvent(new SortedMapEventImpl(Type.ADDED, key, value));
+      _helper.fireEvent(new SortedMapEventImpl(Type.ADDED, key, value));
    }
 
    @Override
    protected void fireEntryRemoved(final K key, final V value)
    {
-      fireEvent(new SortedMapEventImpl(Type.REMOVED, key, value));
+      _helper.fireEvent(new SortedMapEventImpl(Type.REMOVED, key, value));
    }
 
    @Override
    protected void fireEntryUpdated(final K key, final V oldValue, final V newValue)
    {
-      fireEvent(new SortedMapEventImpl(Type.UPDATED, key, oldValue, newValue));
-   }
-
-   private void fireEvent(final SortedMapEvent<K, V> event)
-   {
-      if (_listeners == null)
-      {
-         return;
-      }
-
-      for (final EventSortedMapListener<K, V> listener : _listeners)
-      {
-         listener.eventOccured(event);
-      }
+      _helper.fireEvent(new SortedMapEventImpl(Type.UPDATED, key, oldValue, newValue));
    }
 
    private class SortedMapEventImpl implements SortedMapEvent<K, V>

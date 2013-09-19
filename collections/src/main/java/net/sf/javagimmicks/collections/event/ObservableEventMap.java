@@ -1,7 +1,5 @@
 package net.sf.javagimmicks.collections.event;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import net.sf.javagimmicks.collections.event.MapEvent.Type;
@@ -11,7 +9,7 @@ public class ObservableEventMap<K, V> extends AbstractEventMap<K, V> implements
 {
    private static final long serialVersionUID = 8006998141057065129L;
 
-   protected transient List<EventMapListener<K, V>> _listeners;
+   protected final ObservableBase<MapEvent<K, V>, EventMapListener<K, V>> _helper = new ObservableBase<MapEvent<K, V>, EventMapListener<K, V>>();
 
    public ObservableEventMap(final Map<K, V> decorated)
    {
@@ -21,52 +19,31 @@ public class ObservableEventMap<K, V> extends AbstractEventMap<K, V> implements
    @Override
    public void addEventListener(final EventMapListener<K, V> listener)
    {
-      if (_listeners == null)
-      {
-         _listeners = new ArrayList<EventMapListener<K, V>>();
-      }
-
-      _listeners.add(listener);
+      _helper.addEventListener(listener);
    }
 
    @Override
    public void removeEventListener(final EventMapListener<K, V> listener)
    {
-      if (_listeners != null)
-      {
-         _listeners.remove(listener);
-      }
+      _helper.removeEventListener(listener);
    }
 
    @Override
    protected void fireEntryAdded(final K key, final V value)
    {
-      fireEvent(new MapEventImpl(Type.ADDED, key, value));
+      _helper.fireEvent(new MapEventImpl(Type.ADDED, key, value));
    }
 
    @Override
    protected void fireEntryRemoved(final K key, final V value)
    {
-      fireEvent(new MapEventImpl(Type.REMOVED, key, value));
+      _helper.fireEvent(new MapEventImpl(Type.REMOVED, key, value));
    }
 
    @Override
    protected void fireEntryUpdated(final K key, final V oldValue, final V newValue)
    {
-      fireEvent(new MapEventImpl(Type.UPDATED, key, oldValue, newValue));
-   }
-
-   private void fireEvent(final MapEvent<K, V> event)
-   {
-      if (_listeners == null)
-      {
-         return;
-      }
-
-      for (final EventMapListener<K, V> listener : _listeners)
-      {
-         listener.eventOccured(event);
-      }
+      _helper.fireEvent(new MapEventImpl(Type.UPDATED, key, oldValue, newValue));
    }
 
    private class MapEventImpl implements MapEvent<K, V>

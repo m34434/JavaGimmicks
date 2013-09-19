@@ -1,7 +1,5 @@
 package net.sf.javagimmicks.collections.event;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.SortedSet;
 
 import net.sf.javagimmicks.collections.event.SortedSetEvent.Type;
@@ -11,7 +9,7 @@ public class ObservableEventSortedSet<E> extends AbstractEventSortedSet<E> imple
 {
    private static final long serialVersionUID = 7595639007080114146L;
 
-   protected transient List<EventSortedSetListener<E>> _listeners;
+   protected final ObservableBase<SortedSetEvent<E>, EventSortedSetListener<E>> _helper = new ObservableBase<SortedSetEvent<E>, EventSortedSetListener<E>>();
 
    public ObservableEventSortedSet(final SortedSet<E> decorated)
    {
@@ -21,21 +19,13 @@ public class ObservableEventSortedSet<E> extends AbstractEventSortedSet<E> imple
    @Override
    public void addEventListener(final EventSortedSetListener<E> listener)
    {
-      if (_listeners == null)
-      {
-         _listeners = new ArrayList<EventSortedSetListener<E>>();
-      }
-
-      _listeners.add(listener);
+      _helper.addEventListener(listener);
    }
 
    @Override
    public void removeEventListener(final EventSortedSetListener<E> listener)
    {
-      if (_listeners != null)
-      {
-         _listeners.remove(listener);
-      }
+      _helper.removeEventListener(listener);
    }
 
    @Override
@@ -59,32 +49,19 @@ public class ObservableEventSortedSet<E> extends AbstractEventSortedSet<E> imple
    @Override
    protected void fireElementAdded(final E element)
    {
-      fireEvent(new SortedSetEventImpl(Type.ADDED, element));
+      _helper.fireEvent(new SortedSetEventImpl(Type.ADDED, element));
    }
 
    @Override
    protected void fireElementReadded(final E element)
    {
-      fireEvent(new SortedSetEventImpl(Type.READDED, element));
+      _helper.fireEvent(new SortedSetEventImpl(Type.READDED, element));
    }
 
    @Override
    protected void fireElementRemoved(final E element)
    {
-      fireEvent(new SortedSetEventImpl(Type.REMOVED, element));
-   }
-
-   private void fireEvent(final SortedSetEvent<E> event)
-   {
-      if (_listeners == null)
-      {
-         return;
-      }
-
-      for (final EventSortedSetListener<E> listener : _listeners)
-      {
-         listener.eventOccured(event);
-      }
+      _helper.fireEvent(new SortedSetEventImpl(Type.REMOVED, element));
    }
 
    private class SortedSetEventImpl implements SortedSetEvent<E>

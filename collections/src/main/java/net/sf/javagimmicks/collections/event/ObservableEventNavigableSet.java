@@ -1,7 +1,5 @@
 package net.sf.javagimmicks.collections.event;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.NavigableSet;
 import java.util.SortedSet;
 
@@ -12,7 +10,7 @@ public class ObservableEventNavigableSet<E> extends AbstractEventNavigableSet<E>
 {
    private static final long serialVersionUID = -6812183248508925850L;
 
-   protected transient List<EventNavigableSetListener<E>> _listeners;
+   protected final ObservableBase<NavigableSetEvent<E>, EventNavigableSetListener<E>> _helper = new ObservableBase<NavigableSetEvent<E>, EventNavigableSetListener<E>>();
 
    public ObservableEventNavigableSet(final NavigableSet<E> decorated)
    {
@@ -22,21 +20,13 @@ public class ObservableEventNavigableSet<E> extends AbstractEventNavigableSet<E>
    @Override
    public void addEventListener(final EventNavigableSetListener<E> listener)
    {
-      if (_listeners == null)
-      {
-         _listeners = new ArrayList<EventNavigableSetListener<E>>();
-      }
-
-      _listeners.add(listener);
+      _helper.addEventListener(listener);
    }
 
    @Override
    public void removeEventListener(final EventNavigableSetListener<E> listener)
    {
-      if (_listeners != null)
-      {
-         _listeners.remove(listener);
-      }
+      _helper.removeEventListener(listener);
    }
 
    @Override
@@ -86,32 +76,19 @@ public class ObservableEventNavigableSet<E> extends AbstractEventNavigableSet<E>
    @Override
    protected void fireElementAdded(final E element)
    {
-      fireEvent(new NavigableSetEventImpl(Type.ADDED, element));
+      _helper.fireEvent(new NavigableSetEventImpl(Type.ADDED, element));
    }
 
    @Override
    protected void fireElementReadded(final E element)
    {
-      fireEvent(new NavigableSetEventImpl(Type.READDED, element));
+      _helper.fireEvent(new NavigableSetEventImpl(Type.READDED, element));
    }
 
    @Override
    protected void fireElementRemoved(final E element)
    {
-      fireEvent(new NavigableSetEventImpl(Type.REMOVED, element));
-   }
-
-   private void fireEvent(final NavigableSetEvent<E> event)
-   {
-      if (_listeners == null)
-      {
-         return;
-      }
-
-      for (final EventNavigableSetListener<E> listener : _listeners)
-      {
-         listener.eventOccured(event);
-      }
+      _helper.fireEvent(new NavigableSetEventImpl(Type.REMOVED, element));
    }
 
    private class NavigableSetEventImpl implements NavigableSetEvent<E>

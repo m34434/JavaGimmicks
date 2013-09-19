@@ -1,7 +1,5 @@
 package net.sf.javagimmicks.collections.event;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 import net.sf.javagimmicks.collections.event.SetEvent.Type;
@@ -10,7 +8,7 @@ public class ObservableEventSet<E> extends AbstractEventSet<E> implements Observ
 {
    private static final long serialVersionUID = 4799365684601532982L;
 
-   protected transient List<EventSetListener<E>> _listeners;
+   protected final ObservableBase<SetEvent<E>, EventSetListener<E>> _helper = new ObservableBase<SetEvent<E>, EventSetListener<E>>();
 
    public ObservableEventSet(final Set<E> decorated)
    {
@@ -20,52 +18,31 @@ public class ObservableEventSet<E> extends AbstractEventSet<E> implements Observ
    @Override
    public void addEventListener(final EventSetListener<E> listener)
    {
-      if (_listeners == null)
-      {
-         _listeners = new ArrayList<EventSetListener<E>>();
-      }
-
-      _listeners.add(listener);
+      _helper.addEventListener(listener);
    }
 
    @Override
    public void removeEventListener(final EventSetListener<E> listener)
    {
-      if (_listeners != null)
-      {
-         _listeners.remove(listener);
-      }
+      _helper.removeEventListener(listener);
    }
 
    @Override
    protected void fireElementAdded(final E element)
    {
-      fireEvent(new SetEventImpl(Type.ADDED, element));
+      _helper.fireEvent(new SetEventImpl(Type.ADDED, element));
    }
 
    @Override
    protected void fireElementReadded(final E element)
    {
-      fireEvent(new SetEventImpl(Type.READDED, element));
+      _helper.fireEvent(new SetEventImpl(Type.READDED, element));
    }
 
    @Override
    protected void fireElementRemoved(final E element)
    {
-      fireEvent(new SetEventImpl(Type.REMOVED, element));
-   }
-
-   private void fireEvent(final SetEventImpl event)
-   {
-      if (_listeners == null)
-      {
-         return;
-      }
-
-      for (final EventSetListener<E> listener : _listeners)
-      {
-         listener.eventOccured(event);
-      }
+      _helper.fireEvent(new SetEventImpl(Type.REMOVED, element));
    }
 
    private class SetEventImpl implements SetEvent<E>

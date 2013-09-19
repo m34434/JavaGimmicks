@@ -1,7 +1,5 @@
 package net.sf.javagimmicks.collections.event;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
 import java.util.SortedMap;
@@ -13,7 +11,7 @@ public class ObservableEventNavigableMap<K, V> extends AbstractEventNavigableMap
 {
    private static final long serialVersionUID = -4936595637793434597L;
 
-   protected transient List<EventNavigableMapListener<K, V>> _listeners;
+   protected final ObservableBase<NavigableMapEvent<K, V>, EventNavigableMapListener<K, V>> _helper = new ObservableBase<NavigableMapEvent<K, V>, EventNavigableMapListener<K, V>>();
 
    public ObservableEventNavigableMap(final NavigableMap<K, V> decorated)
    {
@@ -23,116 +21,89 @@ public class ObservableEventNavigableMap<K, V> extends AbstractEventNavigableMap
    @Override
    public void addEventListener(final EventNavigableMapListener<K, V> listener)
    {
-      if (_listeners == null)
-      {
-         _listeners = new ArrayList<EventNavigableMapListener<K, V>>();
-      }
-
-      _listeners.add(listener);
+      _helper.addEventListener(listener);
    }
 
    @Override
    public void removeEventListener(final EventNavigableMapListener<K, V> listener)
    {
-      if (_listeners != null)
-      {
-         _listeners.remove(listener);
-      }
+      _helper.removeEventListener(listener);
    }
 
    @Override
    public NavigableSet<K> descendingKeySet()
    {
-      // TODO Auto-generated method stub
+      // TODO: Wrap result
       return super.descendingKeySet();
    }
 
    @Override
    public NavigableMap<K, V> descendingMap()
    {
-      // TODO Auto-generated method stub
-      return super.descendingMap();
+      return new ObservableEventSubNavigableMap<K, V>(this, getDecorated().descendingMap());
    }
 
    @Override
    public NavigableMap<K, V> headMap(final K toKey, final boolean inclusive)
    {
-      // TODO Auto-generated method stub
-      return super.headMap(toKey, inclusive);
-   }
-
-   @Override
-   public NavigableSet<K> navigableKeySet()
-   {
-      // TODO Auto-generated method stub
-      return super.navigableKeySet();
+      return new ObservableEventSubNavigableMap<K, V>(this, getDecorated().headMap(toKey, inclusive));
    }
 
    @Override
    public NavigableMap<K, V> subMap(final K fromKey, final boolean fromInclusive, final K toKey,
          final boolean toInclusive)
    {
-      // TODO Auto-generated method stub
-      return super.subMap(fromKey, fromInclusive, toKey, toInclusive);
+      return new ObservableEventSubNavigableMap<K, V>(this, getDecorated().subMap(fromKey, fromInclusive, toKey,
+            toInclusive));
    }
 
    @Override
    public NavigableMap<K, V> tailMap(final K fromKey, final boolean inclusive)
    {
-      // TODO Auto-generated method stub
-      return super.tailMap(fromKey, inclusive);
+      return new ObservableEventSubNavigableMap<K, V>(this, getDecorated().tailMap(fromKey, inclusive));
    }
 
    @Override
    public SortedMap<K, V> headMap(final K toKey)
    {
-      // TODO Auto-generated method stub
-      return super.headMap(toKey);
+      return new ObservableEventSubSortedMap<K, V>(this, getDecorated().headMap(toKey));
    }
 
    @Override
    public SortedMap<K, V> subMap(final K fromKey, final K toKey)
    {
-      // TODO Auto-generated method stub
-      return super.subMap(fromKey, toKey);
+      return new ObservableEventSubSortedMap<K, V>(this, getDecorated().subMap(fromKey, toKey));
    }
 
    @Override
    public SortedMap<K, V> tailMap(final K fromKey)
    {
-      // TODO Auto-generated method stub
-      return super.tailMap(fromKey);
+      return new ObservableEventSubSortedMap<K, V>(this, getDecorated().tailMap(fromKey));
+   }
+
+   @Override
+   public NavigableSet<K> navigableKeySet()
+   {
+      // TODO: Wrap result
+      return super.navigableKeySet();
    }
 
    @Override
    protected void fireEntryAdded(final K key, final V value)
    {
-      fireEvent(new NavigableMapEventImpl(Type.ADDED, key, value));
+      _helper.fireEvent(new NavigableMapEventImpl(Type.ADDED, key, value));
    }
 
    @Override
    protected void fireEntryRemoved(final K key, final V value)
    {
-      fireEvent(new NavigableMapEventImpl(Type.REMOVED, key, value));
+      _helper.fireEvent(new NavigableMapEventImpl(Type.REMOVED, key, value));
    }
 
    @Override
    protected void fireEntryUpdated(final K key, final V oldValue, final V newValue)
    {
-      fireEvent(new NavigableMapEventImpl(Type.UPDATED, key, oldValue, newValue));
-   }
-
-   private void fireEvent(final NavigableMapEvent<K, V> event)
-   {
-      if (_listeners == null)
-      {
-         return;
-      }
-
-      for (final EventNavigableMapListener<K, V> listener : _listeners)
-      {
-         listener.eventOccured(event);
-      }
+      _helper.fireEvent(new NavigableMapEventImpl(Type.UPDATED, key, oldValue, newValue));
    }
 
    private class NavigableMapEventImpl implements NavigableMapEvent<K, V>
@@ -194,6 +165,41 @@ public class ObservableEventNavigableMap<K, V> extends AbstractEventNavigableMap
 
       protected ObservableEventSubNavigableMap(final ObservableEventNavigableMap<K, V> parent,
             final NavigableMap<K, V> decorated)
+      {
+         super(decorated);
+         _parent = parent;
+      }
+
+      @Override
+      protected void fireEntryAdded(final K key, final V value)
+      {
+         super.fireEntryAdded(key, value);
+         _parent.fireEntryAdded(key, value);
+      }
+
+      @Override
+      protected void fireEntryRemoved(final K key, final V value)
+      {
+         super.fireEntryRemoved(key, value);
+         _parent.fireEntryRemoved(key, value);
+      }
+
+      @Override
+      protected void fireEntryUpdated(final K key, final V oldValue, final V newValue)
+      {
+         super.fireEntryUpdated(key, oldValue, newValue);
+         _parent.fireEntryUpdated(key, oldValue, newValue);
+      }
+   }
+
+   protected static class ObservableEventSubSortedMap<K, V> extends ObservableEventSortedMap<K, V>
+   {
+      private static final long serialVersionUID = 8307521297661725017L;
+
+      protected final ObservableEventNavigableMap<K, V> _parent;
+
+      protected ObservableEventSubSortedMap(final ObservableEventNavigableMap<K, V> parent,
+            final SortedMap<K, V> decorated)
       {
          super(decorated);
          _parent = parent;

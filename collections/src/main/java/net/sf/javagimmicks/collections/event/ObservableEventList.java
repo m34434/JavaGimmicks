@@ -12,7 +12,7 @@ public class ObservableEventList<E> extends AbstractEventList<E> implements
 {
    private static final long serialVersionUID = -6317396247733734848L;
 
-   protected transient List<EventListListener<E>> _listeners;
+   protected final ObservableBase<ListEvent<E>, EventListListener<E>> _helper = new ObservableBase<ListEvent<E>, EventListListener<E>>();
 
    public ObservableEventList(final List<E> decorated)
    {
@@ -22,21 +22,13 @@ public class ObservableEventList<E> extends AbstractEventList<E> implements
    @Override
    public void addEventListener(final EventListListener<E> listener)
    {
-      if (_listeners == null)
-      {
-         _listeners = new ArrayList<EventListListener<E>>();
-      }
-
-      _listeners.add(listener);
+      _helper.addEventListener(listener);
    }
 
    @Override
    public void removeEventListener(final EventListListener<E> listener)
    {
-      if (_listeners != null)
-      {
-         _listeners.remove(listener);
-      }
+      _helper.removeEventListener(listener);
    }
 
    @Override
@@ -54,7 +46,7 @@ public class ObservableEventList<E> extends AbstractEventList<E> implements
             index + elements.size(),
             Collections.unmodifiableList(new ArrayList<E>(elements)));
 
-      fireEvent(event);
+      _helper.fireEvent(event);
    }
 
    @Override
@@ -67,7 +59,7 @@ public class ObservableEventList<E> extends AbstractEventList<E> implements
             Collections.singletonList(element),
             Collections.singletonList(newElement));
 
-      fireEvent(event);
+      _helper.fireEvent(event);
    }
 
    @Override
@@ -79,20 +71,7 @@ public class ObservableEventList<E> extends AbstractEventList<E> implements
             index,
             Collections.singletonList(element));
 
-      fireEvent(event);
-   }
-
-   private void fireEvent(final ListEvent<E> event)
-   {
-      if (_listeners == null)
-      {
-         return;
-      }
-
-      for (final EventListListener<E> listener : _listeners)
-      {
-         listener.eventOccured(event);
-      }
+      _helper.fireEvent(event);
    }
 
    protected static class ObservableEventSubList<E> extends ObservableEventList<E>

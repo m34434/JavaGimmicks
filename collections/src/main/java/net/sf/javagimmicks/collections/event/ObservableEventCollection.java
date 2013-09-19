@@ -3,7 +3,6 @@ package net.sf.javagimmicks.collections.event;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 import net.sf.javagimmicks.collections.event.CollectionEvent.Type;
 
@@ -12,7 +11,7 @@ public class ObservableEventCollection<E> extends AbstractEventCollection<E> imp
 {
    private static final long serialVersionUID = -4055919694275882002L;
 
-   protected transient List<EventCollectionListener<E>> _listeners;
+   protected final ObservableBase<CollectionEvent<E>, EventCollectionListener<E>> _helper = new ObservableBase<CollectionEvent<E>, EventCollectionListener<E>>();
 
    public ObservableEventCollection(final Collection<E> decorated)
    {
@@ -22,47 +21,26 @@ public class ObservableEventCollection<E> extends AbstractEventCollection<E> imp
    @Override
    public void addEventListener(final EventCollectionListener<E> listener)
    {
-      if (_listeners == null)
-      {
-         _listeners = new ArrayList<EventCollectionListener<E>>();
-      }
-
-      _listeners.add(listener);
+      _helper.addEventListener(listener);
    }
 
    @Override
    public void removeEventListener(final EventCollectionListener<E> listener)
    {
-      if (_listeners != null)
-      {
-         _listeners.remove(listener);
-      }
+      _helper.removeEventListener(listener);
    }
 
    @Override
    protected void fireElementsAdded(final Collection<? extends E> elements)
    {
-      fireEvent(new CollectionEventImpl(Type.ADDED, Collections.unmodifiableCollection(new ArrayList<E>(
+      _helper.fireEvent(new CollectionEventImpl(Type.ADDED, Collections.unmodifiableCollection(new ArrayList<E>(
             elements))));
    }
 
    @Override
    protected void fireElementRemoved(final E element)
    {
-      fireEvent(new CollectionEventImpl(Type.REMOVED, Collections.singleton(element)));
-   }
-
-   private void fireEvent(final CollectionEvent<E> event)
-   {
-      if (_listeners == null)
-      {
-         return;
-      }
-
-      for (final EventCollectionListener<E> listener : _listeners)
-      {
-         listener.eventOccured(event);
-      }
+      _helper.fireEvent(new CollectionEventImpl(Type.REMOVED, Collections.singleton(element)));
    }
 
    private class CollectionEventImpl implements CollectionEvent<E>
