@@ -30,17 +30,12 @@ import java.util.List;
 public interface Difference<T>
 {
    /**
-    * The pseudo-index ({@value #NONE}) if there is no delete or add range.
-    * 
-    * @see #getDeleteStartIndex()
-    * @see #getDeleteEndIndex()
-    * @see #getAddStartIndex()
-    * @see #getAddEndIndex()
+    * The pseudo end index ({@value #NONE}) if there is no delete or add range.
     */
    int NONE = -1;
 
    /**
-    * Return the <i>delete {@link Range}</i> of this {@link Difference}. This
+    * Returns the <i>delete {@link Range}</i> of this {@link Difference}. This
     * will never return {@code null} event if there is no such {@link Range} -
     * instead {@link Range#exists()} will result to {@code false}.
     * 
@@ -49,7 +44,7 @@ public interface Difference<T>
    Range<T> deleteRange();
 
    /**
-    * Return the <i>add {@link Range}</i> of this {@link Difference}. This will
+    * Returns the <i>add {@link Range}</i> of this {@link Difference}. This will
     * never return {@code null} event if there is no such {@link Range} -
     * instead {@link Range#exists()} will result to {@code false}.
     * 
@@ -65,11 +60,22 @@ public interface Difference<T>
     */
    Difference<T> invert();
 
+   /**
+    * Encapsulates a range (of type <i>delete</i> or <i>add</i>) that a
+    * {@link Difference} will contain.
+    * <p>
+    * <b>Note:</b> a {@link Range} is defined to be read-only, so implementors
+    * should ensure this.
+    * 
+    * @param <T>
+    *           the type of elements the surrounding {@link Difference} operates
+    *           on.
+    */
    interface Range<T> extends List<T>
    {
       /**
-       * Returns the index of the first element of the range or {@link #NONE} if
-       * there is none ({@link #exists()} resolves to {@code false}).
+       * Returns the index of the first element of the range or 0 if there is
+       * none ({@link #exists()} resolves to {@code false}).
        * 
        * @return the first index of the range
        * @see #exists()
@@ -86,7 +92,7 @@ public interface Difference<T>
       int getEndIndex();
 
       /**
-       * Return if the range exists in the surrounding {@link Difference}
+       * Returns if the range exists in the surrounding {@link Difference}
        * 
        * @return if the range exists in the surrounding {@link Difference}
        */

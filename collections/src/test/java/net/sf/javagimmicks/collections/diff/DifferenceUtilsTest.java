@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import net.sf.javagimmicks.collections.diff.Difference.Range;
+
 import org.junit.Test;
 
 public class DifferenceUtilsTest
@@ -98,9 +100,12 @@ public class DifferenceUtilsTest
    protected static void assertDifference(final Difference<?> d, final int delStart, final int delEnd,
          final int addStart, final int addEnd)
    {
-      assertEquals("Start index of delete range does not match", delStart, d.getDeleteStartIndex());
-      assertEquals("End index of delete range does not match", delEnd, d.getDeleteEndIndex());
-      assertEquals("Start index of add range does not match", addStart, d.getAddStartIndex());
-      assertEquals("End index of add range does not match", addEnd, d.getAddEndIndex());
+      final Range<?> deleteRange = d.deleteRange();
+      final Range<?> addRange = d.addRange();
+
+      assertEquals("Start index of delete range does not match", delStart, deleteRange.getStartIndex());
+      assertEquals("End index of delete range does not match", delEnd, deleteRange.getEndIndex());
+      assertEquals("Start index of add range does not match", addStart, addRange.getStartIndex());
+      assertEquals("End index of add range does not match", addEnd, addRange.getEndIndex());
    }
 }

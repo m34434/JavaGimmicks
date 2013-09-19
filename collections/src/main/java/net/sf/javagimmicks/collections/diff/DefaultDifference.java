@@ -50,7 +50,7 @@ public class DefaultDifference<T> implements Difference<T>
       _toList = toList;
    }
 
-   public DefaultDifference()
+   DefaultDifference()
    {
       this(0, NONE, 0, NONE, new ArrayList<T>(), new ArrayList<T>());
    }
@@ -68,60 +68,6 @@ public class DefaultDifference<T> implements Difference<T>
    }
 
    @Override
-   public int getAddStartIndex()
-   {
-      return _addStartIndex;
-   }
-
-   @Override
-   public int getAddEndIndex()
-   {
-      return _addEndIndex;
-   }
-
-   @Override
-   @SuppressWarnings("unchecked")
-   public List<T> getAddList()
-   {
-      return isAdd() ?
-            Collections.unmodifiableList(_toList.subList(_addStartIndex, _addEndIndex + 1)) :
-            Collections.EMPTY_LIST;
-   }
-
-   @Override
-   public boolean isAdd()
-   {
-      return getAddEndIndex() != NONE;
-   }
-
-   @Override
-   public int getDeleteStartIndex()
-   {
-      return _deleteStartIndex;
-   }
-
-   @Override
-   public int getDeleteEndIndex()
-   {
-      return _deleteEndIndex;
-   }
-
-   @Override
-   @SuppressWarnings("unchecked")
-   public List<T> getDeleteList()
-   {
-      return isDelete() ?
-            Collections.unmodifiableList(_fromList.subList(_deleteStartIndex, _deleteEndIndex + 1)) :
-            Collections.EMPTY_LIST;
-   }
-
-   @Override
-   public boolean isDelete()
-   {
-      return getDeleteEndIndex() != NONE;
-   }
-
-   @Override
    public Difference<T> invert()
    {
       return DifferenceUtils.getInvertedDifference(this);
@@ -133,38 +79,40 @@ public class DefaultDifference<T> implements Difference<T>
       return DifferenceUtils.toString(this);
    }
 
-   public void setDeleteStartIndex(final int startIndex)
+   void setDeleteStartIndex(final int startIndex)
    {
       _deleteStartIndex = startIndex;
    }
 
-   public void setDeleteEndIndex(final int endIndex)
+   void setDeleteEndIndex(final int endIndex)
    {
       _deleteEndIndex = endIndex;
    }
 
-   public void setAddStartIndex(final int startIndex)
+   void setAddStartIndex(final int startIndex)
    {
       _addStartIndex = startIndex;
    }
 
-   public void setAddEndIndex(final int endIndex)
+   void setAddEndIndex(final int endIndex)
    {
       _addEndIndex = endIndex;
    }
 
-   public void setFromList(final List<T> list)
+   void setFromList(final List<T> list)
    {
       _fromList = list;
    }
 
-   public void setToList(final List<T> list)
+   void setToList(final List<T> list)
    {
       _toList = list;
    }
 
    private class DeleteRange extends AbstractUnmodifiableListDecorator<T> implements Range<T>
    {
+      private static final long serialVersionUID = 5152362545955680166L;
+
       public DeleteRange()
       {
          super(_deleteEndIndex != NONE ? _fromList.subList(_deleteStartIndex, _deleteEndIndex + 1) : Collections
@@ -192,6 +140,8 @@ public class DefaultDifference<T> implements Difference<T>
 
    private class AddRange extends AbstractUnmodifiableListDecorator<T> implements Range<T>
    {
+      private static final long serialVersionUID = 196165493918974027L;
+
       public AddRange()
       {
          super(_addEndIndex != NONE ? _toList.subList(_addStartIndex, _addEndIndex + 1) : Collections.<T> emptyList());

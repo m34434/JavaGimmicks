@@ -10,457 +10,455 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 class DifferenceAlgorithm<T>
 {
-	protected final List<T> _fromList;
-	protected final List<T> _toList;
+   protected final List<T> _fromList;
+   protected final List<T> _toList;
 
-	protected final Comparator<T> _comparator;
-	protected final DifferenceList<T> _differences = new DefaultDifferenceList<T>();
+   protected final Comparator<T> _comparator;
+   protected final DefaultDifferenceList<T> _differences = new DefaultDifferenceList<T>();
 
-	protected DefaultDifference<T> _pending;
+   protected DefaultDifference<T> _pending;
 
-	protected DifferenceAlgorithm(List<T> fromList, List<T> toList, Comparator<T> comparator)
-	{
-		_fromList = fromList;
-		_toList = toList;
-		_comparator = comparator;
+   protected DifferenceAlgorithm(final List<T> fromList, final List<T> toList, final Comparator<T> comparator)
+   {
+      _fromList = fromList;
+      _toList = toList;
+      _comparator = comparator;
 
-		traverseSequences();
+      traverseSequences();
 
-		// add the last difference, if pending:
-		if (_pending != null)
-		{
-			_differences.add(_pending);
-		}
-	}
-	
-	public DifferenceList<T> getDifferences()
-	{
-		return _differences;
-	}
+      // add the last difference, if pending:
+      if (_pending != null)
+      {
+         _differences.getDecorated().add(_pending);
+      }
+   }
 
-	/**
-	 * Traverses the sequences, seeking the longest common subsequences,
-	 * invoking the methods <code>finishedA</code>, <code>finishedB</code>,
-	 * <code>onANotB</code>, and <code>onBNotA</code>.
-	 */
-	protected void traverseSequences()
-	{
-		List<Integer> matches = getLongestCommonSubsequences();
+   public DifferenceList<T> getDifferences()
+   {
+      return _differences;
+   }
 
-		final int lastIndexA = _fromList.size() - 1;
-		final int lastIndexB = _toList.size() - 1;
-		
-		int indexB = 0;
-		int indexA;
+   /**
+    * Traverses the sequences, seeking the longest common subsequences, invoking
+    * the methods <code>finishedA</code>, <code>finishedB</code>,
+    * <code>onANotB</code>, and <code>onBNotA</code>.
+    */
+   protected void traverseSequences()
+   {
+      final List<Integer> matches = getLongestCommonSubsequences();
 
-		int lastMatchIndex = matches.size() - 1;
+      final int lastIndexA = _fromList.size() - 1;
+      final int lastIndexB = _toList.size() - 1;
 
-		for (indexA = 0; indexA <= lastMatchIndex; ++indexA)
-		{
-			Integer bLine = matches.get(indexA);
+      int indexB = 0;
+      int indexA;
 
-			if (bLine == null)
-			{
-				onANotB(indexA, indexB);
-			}
-			else
-			{
-				while (indexB < bLine)
-				{
-					onBNotA(indexA, indexB++);
-				}
+      final int lastMatchIndex = matches.size() - 1;
 
-				onMatch(indexA, indexB++);
-			}
-		}
+      for (indexA = 0; indexA <= lastMatchIndex; ++indexA)
+      {
+         final Integer bLine = matches.get(indexA);
 
-		boolean calledFinishA = false;
-		boolean calledFinishB = false;
+         if (bLine == null)
+         {
+            onANotB(indexA, indexB);
+         }
+         else
+         {
+            while (indexB < bLine)
+            {
+               onBNotA(indexA, indexB++);
+            }
 
-		while (indexA <= lastIndexA || indexB <= lastIndexB)
-		{
-			// last A?
-			if (indexA == lastIndexA + 1 && indexB <= lastIndexB)
-			{
-				if (!calledFinishA && callFinishedA())
-				{
-					finishedA(lastIndexA);
-					calledFinishA = true;
-				}
-				else
-				{
-					while (indexB <= lastIndexB)
-					{
-						onBNotA(indexA, indexB++);
-					}
-				}
-			}
+            onMatch(indexA, indexB++);
+         }
+      }
 
-			// last B?
-			if (indexB == lastIndexB + 1 && indexA <= lastIndexA)
-			{
-				if (!calledFinishB && callFinishedB())
-				{
-					finishedB(lastIndexB);
-					calledFinishB = true;
-				}
-				else
-				{
-					while (indexA <= lastIndexA)
-					{
-						onANotB(indexA++, indexB);
-					}
-				}
-			}
+      boolean calledFinishA = false;
+      boolean calledFinishB = false;
 
-			if (indexA <= lastIndexA)
-			{
-				onANotB(indexA++, indexB);
-			}
+      while (indexA <= lastIndexA || indexB <= lastIndexB)
+      {
+         // last A?
+         if (indexA == lastIndexA + 1 && indexB <= lastIndexB)
+         {
+            if (!calledFinishA && callFinishedA())
+            {
+               finishedA(lastIndexA);
+               calledFinishA = true;
+            }
+            else
+            {
+               while (indexB <= lastIndexB)
+               {
+                  onBNotA(indexA, indexB++);
+               }
+            }
+         }
 
-			if (indexB <= lastIndexB)
-			{
-				onBNotA(indexA, indexB++);
-			}
-		}
-	}
+         // last B?
+         if (indexB == lastIndexB + 1 && indexA <= lastIndexA)
+         {
+            if (!calledFinishB && callFinishedB())
+            {
+               finishedB(lastIndexB);
+               calledFinishB = true;
+            }
+            else
+            {
+               while (indexA <= lastIndexA)
+               {
+                  onANotB(indexA++, indexB);
+               }
+            }
+         }
 
-	/**
-	 * Override and return true in order to have <code>finishedA</code>
-	 * invoked at the last element in the <code>a</code> list.
-	 */
-	protected boolean callFinishedA()
-	{
-		return false;
-	}
+         if (indexA <= lastIndexA)
+         {
+            onANotB(indexA++, indexB);
+         }
 
-	/**
-	 * Override and return true in order to have <code>finishedB</code>
-	 * invoked at the last element in the <code>b</code> list.
-	 */
-	protected boolean callFinishedB()
-	{
-		return false;
-	}
+         if (indexB <= lastIndexB)
+         {
+            onBNotA(indexA, indexB++);
+         }
+      }
+   }
 
-	/**
-	 * Invoked at the last element in <code>a</code>, if
-	 * <code>callFinishedA</code> returns true.
-	 */
-	protected void finishedA(int lastA)
-	{
-	}
+   /**
+    * Override and return true in order to have <code>finishedA</code> invoked
+    * at the last element in the <code>a</code> list.
+    */
+   protected boolean callFinishedA()
+   {
+      return false;
+   }
 
-	/**
-	 * Invoked at the last element in <code>b</code>, if
-	 * <code>callFinishedB</code> returns true.
-	 */
-	protected void finishedB(int lastB)
-	{
-	}
+   /**
+    * Override and return true in order to have <code>finishedB</code> invoked
+    * at the last element in the <code>b</code> list.
+    */
+   protected boolean callFinishedB()
+   {
+      return false;
+   }
 
-	/**
-	 * Invoked for elements in <code>a</code> and not in <code>b</code>.
-	 */
-	protected void onANotB(int indexA, int indexB)
-	{
-		if (_pending == null)
-		{
-			_pending = new DefaultDifference<T>();
-			_pending.setDeleteStartIndex(indexA);
-			_pending.setDeleteEndIndex(indexA);
-			_pending.setAddStartIndex(indexB);
-			_pending.setFromList(_fromList);
-			_pending.setToList(_toList);
-		}
-		else
-		{
-			setDeleted(_pending, indexA);
-		}
-	}
+   /**
+    * Invoked at the last element in <code>a</code>, if
+    * <code>callFinishedA</code> returns true.
+    */
+   protected void finishedA(final int lastA)
+   {}
 
-	/**
-	 * Invoked for elements in <code>b</code> and not in <code>a</code>.
-	 */
-	protected void onBNotA(int indexA, int indexB)
-	{
-		if (_pending == null)
-		{
-			_pending = new DefaultDifference<T>();
-			_pending.setDeleteStartIndex(indexA);
-			_pending.setAddStartIndex(indexB);
-			_pending.setAddEndIndex(indexB);
-			_pending.setFromList(_fromList);
-			_pending.setToList(_toList);
-		}
-		else
-		{
-			setAdded(_pending, indexB);
-		}
-	}
+   /**
+    * Invoked at the last element in <code>b</code>, if
+    * <code>callFinishedB</code> returns true.
+    */
+   protected void finishedB(final int lastB)
+   {}
 
-	/**
-	 * Invoked for elements matching in <code>a</code> and <code>b</code>.
-	 */
-	protected void onMatch(int indexA, int indexB)
-	{
-		if (_pending != null)
-		{
-			_differences.add(_pending);
-			_pending = null;
-		}
-	}
+   /**
+    * Invoked for elements in <code>a</code> and not in <code>b</code>.
+    */
+   protected void onANotB(final int indexA, final int indexB)
+   {
+      if (_pending == null)
+      {
+         _pending = new DefaultDifference<T>();
+         _pending.setDeleteStartIndex(indexA);
+         _pending.setDeleteEndIndex(indexA);
+         _pending.setAddStartIndex(indexB);
+         _pending.setFromList(_fromList);
+         _pending.setToList(_toList);
+      }
+      else
+      {
+         setDeleted(_pending, indexA);
+      }
+   }
 
-	/**
-	 * Compares the two objects, using the comparator provided with the
-	 * constructor, if any.
-	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	protected boolean equals(T x, T y)
-	{
-		if(_comparator == null)
-		{
-			if(x instanceof Comparable)
-			{
-				return ((Comparable)x).compareTo(y) == 0;
-			}
-			else
-			{
-				return x.equals(y);
-			}
-		}
-		else
-		{
-			return _comparator.compare(x, y) == 0;
-		}
-	}
+   /**
+    * Invoked for elements in <code>b</code> and not in <code>a</code>.
+    */
+   protected void onBNotA(final int indexA, final int indexB)
+   {
+      if (_pending == null)
+      {
+         _pending = new DefaultDifference<T>();
+         _pending.setDeleteStartIndex(indexA);
+         _pending.setAddStartIndex(indexB);
+         _pending.setAddEndIndex(indexB);
+         _pending.setFromList(_fromList);
+         _pending.setToList(_toList);
+      }
+      else
+      {
+         setAdded(_pending, indexB);
+      }
+   }
 
-	/**
-	 * Returns an array of the longest common subsequences.
-	 */
-	protected List<Integer> getLongestCommonSubsequences()
-	{
-		int startIndexA = 0;
-		int endIndexA = _fromList.size() - 1;
+   /**
+    * Invoked for elements matching in <code>a</code> and <code>b</code>.
+    */
+   protected void onMatch(final int indexA, final int indexB)
+   {
+      if (_pending != null)
+      {
+         _differences.getDecorated().add(_pending);
+         _pending = null;
+      }
+   }
 
-		int startIndexB = 0;
-		int endIndexB = _toList.size() - 1;
+   /**
+    * Compares the two objects, using the comparator provided with the
+    * constructor, if any.
+    */
+   @SuppressWarnings({ "unchecked", "rawtypes" })
+   protected boolean equals(final T x, final T y)
+   {
+      if (_comparator == null)
+      {
+         if (x instanceof Comparable)
+         {
+            return ((Comparable) x).compareTo(y) == 0;
+         }
+         else
+         {
+            return x.equals(y);
+         }
+      }
+      else
+      {
+         return _comparator.compare(x, y) == 0;
+      }
+   }
 
-		final TreeMap<Integer, Integer> matches = new TreeMap<Integer, Integer>();
+   /**
+    * Returns an array of the longest common subsequences.
+    */
+   protected List<Integer> getLongestCommonSubsequences()
+   {
+      int startIndexA = 0;
+      int endIndexA = _fromList.size() - 1;
 
-		while (startIndexA <= endIndexA && startIndexB <= endIndexB
-				&& equals(_fromList.get(startIndexA), _toList.get(startIndexB)))
-		{
-			matches.put(startIndexA++, startIndexB++);
-		}
+      int startIndexB = 0;
+      int endIndexB = _toList.size() - 1;
 
-		while (startIndexA <= endIndexA && startIndexB <= endIndexB
-				&& equals(_fromList.get(endIndexA), _toList.get(endIndexB)))
-		{
-			matches.put(endIndexA--, endIndexB--);
-		}
+      final TreeMap<Integer, Integer> matches = new TreeMap<Integer, Integer>();
 
-		final Map<T, List<Integer>> bMatches;
-		if(_comparator == null)
-		{
-			if(_fromList.get(0) instanceof Comparable<?>)
-			{
-				bMatches = new TreeMap<T, List<Integer>>();
-			}
-			else
-			{
-				bMatches = new HashMap<T, List<Integer>>();
-			}
-		}
-		else
-		{
-			bMatches = new TreeMap<T, List<Integer>>(_comparator);
-		}
+      while (startIndexA <= endIndexA && startIndexB <= endIndexB
+            && equals(_fromList.get(startIndexA), _toList.get(startIndexB)))
+      {
+         matches.put(startIndexA++, startIndexB++);
+      }
 
-		for (int indexB = startIndexB; indexB <= endIndexB; ++indexB)
-		{
-			T key = _toList.get(indexB);
-			List<Integer> positions = bMatches.get(key);
+      while (startIndexA <= endIndexA && startIndexB <= endIndexB
+            && equals(_fromList.get(endIndexA), _toList.get(endIndexB)))
+      {
+         matches.put(endIndexA--, endIndexB--);
+      }
 
-			if (positions == null)
-			{
-				positions = new ArrayList<Integer>();
-				bMatches.put(key, positions);
-			}
-			
-			positions.add(indexB);
-		}
+      final Map<T, List<Integer>> bMatches;
+      if (_comparator == null)
+      {
+         if (_fromList.get(0) instanceof Comparable<?>)
+         {
+            bMatches = new TreeMap<T, List<Integer>>();
+         }
+         else
+         {
+            bMatches = new HashMap<T, List<Integer>>();
+         }
+      }
+      else
+      {
+         bMatches = new TreeMap<T, List<Integer>>(_comparator);
+      }
 
-		final TreeMap<Integer, Integer> thresh = new TreeMap<Integer, Integer>();
-		final TreeMap<Integer, Link> links = new TreeMap<Integer, Link>();
+      for (int indexB = startIndexB; indexB <= endIndexB; ++indexB)
+      {
+         final T key = _toList.get(indexB);
+         List<Integer> positions = bMatches.get(key);
 
-		for (int indexA = startIndexA; indexA <= endIndexA; ++indexA)
-		{
-			T key = _fromList.get(indexA); // keygen here.
-			List<Integer> positions = bMatches.get(key);
+         if (positions == null)
+         {
+            positions = new ArrayList<Integer>();
+            bMatches.put(key, positions);
+         }
 
-			if (positions == null)
-			{
-				continue;
-			}
+         positions.add(indexB);
+      }
 
-			Integer k = 0;
+      final TreeMap<Integer, Integer> thresh = new TreeMap<Integer, Integer>();
+      final TreeMap<Integer, Link> links = new TreeMap<Integer, Link>();
 
-			ListIterator<Integer> positionIter = positions.listIterator(positions.size());
-			while (positionIter.hasPrevious())
-			{
-				Integer j = positionIter.previous();
+      for (int indexA = startIndexA; indexA <= endIndexA; ++indexA)
+      {
+         final T key = _fromList.get(indexA); // keygen here.
+         final List<Integer> positions = bMatches.get(key);
 
-				k = insert(thresh, j, k);
+         if (positions == null)
+         {
+            continue;
+         }
 
-				if (k != null)
-				{
-					Link value = k > 0 ? links.get(k - 1) : null;
-					links.put(k, new Link(value, indexA, j));
-				}
-			}
-		}
+         Integer k = 0;
 
-		if (!thresh.isEmpty())
-		{
-			for (Link link = links.get(thresh.lastKey()); link != null; link = link._link)
-			{
-				matches.put(link._x, link._y);
-			}
-		}
+         final ListIterator<Integer> positionIter = positions.listIterator(positions.size());
+         while (positionIter.hasPrevious())
+         {
+            final Integer j = positionIter.previous();
 
-		return toList(matches);
-	}
-	
-	protected static List<Integer> toList(TreeMap<Integer, Integer> map)
-	{
-		Integer[] result = new Integer[map.size() == 0 ? 0 : 1 + map.lastKey()];
+            k = insert(thresh, j, k);
 
-		for(Entry<Integer, Integer> entry : map.entrySet())
-		{
-			result[entry.getKey()] = entry.getValue();
-		}
+            if (k != null)
+            {
+               final Link value = k > 0 ? links.get(k - 1) : null;
+               links.put(k, new Link(value, indexA, j));
+            }
+         }
+      }
 
-		return Arrays.asList(result);
-	}
+      if (!thresh.isEmpty())
+      {
+         for (Link link = links.get(thresh.lastKey()); link != null; link = link._link)
+         {
+            matches.put(link._x, link._y);
+         }
+      }
 
-	protected static boolean isNonzero(Integer i)
-	{
-		return i != null && i != 0;
-	}
+      return toList(matches);
+   }
 
-	protected boolean isGreaterThan(TreeMap<Integer, Integer> thresh, Integer index, Integer val)
-	{
-		Integer lhs = thresh.get(index);
-		return lhs != null && (val != null && lhs > val);
-	}
+   protected static List<Integer> toList(final TreeMap<Integer, Integer> map)
+   {
+      final Integer[] result = new Integer[map.size() == 0 ? 0 : 1 + map.lastKey()];
 
-	protected boolean isLessThan(TreeMap<Integer, Integer> thresh, Integer index, Integer val)
-	{
-		Integer lhs = thresh.get(index);
-		return lhs != null && (val == null || lhs < val);
-	}
+      for (final Entry<Integer, Integer> entry : map.entrySet())
+      {
+         result[entry.getKey()] = entry.getValue();
+      }
 
-	/**
-	 * Adds the given value to the "end" of the threshold map, that is, with the
-	 * greatest index/key.
-	 */
-	protected void append(TreeMap<Integer, Integer> thresh, Integer value)
-	{
-		int addIdx = thresh.isEmpty() ? 0 : thresh.lastKey() + 1;
-		thresh.put(addIdx, value);
-	}
+      return Arrays.asList(result);
+   }
 
-	/**
-	 * Inserts the given values into the threshold map.
-	 */
-	protected Integer insert(TreeMap<Integer, Integer> thresh, Integer j, Integer k)
-	{
-		if (isNonzero(k) && isGreaterThan(thresh, k, j)
-				&& isLessThan(thresh, k - 1, j))
-		{
-			thresh.put(k, j);
-		}
-		else
-		{
-			int highIndex = -1;
+   protected static boolean isNonzero(final Integer i)
+   {
+      return i != null && i != 0;
+   }
 
-			if (isNonzero(k))
-			{
-				highIndex = k;
-			}
-			else if (!thresh.isEmpty())
-			{
-				highIndex = thresh.lastKey();
-			}
+   protected boolean isGreaterThan(final TreeMap<Integer, Integer> thresh, final Integer index, final Integer val)
+   {
+      final Integer lhs = thresh.get(index);
+      return lhs != null && (val != null && lhs > val);
+   }
 
-			// off the end?
-			if (highIndex == -1 || j.compareTo(thresh.get(thresh.lastKey())) > 0)
-			{
-				append(thresh, j);
-				k = highIndex + 1;
-			}
-			else
-			{
-				// binary search for insertion point:
-				int lowIndex = 0;
+   protected boolean isLessThan(final TreeMap<Integer, Integer> thresh, final Integer index, final Integer val)
+   {
+      final Integer lhs = thresh.get(index);
+      return lhs != null && (val == null || lhs < val);
+   }
 
-				while (lowIndex <= highIndex)
-				{
-					int index = (highIndex + lowIndex) / 2;
-					Integer val = thresh.get(index);
+   /**
+    * Adds the given value to the "end" of the threshold map, that is, with the
+    * greatest index/key.
+    */
+   protected void append(final TreeMap<Integer, Integer> thresh, final Integer value)
+   {
+      final int addIdx = thresh.isEmpty() ? 0 : thresh.lastKey() + 1;
+      thresh.put(addIdx, value);
+   }
 
-					int compareResult = j.compareTo(val);
-					if (compareResult == 0)
-					{
-						return null;
-					}
-					else if (compareResult > 0)
-					{
-						lowIndex = index + 1;
-					}
-					else
-					{
-						highIndex = index - 1;
-					}
-				}
+   /**
+    * Inserts the given values into the threshold map.
+    */
+   protected Integer insert(final TreeMap<Integer, Integer> thresh, final Integer j, Integer k)
+   {
+      if (isNonzero(k) && isGreaterThan(thresh, k, j)
+            && isLessThan(thresh, k - 1, j))
+      {
+         thresh.put(k, j);
+      }
+      else
+      {
+         int highIndex = -1;
 
-				thresh.put(lowIndex, j);
-				k = lowIndex;
-			}
-		}
+         if (isNonzero(k))
+         {
+            highIndex = k;
+         }
+         else if (!thresh.isEmpty())
+         {
+            highIndex = thresh.lastKey();
+         }
 
-		return k;
-	}
+         // off the end?
+         if (highIndex == -1 || j.compareTo(thresh.get(thresh.lastKey())) > 0)
+         {
+            append(thresh, j);
+            k = highIndex + 1;
+         }
+         else
+         {
+            // binary search for insertion point:
+            int lowIndex = 0;
 
-	protected static void setDeleted(DefaultDifference<?> d, int index)
-	{
-		d.setDeleteStartIndex(Math.min(index, d.getDeleteStartIndex()));
-		d.setDeleteEndIndex(Math.max(index, d.getDeleteEndIndex()));
-	}
-	
-	protected static void setAdded(DefaultDifference<?> d, int index)
-	{
-		d.setAddStartIndex(Math.min(index, d.getAddStartIndex()));
-		d.setAddEndIndex(Math.max(index, d.getAddEndIndex()));
-	}
-	
-	protected static class Link
-    {
-		protected Link(Link link, Integer x, Integer y)
-    	{
-    		_link = link;
-    		_x = x;
-    		_y = y;
-    	}
-    	
-    	public final Link _link;
-    	public final Integer _x;
-    	public final Integer _y;
-    }
+            while (lowIndex <= highIndex)
+            {
+               final int index = (highIndex + lowIndex) / 2;
+               final Integer val = thresh.get(index);
+
+               final int compareResult = j.compareTo(val);
+               if (compareResult == 0)
+               {
+                  return null;
+               }
+               else if (compareResult > 0)
+               {
+                  lowIndex = index + 1;
+               }
+               else
+               {
+                  highIndex = index - 1;
+               }
+            }
+
+            thresh.put(lowIndex, j);
+            k = lowIndex;
+         }
+      }
+
+      return k;
+   }
+
+   protected static void setDeleted(final DefaultDifference<?> d, final int index)
+   {
+      d.setDeleteStartIndex(Math.min(index, d._deleteStartIndex));
+      d.setDeleteEndIndex(Math.max(index, d._deleteEndIndex));
+   }
+
+   protected static void setAdded(final DefaultDifference<?> d, final int index)
+   {
+      d.setAddStartIndex(Math.min(index, d._addStartIndex));
+      d.setAddEndIndex(Math.max(index, d._addEndIndex));
+   }
+
+   protected static class Link
+   {
+      protected Link(final Link link, final Integer x, final Integer y)
+      {
+         _link = link;
+         _x = x;
+         _y = y;
+      }
+
+      public final Link _link;
+      public final Integer _x;
+      public final Integer _y;
+   }
 }

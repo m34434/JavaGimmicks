@@ -1,35 +1,39 @@
 package net.sf.javagimmicks.collections.diff;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-public class DefaultDifferenceList<T> extends ArrayList<Difference<T>> implements DifferenceList<T>
+import net.sf.javagimmicks.collections.decorators.AbstractUnmodifiableListDecorator;
+
+/**
+ * Provides a default implementation for {@link DifferenceList}.
+ * <p>
+ * <b>Note:</b> a modifiable view to this {@link DifferenceList} can be obtained
+ * via the inherited {@link #getDecorated()} method - but this should
+ * <b>never</b> be called by non-API clients!
+ */
+public class DefaultDifferenceList<T> extends AbstractUnmodifiableListDecorator<Difference<T>> implements
+      DifferenceList<T>
 {
-	private static final long serialVersionUID = -8782622138787742405L;
+   private static final long serialVersionUID = -8782622138787742405L;
 
-	public DefaultDifferenceList()
-	{
-		super();
-	}
+   /**
+    * Creates a new empty instance
+    */
+   public DefaultDifferenceList()
+   {
+      super(new ArrayList<Difference<T>>());
+   }
 
-	public DefaultDifferenceList(Collection<? extends Difference<T>> c)
-	{
-		super(c);
-	}
+   @Override
+   public void applyTo(final List<T> list)
+   {
+      DifferenceUtils.applyDifferenceList(this, list);
+   }
 
-	public DefaultDifferenceList(int initialCapacity)
-	{
-		super(initialCapacity);
-	}
-
-	public void applyTo(List<T> list)
-	{
-		DifferenceUtils.applyDifferenceList(this, list);
-	}
-
-	public DifferenceList<T> invert()
-	{
-		return DifferenceUtils.getInvertedDifferenceList(this);
-	}
+   @Override
+   public DifferenceList<T> invert()
+   {
+      return DifferenceUtils.getInvertedDifferenceList(this);
+   }
 }
