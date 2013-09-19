@@ -13,14 +13,8 @@ public class CDINavigableMapEvent implements NavigableMapEvent<Object, Object>
 {
    private final NavigableMapEvent<Object, Object> _origin;
 
-   /**
-    * Create a new instance for the given {@link NavigableMapEvent}.
-    * 
-    * @param origin
-    *           the original {@link NavigableMapEvent}
-    */
    @SuppressWarnings("unchecked")
-   public CDINavigableMapEvent(final NavigableMapEvent<?, ?> origin)
+   CDINavigableMapEvent(final NavigableMapEvent<?, ?> origin)
    {
       _origin = (NavigableMapEvent<Object, Object>) origin;
    }

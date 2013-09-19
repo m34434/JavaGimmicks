@@ -15,14 +15,8 @@ public class CDICollectionEvent implements CollectionEvent<Object>
 {
    private final CollectionEvent<Object> _origin;
 
-   /**
-    * Create a new instance for the given {@link CollectionEvent}.
-    * 
-    * @param origin
-    *           the original {@link CollectionEvent}
-    */
    @SuppressWarnings("unchecked")
-   public CDICollectionEvent(final CollectionEvent<?> origin)
+   CDICollectionEvent(final CollectionEvent<?> origin)
    {
       _origin = (CollectionEvent<Object>) origin;
    }

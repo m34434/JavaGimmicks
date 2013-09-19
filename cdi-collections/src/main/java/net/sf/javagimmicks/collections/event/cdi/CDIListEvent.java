@@ -15,14 +15,8 @@ public class CDIListEvent implements ListEvent<Object>
 {
    private final ListEvent<Object> _origin;
 
-   /**
-    * Create a new instance for the given {@link ListEvent}.
-    * 
-    * @param origin
-    *           the original {@link ListEvent}
-    */
    @SuppressWarnings("unchecked")
-   public CDIListEvent(final ListEvent<?> origin)
+   CDIListEvent(final ListEvent<?> origin)
    {
       _origin = (ListEvent<Object>) origin;
    }

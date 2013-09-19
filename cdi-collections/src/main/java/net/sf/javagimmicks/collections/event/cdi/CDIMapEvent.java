@@ -13,14 +13,8 @@ public class CDIMapEvent implements MapEvent<Object, Object>
 {
    private final MapEvent<Object, Object> _origin;
 
-   /**
-    * Create a new instance for the given {@link MapEvent}.
-    * 
-    * @param origin
-    *           the original {@link MapEvent}
-    */
    @SuppressWarnings("unchecked")
-   public CDIMapEvent(final MapEvent<?, ?> origin)
+   CDIMapEvent(final MapEvent<?, ?> origin)
    {
       _origin = (MapEvent<Object, Object>) origin;
    }

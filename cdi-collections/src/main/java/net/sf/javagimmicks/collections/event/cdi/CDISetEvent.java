@@ -13,14 +13,8 @@ public class CDISetEvent implements SetEvent<Object>
 {
    private final SetEvent<Object> _origin;
 
-   /**
-    * Create a new instance for the given {@link SetEvent}.
-    * 
-    * @param origin
-    *           the original {@link SetEvent}
-    */
    @SuppressWarnings("unchecked")
-   public CDISetEvent(final SetEvent<?> origin)
+   CDISetEvent(final SetEvent<?> origin)
    {
       _origin = (SetEvent<Object>) origin;
    }

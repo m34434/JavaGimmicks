@@ -13,14 +13,8 @@ public class CDINavigableSetEvent implements NavigableSetEvent<Object>
 {
    private final NavigableSetEvent<Object> _origin;
 
-   /**
-    * Create a new instance for the given {@link NavigableSetEvent}.
-    * 
-    * @param origin
-    *           the original {@link NavigableSetEvent}
-    */
    @SuppressWarnings("unchecked")
-   public CDINavigableSetEvent(final NavigableSetEvent<?> origin)
+   CDINavigableSetEvent(final NavigableSetEvent<?> origin)
    {
       _origin = (NavigableSetEvent<Object>) origin;
    }
@@ -30,7 +24,7 @@ public class CDINavigableSetEvent implements NavigableSetEvent<Object>
     * 
     * @return the wrapped {@link NavigableSetEvent}
     */
-   public NavigableSetEvent<Object> getOriginalEvent()
+   public NavigableSetEvent<Object> getWrappedEvent()
    {
       return _origin;
    }
