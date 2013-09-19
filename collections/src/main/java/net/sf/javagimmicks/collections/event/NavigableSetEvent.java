@@ -1,35 +1,17 @@
 package net.sf.javagimmicks.collections.event;
 
-
-public class NavigableSetEvent<E>
+public interface NavigableSetEvent<E>
 {
-   public static enum Type {ADDED, READDED, REMOVED};
-   
-   protected final ObservableEventNavigableSet<E> _source;
-   
-   protected final Type _type;
-   protected final E _element;
-   
-   public NavigableSetEvent(ObservableEventNavigableSet<E> source, Type type, E element)
+
+   enum Type
    {
-      _source = source;
-      
-      _type = type;
-      _element = element;
+      ADDED, READDED, REMOVED
    }
 
-   public Type getType()
-   {
-      return _type;
-   }
-   
-   public E getElement()
-   {
-      return _element;
-   }
+   Type getType();
 
-   public ObservableEventNavigableSet<E> getSource()
-   {
-      return _source;
-   }
+   E getElement();
+
+   ObservableEventNavigableSet<E> getSource();
+
 }

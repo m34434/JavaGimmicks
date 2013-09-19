@@ -13,29 +13,29 @@ public class ObservableEventNavigableSet<E> extends AbstractEventNavigableSet<E>
 
    protected transient List<EventNavigableSetListener<E>> _listeners;
 
-   public ObservableEventNavigableSet(NavigableSet<E> decorated)
+   public ObservableEventNavigableSet(final NavigableSet<E> decorated)
    {
       super(decorated);
    }
 
-   public void addEventNavigableSetListener(EventNavigableSetListener<E> listener)
+   public void addEventNavigableSetListener(final EventNavigableSetListener<E> listener)
    {
-      if(_listeners == null)
+      if (_listeners == null)
       {
          _listeners = new ArrayList<EventNavigableSetListener<E>>();
       }
-      
+
       _listeners.add(listener);
    }
-   
-   public void removeEventNavigableSetListener(EventNavigableSetListener<E> listener)
+
+   public void removeEventNavigableSetListener(final EventNavigableSetListener<E> listener)
    {
-      if(_listeners != null)
+      if (_listeners != null)
       {
          _listeners.remove(listener);
       }
    }
-   
+
    @Override
    public ObservableEventNavigableSet<E> descendingSet()
    {
@@ -43,69 +43,101 @@ public class ObservableEventNavigableSet<E> extends AbstractEventNavigableSet<E>
    }
 
    @Override
-   public ObservableEventNavigableSet<E> headSet(E toElement, boolean inclusive)
+   public ObservableEventNavigableSet<E> headSet(final E toElement, final boolean inclusive)
    {
       return new ObservableEventSubNavigableSet<E>(this, getDecorated().headSet(toElement, inclusive));
    }
 
    @Override
-   public ObservableEventNavigableSet<E> subSet(E fromElement, boolean fromInclusive, E toElement, boolean toInclusive)
+   public ObservableEventNavigableSet<E> subSet(final E fromElement, final boolean fromInclusive, final E toElement,
+         final boolean toInclusive)
    {
-      return new ObservableEventSubNavigableSet<E>(this, getDecorated().subSet(fromElement, fromInclusive, toElement, toInclusive));
+      return new ObservableEventSubNavigableSet<E>(this, getDecorated().subSet(fromElement, fromInclusive, toElement,
+            toInclusive));
    }
 
    @Override
-   public ObservableEventNavigableSet<E> tailSet(E fromElement, boolean inclusive)
+   public ObservableEventNavigableSet<E> tailSet(final E fromElement, final boolean inclusive)
    {
       return new ObservableEventSubNavigableSet<E>(this, getDecorated().tailSet(fromElement, inclusive));
    }
 
    @Override
-   public ObservableEventSortedSet<E> headSet(E toElement)
+   public ObservableEventSortedSet<E> headSet(final E toElement)
    {
       return new ObservableEventSubSortedSet<E>(this, getDecorated().headSet(toElement));
    }
 
    @Override
-   public ObservableEventSortedSet<E> subSet(E fromElement, E toElement)
+   public ObservableEventSortedSet<E> subSet(final E fromElement, final E toElement)
    {
       return new ObservableEventSubSortedSet<E>(this, getDecorated().subSet(fromElement, toElement));
    }
 
    @Override
-   public ObservableEventSortedSet<E> tailSet(E fromElement)
+   public ObservableEventSortedSet<E> tailSet(final E fromElement)
    {
       return new ObservableEventSubSortedSet<E>(this, getDecorated().tailSet(fromElement));
    }
 
    @Override
-   protected void fireElementAdded(E element)
+   protected void fireElementAdded(final E element)
    {
-      fireEvent(new NavigableSetEvent<E>(this, Type.ADDED, element));
+      fireEvent(new NavigableSetEventImpl(Type.ADDED, element));
    }
-   
+
    @Override
-   protected void fireElementReadded(E element)
+   protected void fireElementReadded(final E element)
    {
-      fireEvent(new NavigableSetEvent<E>(this, Type.READDED, element));
+      fireEvent(new NavigableSetEventImpl(Type.READDED, element));
    }
-   
+
    @Override
-   protected void fireElementRemoved(E element)
+   protected void fireElementRemoved(final E element)
    {
-      fireEvent(new NavigableSetEvent<E>(this, Type.REMOVED, element));
+      fireEvent(new NavigableSetEventImpl(Type.REMOVED, element));
    }
-   
-   private void fireEvent(NavigableSetEvent<E> event)
+
+   private void fireEvent(final NavigableSetEvent<E> event)
    {
-      if(_listeners == null)
+      if (_listeners == null)
       {
          return;
       }
-      
-      for(EventNavigableSetListener<E> listener : _listeners)
+
+      for (final EventNavigableSetListener<E> listener : _listeners)
       {
          listener.eventOccured(event);
+      }
+   }
+
+   private class NavigableSetEventImpl implements NavigableSetEvent<E>
+   {
+      protected final Type _type;
+      protected final E _element;
+
+      public NavigableSetEventImpl(final Type type, final E element)
+      {
+         _type = type;
+         _element = element;
+      }
+
+      @Override
+      public Type getType()
+      {
+         return _type;
+      }
+
+      @Override
+      public E getElement()
+      {
+         return _element;
+      }
+
+      @Override
+      public ObservableEventNavigableSet<E> getSource()
+      {
+         return ObservableEventNavigableSet.this;
       }
    }
 
@@ -115,29 +147,30 @@ public class ObservableEventNavigableSet<E> extends AbstractEventNavigableSet<E>
 
       protected final ObservableEventNavigableSet<E> _parent;
 
-      protected ObservableEventSubNavigableSet(ObservableEventNavigableSet<E> parent, NavigableSet<E> decorated)
+      protected ObservableEventSubNavigableSet(final ObservableEventNavigableSet<E> parent,
+            final NavigableSet<E> decorated)
       {
          super(decorated);
-         
+
          _parent = parent;
       }
 
       @Override
-      protected void fireElementAdded(E element)
+      protected void fireElementAdded(final E element)
       {
          super.fireElementAdded(element);
          _parent.fireElementAdded(element);
       }
 
       @Override
-      protected void fireElementReadded(E element)
+      protected void fireElementReadded(final E element)
       {
          super.fireElementReadded(element);
          _parent.fireElementReadded(element);
       }
 
       @Override
-      protected void fireElementRemoved(E element)
+      protected void fireElementRemoved(final E element)
       {
          super.fireElementRemoved(element);
          _parent.fireElementRemoved(element);
@@ -150,29 +183,29 @@ public class ObservableEventNavigableSet<E> extends AbstractEventNavigableSet<E>
 
       protected final ObservableEventNavigableSet<E> _parent;
 
-      protected ObservableEventSubSortedSet(ObservableEventNavigableSet<E> parent, SortedSet<E> decorated)
+      protected ObservableEventSubSortedSet(final ObservableEventNavigableSet<E> parent, final SortedSet<E> decorated)
       {
          super(decorated);
-         
+
          _parent = parent;
       }
 
       @Override
-      protected void fireElementAdded(E element)
+      protected void fireElementAdded(final E element)
       {
          super.fireElementAdded(element);
          _parent.fireElementAdded(element);
       }
 
       @Override
-      protected void fireElementReadded(E element)
+      protected void fireElementReadded(final E element)
       {
          super.fireElementReadded(element);
          _parent.fireElementReadded(element);
       }
 
       @Override
-      protected void fireElementRemoved(E element)
+      protected void fireElementRemoved(final E element)
       {
          super.fireElementRemoved(element);
          _parent.fireElementRemoved(element);

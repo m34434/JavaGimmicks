@@ -5,7 +5,7 @@ import java.util.List;
 public interface ListEvent<E>
 {
 
-   public static enum Type
+   enum Type
    {
       ADDED, UPDATED, REMOVED
    }

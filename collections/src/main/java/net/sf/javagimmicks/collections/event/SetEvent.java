@@ -2,7 +2,7 @@ package net.sf.javagimmicks.collections.event;
 
 public interface SetEvent<E>
 {
-   public static enum Type
+   enum Type
    {
       ADDED, READDED, REMOVED
    }

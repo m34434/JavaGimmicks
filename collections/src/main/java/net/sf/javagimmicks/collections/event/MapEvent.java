@@ -3,7 +3,7 @@ package net.sf.javagimmicks.collections.event;
 public interface MapEvent<K, V>
 {
 
-   public static enum Type
+   enum Type
    {
       ADDED, UPDATED, REMOVED
    }

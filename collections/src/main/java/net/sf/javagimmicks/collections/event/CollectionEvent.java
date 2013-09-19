@@ -4,6 +4,7 @@ import java.util.Collection;
 
 public interface CollectionEvent<E>
 {
+
    enum Type
    {
       ADDED, REMOVED
