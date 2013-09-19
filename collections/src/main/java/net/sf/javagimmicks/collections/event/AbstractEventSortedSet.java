@@ -3,11 +3,29 @@ package net.sf.javagimmicks.collections.event;
 import java.util.Comparator;
 import java.util.SortedSet;
 
+/**
+ * A base {@link SortedSet} wrapper that reports changes to internal callback
+ * methods - these must be overwritten by concrete implementations in order to
+ * react in any way to the changes.
+ * <p>
+ * Methods that <b>must</b> be overwritten:
+ * <ul>
+ * <li>{@link #fireElementAdded(Object)}</li>
+ * <li>{@link #fireElementReadded(Object)}</li>
+ * <li>{@link #fireElementRemoved(Object)}</li>
+ * </ul>
+ */
 public abstract class AbstractEventSortedSet<E> extends AbstractEventSet<E> implements SortedSet<E>
 {
    private static final long serialVersionUID = 3408305529028504791L;
 
-   public AbstractEventSortedSet(SortedSet<E> decorated)
+   /**
+    * Wraps a new instance around a given {@link SortedSet}
+    * 
+    * @param decorated
+    *           the {@link SortedSet} to wrap
+    */
+   public AbstractEventSortedSet(final SortedSet<E> decorated)
    {
       super(decorated);
    }
@@ -15,65 +33,71 @@ public abstract class AbstractEventSortedSet<E> extends AbstractEventSet<E> impl
    @Override
    public SortedSet<E> getDecorated()
    {
-      return (SortedSet<E>)super.getDecorated();
+      return (SortedSet<E>) super.getDecorated();
    }
 
+   @Override
    public Comparator<? super E> comparator()
    {
       return getDecorated().comparator();
    }
 
+   @Override
    public E first()
    {
       return getDecorated().first();
    }
 
+   @Override
    public E last()
    {
       return getDecorated().last();
    }
 
-   public SortedSet<E> headSet(E toElement)
+   @Override
+   public SortedSet<E> headSet(final E toElement)
    {
       return new EventSubSortedSet<E>(this, getDecorated().headSet(toElement));
    }
 
-   public SortedSet<E> subSet(E fromElement, E toElement)
+   @Override
+   public SortedSet<E> subSet(final E fromElement, final E toElement)
    {
       return new EventSubSortedSet<E>(this, getDecorated().subSet(fromElement, toElement));
    }
 
-   public SortedSet<E> tailSet(E fromElement)
+   @Override
+   public SortedSet<E> tailSet(final E fromElement)
    {
       return new EventSubSortedSet<E>(this, getDecorated().tailSet(fromElement));
    }
- 
+
    protected static class EventSubSortedSet<E> extends AbstractEventSortedSet<E>
    {
       private static final long serialVersionUID = 7103404017576141323L;
 
       protected final AbstractEventSortedSet<E> _parent;
-      
-      protected EventSubSortedSet(AbstractEventSortedSet<E> parent, SortedSet<E> decorated)
+
+      protected EventSubSortedSet(final AbstractEventSortedSet<E> parent, final SortedSet<E> decorated)
       {
          super(decorated);
          _parent = parent;
       }
 
       @Override
-      protected void fireElementAdded(E element)
+      protected void fireElementAdded(final E element)
       {
          _parent.fireElementAdded(element);
       }
 
       @Override
-      protected void fireElementReadded(E element)
+      protected void fireElementReadded(final E element)
       {
          _parent.fireElementReadded(element);
       }
 
       @Override
-      protected void fireElementRemoved(E element)
+      protected void fireElementRemoved(final E element)
       {
          _parent.fireElementRemoved(element);
       }

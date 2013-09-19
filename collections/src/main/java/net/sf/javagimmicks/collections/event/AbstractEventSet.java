@@ -21,6 +21,12 @@ public abstract class AbstractEventSet<E> extends AbstractUnmodifiableSetDecorat
 {
    private static final long serialVersionUID = -7712383972215104949L;
 
+   /**
+    * Wraps a new instance around a given {@link Set}
+    * 
+    * @param decorated
+    *           the {@link Set} to wrap
+    */
    public AbstractEventSet(final Set<E> decorated)
    {
       super(decorated);

@@ -2,12 +2,31 @@ package net.sf.javagimmicks.collections.event;
 
 import java.util.Iterator;
 import java.util.NavigableSet;
+import java.util.SortedSet;
 
+/**
+ * A base {@link NavigableSet} wrapper that reports changes to internal callback
+ * methods - these must be overwritten by concrete implementations in order to
+ * react in any way to the changes.
+ * <p>
+ * Methods that <b>must</b> be overwritten:
+ * <ul>
+ * <li>{@link #fireElementAdded(Object)}</li>
+ * <li>{@link #fireElementReadded(Object)}</li>
+ * <li>{@link #fireElementRemoved(Object)}</li>
+ * </ul>
+ */
 public abstract class AbstractEventNavigableSet<E> extends AbstractEventSortedSet<E> implements NavigableSet<E>
 {
    private static final long serialVersionUID = 5422669944595136215L;
 
-   public AbstractEventNavigableSet(NavigableSet<E> decorated)
+   /**
+    * Wraps a new instance around a given {@link SortedSet}
+    * 
+    * @param decorated
+    *           the {@link NavigableSet} to wrap
+    */
+   public AbstractEventNavigableSet(final NavigableSet<E> decorated)
    {
       super(decorated);
    }
@@ -15,98 +34,111 @@ public abstract class AbstractEventNavigableSet<E> extends AbstractEventSortedSe
    @Override
    public NavigableSet<E> getDecorated()
    {
-      return (NavigableSet<E>)super.getDecorated();
+      return (NavigableSet<E>) super.getDecorated();
    }
 
-   public E ceiling(E e)
+   @Override
+   public E ceiling(final E e)
    {
       return getDecorated().ceiling(e);
    }
 
+   @Override
    public Iterator<E> descendingIterator()
    {
       return new EventSetIterator(getDecorated().descendingIterator());
    }
 
+   @Override
    public NavigableSet<E> descendingSet()
    {
       return new EventSubNavigableSet<E>(this, getDecorated().descendingSet());
    }
 
-   public E floor(E e)
+   @Override
+   public E floor(final E e)
    {
       return getDecorated().floor(e);
    }
 
-   public NavigableSet<E> headSet(E toElement, boolean inclusive)
+   @Override
+   public NavigableSet<E> headSet(final E toElement, final boolean inclusive)
    {
       return new EventSubNavigableSet<E>(this, getDecorated().headSet(toElement, inclusive));
    }
 
-   public E higher(E e)
+   @Override
+   public E higher(final E e)
    {
       return getDecorated().higher(e);
    }
 
-   public E lower(E e)
+   @Override
+   public E lower(final E e)
    {
       return getDecorated().lower(e);
    }
 
+   @Override
    public E pollFirst()
    {
-      E result = getDecorated().pollFirst();
-      
+      final E result = getDecorated().pollFirst();
+
       fireElementRemoved(result);
-      
+
       return result;
    }
 
+   @Override
    public E pollLast()
    {
-      E result = getDecorated().pollLast();
-      
+      final E result = getDecorated().pollLast();
+
       fireElementRemoved(result);
-      
+
       return result;
    }
 
-   public NavigableSet<E> subSet(E fromElement, boolean fromInclusive, E toElement, boolean toInclusive)
+   @Override
+   public NavigableSet<E> subSet(final E fromElement, final boolean fromInclusive, final E toElement,
+         final boolean toInclusive)
    {
-      return new EventSubNavigableSet<E>(this, getDecorated().subSet(fromElement, fromInclusive, toElement, toInclusive));
+      return new EventSubNavigableSet<E>(this, getDecorated()
+            .subSet(fromElement, fromInclusive, toElement, toInclusive));
    }
 
-   public NavigableSet<E> tailSet(E fromElement, boolean inclusive)
+   @Override
+   public NavigableSet<E> tailSet(final E fromElement, final boolean inclusive)
    {
       return new EventSubNavigableSet<E>(this, getDecorated().tailSet(fromElement, inclusive));
    }
-   
+
    protected static class EventSubNavigableSet<E> extends AbstractEventNavigableSet<E>
    {
       private static final long serialVersionUID = 7026414183073208442L;
 
       protected final AbstractEventNavigableSet<E> _parent;
 
-      protected EventSubNavigableSet(AbstractEventNavigableSet<E> parent, NavigableSet<E> decorated)
+      protected EventSubNavigableSet(final AbstractEventNavigableSet<E> parent, final NavigableSet<E> decorated)
       {
          super(decorated);
          _parent = parent;
       }
 
       @Override
-      protected void fireElementAdded(E element)
+      protected void fireElementAdded(final E element)
       {
          _parent.fireElementAdded(element);
       }
 
       @Override
-      protected void fireElementReadded(E element)
+      protected void fireElementReadded(final E element)
       {
          _parent.fireElementReadded(element);
       }
 
       @Override
-      protected void fireElementRemoved(E element)
+      protected void fireElementRemoved(final E element)
       {
          _parent.fireElementRemoved(element);
       }
