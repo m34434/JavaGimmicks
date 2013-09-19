@@ -5,152 +5,189 @@ import java.util.NavigableSet;
 
 import net.sf.javagimmicks.collections.transformer.NavigableKeySet;
 
-public abstract class AbstractEventNavigableMap<K, V> extends AbstractEventSortedMap<K, V> implements NavigableMap<K, V>
+/**
+ * A base {@link NavigableMap} wrapper that reports changes to internal callback
+ * methods - these must be overwritten by concrete implementations in order to
+ * react in any way to the changes.
+ * <p>
+ * Methods that <b>must</b> be overwritten:
+ * <ul>
+ * <li>{@link #fireEntryAdded(Object, Object)}</li>
+ * <li>{@link #fireEntryUpdated(Object, Object, Object)}</li>
+ * <li>{@link #fireEntryRemoved(Object, Object)}</li>
+ * </ul>
+ */
+public abstract class AbstractEventNavigableMap<K, V> extends AbstractEventSortedMap<K, V> implements
+      NavigableMap<K, V>
 {
    private static final long serialVersionUID = 7570207692375842675L;
 
-   public AbstractEventNavigableMap(NavigableMap<K, V> decorated)
+   /**
+    * Wraps a new instance around a given {@link NavigableMap}
+    * 
+    * @param decorated
+    *           the {@link NavigableMap} to wrap
+    */
+   public AbstractEventNavigableMap(final NavigableMap<K, V> decorated)
    {
       super(decorated);
    }
-   
+
    @Override
    public NavigableMap<K, V> getDecorated()
    {
       return (NavigableMap<K, V>) super.getDecorated();
    }
 
-   public Entry<K, V> ceilingEntry(K key)
+   @Override
+   public Entry<K, V> ceilingEntry(final K key)
    {
       return getDecorated().ceilingEntry(key);
    }
 
-   public K ceilingKey(K key)
+   @Override
+   public K ceilingKey(final K key)
    {
       return getDecorated().ceilingKey(key);
    }
 
+   @Override
    public Entry<K, V> firstEntry()
    {
       return getDecorated().firstEntry();
    }
 
-   public Entry<K, V> floorEntry(K key)
+   @Override
+   public Entry<K, V> floorEntry(final K key)
    {
       return getDecorated().floorEntry(key);
    }
 
-   public K floorKey(K key)
+   @Override
+   public K floorKey(final K key)
    {
       return getDecorated().floorKey(key);
    }
 
-   public Entry<K, V> higherEntry(K key)
+   @Override
+   public Entry<K, V> higherEntry(final K key)
    {
       return getDecorated().higherEntry(key);
    }
 
-   public K higherKey(K key)
+   @Override
+   public K higherKey(final K key)
    {
       return getDecorated().higherKey(key);
    }
 
+   @Override
    public Entry<K, V> lastEntry()
    {
       return getDecorated().lastEntry();
    }
 
-   public Entry<K, V> lowerEntry(K key)
+   @Override
+   public Entry<K, V> lowerEntry(final K key)
    {
       return getDecorated().lowerEntry(key);
    }
 
-   public K lowerKey(K key)
+   @Override
+   public K lowerKey(final K key)
    {
       return getDecorated().lowerKey(key);
    }
 
+   @Override
    public Entry<K, V> pollFirstEntry()
    {
-      Entry<K, V> firstEntry = getDecorated().pollFirstEntry();
-      
-      if(firstEntry != null)
+      final Entry<K, V> firstEntry = getDecorated().pollFirstEntry();
+
+      if (firstEntry != null)
       {
          fireEntryRemoved(firstEntry.getKey(), firstEntry.getValue());
       }
-      
+
       return firstEntry;
    }
 
+   @Override
    public Entry<K, V> pollLastEntry()
    {
-      Entry<K, V> lastEntry = getDecorated().pollLastEntry();
-      
-      if(lastEntry != null)
+      final Entry<K, V> lastEntry = getDecorated().pollLastEntry();
+
+      if (lastEntry != null)
       {
          fireEntryRemoved(lastEntry.getKey(), lastEntry.getValue());
       }
-      
+
       return lastEntry;
    }
 
-
+   @Override
    public NavigableSet<K> descendingKeySet()
    {
       return descendingMap().navigableKeySet();
    }
 
+   @Override
    public NavigableSet<K> navigableKeySet()
    {
       return new NavigableKeySet<K, V>(this);
    }
 
+   @Override
    public NavigableMap<K, V> descendingMap()
    {
       return new EventSubNavigableMap<K, V>(this, getDecorated().descendingMap());
    }
 
-   public NavigableMap<K, V> headMap(K toKey, boolean inclusive)
+   @Override
+   public NavigableMap<K, V> headMap(final K toKey, final boolean inclusive)
    {
       return new EventSubNavigableMap<K, V>(this, getDecorated().headMap(toKey, inclusive));
    }
-   
-   public NavigableMap<K, V> subMap(K fromKey, boolean fromInclusive, K toKey, boolean toInclusive)
+
+   @Override
+   public NavigableMap<K, V> subMap(final K fromKey, final boolean fromInclusive, final K toKey,
+         final boolean toInclusive)
    {
       return new EventSubNavigableMap<K, V>(this, getDecorated().subMap(fromKey, fromInclusive, toKey, toInclusive));
    }
 
-   public NavigableMap<K, V> tailMap(K fromKey, boolean inclusive)
+   @Override
+   public NavigableMap<K, V> tailMap(final K fromKey, final boolean inclusive)
    {
       return new EventSubNavigableMap<K, V>(this, getDecorated().tailMap(fromKey, inclusive));
    }
-   
+
    protected static class EventSubNavigableMap<K, V> extends AbstractEventNavigableMap<K, V>
    {
       private static final long serialVersionUID = 8445308257944385932L;
 
       protected final AbstractEventNavigableMap<K, V> _parent;
 
-      protected EventSubNavigableMap(AbstractEventNavigableMap<K, V> parent, NavigableMap<K, V> decorated)
+      protected EventSubNavigableMap(final AbstractEventNavigableMap<K, V> parent, final NavigableMap<K, V> decorated)
       {
          super(decorated);
          _parent = parent;
       }
 
       @Override
-      protected void fireEntryAdded(K key, V value)
+      protected void fireEntryAdded(final K key, final V value)
       {
          _parent.fireEntryAdded(key, value);
       }
 
       @Override
-      protected void fireEntryRemoved(K key, V value)
+      protected void fireEntryRemoved(final K key, final V value)
       {
          _parent.fireEntryRemoved(key, value);
       }
 
       @Override
-      protected void fireEntryUpdated(K key, V oldValue, V newValue)
+      protected void fireEntryUpdated(final K key, final V oldValue, final V newValue)
       {
          _parent.fireEntryUpdated(key, oldValue, newValue);
       }

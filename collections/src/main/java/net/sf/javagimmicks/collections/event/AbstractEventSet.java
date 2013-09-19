@@ -5,21 +5,33 @@ import java.util.Set;
 
 import net.sf.javagimmicks.collections.decorators.AbstractUnmodifiableSetDecorator;
 
+/**
+ * A base {@link Set} wrapper that reports changes to internal callback methods
+ * - these must be overwritten by concrete implementations in order to react in
+ * any way to the changes.
+ * <p>
+ * Methods that <b>must</b> be overwritten:
+ * <ul>
+ * <li>{@link #fireElementAdded(Object)}</li>
+ * <li>{@link #fireElementReadded(Object)}</li>
+ * <li>{@link #fireElementRemoved(Object)}</li>
+ * </ul>
+ */
 public abstract class AbstractEventSet<E> extends AbstractUnmodifiableSetDecorator<E>
 {
    private static final long serialVersionUID = -7712383972215104949L;
 
-   public AbstractEventSet(Set<E> decorated)
+   public AbstractEventSet(final Set<E> decorated)
    {
       super(decorated);
    }
-   
+
    @Override
-   public boolean add(E e)
+   public boolean add(final E e)
    {
-      boolean result = getDecorated().add(e);
-      
-      if(result)
+      final boolean result = getDecorated().add(e);
+
+      if (result)
       {
          fireElementAdded(e);
       }
@@ -27,7 +39,7 @@ public abstract class AbstractEventSet<E> extends AbstractUnmodifiableSetDecorat
       {
          fireElementReadded(e);
       }
-      
+
       return result;
    }
 
@@ -39,15 +51,15 @@ public abstract class AbstractEventSet<E> extends AbstractUnmodifiableSetDecorat
 
    @SuppressWarnings("unchecked")
    @Override
-   public boolean remove(Object o)
+   public boolean remove(final Object o)
    {
-      boolean result = getDecorated().remove(o);
-      
-      if(result)
+      final boolean result = getDecorated().remove(o);
+
+      if (result)
       {
-         fireElementRemoved((E)o);
+         fireElementRemoved((E) o);
       }
-      
+
       return result;
    }
 
@@ -55,33 +67,38 @@ public abstract class AbstractEventSet<E> extends AbstractUnmodifiableSetDecorat
    {
       protected final Iterator<E> _decorated;
       protected E _lastElement = null;
-      
-      public EventSetIterator(Iterator<E> decorated)
+
+      public EventSetIterator(final Iterator<E> decorated)
       {
          _decorated = decorated;
       }
 
+      @Override
       public boolean hasNext()
       {
          return _decorated.hasNext();
       }
 
+      @Override
       public E next()
       {
          _lastElement = _decorated.next();
-         
+
          return _lastElement;
       }
 
+      @Override
       public void remove()
       {
          _decorated.remove();
-         
+
          fireElementRemoved(_lastElement);
       }
    }
 
    abstract protected void fireElementAdded(E element);
+
    abstract protected void fireElementReadded(E element);
+
    abstract protected void fireElementRemoved(E element);
 }

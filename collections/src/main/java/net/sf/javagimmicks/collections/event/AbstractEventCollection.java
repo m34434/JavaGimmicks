@@ -7,43 +7,65 @@ import java.util.Iterator;
 
 import net.sf.javagimmicks.collections.decorators.AbstractUnmodifiableCollectionDecorator;
 
+/**
+ * A base {@link Collection} wrapper that reports changes to internal callback
+ * methods - these must be overwritten by concrete implementations in order to
+ * react in any way to the changes.
+ * <p>
+ * Methods that <b>must</b> be overwritten:
+ * <ul>
+ * <li>{@link #fireElementsAdded(Collection)}</li>
+ * <li>{@link #fireElementRemoved(Object)}</li>
+ * </ul>
+ * <p>
+ * Methods that <b>may</b> be overwritten:
+ * <ul>
+ * <li>{@link #fireElementAdded(Object)}</li>
+ * </ul>
+ */
 public abstract class AbstractEventCollection<E> extends AbstractUnmodifiableCollectionDecorator<E>
 {
    private static final long serialVersionUID = -8335291555421718053L;
 
-   public AbstractEventCollection(Collection<E> decorated)
+   /**
+    * Wraps a new instance around a given {@link Collection}
+    * 
+    * @param decorated
+    *           the {@link Collection} to wrap
+    */
+   public AbstractEventCollection(final Collection<E> decorated)
    {
       super(decorated);
    }
 
    @Override
-   public boolean add(E e)
+   public boolean add(final E e)
    {
-      boolean result = getDecorated().add(e);
-      
-      if(result)
+      final boolean result = getDecorated().add(e);
+
+      if (result)
       {
          fireElementAdded(e);
       }
-      
+
       return result;
    }
-   
+
    @Override
-   public boolean addAll(Collection<? extends E> c)
+   public boolean addAll(final Collection<? extends E> c)
    {
       final Collection<E> decorated = getDecorated();
       final ArrayList<E> added = new ArrayList<E>();
-      
-      for(E element : c)
+
+      for (final E element : c)
       {
-         if(decorated.add(element))
+         if (decorated.add(element))
          {
             added.add(element);
          }
       }
-      
-      if(!added.isEmpty())
+
+      if (!added.isEmpty())
       {
          fireElementsAdded(added);
          return true;
@@ -62,52 +84,56 @@ public abstract class AbstractEventCollection<E> extends AbstractUnmodifiableCol
 
    @SuppressWarnings("unchecked")
    @Override
-   public boolean remove(Object o)
+   public boolean remove(final Object o)
    {
-      boolean result = getDecorated().remove(o);
-      
-      if(result)
+      final boolean result = getDecorated().remove(o);
+
+      if (result)
       {
-         fireElementRemoved((E)o);
+         fireElementRemoved((E) o);
       }
-      
+
       return result;
    }
 
    abstract protected void fireElementsAdded(Collection<? extends E> c);
+
    abstract protected void fireElementRemoved(E element);
-   
-   protected void fireElementAdded(E element)
+
+   protected void fireElementAdded(final E element)
    {
       fireElementsAdded(Collections.singleton(element));
    }
-   
+
    protected class EventCollectionIterator implements Iterator<E>
    {
       protected final Iterator<E> _decorated;
       protected E _lastElement = null;
-      
-      public EventCollectionIterator(Iterator<E> decorated)
+
+      public EventCollectionIterator(final Iterator<E> decorated)
       {
          _decorated = decorated;
       }
 
+      @Override
       public boolean hasNext()
       {
          return _decorated.hasNext();
       }
 
+      @Override
       public E next()
       {
          _lastElement = _decorated.next();
-         
+
          return _lastElement;
       }
 
+      @Override
       public void remove()
       {
          _decorated.remove();
-         
+
          fireElementRemoved(_lastElement);
       }
    }
