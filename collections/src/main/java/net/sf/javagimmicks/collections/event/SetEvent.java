@@ -1,35 +1,16 @@
 package net.sf.javagimmicks.collections.event;
 
-
-public class SetEvent<E>
+public interface SetEvent<E>
 {
-   public static enum Type {ADDED, READDED, REMOVED};
-   
-   protected final ObservableEventSet<E> _source;
-   
-   protected final Type _type;
-   protected final E _element;
-   
-   public SetEvent(ObservableEventSet<E> source, Type type, E element)
+   public static enum Type
    {
-      _source = source;
-      
-      _type = type;
-      _element = element;
+      ADDED, READDED, REMOVED
    }
 
-   public Type getType()
-   {
-      return _type;
-   }
-   
-   public E getElement()
-   {
-      return _element;
-   }
+   Type getType();
 
-   public ObservableEventSet<E> getSource()
-   {
-      return _source;
-   }
+   E getElement();
+
+   ObservableEventSet<E> getSource();
+
 }

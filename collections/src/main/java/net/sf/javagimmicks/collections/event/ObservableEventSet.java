@@ -12,58 +12,87 @@ public class ObservableEventSet<E> extends AbstractEventSet<E>
 
    protected transient List<EventSetListener<E>> _listeners;
 
-   public ObservableEventSet(Set<E> decorated)
+   public ObservableEventSet(final Set<E> decorated)
    {
       super(decorated);
    }
-   
-   public void addEventSetListener(EventSetListener<E> listener)
+
+   public void addEventSetListener(final EventSetListener<E> listener)
    {
-      if(_listeners == null)
+      if (_listeners == null)
       {
          _listeners = new ArrayList<EventSetListener<E>>();
       }
-      
+
       _listeners.add(listener);
    }
-   
-   public void removeEventSetListener(EventSetListener<E> listener)
+
+   public void removeEventSetListener(final EventSetListener<E> listener)
    {
-      if(_listeners != null)
+      if (_listeners != null)
       {
          _listeners.remove(listener);
       }
    }
-   
+
    @Override
-   protected void fireElementAdded(E element)
+   protected void fireElementAdded(final E element)
    {
-      fireEvent(new SetEvent<E>(this, Type.ADDED, element));
+      fireEvent(new SetEventImpl(Type.ADDED, element));
    }
-   
+
    @Override
-   protected void fireElementReadded(E element)
+   protected void fireElementReadded(final E element)
    {
-      fireEvent(new SetEvent<E>(this, Type.READDED, element));
+      fireEvent(new SetEventImpl(Type.READDED, element));
    }
-   
+
    @Override
-   protected void fireElementRemoved(E element)
+   protected void fireElementRemoved(final E element)
    {
-      fireEvent(new SetEvent<E>(this, Type.REMOVED, element));
+      fireEvent(new SetEventImpl(Type.REMOVED, element));
    }
-   
-   private void fireEvent(SetEvent<E> event)
+
+   private void fireEvent(final SetEventImpl event)
    {
-      if(_listeners == null)
+      if (_listeners == null)
       {
          return;
       }
-      
-      for(EventSetListener<E> listener : _listeners)
+
+      for (final EventSetListener<E> listener : _listeners)
       {
          listener.eventOccured(event);
       }
    }
 
+   public class SetEventImpl implements SetEvent<E>
+   {
+      protected final Type _type;
+      protected final E _element;
+
+      public SetEventImpl(final Type type, final E element)
+      {
+         _type = type;
+         _element = element;
+      }
+
+      @Override
+      public Type getType()
+      {
+         return _type;
+      }
+
+      @Override
+      public E getElement()
+      {
+         return _element;
+      }
+
+      @Override
+      public ObservableEventSet<E> getSource()
+      {
+         return ObservableEventSet.this;
+      }
+   }
 }
