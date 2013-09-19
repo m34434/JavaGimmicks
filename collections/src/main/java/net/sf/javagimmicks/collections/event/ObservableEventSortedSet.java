@@ -12,75 +12,105 @@ public class ObservableEventSortedSet<E> extends AbstractEventSortedSet<E>
 
    protected transient List<EventSortedSetListener<E>> _listeners;
 
-   public ObservableEventSortedSet(SortedSet<E> decorated)
+   public ObservableEventSortedSet(final SortedSet<E> decorated)
    {
       super(decorated);
    }
-   
-   public void addEventSortedSetListener(EventSortedSetListener<E> listener)
+
+   public void addEventSortedSetListener(final EventSortedSetListener<E> listener)
    {
-      if(_listeners == null)
+      if (_listeners == null)
       {
          _listeners = new ArrayList<EventSortedSetListener<E>>();
       }
-      
+
       _listeners.add(listener);
    }
-   
-   public void removeEventSortedSetListener(EventSortedSetListener<E> listener)
+
+   public void removeEventSortedSetListener(final EventSortedSetListener<E> listener)
    {
-      if(_listeners != null)
+      if (_listeners != null)
       {
          _listeners.remove(listener);
       }
    }
-   
+
    @Override
-   public ObservableEventSortedSet<E> headSet(E toElement)
+   public ObservableEventSortedSet<E> headSet(final E toElement)
    {
       return new ObservableEventSubSortedSet<E>(this, getDecorated().headSet(toElement));
    }
 
    @Override
-   public ObservableEventSortedSet<E> subSet(E fromElement, E toElement)
+   public ObservableEventSortedSet<E> subSet(final E fromElement, final E toElement)
    {
       return new ObservableEventSubSortedSet<E>(this, getDecorated().subSet(fromElement, toElement));
    }
 
    @Override
-   public ObservableEventSortedSet<E> tailSet(E fromElement)
+   public ObservableEventSortedSet<E> tailSet(final E fromElement)
    {
       return new ObservableEventSubSortedSet<E>(this, getDecorated().tailSet(fromElement));
    }
 
    @Override
-   protected void fireElementAdded(E element)
+   protected void fireElementAdded(final E element)
    {
-      fireEvent(new SortedSetEvent<E>(this, Type.ADDED, element));
+      fireEvent(new SortedSetEventImpl(Type.ADDED, element));
    }
-   
+
    @Override
-   protected void fireElementReadded(E element)
+   protected void fireElementReadded(final E element)
    {
-      fireEvent(new SortedSetEvent<E>(this, Type.READDED, element));
+      fireEvent(new SortedSetEventImpl(Type.READDED, element));
    }
-   
+
    @Override
-   protected void fireElementRemoved(E element)
+   protected void fireElementRemoved(final E element)
    {
-      fireEvent(new SortedSetEvent<E>(this, Type.REMOVED, element));
+      fireEvent(new SortedSetEventImpl(Type.REMOVED, element));
    }
-   
-   private void fireEvent(SortedSetEvent<E> event)
+
+   private void fireEvent(final SortedSetEvent<E> event)
    {
-      if(_listeners == null)
+      if (_listeners == null)
       {
          return;
       }
-      
-      for(EventSortedSetListener<E> listener : _listeners)
+
+      for (final EventSortedSetListener<E> listener : _listeners)
       {
          listener.eventOccured(event);
+      }
+   }
+
+   private class SortedSetEventImpl implements SortedSetEvent<E>
+   {
+      protected final Type _type;
+      protected final E _element;
+
+      public SortedSetEventImpl(final Type type, final E element)
+      {
+         _type = type;
+         _element = element;
+      }
+
+      @Override
+      public Type getType()
+      {
+         return _type;
+      }
+
+      @Override
+      public E getElement()
+      {
+         return _element;
+      }
+
+      @Override
+      public ObservableEventSortedSet<E> getSource()
+      {
+         return ObservableEventSortedSet.this;
       }
    }
 
@@ -90,29 +120,29 @@ public class ObservableEventSortedSet<E> extends AbstractEventSortedSet<E>
 
       protected final ObservableEventSortedSet<E> _parent;
 
-      protected ObservableEventSubSortedSet(ObservableEventSortedSet<E> parent, SortedSet<E> decorated)
+      protected ObservableEventSubSortedSet(final ObservableEventSortedSet<E> parent, final SortedSet<E> decorated)
       {
          super(decorated);
-         
+
          _parent = parent;
       }
 
       @Override
-      protected void fireElementAdded(E element)
+      protected void fireElementAdded(final E element)
       {
          super.fireElementAdded(element);
          _parent.fireElementAdded(element);
       }
 
       @Override
-      protected void fireElementReadded(E element)
+      protected void fireElementReadded(final E element)
       {
          super.fireElementReadded(element);
          _parent.fireElementReadded(element);
       }
 
       @Override
-      protected void fireElementRemoved(E element)
+      protected void fireElementRemoved(final E element)
       {
          super.fireElementRemoved(element);
          _parent.fireElementRemoved(element);
