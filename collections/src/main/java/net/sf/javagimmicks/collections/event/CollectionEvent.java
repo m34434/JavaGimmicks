@@ -36,7 +36,7 @@ public interface CollectionEvent<E> extends Event<CollectionEvent<E>, EventColle
    Type getType();
 
    /**
-    * Return the elements that were added or removed
+    * Returns the elements that were added or removed
     * 
     * @return the elements that were added or removed
     */

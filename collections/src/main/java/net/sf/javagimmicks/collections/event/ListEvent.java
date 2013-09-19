@@ -57,18 +57,18 @@ public interface ListEvent<E> extends Event<ListEvent<E>, EventListListener<E>>
    int getToIndex();
 
    /**
-    * Returns the removed or updated elements (in case of {@link Type#REMOVED}
-    * or {@value Type#UPDATED})
+    * Returns the removed/added elements in case of {@link Type#REMOVED} or
+    * {@link Type#ADDED} - or the replaced elements in case of
+    * {@value Type#UPDATED}.
     * 
-    * @return the removed or updated elements
+    * @return the removed/added elements or the replaced elements of an update
     */
    List<E> getElements();
 
    /**
-    * Returns the added elements (in case of {@link Type#ADDED}) or the new
-    * values for updated elements (in case of {@link Type#UPDATED})
+    * In case of {@link Type#UPDATED}) returns the new values
     * 
-    * @return the add or new values
+    * @return the new elements of an update
     */
    List<E> getNewElements();
 }

@@ -7,6 +7,9 @@ import java.util.List;
  * A base class for {@link Observable} implementations. It takes care of
  * managing {@link EventListener}s and distributing {@link Event}s to them.
  * <p>
+ * The {@link #fireEvent(Event)} method is {@code public}, so the class can also
+ * serve as a delegate, if sub-classing is not applicable.
+ * <p>
  * <b>Attention:</b> {@link EventListener} management within this class is
  * <b>not thread-safe</b> - so you have to take care about synchronization
  * manually if necessary!
