@@ -62,7 +62,7 @@ public class ObservableEventCollection<E> extends AbstractEventCollection<E>
       }
    }
 
-   public class CollectionEventImpl implements CollectionEvent<E>
+   private class CollectionEventImpl implements CollectionEvent<E>
    {
       protected final Type _type;
       protected final Collection<E> _elements;

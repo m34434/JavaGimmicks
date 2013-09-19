@@ -12,84 +12,81 @@ public class ObservableEventList<E> extends AbstractEventList<E>
    private static final long serialVersionUID = -6317396247733734848L;
 
    protected transient List<EventListListener<E>> _listeners;
-   
-   public ObservableEventList(List<E> decorated)
+
+   public ObservableEventList(final List<E> decorated)
    {
       super(decorated);
    }
 
-   public void addEventListListener(EventListListener<E> listener)
+   public void addEventListListener(final EventListListener<E> listener)
    {
-      if(_listeners == null)
+      if (_listeners == null)
       {
          _listeners = new ArrayList<EventListListener<E>>();
       }
-      
+
       _listeners.add(listener);
    }
-   
-   public void removeEventListListener(EventListListener<E> listener)
+
+   public void removeEventListListener(final EventListListener<E> listener)
    {
-      if(_listeners != null)
+      if (_listeners != null)
       {
          _listeners.remove(listener);
       }
    }
-   
+
    @Override
-   public ObservableEventList<E> subList(int fromIndex, int toIndex)
+   public ObservableEventList<E> subList(final int fromIndex, final int toIndex)
    {
       return new ObservableEventSubList<E>(this, fromIndex, toIndex);
    }
 
    @Override
-   protected void fireElementsAdded(int index, Collection<? extends E> elements)
+   protected void fireElementsAdded(final int index, final Collection<? extends E> elements)
    {
-      ListEvent<E> event = new ListEvent<E>(
-         this,
-         Type.ADDED,
-         index,
-         index + elements.size(),
-         Collections.unmodifiableList(new ArrayList<E>(elements)));
-      
+      final ListEvent<E> event = new ListEventImpl(
+            Type.ADDED,
+            index,
+            index + elements.size(),
+            Collections.unmodifiableList(new ArrayList<E>(elements)));
+
       fireEvent(event);
    }
 
    @Override
-   protected void fireElementUpdated(int index, E element, E newElement)
+   protected void fireElementUpdated(final int index, final E element, final E newElement)
    {
-      ListEvent<E> event = new ListEvent<E>(
-         this,
-         Type.UPDATED,
-         index,
-         index,
-         Collections.singletonList(element),
-         Collections.singletonList(newElement));
-      
+      final ListEvent<E> event = new ListEventImpl(
+            Type.UPDATED,
+            index,
+            index,
+            Collections.singletonList(element),
+            Collections.singletonList(newElement));
+
       fireEvent(event);
    }
 
    @Override
-   protected void fireElementRemoved(int index, E element)
+   protected void fireElementRemoved(final int index, final E element)
    {
-      ListEvent<E> event = new ListEvent<E>(
-         this,
-         Type.REMOVED,
-         index,
-         index,
-         Collections.singletonList(element));
+      final ListEvent<E> event = new ListEventImpl(
+            Type.REMOVED,
+            index,
+            index,
+            Collections.singletonList(element));
 
       fireEvent(event);
    }
-   
-   private void fireEvent(ListEvent<E> event)
+
+   private void fireEvent(final ListEvent<E> event)
    {
-      if(_listeners == null)
+      if (_listeners == null)
       {
          return;
       }
-      
-      for(EventListListener<E> listener : _listeners)
+
+      for (final EventListListener<E> listener : _listeners)
       {
          listener.eventOccured(event);
       }
@@ -101,34 +98,95 @@ public class ObservableEventList<E> extends AbstractEventList<E>
 
       protected final ObservableEventList<E> _parent;
       protected final int _offset;
-      
-      protected ObservableEventSubList(ObservableEventList<E> parent, int fromIndex, int toIndex)
+
+      protected ObservableEventSubList(final ObservableEventList<E> parent, final int fromIndex, final int toIndex)
       {
          super(parent._decorated.subList(fromIndex, toIndex));
-         
+
          _parent = parent;
          _offset = fromIndex;
       }
 
       @Override
-      protected void fireElementsAdded(int index, Collection<? extends E> elements)
+      protected void fireElementsAdded(final int index, final Collection<? extends E> elements)
       {
          super.fireElementsAdded(index, elements);
          _parent.fireElementsAdded(index + _offset, elements);
       }
 
       @Override
-      protected void fireElementRemoved(int index, E element)
+      protected void fireElementRemoved(final int index, final E element)
       {
          super.fireElementRemoved(index, element);
          _parent.fireElementRemoved(index + _offset, element);
       }
 
       @Override
-      protected void fireElementUpdated(int index, E element, E newElement)
+      protected void fireElementUpdated(final int index, final E element, final E newElement)
       {
          super.fireElementUpdated(index, element, newElement);
          _parent.fireElementUpdated(index + _offset, element, newElement);
+      }
+   }
+
+   private class ListEventImpl implements ListEvent<E>
+   {
+      protected final Type _type;
+      protected final int _fromIndex;
+      protected final int _toIndex;
+      protected final List<E> _elements;
+      protected final List<E> _newElements;
+
+      public ListEventImpl(final Type type, final int fromIndex, final int toIndex, final List<E> element,
+            final List<E> newElement)
+      {
+         _type = type;
+         _fromIndex = fromIndex;
+         _toIndex = toIndex;
+
+         _elements = element;
+         _newElements = newElement;
+      }
+
+      public ListEventImpl(final Type type, final int fromIndex, final int toIndex, final List<E> element)
+      {
+         this(type, fromIndex, toIndex, element, null);
+      }
+
+      @Override
+      public Type getType()
+      {
+         return _type;
+      }
+
+      @Override
+      public int getFromIndex()
+      {
+         return _fromIndex;
+      }
+
+      @Override
+      public int getToIndex()
+      {
+         return _toIndex;
+      }
+
+      @Override
+      public List<E> getElements()
+      {
+         return _elements;
+      }
+
+      @Override
+      public List<E> getNewElements()
+      {
+         return _newElements;
+      }
+
+      @Override
+      public ObservableEventList<E> getSource()
+      {
+         return ObservableEventList.this;
       }
    }
 }

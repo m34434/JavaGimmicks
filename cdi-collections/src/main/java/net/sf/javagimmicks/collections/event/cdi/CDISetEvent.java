@@ -25,6 +25,16 @@ public class CDISetEvent implements SetEvent<Object>
       _origin = (SetEvent<Object>) origin;
    }
 
+   /**
+    * Provides access to the wrapped {@link SetEvent}
+    * 
+    * @return the wrapped {@link SetEvent}
+    */
+   public SetEvent<Object> getWrappedEvent()
+   {
+      return _origin;
+   }
+
    @Override
    public Type getType()
    {
@@ -41,10 +51,5 @@ public class CDISetEvent implements SetEvent<Object>
    public ObservableEventSet<Object> getSource()
    {
       return _origin.getSource();
-   }
-
-   public SetEvent<Object> getOriginalEvent()
-   {
-      return _origin;
    }
 }

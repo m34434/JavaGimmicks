@@ -27,6 +27,16 @@ public class CDICollectionEvent implements CollectionEvent<Object>
       _origin = (CollectionEvent<Object>) origin;
    }
 
+   /**
+    * Provides access to the wrapped {@link CollectionEvent}
+    * 
+    * @return the wrapped {@link CollectionEvent}
+    */
+   public CollectionEvent<Object> getWrappedEvent()
+   {
+      return _origin;
+   }
+
    @Override
    public Type getType()
    {
@@ -43,10 +53,5 @@ public class CDICollectionEvent implements CollectionEvent<Object>
    public ObservableEventCollection<Object> getSource()
    {
       return _origin.getSource();
-   }
-
-   public CollectionEvent<Object> getOriginalEvent()
-   {
-      return _origin;
    }
 }

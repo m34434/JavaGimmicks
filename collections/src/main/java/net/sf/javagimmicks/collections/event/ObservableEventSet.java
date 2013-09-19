@@ -66,7 +66,7 @@ public class ObservableEventSet<E> extends AbstractEventSet<E>
       }
    }
 
-   public class SetEventImpl implements SetEvent<E>
+   private class SetEventImpl implements SetEvent<E>
    {
       protected final Type _type;
       protected final E _element;
