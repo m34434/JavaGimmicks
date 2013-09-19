@@ -6,12 +6,22 @@ import net.sf.javagimmicks.collections.event.SetEvent.Type;
 import net.sf.javagimmicks.event.Observable;
 import net.sf.javagimmicks.event.ObservableBase;
 
+/**
+ * A {@link Set} decorator that serves as an {@link Observable} for
+ * {@link SetEvent}s.
+ */
 public class ObservableEventSet<E> extends AbstractEventSet<E> implements Observable<SetEvent<E>, EventSetListener<E>>
 {
    private static final long serialVersionUID = 4799365684601532982L;
 
    protected final ObservableBase<SetEvent<E>, EventSetListener<E>> _helper = new ObservableBase<SetEvent<E>, EventSetListener<E>>();
 
+   /**
+    * Wraps a new {@link ObservableEventSet} around a given {@link Set}.
+    * 
+    * @param decorated
+    *           the {@link Set} to wrap around
+    */
    public ObservableEventSet(final Set<E> decorated)
    {
       super(decorated);

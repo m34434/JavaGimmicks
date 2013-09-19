@@ -8,6 +8,10 @@ import net.sf.javagimmicks.collections.event.NavigableMapEvent.Type;
 import net.sf.javagimmicks.event.Observable;
 import net.sf.javagimmicks.event.ObservableBase;
 
+/**
+ * A {@link NavigableMap} decorator that serves as an {@link Observable} for
+ * {@link NavigableMapEvent}s.
+ */
 public class ObservableEventNavigableMap<K, V> extends AbstractEventNavigableMap<K, V> implements
       Observable<NavigableMapEvent<K, V>, EventNavigableMapListener<K, V>>
 {
@@ -15,6 +19,13 @@ public class ObservableEventNavigableMap<K, V> extends AbstractEventNavigableMap
 
    protected final ObservableBase<NavigableMapEvent<K, V>, EventNavigableMapListener<K, V>> _helper = new ObservableBase<NavigableMapEvent<K, V>, EventNavigableMapListener<K, V>>();
 
+   /**
+    * Wraps a new {@link ObservableEventNavigableMap} around a given
+    * {@link NavigableMap}.
+    * 
+    * @param decorated
+    *           the {@link NavigableMap} to wrap around
+    */
    public ObservableEventNavigableMap(final NavigableMap<K, V> decorated)
    {
       super(decorated);

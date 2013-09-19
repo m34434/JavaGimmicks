@@ -7,6 +7,10 @@ import net.sf.javagimmicks.collections.event.NavigableSetEvent.Type;
 import net.sf.javagimmicks.event.Observable;
 import net.sf.javagimmicks.event.ObservableBase;
 
+/**
+ * A {@link NavigableSet} decorator that serves as an {@link Observable} for
+ * {@link NavigableSetEvent}s.
+ */
 public class ObservableEventNavigableSet<E> extends AbstractEventNavigableSet<E> implements
       Observable<NavigableSetEvent<E>, EventNavigableSetListener<E>>
 {
@@ -14,6 +18,13 @@ public class ObservableEventNavigableSet<E> extends AbstractEventNavigableSet<E>
 
    protected final ObservableBase<NavigableSetEvent<E>, EventNavigableSetListener<E>> _helper = new ObservableBase<NavigableSetEvent<E>, EventNavigableSetListener<E>>();
 
+   /**
+    * Wraps a new {@link ObservableEventNavigableSet} around a given
+    * {@link NavigableSet}.
+    * 
+    * @param decorated
+    *           the {@link NavigableSet} to wrap around
+    */
    public ObservableEventNavigableSet(final NavigableSet<E> decorated)
    {
       super(decorated);

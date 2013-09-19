@@ -6,6 +6,10 @@ import net.sf.javagimmicks.collections.event.SortedSetEvent.Type;
 import net.sf.javagimmicks.event.Observable;
 import net.sf.javagimmicks.event.ObservableBase;
 
+/**
+ * A {@link SortedSet} decorator that serves as an {@link Observable} for
+ * {@link SortedSetEvent}s.
+ */
 public class ObservableEventSortedSet<E> extends AbstractEventSortedSet<E> implements
       Observable<SortedSetEvent<E>, EventSortedSetListener<E>>
 {
@@ -13,6 +17,13 @@ public class ObservableEventSortedSet<E> extends AbstractEventSortedSet<E> imple
 
    protected final ObservableBase<SortedSetEvent<E>, EventSortedSetListener<E>> _helper = new ObservableBase<SortedSetEvent<E>, EventSortedSetListener<E>>();
 
+   /**
+    * Wraps a new {@link ObservableEventSortedSet} around a given
+    * {@link SortedSet}.
+    * 
+    * @param decorated
+    *           the {@link SortedSet} to wrap around
+    */
    public ObservableEventSortedSet(final SortedSet<E> decorated)
    {
       super(decorated);

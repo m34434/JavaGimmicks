@@ -6,6 +6,10 @@ import net.sf.javagimmicks.collections.event.SortedMapEvent.Type;
 import net.sf.javagimmicks.event.Observable;
 import net.sf.javagimmicks.event.ObservableBase;
 
+/**
+ * A {@link SortedMap} decorator that serves as an {@link Observable} for
+ * {@link SortedMapEvent}s.
+ */
 public class ObservableEventSortedMap<K, V> extends AbstractEventSortedMap<K, V> implements
       Observable<SortedMapEvent<K, V>, EventSortedMapListener<K, V>>
 {
@@ -13,6 +17,13 @@ public class ObservableEventSortedMap<K, V> extends AbstractEventSortedMap<K, V>
 
    protected final ObservableBase<SortedMapEvent<K, V>, EventSortedMapListener<K, V>> _helper = new ObservableBase<SortedMapEvent<K, V>, EventSortedMapListener<K, V>>();
 
+   /**
+    * Wraps a new {@link ObservableEventSortedMap} around a given
+    * {@link SortedMap}.
+    * 
+    * @param decorated
+    *           the {@link SortedMap} to wrap around
+    */
    public ObservableEventSortedMap(final SortedMap<K, V> decorated)
    {
       super(decorated);

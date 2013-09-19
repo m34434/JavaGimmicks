@@ -8,6 +8,10 @@ import net.sf.javagimmicks.collections.event.CollectionEvent.Type;
 import net.sf.javagimmicks.event.Observable;
 import net.sf.javagimmicks.event.ObservableBase;
 
+/**
+ * A {@link Collection} decorator that serves as an {@link Observable} for
+ * {@link CollectionEvent}s.
+ */
 public class ObservableEventCollection<E> extends AbstractEventCollection<E> implements
       Observable<CollectionEvent<E>, EventCollectionListener<E>>
 {
@@ -15,6 +19,13 @@ public class ObservableEventCollection<E> extends AbstractEventCollection<E> imp
 
    protected final ObservableBase<CollectionEvent<E>, EventCollectionListener<E>> _helper = new ObservableBase<CollectionEvent<E>, EventCollectionListener<E>>();
 
+   /**
+    * Wraps a new {@link ObservableEventCollection} around a given
+    * {@link Collection}.
+    * 
+    * @param decorated
+    *           the {@link Collection} to wrap around
+    */
    public ObservableEventCollection(final Collection<E> decorated)
    {
       super(decorated);

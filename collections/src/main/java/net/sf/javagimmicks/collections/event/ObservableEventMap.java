@@ -6,6 +6,10 @@ import net.sf.javagimmicks.collections.event.MapEvent.Type;
 import net.sf.javagimmicks.event.Observable;
 import net.sf.javagimmicks.event.ObservableBase;
 
+/**
+ * A {@link Map} decorator that serves as an {@link Observable} for
+ * {@link MapEvent}s.
+ */
 public class ObservableEventMap<K, V> extends AbstractEventMap<K, V> implements
       Observable<MapEvent<K, V>, EventMapListener<K, V>>
 {
@@ -13,6 +17,12 @@ public class ObservableEventMap<K, V> extends AbstractEventMap<K, V> implements
 
    protected final ObservableBase<MapEvent<K, V>, EventMapListener<K, V>> _helper = new ObservableBase<MapEvent<K, V>, EventMapListener<K, V>>();
 
+   /**
+    * Wraps a new {@link ObservableEventMap} around a given {@link Map}.
+    * 
+    * @param decorated
+    *           the {@link Map} to wrap around
+    */
    public ObservableEventMap(final Map<K, V> decorated)
    {
       super(decorated);

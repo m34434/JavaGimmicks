@@ -7,8 +7,8 @@ import net.sf.javagimmicks.event.Event;
 import net.sf.javagimmicks.event.Observable;
 
 /**
- * Represents a change in a {@link Observable} {@link NavigableMap} - e.g.
- * {@link ObservableEventNavigableMap}
+ * Represents a change in a {@link Observable} {@link NavigableMap} - like
+ * {@link ObservableEventNavigableMap}.
  */
 public interface NavigableMapEvent<K, V> extends Event<NavigableMapEvent<K, V>, EventNavigableMapListener<K, V>>
 {

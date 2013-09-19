@@ -6,7 +6,7 @@ import net.sf.javagimmicks.event.Event;
 import net.sf.javagimmicks.event.Observable;
 
 /**
- * Represents a change in a {@link Observable} {@link Collection} - e.g.
+ * Represents a change in a {@link Observable} {@link Collection} - like
  * {@link ObservableEventCollection}.
  */
 public interface CollectionEvent<E> extends Event<CollectionEvent<E>, EventCollectionListener<E>>

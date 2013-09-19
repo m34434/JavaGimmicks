@@ -9,6 +9,10 @@ import net.sf.javagimmicks.collections.event.ListEvent.Type;
 import net.sf.javagimmicks.event.Observable;
 import net.sf.javagimmicks.event.ObservableBase;
 
+/**
+ * A {@link List} decorator that serves as an {@link Observable} for
+ * {@link ListEvent}s.
+ */
 public class ObservableEventList<E> extends AbstractEventList<E> implements
       Observable<ListEvent<E>, EventListListener<E>>
 {
@@ -16,6 +20,12 @@ public class ObservableEventList<E> extends AbstractEventList<E> implements
 
    protected final ObservableBase<ListEvent<E>, EventListListener<E>> _helper = new ObservableBase<ListEvent<E>, EventListListener<E>>();
 
+   /**
+    * Wraps a new {@link ObservableEventList} around a given {@link List}.
+    * 
+    * @param decorated
+    *           the {@link List} to wrap around
+    */
    public ObservableEventList(final List<E> decorated)
    {
       super(decorated);
@@ -76,6 +86,67 @@ public class ObservableEventList<E> extends AbstractEventList<E> implements
       _helper.fireEvent(event);
    }
 
+   private class ListEventImpl implements ListEvent<E>
+   {
+      protected final Type _type;
+      protected final int _fromIndex;
+      protected final int _toIndex;
+      protected final List<E> _elements;
+      protected final List<E> _newElements;
+   
+      public ListEventImpl(final Type type, final int fromIndex, final int toIndex, final List<E> element,
+            final List<E> newElement)
+      {
+         _type = type;
+         _fromIndex = fromIndex;
+         _toIndex = toIndex;
+   
+         _elements = element;
+         _newElements = newElement;
+      }
+   
+      public ListEventImpl(final Type type, final int fromIndex, final int toIndex, final List<E> element)
+      {
+         this(type, fromIndex, toIndex, element, null);
+      }
+   
+      @Override
+      public Type getType()
+      {
+         return _type;
+      }
+   
+      @Override
+      public int getFromIndex()
+      {
+         return _fromIndex;
+      }
+   
+      @Override
+      public int getToIndex()
+      {
+         return _toIndex;
+      }
+   
+      @Override
+      public List<E> getElements()
+      {
+         return _elements;
+      }
+   
+      @Override
+      public List<E> getNewElements()
+      {
+         return _newElements;
+      }
+   
+      @Override
+      public ObservableEventList<E> getSource()
+      {
+         return ObservableEventList.this;
+      }
+   }
+
    protected static class ObservableEventSubList<E> extends ObservableEventList<E>
    {
       private static final long serialVersionUID = 1996968483016862598L;
@@ -110,67 +181,6 @@ public class ObservableEventList<E> extends AbstractEventList<E> implements
       {
          super.fireElementUpdated(index, element, newElement);
          _parent.fireElementUpdated(index + _offset, element, newElement);
-      }
-   }
-
-   private class ListEventImpl implements ListEvent<E>
-   {
-      protected final Type _type;
-      protected final int _fromIndex;
-      protected final int _toIndex;
-      protected final List<E> _elements;
-      protected final List<E> _newElements;
-
-      public ListEventImpl(final Type type, final int fromIndex, final int toIndex, final List<E> element,
-            final List<E> newElement)
-      {
-         _type = type;
-         _fromIndex = fromIndex;
-         _toIndex = toIndex;
-
-         _elements = element;
-         _newElements = newElement;
-      }
-
-      public ListEventImpl(final Type type, final int fromIndex, final int toIndex, final List<E> element)
-      {
-         this(type, fromIndex, toIndex, element, null);
-      }
-
-      @Override
-      public Type getType()
-      {
-         return _type;
-      }
-
-      @Override
-      public int getFromIndex()
-      {
-         return _fromIndex;
-      }
-
-      @Override
-      public int getToIndex()
-      {
-         return _toIndex;
-      }
-
-      @Override
-      public List<E> getElements()
-      {
-         return _elements;
-      }
-
-      @Override
-      public List<E> getNewElements()
-      {
-         return _newElements;
-      }
-
-      @Override
-      public ObservableEventList<E> getSource()
-      {
-         return ObservableEventList.this;
       }
    }
 }
