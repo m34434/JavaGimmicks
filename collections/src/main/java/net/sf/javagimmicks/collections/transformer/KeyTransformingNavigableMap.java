@@ -4,35 +4,39 @@ import java.util.NavigableMap;
 import java.util.NavigableSet;
 
 class KeyTransformingNavigableMap<KF, KT, V>
-   extends KeyTransformingSortedMap<KF, KT, V>
-   implements NavigableMap<KT, V>
+      extends KeyTransformingSortedMap<KF, KT, V>
+      implements NavigableMap<KT, V>
 {
    /**
     * @deprecated Use TranformerUtils.decorateKeyBased() instead
     */
    @Deprecated
-   public KeyTransformingNavigableMap(NavigableMap<KF, V> map, Transformer<KF, KT> transformer)
+   public KeyTransformingNavigableMap(final NavigableMap<KF, V> map, final Transformer<KF, KT> transformer)
    {
       super(map, transformer);
    }
 
-   public Entry<KT, V> ceilingEntry(KT key)
+   @Override
+   public Entry<KT, V> ceilingEntry(final KT key)
    {
       throw new UnsupportedOperationException();
    }
 
-   public KT ceilingKey(KT key)
+   @Override
+   public KT ceilingKey(final KT key)
    {
       throw new UnsupportedOperationException();
    }
 
+   @Override
    public NavigableSet<KT> descendingKeySet()
    {
       return TransformerUtils.decorate(
-         getNavigableMap().descendingKeySet(),
-         getTransformer());
+            getNavigableMap().descendingKeySet(),
+            getTransformer());
    }
 
+   @Override
    public NavigableMap<KT, V> descendingMap()
    {
       return TransformerUtils.decorateKeyBased(
@@ -40,97 +44,111 @@ class KeyTransformingNavigableMap<KF, KT, V>
             getTransformer());
    }
 
+   @Override
    public Entry<KT, V> firstEntry()
    {
-      Entry<KF, V> firstEntry = getNavigableMap().firstEntry();
-      
+      final Entry<KF, V> firstEntry = getNavigableMap().firstEntry();
+
       return firstEntry == null ? null : new KeyTransformingEntry<KF, KT, V>(
-         firstEntry,
-         getTransformer());
+            firstEntry,
+            getTransformer());
    }
 
-   public Entry<KT, V> floorEntry(KT key)
+   @Override
+   public Entry<KT, V> floorEntry(final KT key)
    {
       throw new UnsupportedOperationException();
    }
 
-   public KT floorKey(KT key)
+   @Override
+   public KT floorKey(final KT key)
    {
       throw new UnsupportedOperationException();
    }
 
-   public NavigableMap<KT, V> headMap(KT toKey, boolean inclusive)
+   @Override
+   public NavigableMap<KT, V> headMap(final KT toKey, final boolean inclusive)
    {
       throw new UnsupportedOperationException();
    }
 
-   public Entry<KT, V> higherEntry(KT key)
+   @Override
+   public Entry<KT, V> higherEntry(final KT key)
    {
       throw new UnsupportedOperationException();
    }
 
-   public KT higherKey(KT key)
+   @Override
+   public KT higherKey(final KT key)
    {
       throw new UnsupportedOperationException();
    }
 
+   @Override
    public Entry<KT, V> lastEntry()
    {
-      Entry<KF, V> lastEntry = getNavigableMap().lastEntry();
-      
+      final Entry<KF, V> lastEntry = getNavigableMap().lastEntry();
+
       return lastEntry == null ? null : new KeyTransformingEntry<KF, KT, V>(
             lastEntry,
             getTransformer());
    }
 
-   public Entry<KT, V> lowerEntry(KT key)
+   @Override
+   public Entry<KT, V> lowerEntry(final KT key)
    {
       throw new UnsupportedOperationException();
    }
 
-   public KT lowerKey(KT key)
+   @Override
+   public KT lowerKey(final KT key)
    {
       throw new UnsupportedOperationException();
    }
 
+   @Override
    public NavigableSet<KT> navigableKeySet()
    {
       return TransformerUtils.decorate(
-         getNavigableMap().navigableKeySet(),
-         getTransformer());
+            getNavigableMap().navigableKeySet(),
+            getTransformer());
    }
 
+   @Override
    public Entry<KT, V> pollFirstEntry()
    {
-      Entry<KF, V> first = getNavigableMap().pollFirstEntry();
-      
+      final Entry<KF, V> first = getNavigableMap().pollFirstEntry();
+
       return first == null ? null : new KeyTransformingEntry<KF, KT, V>(
             first,
             getTransformer());
    }
 
+   @Override
    public Entry<KT, V> pollLastEntry()
    {
-      Entry<KF, V> lastEntry = getNavigableMap().pollLastEntry();
-      
+      final Entry<KF, V> lastEntry = getNavigableMap().pollLastEntry();
+
       return lastEntry == null ? null : new KeyTransformingEntry<KF, KT, V>(
             lastEntry,
             getTransformer());
    }
 
-   public NavigableMap<KT, V> subMap(KT fromKey, boolean fromInclusive,
-         KT toKey, boolean toInclusive)
+   @Override
+   public NavigableMap<KT, V> subMap(final KT fromKey, final boolean fromInclusive,
+         final KT toKey, final boolean toInclusive)
    {
       throw new UnsupportedOperationException();
    }
 
-   public NavigableMap<KT, V> tailMap(KT fromKey, boolean inclusive)
+   @Override
+   public NavigableMap<KT, V> tailMap(final KT fromKey, final boolean inclusive)
    {
       throw new UnsupportedOperationException();
    }
-   
+
    protected NavigableMap<KF, V> getNavigableMap()
    {
-      return (NavigableMap<KF, V>)_internalMap;
+      return (NavigableMap<KF, V>) _internalMap;
    }
 }

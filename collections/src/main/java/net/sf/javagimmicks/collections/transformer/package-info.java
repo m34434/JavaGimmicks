@@ -220,6 +220,8 @@
  * 
  * <a name="sortedset"/>
  * <h3>Operations on a transformed {@link java.util.SortedSet}</h3>
+ * <p><b>Note:</b> the sorting order of a transformed {@link java.util.SortedSet}
+ * remains that from the wrapped one
  * <table border="2">
  *    <thead>
  *       <tr>
@@ -266,6 +268,8 @@
  * 
  * <a name="navigableset"/>
  * <h3>Operations on a transformed {@link java.util.NavigableSet}</h3>
+ * <p><b>Note:</b> the sorting order of a transformed {@link java.util.NavigableSet}
+ * remains that from the wrapped one
  * <table border="2">
  *    <thead>
  *       <tr>
@@ -507,6 +511,8 @@
  * 
  * <a name="sortedMapKey"/>
  * <h3>Operations on a key-based transformed {@link java.util.SortedMap}</h3>
+ * <p><b>Note:</b> the sorting order of a transformed {@link java.util.SortedMap}
+ * remains that from the wrapped one
  * <table border="2">
  *    <thead>
  *       <tr>
@@ -522,6 +528,136 @@
  *       </tr>
  *       <tr>
  *          <td>comparator()</td>
+ *          <td align="center">not supported</td>
+ *          <td align="center">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>firstKey()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>headMap()</td>
+ *          <td align="center">not supported</td>
+ *          <td align="center">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>lastKey()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>subMap()</td>
+ *          <td align="center">not supported</td>
+ *          <td align="center">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>tailMap()</td>
+ *          <td align="center">not supported</td>
+ *          <td align="center">supported</td>
+ *       </tr>
+ *    </tbody>
+ * </table>
+ * 
+ * <a name="navigableMapKey"/>
+ * <h3>Operations on a key-based transformed {@link java.util.NavigableMap}</h3>
+ * <p><b>Note:</b> the sorting order of a transformed {@link java.util.NavigableMap}
+ * remains that from the wrapped one
+ * <table border="2">
+ *    <thead>
+ *       <tr>
+ *          <th>Operation</th>
+ *          <th>Transformer</th>
+ *          <th>BidiTransformer</th>
+ *       </tr>
+ *    </thead>
+ *    <tbody>
+ *       <tr>
+ *          <td>{@link java.util.Map} operations</td>
+ *          <td align="center" colspan="2">See table for <a href="#mapKey">{@code Map} operations</a></td>
+ *       </tr>
+ *       <tr>
+ *          <td>{@link java.util.SortedMap} operations</td>
+ *          <td align="center" colspan="2">See table for <a href="#sortedMapKey">{@code SortedMap} operations</a></td>
+ *       </tr>
+ *       <tr>
+ *          <td>ceilingEntry()</td>
+ *          <td align="center">not supported</td>
+ *          <td align="center">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>ceilingKey()</td>
+ *          <td align="center">not supported</td>
+ *          <td align="center">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>descendingKeySet()</td>
+ *          <td align="center" colspan="2">supported; See table for <a href="#navigableset">{@code NavigableSet} operations</td>
+ *       </tr>
+ *       <tr>
+ *          <td>descendingMap()</td>
+ *          <td align="center" colspan="2">supported; See this table for supported operation details</td>
+ *       </tr>
+ *       <tr>
+ *          <td>firstEntry()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>floorEntry()</td>
+ *          <td align="center">not supported</td>
+ *          <td align="center">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>floorKey()</td>
+ *          <td align="center">not supported</td>
+ *          <td align="center">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>headMap()</td>
+ *          <td align="center">not supported</td>
+ *          <td align="center">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>higherEntry()</td>
+ *          <td align="center">not supported</td>
+ *          <td align="center">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>higherKey()</td>
+ *          <td align="center">not supported</td>
+ *          <td align="center">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>lastEntry()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>lowerEntry()</td>
+ *          <td align="center">not supported</td>
+ *          <td align="center">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>lowerKey()</td>
+ *          <td align="center">not supported</td>
+ *          <td align="center">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>navigableKeySet()</td>
+ *          <td align="center" colspan="2">supported; See table for <a href="#navigableset">{@code NavigableSet} operations</td>
+ *       </tr>
+ *       <tr>
+ *          <td>pollFirstEntry()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>pollLastEntry()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>subMap()</td>
+ *          <td align="center">not supported</td>
+ *          <td align="center">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>tailMap()</td>
  *          <td align="center">not supported</td>
  *          <td align="center">supported</td>
  *       </tr>
