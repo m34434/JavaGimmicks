@@ -59,7 +59,7 @@ public interface ListEvent<E> extends Event<ListEvent<E>, EventListListener<E>>
    /**
     * Returns the removed/added elements in case of {@link Type#REMOVED} or
     * {@link Type#ADDED} - or the replaced elements in case of
-    * {@value Type#UPDATED}.
+    * {@link Type#UPDATED}.
     * 
     * @return the removed/added elements or the replaced elements of an update
     */

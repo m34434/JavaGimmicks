@@ -56,7 +56,7 @@ public interface Difference<T>
     * Produces an inverted version of this {@link Difference} which means that
     * <i>delete range</i> and <i>add range</i> are exchanged.
     * 
-    * @return
+    * @return an inverted version of this {@link Difference}
     */
    Difference<T> invert();
 
