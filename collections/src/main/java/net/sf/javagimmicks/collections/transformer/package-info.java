@@ -438,6 +438,96 @@
  *    </tbody>
  * </table>
  * 
+ * <a name="mapKey"/>
+ * <h3>Operations on a key-based transformed {@link java.util.Map}</h3>
+ * <table border="2">
+ *    <thead>
+ *       <tr>
+ *          <th>Operation</th>
+ *          <th>Transformer</th>
+ *          <th>BidiTransformer</th>
+ *       </tr>
+ *    </thead>
+ *    <tbody>
+ *       <tr>
+ *          <td>isEmpty()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>size()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>put()</td>
+ *          <td align="center">not supported</td>
+ *          <td align="center">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>putAll()</td>
+ *          <td align="center">not supported</td>
+ *          <td align="center">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>get()</td>
+ *          <td align="center">supported; keys need {@code equals()} method</td>
+ *          <td align="center">supported; faster</td>
+ *       </tr>
+ *       <tr>
+ *          <td>containsKey()</td>
+ *          <td align="center">supported; keys need {@code equals()} method</td>
+ *          <td align="center">supported; faster</td>
+ *       </tr>
+ *       <tr>
+ *          <td>containsValue()</td>
+ *          <td align="center" colspan="2">supported; values need {@code equals()} method</td>
+ *       </tr>
+ *       <tr>
+ *          <td>remove()</td>
+ *          <td align="center">supported; keys need {@code equals()} method</td>
+ *          <td align="center">supported; faster</td>
+ *       </tr>
+ *       <tr>
+ *          <td>clear()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>keySet()</td>
+ *          <td align="center" colspan="2">See table for <a href="#set">{@code Set} operations</td>
+ *       </tr>
+ *       <tr>
+ *          <td>values()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>entrySet()</td>
+ *          <td align="center" colspan="2">See table for <a href="#set">{@code Set} operations</td>
+ *       </tr>
+ *    </tbody>
+ * </table>
+ * 
+ * <a name="sortedMapKey"/>
+ * <h3>Operations on a key-based transformed {@link java.util.SortedMap}</h3>
+ * <table border="2">
+ *    <thead>
+ *       <tr>
+ *          <th>Operation</th>
+ *          <th>Transformer</th>
+ *          <th>BidiTransformer</th>
+ *       </tr>
+ *    </thead>
+ *    <tbody>
+ *       <tr>
+ *          <td>{@link java.util.Map} operations</td>
+ *          <td align="center" colspan="2">See table for <a href="#mapKey">{@code Map} operations</a></td>
+ *       </tr>
+ *       <tr>
+ *          <td>comparator()</td>
+ *          <td align="center">not supported</td>
+ *          <td align="center">supported</td>
+ *       </tr>
+ *    </tbody>
+ * </table>
+ * 
  * @author Michael Scholz
  */
 package net.sf.javagimmicks.collections.transformer;

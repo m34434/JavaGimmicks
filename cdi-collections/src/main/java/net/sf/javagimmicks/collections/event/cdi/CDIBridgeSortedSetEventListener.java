@@ -20,7 +20,7 @@ public class CDIBridgeSortedSetEventListener<E> extends CDIBrigeBase implements 
     * Registers a {@link CDIBridgeSortedSetEventListener} within the given
     * {@link ObservableEventSortedSet}.
     * 
-    * @param map
+    * @param set
     *           the {@link ObservableEventSortedSet} where to register the
     *           {@link CDIBridgeSortedSetEventListener}
     * @return the registered {@link CDIBridgeSortedSetEventListener}
@@ -39,7 +39,7 @@ public class CDIBridgeSortedSetEventListener<E> extends CDIBrigeBase implements 
     * {@link SortedSet} and registers a {@link CDIBridgeSortedSetEventListener}
     * within.
     * 
-    * @param map
+    * @param set
     *           the base {@link SortedSet} to wrap
     * @return the CDI-enabled {@link ObservableEventSortedSet}
     */

@@ -23,13 +23,13 @@ public class DefaultDifference<T> implements Difference<T>
     * Creates a new instance with all necessary information.
     * 
     * @param deleteStartIndex
-    *           the first index of the <i>delete {@link Range}</i>
+    *           the first index of the <i>delete {@link Difference.Range}</i>
     * @param deleteEndIndex
-    *           the last index of the <i>delete {@link Range}</i>
+    *           the last index of the <i>delete {@link Difference.Range}</i>
     * @param addStartIndex
-    *           the first index of the <i>add {@link Range}</i>
+    *           the first index of the <i>add {@link Difference.Range}</i>
     * @param addEndIndex
-    *           the last index of the <i>add {@link Range}</i>
+    *           the last index of the <i>add {@link Difference.Range}</i>
     * @param fromList
     *           the <i>from</i> {@link List} ("left side") of the comparison
     * @param toList

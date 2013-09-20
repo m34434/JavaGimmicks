@@ -3,7 +3,7 @@ package net.sf.javagimmicks.collections.event;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
 
-import net.sf.javagimmicks.collections.transformer.NavigableKeySet;
+import net.sf.javagimmicks.collections.decorators.AbstractEntryDecorator;
 
 /**
  * A base {@link NavigableMap} wrapper that reports changes to internal callback
@@ -42,7 +42,7 @@ public abstract class AbstractEventNavigableMap<K, V> extends AbstractEventSorte
    @Override
    public Entry<K, V> ceilingEntry(final K key)
    {
-      return getDecorated().ceilingEntry(key);
+      return new EventEntry<K, V>(this, getDecorated().ceilingEntry(key));
    }
 
    @Override
@@ -54,13 +54,13 @@ public abstract class AbstractEventNavigableMap<K, V> extends AbstractEventSorte
    @Override
    public Entry<K, V> firstEntry()
    {
-      return getDecorated().firstEntry();
+      return new EventEntry<K, V>(this, getDecorated().firstEntry());
    }
 
    @Override
    public Entry<K, V> floorEntry(final K key)
    {
-      return getDecorated().floorEntry(key);
+      return new EventEntry<K, V>(this, getDecorated().floorEntry(key));
    }
 
    @Override
@@ -72,7 +72,7 @@ public abstract class AbstractEventNavigableMap<K, V> extends AbstractEventSorte
    @Override
    public Entry<K, V> higherEntry(final K key)
    {
-      return getDecorated().higherEntry(key);
+      return new EventEntry<K, V>(this, getDecorated().higherEntry(key));
    }
 
    @Override
@@ -84,13 +84,13 @@ public abstract class AbstractEventNavigableMap<K, V> extends AbstractEventSorte
    @Override
    public Entry<K, V> lastEntry()
    {
-      return getDecorated().lastEntry();
+      return new EventEntry<K, V>(this, getDecorated().lastEntry());
    }
 
    @Override
    public Entry<K, V> lowerEntry(final K key)
    {
-      return getDecorated().lowerEntry(key);
+      return new EventEntry<K, V>(this, getDecorated().lowerEntry(key));
    }
 
    @Override
@@ -134,7 +134,7 @@ public abstract class AbstractEventNavigableMap<K, V> extends AbstractEventSorte
    @Override
    public NavigableSet<K> navigableKeySet()
    {
-      return new NavigableKeySet<K, V>(this);
+      return new NavigableMapKeySetDecorator<K, V>(this);
    }
 
    @Override
@@ -190,6 +190,29 @@ public abstract class AbstractEventNavigableMap<K, V> extends AbstractEventSorte
       protected void fireEntryUpdated(final K key, final V oldValue, final V newValue)
       {
          _parent.fireEntryUpdated(key, oldValue, newValue);
+      }
+   }
+
+   protected static class EventEntry<K, V> extends AbstractEntryDecorator<K, V>
+   {
+      private static final long serialVersionUID = 5721131374089977796L;
+
+      protected final AbstractEventNavigableMap<K, V> _parent;
+
+      public EventEntry(final AbstractEventNavigableMap<K, V> parent, final Entry<K, V> decorated)
+      {
+         super(decorated);
+         _parent = parent;
+      }
+
+      @Override
+      public V setValue(final V value)
+      {
+         final V oldValue = super.setValue(value);
+
+         _parent.fireEntryUpdated(getKey(), oldValue, value);
+
+         return oldValue;
       }
    }
 }
