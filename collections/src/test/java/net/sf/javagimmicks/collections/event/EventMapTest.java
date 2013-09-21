@@ -74,14 +74,14 @@ public class EventMapTest
 
    public static class MapEventImpl<K, V> implements MapEvent<K, V>
    {
-      protected final Observable<MapEvent<K, V>, EventMapListener<K, V>> _source;
+      protected final Observable<MapEvent<K, V>> _source;
 
       protected final Type _type;
       protected final K _key;
       protected final V _value;
       protected final V _newValue;
 
-      public MapEventImpl(final Observable<MapEvent<K, V>, EventMapListener<K, V>> source, final Type type,
+      public MapEventImpl(final Observable<MapEvent<K, V>> source, final Type type,
             final K key, final V value,
             final V newValue)
       {
@@ -98,7 +98,7 @@ public class EventMapTest
       }
 
       @Override
-      public Observable<MapEvent<K, V>, EventMapListener<K, V>> getSource()
+      public Observable<MapEvent<K, V>> getSource()
       {
          return _source;
       }

@@ -6,8 +6,6 @@ package net.sf.javagimmicks.event;
  * 
  * @param <Evt>
  *           the concrete {@link Event} type
- * @param <L>
- *           the type of {@link EventListener} that observes this {@link Event}
  */
 public interface Event<Evt extends Event<Evt>>
 {

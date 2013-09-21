@@ -1,6 +1,5 @@
 package net.sf.javagimmicks.collections.event.cdi;
 
-import net.sf.javagimmicks.collections.event.EventNavigableSetListener;
 import net.sf.javagimmicks.collections.event.NavigableSetEvent;
 import net.sf.javagimmicks.event.Observable;
 
@@ -43,7 +42,7 @@ public class CDINavigableSetEvent implements NavigableSetEvent<Object>
    }
 
    @Override
-   public Observable<NavigableSetEvent<Object>, EventNavigableSetListener<Object>> getSource()
+   public Observable<NavigableSetEvent<Object>> getSource()
    {
       return _origin.getSource();
    }

@@ -6,8 +6,6 @@ package net.sf.javagimmicks.event;
  * 
  * @param <Evt>
  *           the {@link Event} type that will be fired
- * @param <L>
- *           the type {@link EventListener}s that can be registered
  */
 public interface Observable<Evt extends Event<Evt>>
 {

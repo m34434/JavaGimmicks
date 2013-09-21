@@ -1,6 +1,5 @@
 package net.sf.javagimmicks.collections.event.cdi;
 
-import net.sf.javagimmicks.collections.event.EventSortedMapListener;
 import net.sf.javagimmicks.collections.event.SortedMapEvent;
 import net.sf.javagimmicks.event.Observable;
 
@@ -31,7 +30,7 @@ public class CDISortedMapEvent implements SortedMapEvent<Object, Object>
    }
 
    @Override
-   public Observable<SortedMapEvent<Object, Object>, EventSortedMapListener<Object, Object>> getSource()
+   public Observable<SortedMapEvent<Object, Object>> getSource()
    {
       return _origin.getSource();
    }

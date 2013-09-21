@@ -1,6 +1,5 @@
 package net.sf.javagimmicks.collections.event.cdi;
 
-import net.sf.javagimmicks.collections.event.EventSetListener;
 import net.sf.javagimmicks.collections.event.SetEvent;
 import net.sf.javagimmicks.event.Observable;
 
@@ -43,7 +42,7 @@ public class CDISetEvent implements SetEvent<Object>
    }
 
    @Override
-   public Observable<SetEvent<Object>, EventSetListener<Object>> getSource()
+   public Observable<SetEvent<Object>> getSource()
    {
       return _origin.getSource();
    }

@@ -3,7 +3,6 @@ package net.sf.javagimmicks.collections.event.cdi;
 import java.util.Collection;
 
 import net.sf.javagimmicks.collections.event.CollectionEvent;
-import net.sf.javagimmicks.collections.event.EventCollectionListener;
 import net.sf.javagimmicks.event.Observable;
 
 /**
@@ -45,7 +44,7 @@ public class CDICollectionEvent implements CollectionEvent<Object>
    }
 
    @Override
-   public Observable<CollectionEvent<Object>, EventCollectionListener<Object>> getSource()
+   public Observable<CollectionEvent<Object>> getSource()
    {
       return _origin.getSource();
    }
