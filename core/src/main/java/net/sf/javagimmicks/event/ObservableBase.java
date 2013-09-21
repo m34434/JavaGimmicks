@@ -14,23 +14,23 @@ import java.util.List;
  * <b>not thread-safe</b> - so you have to take care about synchronization
  * manually if necessary!
  */
-public class ObservableBase<Evt extends Event<Evt, L>, L extends EventListener<Evt, L>> implements Observable<Evt, L>
+public class ObservableBase<Evt extends Event<Evt>> implements Observable<Evt>
 {
-   protected transient List<L> _listeners;
+   protected transient List<EventListener<Evt>> _listeners;
 
    @Override
-   public void addEventListener(final L listener)
+   public <L extends EventListener<Evt>> void addEventListener(final L listener)
    {
       if (_listeners == null)
       {
-         _listeners = new ArrayList<L>();
+         _listeners = new ArrayList<EventListener<Evt>>();
       }
 
       _listeners.add(listener);
    }
 
    @Override
-   public void removeEventListener(final L listener)
+   public <L extends EventListener<Evt>> void removeEventListener(final L listener)
    {
       if (_listeners != null)
       {
@@ -55,7 +55,7 @@ public class ObservableBase<Evt extends Event<Evt, L>, L extends EventListener<E
          return;
       }
 
-      for (final L listener : _listeners)
+      for (final EventListener<Evt> listener : _listeners)
       {
          listener.eventOccured(event);
       }

@@ -9,12 +9,12 @@ package net.sf.javagimmicks.event;
  * @param <L>
  *           the type of {@link EventListener} that observes this {@link Event}
  */
-public interface Event<Evt extends Event<Evt, L>, L extends EventListener<Evt, L>>
+public interface Event<Evt extends Event<Evt>>
 {
    /**
     * The source {@link Observable} that fired this {@link Event}
     * 
     * @return the source of this {@link Event}
     */
-   Observable<Evt, L> getSource();
+   Observable<Evt> getSource();
 }

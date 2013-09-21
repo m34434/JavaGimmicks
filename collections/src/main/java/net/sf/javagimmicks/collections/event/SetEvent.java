@@ -9,7 +9,7 @@ import net.sf.javagimmicks.event.Observable;
  * Represents a change in a {@link Observable} {@link Set} - like
  * {@link ObservableEventSet}.
  */
-public interface SetEvent<E> extends Event<SetEvent<E>, EventSetListener<E>>
+public interface SetEvent<E> extends Event<SetEvent<E>>
 {
    /**
     * The possible types of {@link SetEvent}s.

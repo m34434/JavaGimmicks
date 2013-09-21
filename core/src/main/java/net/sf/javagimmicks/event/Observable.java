@@ -9,7 +9,7 @@ package net.sf.javagimmicks.event;
  * @param <L>
  *           the type {@link EventListener}s that can be registered
  */
-public interface Observable<Evt extends Event<Evt, L>, L extends EventListener<Evt, L>>
+public interface Observable<Evt extends Event<Evt>>
 {
    /**
     * Adds a new {@link EventListener} (or sub-type) to this {@link Observable}
@@ -17,7 +17,7 @@ public interface Observable<Evt extends Event<Evt, L>, L extends EventListener<E
     * @param listener
     *           the {@link EventListener} (or sub-type) to add
     */
-   void addEventListener(L listener);
+   <L extends EventListener<Evt>> void addEventListener(L listener);
 
    /**
     * Removes a registered {@link EventListener} (or sub-type) from this
@@ -26,5 +26,5 @@ public interface Observable<Evt extends Event<Evt, L>, L extends EventListener<E
     * @param listener
     *           the {@link EventListener} (or sub-type) to remove
     */
-   void removeEventListener(L listener);
+   <L extends EventListener<Evt>> void removeEventListener(L listener);
 }

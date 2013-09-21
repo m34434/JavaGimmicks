@@ -10,7 +10,7 @@ import net.sf.javagimmicks.event.Observable;
  * Represents a change in a {@link Observable} {@link SortedMap} - like
  * {@link ObservableEventSortedMap}.
  */
-public interface SortedMapEvent<K, V> extends Event<SortedMapEvent<K, V>, EventSortedMapListener<K, V>>
+public interface SortedMapEvent<K, V> extends Event<SortedMapEvent<K, V>>
 {
    /**
     * The possible types of {@link SortedMapEvent}s.

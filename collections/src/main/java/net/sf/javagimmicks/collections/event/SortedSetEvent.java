@@ -9,7 +9,7 @@ import net.sf.javagimmicks.event.Observable;
  * Represents a change in a {@link Observable} {@link SortedSet} - like
  * {@link ObservableEventSortedSet}.
  */
-public interface SortedSetEvent<E> extends Event<SortedSetEvent<E>, EventSortedSetListener<E>>
+public interface SortedSetEvent<E> extends Event<SortedSetEvent<E>>
 {
    /**
     * The possible types of {@link SortedSetEvent}s.

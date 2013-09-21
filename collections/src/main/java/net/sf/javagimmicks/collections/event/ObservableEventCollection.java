@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import net.sf.javagimmicks.collections.event.CollectionEvent.Type;
+import net.sf.javagimmicks.event.EventListener;
 import net.sf.javagimmicks.event.Observable;
 import net.sf.javagimmicks.event.ObservableBase;
 
@@ -13,11 +14,11 @@ import net.sf.javagimmicks.event.ObservableBase;
  * {@link CollectionEvent}s.
  */
 public class ObservableEventCollection<E> extends AbstractEventCollection<E> implements
-      Observable<CollectionEvent<E>, EventCollectionListener<E>>
+      Observable<CollectionEvent<E>>
 {
    private static final long serialVersionUID = -4055919694275882002L;
 
-   protected final ObservableBase<CollectionEvent<E>, EventCollectionListener<E>> _helper = new ObservableBase<CollectionEvent<E>, EventCollectionListener<E>>();
+   protected final ObservableBase<CollectionEvent<E>> _helper = new ObservableBase<CollectionEvent<E>>();
 
    /**
     * Wraps a new {@link ObservableEventCollection} around a given
@@ -32,13 +33,13 @@ public class ObservableEventCollection<E> extends AbstractEventCollection<E> imp
    }
 
    @Override
-   public void addEventListener(final EventCollectionListener<E> listener)
+   public <L extends EventListener<CollectionEvent<E>>> void addEventListener(final L listener)
    {
       _helper.addEventListener(listener);
    }
 
    @Override
-   public void removeEventListener(final EventCollectionListener<E> listener)
+   public <L extends EventListener<CollectionEvent<E>>> void removeEventListener(final L listener)
    {
       _helper.removeEventListener(listener);
    }

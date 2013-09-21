@@ -3,6 +3,7 @@ package net.sf.javagimmicks.collections.event;
 import java.util.Map;
 
 import net.sf.javagimmicks.collections.event.MapEvent.Type;
+import net.sf.javagimmicks.event.EventListener;
 import net.sf.javagimmicks.event.Observable;
 import net.sf.javagimmicks.event.ObservableBase;
 
@@ -11,11 +12,11 @@ import net.sf.javagimmicks.event.ObservableBase;
  * {@link MapEvent}s.
  */
 public class ObservableEventMap<K, V> extends AbstractEventMap<K, V> implements
-      Observable<MapEvent<K, V>, EventMapListener<K, V>>
+      Observable<MapEvent<K, V>>
 {
    private static final long serialVersionUID = 8006998141057065129L;
 
-   protected final ObservableBase<MapEvent<K, V>, EventMapListener<K, V>> _helper = new ObservableBase<MapEvent<K, V>, EventMapListener<K, V>>();
+   protected final ObservableBase<MapEvent<K, V>> _helper = new ObservableBase<MapEvent<K, V>>();
 
    /**
     * Wraps a new {@link ObservableEventMap} around a given {@link Map}.
@@ -29,13 +30,13 @@ public class ObservableEventMap<K, V> extends AbstractEventMap<K, V> implements
    }
 
    @Override
-   public void addEventListener(final EventMapListener<K, V> listener)
+   public <L extends EventListener<MapEvent<K, V>>> void addEventListener(final L listener)
    {
       _helper.addEventListener(listener);
    }
 
    @Override
-   public void removeEventListener(final EventMapListener<K, V> listener)
+   public <L extends EventListener<MapEvent<K, V>>> void removeEventListener(final L listener)
    {
       _helper.removeEventListener(listener);
    }

@@ -9,7 +9,7 @@ import net.sf.javagimmicks.event.Observable;
  * Represents a change in a {@link Observable} {@link List} - like
  * {@link ObservableEventList}.
  */
-public interface ListEvent<E> extends Event<ListEvent<E>, EventListListener<E>>
+public interface ListEvent<E> extends Event<ListEvent<E>>
 {
    /**
     * The possible types of {@link ListEvent}s.

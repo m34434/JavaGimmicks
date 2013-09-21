@@ -3,6 +3,7 @@ package net.sf.javagimmicks.collections.event;
 import java.util.Set;
 
 import net.sf.javagimmicks.collections.event.SetEvent.Type;
+import net.sf.javagimmicks.event.EventListener;
 import net.sf.javagimmicks.event.Observable;
 import net.sf.javagimmicks.event.ObservableBase;
 
@@ -10,11 +11,11 @@ import net.sf.javagimmicks.event.ObservableBase;
  * A {@link Set} decorator that serves as an {@link Observable} for
  * {@link SetEvent}s.
  */
-public class ObservableEventSet<E> extends AbstractEventSet<E> implements Observable<SetEvent<E>, EventSetListener<E>>
+public class ObservableEventSet<E> extends AbstractEventSet<E> implements Observable<SetEvent<E>>
 {
    private static final long serialVersionUID = 4799365684601532982L;
 
-   protected final ObservableBase<SetEvent<E>, EventSetListener<E>> _helper = new ObservableBase<SetEvent<E>, EventSetListener<E>>();
+   protected final ObservableBase<SetEvent<E>> _helper = new ObservableBase<SetEvent<E>>();
 
    /**
     * Wraps a new {@link ObservableEventSet} around a given {@link Set}.
@@ -28,13 +29,13 @@ public class ObservableEventSet<E> extends AbstractEventSet<E> implements Observ
    }
 
    @Override
-   public void addEventListener(final EventSetListener<E> listener)
+   public <L extends EventListener<SetEvent<E>>> void addEventListener(final L listener)
    {
       _helper.addEventListener(listener);
    }
 
    @Override
-   public void removeEventListener(final EventSetListener<E> listener)
+   public <L extends EventListener<SetEvent<E>>> void removeEventListener(final L listener)
    {
       _helper.removeEventListener(listener);
    }

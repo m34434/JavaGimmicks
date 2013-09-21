@@ -5,5 +5,5 @@ import net.sf.javagimmicks.event.EventListener;
 /**
  * An {@link EventListener} the observes {@link SortedMapEvent}s.
  */
-public interface EventSortedMapListener<K, V> extends EventListener<SortedMapEvent<K, V>, EventSortedMapListener<K, V>>
+public interface EventSortedMapListener<K, V> extends EventListener<SortedMapEvent<K, V>>
 {}

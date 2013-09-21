@@ -10,7 +10,7 @@ import net.sf.javagimmicks.event.Observable;
  * Represents a change in a {@link Observable} {@link Map} - like
  * {@link ObservableEventMap}.
  */
-public interface MapEvent<K, V> extends Event<MapEvent<K, V>, EventMapListener<K, V>>
+public interface MapEvent<K, V> extends Event<MapEvent<K, V>>
 {
    /**
     * The possible types of {@link MapEvent}s.

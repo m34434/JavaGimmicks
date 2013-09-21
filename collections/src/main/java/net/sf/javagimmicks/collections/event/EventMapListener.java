@@ -5,5 +5,5 @@ import net.sf.javagimmicks.event.EventListener;
 /**
  * An {@link EventListener} the observes {@link MapEvent}s.
  */
-public interface EventMapListener<K, V> extends EventListener<MapEvent<K, V>, EventMapListener<K, V>>
+public interface EventMapListener<K, V> extends EventListener<MapEvent<K, V>>
 {}

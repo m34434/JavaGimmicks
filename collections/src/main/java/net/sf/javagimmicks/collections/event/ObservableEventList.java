@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import net.sf.javagimmicks.collections.event.ListEvent.Type;
+import net.sf.javagimmicks.event.EventListener;
 import net.sf.javagimmicks.event.Observable;
 import net.sf.javagimmicks.event.ObservableBase;
 
@@ -14,11 +15,11 @@ import net.sf.javagimmicks.event.ObservableBase;
  * {@link ListEvent}s.
  */
 public class ObservableEventList<E> extends AbstractEventList<E> implements
-      Observable<ListEvent<E>, EventListListener<E>>
+      Observable<ListEvent<E>>
 {
    private static final long serialVersionUID = -6317396247733734848L;
 
-   protected final ObservableBase<ListEvent<E>, EventListListener<E>> _helper = new ObservableBase<ListEvent<E>, EventListListener<E>>();
+   protected final ObservableBase<ListEvent<E>> _helper = new ObservableBase<ListEvent<E>>();
 
    /**
     * Wraps a new {@link ObservableEventList} around a given {@link List}.
@@ -32,13 +33,13 @@ public class ObservableEventList<E> extends AbstractEventList<E> implements
    }
 
    @Override
-   public void addEventListener(final EventListListener<E> listener)
+   public <L extends EventListener<ListEvent<E>>> void addEventListener(final L listener)
    {
       _helper.addEventListener(listener);
    }
 
    @Override
-   public void removeEventListener(final EventListListener<E> listener)
+   public <L extends EventListener<ListEvent<E>>> void removeEventListener(final L listener)
    {
       _helper.removeEventListener(listener);
    }
@@ -93,53 +94,53 @@ public class ObservableEventList<E> extends AbstractEventList<E> implements
       protected final int _toIndex;
       protected final List<E> _elements;
       protected final List<E> _newElements;
-   
+
       public ListEventImpl(final Type type, final int fromIndex, final int toIndex, final List<E> element,
             final List<E> newElement)
       {
          _type = type;
          _fromIndex = fromIndex;
          _toIndex = toIndex;
-   
+
          _elements = element;
          _newElements = newElement;
       }
-   
+
       public ListEventImpl(final Type type, final int fromIndex, final int toIndex, final List<E> element)
       {
          this(type, fromIndex, toIndex, element, null);
       }
-   
+
       @Override
       public Type getType()
       {
          return _type;
       }
-   
+
       @Override
       public int getFromIndex()
       {
          return _fromIndex;
       }
-   
+
       @Override
       public int getToIndex()
       {
          return _toIndex;
       }
-   
+
       @Override
       public List<E> getElements()
       {
          return _elements;
       }
-   
+
       @Override
       public List<E> getNewElements()
       {
          return _newElements;
       }
-   
+
       @Override
       public ObservableEventList<E> getSource()
       {

@@ -4,6 +4,7 @@ import java.util.NavigableSet;
 import java.util.SortedSet;
 
 import net.sf.javagimmicks.collections.event.NavigableSetEvent.Type;
+import net.sf.javagimmicks.event.EventListener;
 import net.sf.javagimmicks.event.Observable;
 import net.sf.javagimmicks.event.ObservableBase;
 
@@ -12,11 +13,11 @@ import net.sf.javagimmicks.event.ObservableBase;
  * {@link NavigableSetEvent}s.
  */
 public class ObservableEventNavigableSet<E> extends AbstractEventNavigableSet<E> implements
-      Observable<NavigableSetEvent<E>, EventNavigableSetListener<E>>
+      Observable<NavigableSetEvent<E>>
 {
    private static final long serialVersionUID = -6812183248508925850L;
 
-   protected final ObservableBase<NavigableSetEvent<E>, EventNavigableSetListener<E>> _helper = new ObservableBase<NavigableSetEvent<E>, EventNavigableSetListener<E>>();
+   protected final ObservableBase<NavigableSetEvent<E>> _helper = new ObservableBase<NavigableSetEvent<E>>();
 
    /**
     * Wraps a new {@link ObservableEventNavigableSet} around a given
@@ -31,13 +32,13 @@ public class ObservableEventNavigableSet<E> extends AbstractEventNavigableSet<E>
    }
 
    @Override
-   public void addEventListener(final EventNavigableSetListener<E> listener)
+   public <L extends EventListener<NavigableSetEvent<E>>> void addEventListener(final L listener)
    {
       _helper.addEventListener(listener);
    }
 
    @Override
-   public void removeEventListener(final EventNavigableSetListener<E> listener)
+   public <L extends EventListener<NavigableSetEvent<E>>> void removeEventListener(final L listener)
    {
       _helper.removeEventListener(listener);
    }

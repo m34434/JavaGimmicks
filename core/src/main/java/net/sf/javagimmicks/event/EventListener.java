@@ -9,7 +9,7 @@ package net.sf.javagimmicks.event;
  * @param <L>
  *           the concrete {@link EventListener} type
  */
-public interface EventListener<Evt extends Event<Evt, L>, L extends EventListener<Evt, L>>
+public interface EventListener<Evt extends Event<Evt>>
 {
    /**
     * Triggered by the {@link Observable} when an {@link Event} occurs.

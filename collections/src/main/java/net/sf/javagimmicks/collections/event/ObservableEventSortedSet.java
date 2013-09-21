@@ -3,6 +3,7 @@ package net.sf.javagimmicks.collections.event;
 import java.util.SortedSet;
 
 import net.sf.javagimmicks.collections.event.SortedSetEvent.Type;
+import net.sf.javagimmicks.event.EventListener;
 import net.sf.javagimmicks.event.Observable;
 import net.sf.javagimmicks.event.ObservableBase;
 
@@ -11,11 +12,11 @@ import net.sf.javagimmicks.event.ObservableBase;
  * {@link SortedSetEvent}s.
  */
 public class ObservableEventSortedSet<E> extends AbstractEventSortedSet<E> implements
-      Observable<SortedSetEvent<E>, EventSortedSetListener<E>>
+      Observable<SortedSetEvent<E>>
 {
    private static final long serialVersionUID = 7595639007080114146L;
 
-   protected final ObservableBase<SortedSetEvent<E>, EventSortedSetListener<E>> _helper = new ObservableBase<SortedSetEvent<E>, EventSortedSetListener<E>>();
+   protected final ObservableBase<SortedSetEvent<E>> _helper = new ObservableBase<SortedSetEvent<E>>();
 
    /**
     * Wraps a new {@link ObservableEventSortedSet} around a given
@@ -30,13 +31,13 @@ public class ObservableEventSortedSet<E> extends AbstractEventSortedSet<E> imple
    }
 
    @Override
-   public void addEventListener(final EventSortedSetListener<E> listener)
+   public <L extends EventListener<SortedSetEvent<E>>> void addEventListener(final L listener)
    {
       _helper.addEventListener(listener);
    }
 
    @Override
-   public void removeEventListener(final EventSortedSetListener<E> listener)
+   public <L extends EventListener<SortedSetEvent<E>>> void removeEventListener(final L listener)
    {
       _helper.removeEventListener(listener);
    }

@@ -3,6 +3,7 @@ package net.sf.javagimmicks.collections.event;
 import java.util.SortedMap;
 
 import net.sf.javagimmicks.collections.event.SortedMapEvent.Type;
+import net.sf.javagimmicks.event.EventListener;
 import net.sf.javagimmicks.event.Observable;
 import net.sf.javagimmicks.event.ObservableBase;
 
@@ -11,11 +12,11 @@ import net.sf.javagimmicks.event.ObservableBase;
  * {@link SortedMapEvent}s.
  */
 public class ObservableEventSortedMap<K, V> extends AbstractEventSortedMap<K, V> implements
-      Observable<SortedMapEvent<K, V>, EventSortedMapListener<K, V>>
+      Observable<SortedMapEvent<K, V>>
 {
    private static final long serialVersionUID = -4377528012758388630L;
 
-   protected final ObservableBase<SortedMapEvent<K, V>, EventSortedMapListener<K, V>> _helper = new ObservableBase<SortedMapEvent<K, V>, EventSortedMapListener<K, V>>();
+   protected final ObservableBase<SortedMapEvent<K, V>> _helper = new ObservableBase<SortedMapEvent<K, V>>();
 
    /**
     * Wraps a new {@link ObservableEventSortedMap} around a given
@@ -30,13 +31,13 @@ public class ObservableEventSortedMap<K, V> extends AbstractEventSortedMap<K, V>
    }
 
    @Override
-   public void addEventListener(final EventSortedMapListener<K, V> listener)
+   public <L extends EventListener<SortedMapEvent<K, V>>> void addEventListener(final L listener)
    {
       _helper.addEventListener(listener);
    }
 
    @Override
-   public void removeEventListener(final EventSortedMapListener<K, V> listener)
+   public <L extends EventListener<SortedMapEvent<K, V>>> void removeEventListener(final L listener)
    {
       _helper.removeEventListener(listener);
    }

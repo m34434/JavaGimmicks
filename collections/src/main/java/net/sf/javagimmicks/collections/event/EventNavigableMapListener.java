@@ -5,6 +5,5 @@ import net.sf.javagimmicks.event.EventListener;
 /**
  * An {@link EventListener} the observes {@link NavigableMapEvent}s.
  */
-public interface EventNavigableMapListener<K, V> extends
-      EventListener<NavigableMapEvent<K, V>, EventNavigableMapListener<K, V>>
+public interface EventNavigableMapListener<K, V> extends EventListener<NavigableMapEvent<K, V>>
 {}

@@ -5,6 +5,7 @@ import java.util.NavigableSet;
 import java.util.SortedMap;
 
 import net.sf.javagimmicks.collections.event.NavigableMapEvent.Type;
+import net.sf.javagimmicks.event.EventListener;
 import net.sf.javagimmicks.event.Observable;
 import net.sf.javagimmicks.event.ObservableBase;
 
@@ -13,11 +14,11 @@ import net.sf.javagimmicks.event.ObservableBase;
  * {@link NavigableMapEvent}s.
  */
 public class ObservableEventNavigableMap<K, V> extends AbstractEventNavigableMap<K, V> implements
-      Observable<NavigableMapEvent<K, V>, EventNavigableMapListener<K, V>>
+      Observable<NavigableMapEvent<K, V>>
 {
    private static final long serialVersionUID = -4936595637793434597L;
 
-   protected final ObservableBase<NavigableMapEvent<K, V>, EventNavigableMapListener<K, V>> _helper = new ObservableBase<NavigableMapEvent<K, V>, EventNavigableMapListener<K, V>>();
+   protected final ObservableBase<NavigableMapEvent<K, V>> _helper = new ObservableBase<NavigableMapEvent<K, V>>();
 
    /**
     * Wraps a new {@link ObservableEventNavigableMap} around a given
@@ -32,13 +33,13 @@ public class ObservableEventNavigableMap<K, V> extends AbstractEventNavigableMap
    }
 
    @Override
-   public void addEventListener(final EventNavigableMapListener<K, V> listener)
+   public <L extends EventListener<NavigableMapEvent<K, V>>> void addEventListener(final L listener)
    {
       _helper.addEventListener(listener);
    }
 
    @Override
-   public void removeEventListener(final EventNavigableMapListener<K, V> listener)
+   public <L extends EventListener<NavigableMapEvent<K, V>>> void removeEventListener(final L listener)
    {
       _helper.removeEventListener(listener);
    }
