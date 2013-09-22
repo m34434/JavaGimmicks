@@ -10,51 +10,55 @@ class ValueBidiTransformingSortedMap<K, VF, VT> extends ValueBidiTransformingMap
     * @deprecated Use TranformerUtils.decorateValueBased() instead
     */
    @Deprecated
-   public ValueBidiTransformingSortedMap(Map<K, VF> map, BidiTransformer<VF, VT> valueTransformer)
+   public ValueBidiTransformingSortedMap(final Map<K, VF> map, final BidiTransformer<VF, VT> valueTransformer)
    {
       super(map, valueTransformer);
-      // TODO Auto-generated constructor stub
    }
 
+   @Override
    public Comparator<? super K> comparator()
    {
       return getSortedMap().comparator();
    }
 
+   @Override
    public K firstKey()
    {
       return getSortedMap().firstKey();
    }
 
-   public SortedMap<K, VT> headMap(K toKey)
+   @Override
+   public SortedMap<K, VT> headMap(final K toKey)
    {
       return TransformerUtils.decorateValueBased(
-         getSortedMap().headMap(toKey),
-         getBidiTransformer());
+            getSortedMap().headMap(toKey),
+            getBidiTransformer());
    }
 
+   @Override
    public K lastKey()
    {
       return getSortedMap().lastKey();
    }
 
-   public SortedMap<K, VT> subMap(K fromKey, K toKey)
+   @Override
+   public SortedMap<K, VT> subMap(final K fromKey, final K toKey)
    {
       return TransformerUtils.decorateValueBased(
-         getSortedMap().subMap(fromKey, toKey),
-         getBidiTransformer());
+            getSortedMap().subMap(fromKey, toKey),
+            getBidiTransformer());
    }
 
-   public SortedMap<K, VT> tailMap(K fromKey)
+   @Override
+   public SortedMap<K, VT> tailMap(final K fromKey)
    {
       return TransformerUtils.decorateValueBased(
-         getSortedMap().tailMap(fromKey),
-         getBidiTransformer());
+            getSortedMap().tailMap(fromKey),
+            getBidiTransformer());
    }
 
-   
    protected SortedMap<K, VF> getSortedMap()
    {
-      return (SortedMap<K, VF>)_internalMap;
+      return (SortedMap<K, VF>) _internalMap;
    }
 }

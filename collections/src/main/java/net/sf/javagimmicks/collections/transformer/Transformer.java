@@ -1,7 +1,7 @@
 package net.sf.javagimmicks.collections.transformer;
 
 /**
- * A simple interface for class that can transform objects into another value
+ * A simple interface for classes that can transform objects into another value
  * and/or format.
  * 
  * @param <F>

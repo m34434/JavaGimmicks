@@ -506,6 +506,18 @@
  *          <td>entrySet()</td>
  *          <td align="center" colspan="2">See table for <a href="#set">{@code Set} operations</td>
  *       </tr>
+ *       <tr>
+ *          <td>Entry.getKey()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>Entry.getValue()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>Entry.setValue()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
  *    </tbody>
  * </table>
  * 
@@ -594,7 +606,7 @@
  *       </tr>
  *       <tr>
  *          <td>descendingMap()</td>
- *          <td align="center" colspan="2">supported; See this table for supported operation details</td>
+ *          <td align="center" colspan="2">supported</td>
  *       </tr>
  *       <tr>
  *          <td>firstEntry()</td>
@@ -664,6 +676,224 @@
  *    </tbody>
  * </table>
  * 
+ * 
+ * <a name="mapValue"/>
+ * <h3>Operations on a key-based transformed {@link java.util.Map}</h3>
+ * <table border="2">
+ *    <thead>
+ *       <tr>
+ *          <th>Operation</th>
+ *          <th>Transformer</th>
+ *          <th>BidiTransformer</th>
+ *       </tr>
+ *    </thead>
+ *    <tbody>
+ *       <tr>
+ *          <td>isEmpty()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>size()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>put()</td>
+ *          <td align="center">not supported</td>
+ *          <td align="center">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>putAll()</td>
+ *          <td align="center">not supported</td>
+ *          <td align="center">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>get()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>containsKey()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>containsValue()</td>
+ *          <td align="center">supported; values need {@code equals()} method</td>
+ *          <td align="center">supported; faster</td>
+ *       </tr>
+ *       <tr>
+ *          <td>remove()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>clear()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>keySet()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>values()</td>
+ *          <td align="center" colspan="2">See table for <a href="#collection">{@code Collection} operations</td>
+ *       </tr>
+ *       <tr>
+ *          <td>entrySet()</td>
+ *          <td align="center" colspan="2">See table for <a href="#set">{@code Set} operations</td>
+ *       </tr>
+ *       <tr>
+ *          <td>Entry.getKey()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>Entry.getValue()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>Entry.setValue()</td>
+ *          <td align="center">not supported</td>
+ *          <td align="center">supported</td>
+ *       </tr>
+ *    </tbody>
+ * </table>
+ * 
+ * <a name="sortedMapValue"/>
+ * <h3>Operations on a key-based transformed {@link java.util.SortedMap}</h3>
+ * <p><b>Note:</b> the sorting order of a transformed {@link java.util.SortedMap}
+ * remains that from the wrapped one
+ * <table border="2">
+ *    <thead>
+ *       <tr>
+ *          <th>Operation</th>
+ *          <th>Transformer</th>
+ *          <th>BidiTransformer</th>
+ *       </tr>
+ *    </thead>
+ *    <tbody>
+ *       <tr>
+ *          <td>{@link java.util.Map} operations</td>
+ *          <td align="center" colspan="2">See table for <a href="#mapValue">{@code Map} operations</a></td>
+ *       </tr>
+ *       <tr>
+ *          <td>comparator()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>firstKey()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>headMap()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>lastKey()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>subMap()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>tailMap()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *    </tbody>
+ * </table>
+ * 
+ * <a name="navigableMapValue"/>
+ * <h3>Operations on a key-based transformed {@link java.util.NavigableMap}</h3>
+ * <p><b>Note:</b> the sorting order of a transformed {@link java.util.NavigableMap}
+ * remains that from the wrapped one
+ * <table border="2">
+ *    <thead>
+ *       <tr>
+ *          <th>Operation</th>
+ *          <th>Transformer</th>
+ *          <th>BidiTransformer</th>
+ *       </tr>
+ *    </thead>
+ *    <tbody>
+ *       <tr>
+ *          <td>{@link java.util.Map} operations</td>
+ *          <td align="center" colspan="2">See table for <a href="#mapValue">{@code Map} operations</a></td>
+ *       </tr>
+ *       <tr>
+ *          <td>{@link java.util.SortedMap} operations</td>
+ *          <td align="center" colspan="2">See table for <a href="#sortedMapValue">{@code SortedMap} operations</a></td>
+ *       </tr>
+ *       <tr>
+ *          <td>ceilingEntry()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>ceilingKey()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>descendingKeySet()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>descendingMap()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>firstEntry()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>floorEntry()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>floorKey()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>headMap()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>higherEntry()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>higherKey()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>lastEntry()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>lowerEntry()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>lowerKey()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>navigableKeySet()</td>
+ *          <td align="center" colspan="2">supported; See table for <a href="#navigableset">{@code NavigableSet} operations</td>
+ *       </tr>
+ *       <tr>
+ *          <td>pollFirstEntry()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>pollLastEntry()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>subMap()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>tailMap()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *    </tbody>
+ * </table>
  * @author Michael Scholz
  */
 package net.sf.javagimmicks.collections.transformer;
