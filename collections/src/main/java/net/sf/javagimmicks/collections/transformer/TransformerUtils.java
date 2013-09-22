@@ -122,6 +122,19 @@ public class TransformerUtils
       return new TransformingComparator<F, T>(comparator, transformer);
    }
 
+   /**
+    * Wraps a new transforming {@link Iterator} using the given
+    * {@link Transformer} around a given {@link Iterator}.
+    * <p>
+    * For a list of available operations see <a
+    * href="package-summary.html#iterator">package description</a>.
+    * 
+    * @param iterator
+    *           the {@link Iterator} to wrap around
+    * @param transformer
+    *           the {@link Transformer} to use for wrapping
+    * @return the transforming wrapped {@link Iterator}
+    */
    public static <F, T> Iterator<T> decorate(final Iterator<F> iterator, final Transformer<F, T> transformer)
    {
       return new TransformingIterator<F, T>(iterator, transformer);

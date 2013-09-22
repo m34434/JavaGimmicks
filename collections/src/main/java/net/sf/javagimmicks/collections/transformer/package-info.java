@@ -874,7 +874,7 @@
  *       </tr>
  *       <tr>
  *          <td>navigableKeySet()</td>
- *          <td align="center" colspan="2">supported; See table for <a href="#navigableset">{@code NavigableSet} operations</td>
+ *          <td align="center" colspan="2">supported</td>
  *       </tr>
  *       <tr>
  *          <td>pollFirstEntry()</td>
