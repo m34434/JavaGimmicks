@@ -678,7 +678,7 @@
  * 
  * 
  * <a name="mapValue"/>
- * <h3>Operations on a key-based transformed {@link java.util.Map}</h3>
+ * <h3>Operations on a value-based transformed {@link java.util.Map}</h3>
  * <table border="2">
  *    <thead>
  *       <tr>
@@ -756,9 +756,7 @@
  * </table>
  * 
  * <a name="sortedMapValue"/>
- * <h3>Operations on a key-based transformed {@link java.util.SortedMap}</h3>
- * <p><b>Note:</b> the sorting order of a transformed {@link java.util.SortedMap}
- * remains that from the wrapped one
+ * <h3>Operations on a value-based transformed {@link java.util.SortedMap}</h3>
  * <table border="2">
  *    <thead>
  *       <tr>
@@ -800,9 +798,7 @@
  * </table>
  * 
  * <a name="navigableMapValue"/>
- * <h3>Operations on a key-based transformed {@link java.util.NavigableMap}</h3>
- * <p><b>Note:</b> the sorting order of a transformed {@link java.util.NavigableMap}
- * remains that from the wrapped one
+ * <h3>Operations on a value-based transformed {@link java.util.NavigableMap}</h3>
  * <table border="2">
  *    <thead>
  *       <tr>
