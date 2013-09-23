@@ -93,9 +93,13 @@ public class EventSortedMapTest
       _eventMap.put("g", "7");
       _eventMap.put("i", "9");
 
+      assertEquals("c", _eventMap.firstKey());
+      assertEquals("i", _eventMap.lastKey());
+
       _listener.clear();
 
       testHeadMap();
+      testTailMap();
    }
 
    private void testHeadMap()
@@ -135,6 +139,46 @@ public class EventSortedMapTest
       _listener.assertEventOccured(new MapEventValidator(Type.UPDATED, "c", "3c", "3"));
       _listener.assertEventOccured(new MapEventValidator(Type.UPDATED, "a", "1a", "1"));
       _listener.assertEventOccured(new MapEventValidator(Type.REMOVED, "a", "1"));
+      _listener.assertEmpty();
+   }
+
+   private void testTailMap()
+   {
+      final SortedMap<String, String> tailMap = _map.tailMap("d");
+      final SortedMap<String, String> tailEventMap = _eventMap.tailMap("d");
+      assertEquals(tailMap, tailEventMap);
+
+      assertEquals("e", tailEventMap.firstKey());
+      assertEquals("i", tailEventMap.lastKey());
+
+      assertNull(tailEventMap.put("k", "1"));
+      assertEquals(tailMap, tailEventMap);
+
+      assertEquals("7", tailEventMap.put("g", "7g"));
+      assertEquals(tailMap, tailEventMap);
+      assertEquals("7g", tailEventMap.get("g"));
+
+      assertEquals("5", tailEventMap.entrySet().iterator().next().setValue("5e"));
+      assertEquals(tailMap, tailEventMap);
+      assertEquals("5e", tailEventMap.get("e"));
+
+      assertEquals("7g", tailEventMap.put("g", "7"));
+      assertEquals(tailMap, tailEventMap);
+      assertEquals("7", tailEventMap.get("g"));
+
+      assertEquals("5e", tailEventMap.put("e", "5"));
+      assertEquals(tailMap, tailEventMap);
+      assertEquals("5", tailEventMap.get("e"));
+
+      tailEventMap.remove(tailEventMap.lastKey());
+      assertEquals(tailMap, tailEventMap);
+
+      _listener.assertEventOccured(new MapEventValidator(Type.ADDED, "k", "1"));
+      _listener.assertEventOccured(new MapEventValidator(Type.UPDATED, "g", "7", "7g"));
+      _listener.assertEventOccured(new MapEventValidator(Type.UPDATED, "e", "5", "5e"));
+      _listener.assertEventOccured(new MapEventValidator(Type.UPDATED, "g", "7g", "7"));
+      _listener.assertEventOccured(new MapEventValidator(Type.UPDATED, "e", "5e", "5"));
+      _listener.assertEventOccured(new MapEventValidator(Type.REMOVED, "k", "1"));
       _listener.assertEmpty();
    }
 
