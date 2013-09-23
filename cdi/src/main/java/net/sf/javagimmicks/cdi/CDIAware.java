@@ -19,6 +19,8 @@ import net.sf.javagimmicks.cdi.InjectionSpec.Builder;
  * Alternatively non-constructor injections and post-construct methods can be
  * performed by either calling {@link #illuminate()} or calling
  * {@link #CDIAware(boolean)} with a {@code true} parameter.
+ * <p>
+ * <b>Attention:</b> Illumination requires CDI 1.1 or higher
  * 
  * @see CDIContext#illuminate(Object)
  */
@@ -27,6 +29,8 @@ public abstract class CDIAware
    /**
     * Creates a new instance with optionally performing automatic
     * non-constructor injections and post-construct callbacks.
+    * <p>
+    * <b>Attention:</b> Auto-illumination requires CDI 1.1 or higher
     * 
     * @param illuminate
     *           controls if automatic 'illumination' should be performed
@@ -117,6 +121,8 @@ public abstract class CDIAware
    /**
     * Performs non-constructor injections and post-construct callbacks on this
     * bean.
+    * <p>
+    * <b>Attention:</b> Requires CDI 1.1 or higher
     * 
     * @see CDIContext#illuminate(Object)
     */

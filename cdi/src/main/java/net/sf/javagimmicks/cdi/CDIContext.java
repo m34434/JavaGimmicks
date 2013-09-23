@@ -153,6 +153,8 @@ public class CDIContext
     * on a given non-CDI bean.
     * <p>
     * After calling this method, the bean is 'illuminated' by CDI.
+    * <p>
+    * <b>Attention:</b> Requires CDI 1.1 or higher
     * 
     * @param nonCdiObject
     *           a given bean that was not instantiated via CDI
