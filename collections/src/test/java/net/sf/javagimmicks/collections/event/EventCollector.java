@@ -47,6 +47,11 @@ public class EventCollector<Evt extends Event<Evt>> implements EventListener<Evt
       assertEventOccured(null);
    }
 
+   public void clear()
+   {
+      _events.clear();
+   }
+
    public void assertEmpty()
    {
       Assert.assertTrue("Event queue is not empty!", _events.isEmpty());

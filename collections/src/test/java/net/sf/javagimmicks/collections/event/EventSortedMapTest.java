@@ -85,6 +85,59 @@ public class EventSortedMapTest
       _listener.assertEmpty();
    }
 
+   @Test
+   public void testBasicSortedMapStuff()
+   {
+      _eventMap.put("c", "3");
+      _eventMap.put("e", "5");
+      _eventMap.put("g", "7");
+      _eventMap.put("i", "9");
+
+      _listener.clear();
+
+      testHeadMap();
+   }
+
+   private void testHeadMap()
+   {
+      final SortedMap<String, String> headMap = _map.headMap("h");
+      final SortedMap<String, String> headEventMap = _eventMap.headMap("h");
+      assertEquals(headMap, headEventMap);
+
+      assertEquals("c", headEventMap.firstKey());
+      assertEquals("g", headEventMap.lastKey());
+
+      assertNull(headEventMap.put("a", "1"));
+      assertEquals(headMap, headEventMap);
+
+      assertEquals("3", headEventMap.put("c", "3c"));
+      assertEquals(headMap, headEventMap);
+      assertEquals("3c", headEventMap.get("c"));
+
+      assertEquals("1", headEventMap.entrySet().iterator().next().setValue("1a"));
+      assertEquals(headMap, headEventMap);
+      assertEquals("1a", headEventMap.get("a"));
+
+      assertEquals("3c", headEventMap.put("c", "3"));
+      assertEquals(headMap, headEventMap);
+      assertEquals("3", headEventMap.get("c"));
+
+      assertEquals("1a", headEventMap.put("a", "1"));
+      assertEquals(headMap, headEventMap);
+      assertEquals("1", headEventMap.get("a"));
+
+      headEventMap.remove(headEventMap.firstKey());
+      assertEquals(headMap, headEventMap);
+
+      _listener.assertEventOccured(new MapEventValidator(Type.ADDED, "a", "1"));
+      _listener.assertEventOccured(new MapEventValidator(Type.UPDATED, "c", "3", "3c"));
+      _listener.assertEventOccured(new MapEventValidator(Type.UPDATED, "a", "1", "1a"));
+      _listener.assertEventOccured(new MapEventValidator(Type.UPDATED, "c", "3c", "3"));
+      _listener.assertEventOccured(new MapEventValidator(Type.UPDATED, "a", "1a", "1"));
+      _listener.assertEventOccured(new MapEventValidator(Type.REMOVED, "a", "1"));
+      _listener.assertEmpty();
+   }
+
    private static class MapEventValidator implements Validator<SortedMapEvent<String, String>>
    {
       private final Type _type;
