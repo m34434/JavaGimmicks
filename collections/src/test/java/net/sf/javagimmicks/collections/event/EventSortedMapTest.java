@@ -100,6 +100,7 @@ public class EventSortedMapTest
 
       testHeadMap();
       testTailMap();
+      testSublMap();
    }
 
    private void testHeadMap()
@@ -179,6 +180,46 @@ public class EventSortedMapTest
       _listener.assertEventOccured(new MapEventValidator(Type.UPDATED, "g", "7g", "7"));
       _listener.assertEventOccured(new MapEventValidator(Type.UPDATED, "e", "5e", "5"));
       _listener.assertEventOccured(new MapEventValidator(Type.REMOVED, "k", "1"));
+      _listener.assertEmpty();
+   }
+
+   private void testSublMap()
+   {
+      final SortedMap<String, String> subMap = _map.subMap("d", "h");
+      final SortedMap<String, String> subEventMap = _eventMap.subMap("d", "h");
+      assertEquals(subMap, subEventMap);
+
+      assertEquals("e", subEventMap.firstKey());
+      assertEquals("g", subEventMap.lastKey());
+
+      assertNull(subEventMap.put("d", "4"));
+      assertEquals(subMap, subEventMap);
+
+      assertEquals("7", subEventMap.put("g", "7g"));
+      assertEquals(subMap, subEventMap);
+      assertEquals("7g", subEventMap.get("g"));
+
+      assertEquals("4", subEventMap.entrySet().iterator().next().setValue("4d"));
+      assertEquals(subMap, subEventMap);
+      assertEquals("4d", subEventMap.get("d"));
+
+      assertEquals("7g", subEventMap.put("g", "7"));
+      assertEquals(subMap, subEventMap);
+      assertEquals("7", subEventMap.get("g"));
+
+      assertEquals("4d", subEventMap.put("d", "4"));
+      assertEquals(subMap, subEventMap);
+      assertEquals("5", subEventMap.get("e"));
+
+      subEventMap.remove(subEventMap.firstKey());
+      assertEquals(subMap, subEventMap);
+
+      _listener.assertEventOccured(new MapEventValidator(Type.ADDED, "d", "4"));
+      _listener.assertEventOccured(new MapEventValidator(Type.UPDATED, "g", "7", "7g"));
+      _listener.assertEventOccured(new MapEventValidator(Type.UPDATED, "d", "4", "4d"));
+      _listener.assertEventOccured(new MapEventValidator(Type.UPDATED, "g", "7g", "7"));
+      _listener.assertEventOccured(new MapEventValidator(Type.UPDATED, "d", "4d", "4"));
+      _listener.assertEventOccured(new MapEventValidator(Type.REMOVED, "d", "4"));
       _listener.assertEmpty();
    }
 
