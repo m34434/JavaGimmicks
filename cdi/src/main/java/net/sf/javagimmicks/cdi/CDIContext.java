@@ -3,11 +3,15 @@ package net.sf.javagimmicks.cdi;
 import java.lang.annotation.Annotation;
 
 import javax.enterprise.event.Observes;
+import javax.enterprise.inject.spi.AnnotatedType;
+import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.BeforeBeanDiscovery;
 import javax.enterprise.inject.spi.BeforeShutdown;
 import javax.enterprise.inject.spi.CDI;
 import javax.enterprise.inject.spi.Extension;
+import javax.enterprise.inject.spi.InjectionTarget;
+import javax.enterprise.inject.spi.InjectionTargetFactory;
 import javax.inject.Named;
 import javax.inject.Qualifier;
 import javax.naming.InitialContext;
@@ -142,6 +146,36 @@ public class CDIContext
    public static <E> E lookup(final String name)
    {
       return InjectionSpec.<E> build(getBeanManager()).setName(name).getInstance();
+   }
+
+   /**
+    * Processes non-constructor injections and calls to post-construct methods
+    * on a given non-CDI bean.
+    * <p>
+    * After calling this method, the bean is 'illuminated' by CDI.
+    * 
+    * @param nonCdiObject
+    *           a given bean that was not instantiated via CDI
+    * @return the bean itself after injections and post-constructs were
+    *         performed
+    */
+   @SuppressWarnings("unchecked")
+   public static <T> T illuminate(final T nonCdiObject)
+   {
+      final BeanManager beanManager = getBeanManager();
+
+      // Get all the object we need (Attention: needs CDI 1.1)
+      final Bean<T> bean = (Bean<T>) beanManager.resolve(beanManager.getBeans(nonCdiObject.getClass()));
+      final AnnotatedType<T> annotatedType = (AnnotatedType<T>) beanManager
+            .createAnnotatedType(nonCdiObject.getClass());
+      final InjectionTargetFactory<T> injectionTargetFactory = beanManager.getInjectionTargetFactory(annotatedType);
+      final InjectionTarget<T> injectionTarget = injectionTargetFactory.createInjectionTarget(bean);
+
+      // Perform injections and run @PostConstruct
+      injectionTarget.inject(nonCdiObject, beanManager.createCreationalContext(bean));
+      injectionTarget.postConstruct(nonCdiObject);
+
+      return nonCdiObject;
    }
 
    private static void setCurrentBeanManager(final BeanManager beanManager)

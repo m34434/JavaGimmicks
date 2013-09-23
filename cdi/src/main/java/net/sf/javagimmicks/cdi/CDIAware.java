@@ -15,9 +15,41 @@ import net.sf.javagimmicks.cdi.InjectionSpec.Builder;
  * <p>
  * Provides helper methods for looking up beans from CDI or access the CDI
  * {@link BeanManager}.
+ * <p>
+ * Alternatively non-constructor injections and post-construct methods can be
+ * performed by either calling {@link #illuminate()} or calling
+ * {@link #CDIAware(boolean)} with a {@code true} parameter.
+ * 
+ * @see CDIContext#illuminate(Object)
  */
 public abstract class CDIAware
 {
+   /**
+    * Creates a new instance with optionally performing automatic
+    * non-constructor injections and post-construct callbacks.
+    * 
+    * @param illuminate
+    *           controls if automatic 'illumination' should be performed
+    * @see #illuminate()
+    */
+   public CDIAware(final boolean illuminate)
+   {
+      if (illuminate)
+      {
+         illuminate();
+      }
+   }
+
+   /**
+    * Creates a new instance without performing 'illumination'. You can do this
+    * it any time by calling {@link #illuminate()}. Alternatively, lookups can
+    * also be performed by the other methods.
+    */
+   public CDIAware()
+   {
+      this(false);
+   }
+
    /**
     * Provides access to the CDI {@link BeanManager}.
     * 
@@ -80,5 +112,16 @@ public abstract class CDIAware
    public <E> InjectionSpec.Builder<E> buildLookup()
    {
       return InjectionSpec.build(getBeanManager());
+   }
+
+   /**
+    * Performs non-constructor injections and post-construct callbacks on this
+    * bean.
+    * 
+    * @see CDIContext#illuminate(Object)
+    */
+   public void illuminate()
+   {
+      CDIContext.illuminate(this);
    }
 }

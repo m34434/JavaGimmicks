@@ -1,8 +1,14 @@
 package net.sf.javagimmicks.cdi;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+
 import net.sf.javagimmicks.cdi.injectable.A;
 import net.sf.javagimmicks.cdi.injectable.B;
 import net.sf.javagimmicks.cdi.injectable.NamedClass;
@@ -45,6 +51,18 @@ public class CDIContextTest
       assertEquals(B.MESSAGE, new NonCDIGeneratedClass().callA());
    }
 
+   @Test
+   public void testIlluminate()
+   {
+      final AnotherNonCDIGeneratedClass o = new AnotherNonCDIGeneratedClass();
+      assertNull(o.getA());
+      assertFalse(o.isPostConstructed());
+
+      CDIContext.illuminate(o);
+      assertNotNull(o.getA());
+      assertTrue(o.isPostConstructed());
+   }
+
    private static class NonCDIGeneratedClass
    {
       // @Inject private A a;
@@ -53,6 +71,30 @@ public class CDIContextTest
       public String callA()
       {
          return a.callB();
+      }
+   }
+
+   private static class AnotherNonCDIGeneratedClass
+   {
+      @Inject
+      private A _a;
+
+      private boolean _postConstructed = false;
+
+      @PostConstruct
+      public void init()
+      {
+         _postConstructed = true;
+      }
+
+      public A getA()
+      {
+         return _a;
+      }
+
+      public boolean isPostConstructed()
+      {
+         return _postConstructed;
       }
    }
 }
