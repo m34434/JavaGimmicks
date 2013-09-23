@@ -4,32 +4,32 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Map;
+import java.util.SortedMap;
 import java.util.TreeMap;
 
 import net.sf.javagimmicks.collections.event.EventCollector.Validator;
-import net.sf.javagimmicks.collections.event.MapEvent.Type;
+import net.sf.javagimmicks.collections.event.SortedMapEvent.Type;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class EventMapTest
+public class EventSortedMapTest
 {
-   private Map<String, String> _map;
-   private ObservableEventMap<String, String> _eventMap;
-   private EventCollector<MapEvent<String, String>> _listener;
+   private SortedMap<String, String> _map;
+   private ObservableEventSortedMap<String, String> _eventMap;
+   private EventCollector<SortedMapEvent<String, String>> _listener;
 
    @Before
    public void setup()
    {
       // Prepare base and event map
       _map = new TreeMap<String, String>();
-      _eventMap = new ObservableEventMap<String, String>(_map);
+      _eventMap = new ObservableEventSortedMap<String, String>(_map);
 
       // Create mock listener and register it
-      _listener = new EventCollector<MapEvent<String, String>>(MapEvent.class, _eventMap);
+      _listener = new EventCollector<SortedMapEvent<String, String>>(SortedMapEvent.class, _eventMap);
       _eventMap.addEventListener(_listener);
    }
 
@@ -85,7 +85,7 @@ public class EventMapTest
       _listener.assertEmpty();
    }
 
-   private static class MapEventValidator implements Validator<MapEvent<String, String>>
+   private static class MapEventValidator implements Validator<SortedMapEvent<String, String>>
    {
       private final Type _type;
       private final String _key;
@@ -106,7 +106,7 @@ public class EventMapTest
       }
 
       @Override
-      public void validate(final MapEvent<String, String> event)
+      public void validate(final SortedMapEvent<String, String> event)
       {
          Assert.assertSame("Type does not match", _type, event.getType());
          Assert.assertEquals("Key does not match", _key, event.getKey());
