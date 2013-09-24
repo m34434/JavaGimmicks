@@ -9,8 +9,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import net.sf.javagimmicks.collections.event.MapEvent.Type;
-import net.sf.javagimmicks.collections.event.testing.EventCollector;
-import net.sf.javagimmicks.collections.event.testing.EventCollector.Validator;
+import net.sf.javagimmicks.event.testing.EventCollector;
+import net.sf.javagimmicks.event.testing.EventCollector.Validator;
 
 import org.junit.After;
 import org.junit.Before;

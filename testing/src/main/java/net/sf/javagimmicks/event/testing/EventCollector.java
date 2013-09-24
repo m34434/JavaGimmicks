@@ -1,4 +1,4 @@
-package net.sf.javagimmicks.collections.event.testing;
+package net.sf.javagimmicks.event.testing;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
