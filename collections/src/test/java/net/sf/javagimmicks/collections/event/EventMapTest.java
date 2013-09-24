@@ -2,16 +2,17 @@ package net.sf.javagimmicks.collections.event;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Map;
 import java.util.TreeMap;
 
-import net.sf.javagimmicks.collections.event.EventCollector.Validator;
 import net.sf.javagimmicks.collections.event.MapEvent.Type;
+import net.sf.javagimmicks.collections.event.testing.EventCollector;
+import net.sf.javagimmicks.collections.event.testing.EventCollector.Validator;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -108,10 +109,10 @@ public class EventMapTest
       @Override
       public void validate(final MapEvent<String, String> event)
       {
-         Assert.assertSame("Type does not match", _type, event.getType());
-         Assert.assertEquals("Key does not match", _key, event.getKey());
-         Assert.assertEquals("Value does not match", _value, event.getValue());
-         Assert.assertEquals("New value does not match", _newValue, event.getNewValue());
+         assertSame("Type does not match", _type, event.getType());
+         assertEquals("Key does not match", _key, event.getKey());
+         assertEquals("Value does not match", _value, event.getValue());
+         assertEquals("New value does not match", _newValue, event.getNewValue());
       }
    }
 }

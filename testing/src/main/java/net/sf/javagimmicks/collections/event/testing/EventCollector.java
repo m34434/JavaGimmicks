@@ -1,4 +1,8 @@
-package net.sf.javagimmicks.collections.event;
+package net.sf.javagimmicks.collections.event.testing;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -6,8 +10,6 @@ import java.util.Queue;
 import net.sf.javagimmicks.event.Event;
 import net.sf.javagimmicks.event.EventListener;
 import net.sf.javagimmicks.event.Observable;
-
-import org.junit.Assert;
 
 public class EventCollector<Evt extends Event<Evt>> implements EventListener<Evt>
 {
@@ -30,11 +32,11 @@ public class EventCollector<Evt extends Event<Evt>> implements EventListener<Evt
 
    public void assertEventOccured(final Validator<Evt> customValidator)
    {
-      Assert.assertFalse("No (more) events in queue!", _events.isEmpty());
+      assertFalse("No (more) events in queue!", _events.isEmpty());
       final Evt event = _events.poll();
 
-      Assert.assertTrue("Event has wrong type", _eventClass.isAssignableFrom(event.getClass()));
-      Assert.assertSame("Event has wrong source", _source, event.getSource());
+      assertTrue("Event has wrong type", _eventClass.isAssignableFrom(event.getClass()));
+      assertSame("Event has wrong source", _source, event.getSource());
 
       if (customValidator != null)
       {
@@ -54,7 +56,7 @@ public class EventCollector<Evt extends Event<Evt>> implements EventListener<Evt
 
    public void assertEmpty()
    {
-      Assert.assertTrue("Event queue is not empty!", _events.isEmpty());
+      assertTrue("Event queue is not empty!", _events.isEmpty());
    }
 
    public static interface Validator<Evt extends Event<Evt>>
