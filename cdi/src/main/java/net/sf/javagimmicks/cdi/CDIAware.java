@@ -9,9 +9,9 @@ import javax.inject.Named;
 import javax.inject.Qualifier;
 
 /**
- * A base class for Java beans which can not be instantiated via CDI (e.g.
- * because they are instantiated via reflection by some given framework) but
- * need access to the CDI context.
+ * A base class for Java beans which can not be instantiated via CDI (for
+ * example because they are instantiated via reflection by some given framework)
+ * but need access to the CDI context.
  * <p>
  * Provides helper methods for looking up beans from CDI or access the CDI
  * {@link BeanManager}.
