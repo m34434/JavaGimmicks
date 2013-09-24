@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.Collection;
 
 /**
- * A class that sequentially returns all variations with repetition of a certain
- * number out of an array of given elements.
+ * A class that sequentially returns all variations with repetition of a given
+ * length out of an array of given elements.
  * <p>
  * <b>Example:</b> a call to
  * <code>new VariatorWithRepetition(2, "a", "b", "c")</code> would return the
