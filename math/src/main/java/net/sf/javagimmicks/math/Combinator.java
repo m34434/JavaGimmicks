@@ -4,11 +4,20 @@ import java.math.BigInteger;
 import java.util.Collection;
 
 /**
- * A class that sequentially returns all combinations of a certain number out of
- * an array of given elements. Thanks to Michael Gillegand for the base
- * implementation: <a href="http://www.merriampark.com/comb.htm"/>
+ * A class that sequentially returns all combinations of a given length out of
+ * an array of given elements.
+ * <p>
+ * Mind that combinations don't have an order, so the order of elements in the
+ * result is not necessarily deterministic!
+ * <p>
+ * <b>Example:</b> a call to <code>new Combinator(2, "a", "b", "c")</code> would
+ * return the following combinations:
+ * <ul>
+ * <li><code>[a, b]</code></li>
+ * <li><code>[a, c]</code></li>
+ * <li><code>[b, c]</code></li>
+ * </ul>
  * 
- * @author Hendrik Maryns
  * @param <T>
  *           The type of the elements of which combinations are to be returned.
  */
@@ -16,7 +25,7 @@ public class Combinator<T> extends CombinatoricOperator<T>
 {
 
    /**
-    * Initialise a new Combinator, with given elements and size of the arrays to
+    * Initialize a new instance, with given elements and size of the arrays to
     * be returned.
     * 
     * @param elements
@@ -31,7 +40,22 @@ public class Combinator<T> extends CombinatoricOperator<T>
    }
 
    /**
-    * Initialise a new Combinator, with given elements and size of the arrays to
+    * Initialize a new instance, with given elements and size of the arrays to
+    * be returned.
+    * 
+    * @param elements
+    *           The elements of which combinations have to be computed.
+    * @param r
+    *           The size of the combinations to compute.
+    */
+   public Combinator(final int r, final T... elements)
+   {
+      super(elements, r);
+      assert r <= elements.length;
+   }
+
+   /**
+    * Initialize a new instance, with given elements and size of the arrays to
     * be returned.
     * 
     * @param elements

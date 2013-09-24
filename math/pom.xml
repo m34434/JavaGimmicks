@@ -13,5 +13,16 @@
 	<name>JavaGimmicks - GimmickUtils - Math</name>
 	<description>A few mathematical utilities</description>
 	<url>http://jgutils.sourceforge.net</url>
-
+	
+	<dependencies>
+		<dependency>
+			<groupId>net.sf.javagimmicks</groupId>
+			<artifactId>GimmickUtils-collections</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+	</dependencies>
 </project>

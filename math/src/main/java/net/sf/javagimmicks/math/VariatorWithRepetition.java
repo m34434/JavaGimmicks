@@ -8,7 +8,6 @@ import java.util.Collection;
  * A class that sequentially returns all variations with repetition of a certain
  * number out of an array of given elements.
  * 
- * @author <a href="mailto:hendrik.maryns@uni-tuebingen.de">Hendrik Maryns</a>
  * @param <T>
  *           The type of the elements of which variations are to be returned.
  */
@@ -16,8 +15,8 @@ public class VariatorWithRepetition<T> extends CombinatoricOperator<T>
 {
 
    /**
-    * Initialise a new variator, with given elements and size of the arrays to
-    * be returned.
+    * Initialize a instance with given elements and size of the arrays to be
+    * returned.
     * 
     * @param elements
     *           The elements of which variations have to be computed.
@@ -30,8 +29,22 @@ public class VariatorWithRepetition<T> extends CombinatoricOperator<T>
    }
 
    /**
-    * Initialise a new variator, with given elements and size of the arrays to
-    * be returned.
+    * Initialize a instance with given elements and size of the arrays to be
+    * returned.
+    * 
+    * @param elements
+    *           The elements of which variations have to be computed.
+    * @param r
+    *           The size of the variations to compute.
+    */
+   public VariatorWithRepetition(final int r, final T... elements)
+   {
+      super(elements, r);
+   }
+
+   /**
+    * Initialize a new instance with given elements and size of the arrays to be
+    * returned.
     * 
     * @param elements
     *           The elements of which variations have to be computed.

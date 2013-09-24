@@ -5,29 +5,38 @@ import java.util.Collection;
 
 /**
  * A class that permutes a given array of elements. It is an iterator that
- * returns all permutations, successively. Thanks to Tim Tyler for the original
- * implementation <a href="http://mandala.co.uk/permutations/"/>.
+ * returns all permutations, successively.
+ * <p>
+ * <b>Example:</b> a call to <code>new Permuter("a", "b", "c")</code> would
+ * return the following combinations:
+ * <ul>
+ * <li><code>[a, b, c]</code></li>
+ * <li><code>[a, c, b]</code></li>
+ * <li><code>[b, a, c]</code></li>
+ * <li><code>[b, c, a]</code></li>
+ * <li><code>[c, a, b]</code></li>
+ * <li><code>[c, b, a]</code></li>
+ * </ul>
  * 
- * @author Hendrik Maryns
  * @param <T>
- *           The type of the array to be permuted.
+ *           The type of the elements to be permuted.
  */
 public class Permuter<T> extends CombinatoricOperator<T>
 {
 
    /**
-    * Initialise a new permuter, with given array of elements to permute.
+    * Initialize a new instance, with the given elements to permute.
     * 
     * @param elements
     *           The elements to permute.
     */
-   public Permuter(final T[] elements)
+   public Permuter(final T... elements)
    {
       super(elements, elements.length);
    }
 
    /**
-    * Initialise a new permuter, with given array of elements to permute.
+    * Initialize a new instance, with the given elements to permute.
     * 
     * @param elements
     *           The elements to permute.
