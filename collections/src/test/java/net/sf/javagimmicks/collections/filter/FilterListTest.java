@@ -1,6 +1,6 @@
 package net.sf.javagimmicks.collections.filter;
 
-import static net.sf.javagimmicks.testing.JunitListAssert.assertListEquals;
+import static net.sf.javagimmicks.testing.JUnitListAssert.assertListEquals;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;

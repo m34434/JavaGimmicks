@@ -8,9 +8,9 @@ import java.util.List;
  * Contains utility methods the help to make assertions against {@link List}s by
  * providing the expected values as a variable argument list.
  */
-public class JunitListAssert
+public class JUnitListAssert
 {
-   private JunitListAssert()
+   private JUnitListAssert()
    {}
 
    /**

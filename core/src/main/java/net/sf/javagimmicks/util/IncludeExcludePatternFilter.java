@@ -1,6 +1,7 @@
 package net.sf.javagimmicks.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -10,126 +11,229 @@ import java.util.regex.Pattern;
 
 import net.sf.javagimmicks.lang.Filter;
 
+/**
+ * A {@link Filter} for {@link CharSequence}s that internally uses any number of
+ * include and exclude regular expression {@link Pattern}s for filtering.
+ */
 public class IncludeExcludePatternFilter implements Filter<CharSequence>
 {
-   public static IncludeExcludePatternFilter fromPatterns(Collection<Pattern> includePatterns, Collection<Pattern> excludePatterns)
+   /**
+    * Creates a new instance for given {@link Collection}s of include and
+    * exclude {@link Pattern}s.
+    * 
+    * @param includePatterns
+    *           the {@link Collection} of include {@link Pattern}s
+    * @param excludePatterns
+    *           the {@link Collection} of exclude {@link Pattern}s
+    * @return the new instance
+    */
+   public static IncludeExcludePatternFilter fromPatterns(final Collection<Pattern> includePatterns,
+         final Collection<Pattern> excludePatterns)
    {
       return new IncludeExcludePatternFilter(
-         new ArrayList<Pattern>(includePatterns),
-         new ArrayList<Pattern>(excludePatterns));
+            new ArrayList<Pattern>(includePatterns),
+            new ArrayList<Pattern>(excludePatterns));
    }
-   
-   public static IncludeExcludePatternFilter fromPatterns(Collection<Pattern> includePatterns)
+
+   /**
+    * Creates a new instance for a given {@link Collection} of include
+    * {@link Pattern}s.
+    * 
+    * @param includePatterns
+    *           the {@link Collection} of include {@link Pattern}s
+    * @return the new instance
+    */
+   public static IncludeExcludePatternFilter fromPatterns(final Collection<Pattern> includePatterns)
    {
-      Collection<Pattern> excludePatterns = Collections.emptySet();
+      final Collection<Pattern> excludePatterns = Collections.emptySet();
 
       return fromPatterns(includePatterns, excludePatterns);
    }
-   
-   public static IncludeExcludePatternFilter fromStringPatterns(Collection<String> includePatterns, Collection<String> excludePatterns)
+
+   /**
+    * Creates a new instance for given {@link Collection}s of include and
+    * exclude patterns provided as regular expression {@link String}s.
+    * 
+    * @param includePatterns
+    *           the {@link Collection} of include patterns
+    * @param excludePatterns
+    *           the {@link Collection} of exclude patterns
+    * @return the new instance
+    */
+   public static IncludeExcludePatternFilter fromStringPatterns(final Collection<String> includePatterns,
+         final Collection<String> excludePatterns)
    {
       return fromPatterns(bulkCompile(includePatterns), bulkCompile(excludePatterns));
    }
-   
-   public static IncludeExcludePatternFilter fromStringPatterns(Collection<String> includePatterns)
+
+   /**
+    * Creates a new instance for a given {@link Collection} of include patterns
+    * provided as regular expression {@link String}s.
+    * 
+    * @param includePatterns
+    *           the {@link Collection} of include patterns
+    * @return the new instance
+    */
+   public static IncludeExcludePatternFilter fromStringPatterns(final Collection<String> includePatterns)
    {
-      Collection<String> excludePatterns = Collections.emptySet();
+      final Collection<String> excludePatterns = Collections.emptySet();
 
       return fromStringPatterns(includePatterns, excludePatterns);
    }
-   
+
    private final List<Pattern> _includePatterns;
    private final List<Pattern> _excludePatterns;
-   
+
+   /**
+    * Creates a new instance without any include or exclude {@link Pattern}s.
+    */
    public IncludeExcludePatternFilter()
    {
       this(new ArrayList<Pattern>(), new ArrayList<Pattern>());
    }
-   
-   private IncludeExcludePatternFilter(List<Pattern> includePatterns, List<Pattern> excludePatterns)
+
+   private IncludeExcludePatternFilter(final List<Pattern> includePatterns, final List<Pattern> excludePatterns)
    {
       _includePatterns = includePatterns;
       _excludePatterns = excludePatterns;
    }
-   
-   public void addIncludePattern(Pattern pattern)
-   {
-      _includePatterns.add(pattern);
-   }
-   
-   public void addIncludePatterns(Collection<Pattern> patterns)
+
+   /**
+    * Adds a number of include {@link Pattern}s to this instance.
+    * 
+    * @param patterns
+    *           the {@link Pattern}s to add
+    */
+   public void addIncludePatterns(final Collection<Pattern> patterns)
    {
       _includePatterns.addAll(patterns);
    }
-   
-   public void addIncludePatternString(String pattern)
+
+   /**
+    * Adds a number of include {@link Pattern}s to this instance.
+    * 
+    * @param patterns
+    *           the {@link Pattern}s to add
+    */
+   public void addIncludePatterns(final Pattern... patterns)
    {
-      _includePatterns.add(Pattern.compile(pattern));
+      addIncludePatterns(Arrays.asList(patterns));
    }
-   
-   public void addIncludePatternStrings(Collection<String> patterns)
+
+   /**
+    * Adds a number of include pattern {@link String}s to this instance.
+    * 
+    * @param patterns
+    *           the pattern {@link String}s to add
+    */
+   public void addIncludePatternStrings(final Collection<String> patterns)
    {
       _includePatterns.addAll(bulkCompile(patterns));
    }
-   
-   public void addExcludePattern(Pattern pattern)
+
+   /**
+    * Adds a number of include pattern {@link String}s to this instance.
+    * 
+    * @param patterns
+    *           the pattern {@link String}s to add
+    */
+   public void addIncludePatterns(final String... patterns)
    {
-      _excludePatterns.add(pattern);
+      addIncludePatternStrings(Arrays.asList(patterns));
    }
-   
-   public void addExcludePatterns(Collection<Pattern> patterns)
+
+   /**
+    * Adds a number of exclude {@link Pattern}s to this instance.
+    * 
+    * @param patterns
+    *           the {@link Pattern}s to add
+    */
+   public void addExcludePatterns(final Collection<Pattern> patterns)
    {
       _excludePatterns.addAll(patterns);
    }
-   
-   public void addExcludePatternString(String pattern)
+
+   /**
+    * Adds a number of exclude {@link Pattern}s to this instance.
+    * 
+    * @param patterns
+    *           the {@link Pattern}s to add
+    */
+   public void addExcludePatterns(final Pattern... patterns)
    {
-      _excludePatterns.add(Pattern.compile(pattern));
+      addExcludePatterns(Arrays.asList(patterns));
    }
-   
-   public void addExcludePatternStrings(Collection<String> patterns)
+
+   /**
+    * Adds a number of exclude pattern {@link String}s to this instance.
+    * 
+    * @param patterns
+    *           the pattern {@link String}s to add
+    */
+   public void addExcludePatternStrings(final Collection<String> patterns)
    {
       _excludePatterns.addAll(bulkCompile(patterns));
    }
-   
+
+   /**
+    * Adds a number of exclude pattern {@link String}s to this instance.
+    * 
+    * @param patterns
+    *           the pattern {@link String}s to add
+    */
+   public void addExcludePatterns(final String... patterns)
+   {
+      addExcludePatternStrings(Arrays.asList(patterns));
+   }
+
+   /**
+    * Returns a read-only view of the contained include {@link Pattern}s.
+    * 
+    * @return the include {@link Pattern}s
+    */
    public List<Pattern> getIncludePatterns()
    {
-      return _includePatterns;
+      return Collections.unmodifiableList(_includePatterns);
    }
 
+   /**
+    * Returns a read-only view of the contained exclude {@link Pattern}s.
+    * 
+    * @return the exclude {@link Pattern}s
+    */
    public List<Pattern> getExcludePatterns()
    {
-      return _excludePatterns;
+      return Collections.unmodifiableList(_excludePatterns);
    }
 
-   public boolean accepts(CharSequence charSequence)
+   @Override
+   public boolean accepts(final CharSequence charSequence)
    {
-      return 
-         (_includePatterns.isEmpty() || matchesAny(_includePatterns, charSequence))
-         && !matchesAny(_excludePatterns, charSequence);
+      return (_includePatterns.isEmpty() || matchesAny(_includePatterns, charSequence))
+            && !matchesAny(_excludePatterns, charSequence);
    }
-   
-   private static boolean matchesAny(List<Pattern> patterns, CharSequence charSequence)
+
+   private static boolean matchesAny(final List<Pattern> patterns, final CharSequence charSequence)
    {
-      for(Pattern pattern : patterns)
+      for (final Pattern pattern : patterns)
       {
-         if(pattern.matcher(charSequence).matches())
+         if (pattern.matcher(charSequence).matches())
          {
             return true;
          }
       }
-      
+
       return false;
    }
-   
-   private static Set<Pattern> bulkCompile(Collection<String> patterns)
+
+   private static Set<Pattern> bulkCompile(final Collection<String> patterns)
    {
       final Set<Pattern> result = new HashSet<Pattern>();
-      for(String pattern : patterns)
+      for (final String pattern : patterns)
       {
          result.add(Pattern.compile(pattern));
       }
-      
+
       return result;
    }
 }

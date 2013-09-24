@@ -13,57 +13,61 @@ class IncludeExcludeFilenameFilter implements FilenameFilter
    private final IncludeExcludePatternFilter _filter = new IncludeExcludePatternFilter();
    private static final Transformer<String, String> _patternTransformer = new Transformer<String, String>()
    {
-      public String transform(String source)
+      @Override
+      public String transform(final String source)
       {
          return source.replaceAll("\\.", "\\.").replaceAll("\\*", ".*").replaceAll("\\?", ".");
       }
    };
-   
-   public IncludeExcludeFilenameFilter(Collection<String> includePatterns, Collection<String> excludePatterns)
+
+   public IncludeExcludeFilenameFilter(final Collection<String> includePatterns,
+         final Collection<String> excludePatterns)
    {
       addIncludePatterns(includePatterns);
       addExcludePatterns(excludePatterns);
    }
-   
-   public IncludeExcludeFilenameFilter(Collection<String> excludePatterns)
+
+   public IncludeExcludeFilenameFilter(final Collection<String> excludePatterns)
    {
       addExcludePatterns(excludePatterns);
    }
-   
-   public IncludeExcludeFilenameFilter(String includePattern, String excludePattern)
+
+   public IncludeExcludeFilenameFilter(final String includePattern, final String excludePattern)
    {
       addIncludePattern(includePattern);
       addExcludePattern(excludePattern);
    }
-   
-   public IncludeExcludeFilenameFilter(String excludePattern)
+
+   public IncludeExcludeFilenameFilter(final String excludePattern)
    {
       addExcludePattern(excludePattern);
    }
-   
-   public IncludeExcludeFilenameFilter() {}
 
-   public boolean accept(File dir, String name)
+   public IncludeExcludeFilenameFilter()
+   {}
+
+   @Override
+   public boolean accept(final File dir, final String name)
    {
       return _filter.accepts(name);
    }
 
-   public void addIncludePattern(String pattern)
+   public void addIncludePattern(final String pattern)
    {
-      _filter.addIncludePatternString(_patternTransformer.transform(pattern));
+      _filter.addIncludePatterns(_patternTransformer.transform(pattern));
    }
-   
-   public void addIncludePatterns(Collection<String> patterns)
+
+   public void addIncludePatterns(final Collection<String> patterns)
    {
       _filter.addIncludePatternStrings(TransformerUtils.decorate(patterns, _patternTransformer));
    }
 
-   public void addExcludePattern(String pattern)
+   public void addExcludePattern(final String pattern)
    {
-      _filter.addExcludePatternString(_patternTransformer.transform(pattern));
+      _filter.addExcludePatterns(_patternTransformer.transform(pattern));
    }
-   
-   public void addExcludePatterns(Collection<String> patterns)
+
+   public void addExcludePatterns(final Collection<String> patterns)
    {
       _filter.addExcludePatternStrings(TransformerUtils.decorate(patterns, _patternTransformer));
    }
