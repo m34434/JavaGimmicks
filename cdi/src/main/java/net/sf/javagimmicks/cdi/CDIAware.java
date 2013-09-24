@@ -2,11 +2,11 @@ package net.sf.javagimmicks.cdi;
 
 import java.lang.annotation.Annotation;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.inject.spi.BeanManager;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Qualifier;
-
-import net.sf.javagimmicks.cdi.InjectionSpec.Builder;
 
 /**
  * A base class for Java beans which can not be instantiated via CDI (e.g.
@@ -16,44 +16,14 @@ import net.sf.javagimmicks.cdi.InjectionSpec.Builder;
  * Provides helper methods for looking up beans from CDI or access the CDI
  * {@link BeanManager}.
  * <p>
- * Alternatively non-constructor injections and post-construct methods can be
- * performed by either calling {@link #illuminate()} or calling
- * {@link #CDIAware(boolean)} with a {@code true} parameter.
- * <p>
- * <b>Attention:</b> Illumination requires CDI 1.1 or higher
+ * Alternatively the class {@link CDIObject} can be used which automatically
+ * performs non-constructor injections and post-construct callback based on
+ * {@link Inject} and {@link PostConstruct}.
  * 
- * @see CDIContext#illuminate(Object)
+ * @see CDIObject
  */
 public abstract class CDIAware
 {
-   /**
-    * Creates a new instance with optionally performing automatic
-    * non-constructor injections and post-construct callbacks.
-    * <p>
-    * <b>Attention:</b> Auto-illumination requires CDI 1.1 or higher
-    * 
-    * @param illuminate
-    *           controls if automatic 'illumination' should be performed
-    * @see #illuminate()
-    */
-   public CDIAware(final boolean illuminate)
-   {
-      if (illuminate)
-      {
-         illuminate();
-      }
-   }
-
-   /**
-    * Creates a new instance without performing 'illumination'. You can do this
-    * it any time by calling {@link #illuminate()}. Alternatively, lookups can
-    * also be performed by the other methods.
-    */
-   public CDIAware()
-   {
-      this(false);
-   }
-
    /**
     * Provides access to the CDI {@link BeanManager}.
     * 
@@ -108,9 +78,10 @@ public abstract class CDIAware
    }
 
    /**
-    * Creates a new {@link Builder} for building a CDI lookup via fluent API.
+    * Creates a new {@link InjectionSpec.Builder} for building a CDI lookup via
+    * fluent API.
     * 
-    * @return the resulting {@link Builder}
+    * @return the resulting {@link InjectionSpec.Builder}
     * @see InjectionSpec#build()
     */
    public <E> InjectionSpec.Builder<E> buildLookup()
