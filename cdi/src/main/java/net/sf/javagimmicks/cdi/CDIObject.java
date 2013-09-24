@@ -10,7 +10,7 @@ import javax.inject.Inject;
  * <p>
  * Upon constructor call this class automatically performs non-constructor
  * injections and post-construct callbacks based on {@link Inject} and
- * {@link PostConstruct} annoations.
+ * {@link PostConstruct} annotations.
  * <p>
  * <b>Attention:</b> Requires CDI 1.1 or higher
  */
