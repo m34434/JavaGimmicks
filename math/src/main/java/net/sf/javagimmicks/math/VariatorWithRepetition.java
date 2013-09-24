@@ -7,6 +7,21 @@ import java.util.Collection;
 /**
  * A class that sequentially returns all variations with repetition of a certain
  * number out of an array of given elements.
+ * <p>
+ * <b>Example:</b> a call to
+ * <code>new VariatorWithRepetition(2, "a", "b", "c")</code> would return the
+ * following combinations:
+ * <ul>
+ * <li><code>[a, a]</code></li>
+ * <li><code>[a, b]</code></li>
+ * <li><code>[a, c]</code></li>
+ * <li><code>[b, a]</code></li>
+ * <li><code>[b, b]</code></li>
+ * <li><code>[b, c]</code></li>
+ * <li><code>[c, a]</code></li>
+ * <li><code>[c, b]</code></li>
+ * <li><code>[c, c]</code></li>
+ * </ul>
  * 
  * @param <T>
  *           The type of the elements of which variations are to be returned.
