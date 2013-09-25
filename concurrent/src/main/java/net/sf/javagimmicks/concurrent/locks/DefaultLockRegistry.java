@@ -1,4 +1,4 @@
-package net.sf.javagimmicks.concurrent.impl;
+package net.sf.javagimmicks.concurrent.locks;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -9,7 +9,7 @@ import java.util.TreeMap;
 
 import net.sf.javagimmicks.lang.Factory;
 
-public class DefaultLockRegistry<K> implements LockRegistry<K>, Serializable
+class DefaultLockRegistry<K> implements LockRegistry<K>, Serializable
 {
    private static final long serialVersionUID = -785304313135882910L;
 
@@ -20,28 +20,29 @@ public class DefaultLockRegistry<K> implements LockRegistry<K>, Serializable
       return new DefaultLockRegistry<K>(new HashMap<K, Thread>(), new HashMap<K, Collection<Thread>>(),
             HASHSET_SHARED_COLLECTION_FACTORY);
    }
-   
+
    public static <K> DefaultLockRegistry<K> createTreeBasedInstance()
    {
       return new DefaultLockRegistry<K>(new TreeMap<K, Thread>(), new TreeMap<K, Collection<Thread>>(),
             HASHSET_SHARED_COLLECTION_FACTORY);
    }
-   
+
    protected final Map<K, Thread> _exRegistry;
    protected final Map<K, Collection<Thread>> _shRegistry;
    protected final Factory<Collection<Thread>> _shCollectionFactory;
 
-   public DefaultLockRegistry(Map<K, Thread> exRegistry, Map<K, Collection<Thread>> shRegistry,
-         Factory<Collection<Thread>> sharedCollectionFactory)
+   public DefaultLockRegistry(final Map<K, Thread> exRegistry, final Map<K, Collection<Thread>> shRegistry,
+         final Factory<Collection<Thread>> sharedCollectionFactory)
    {
       _exRegistry = exRegistry;
       _shRegistry = shRegistry;
       _shCollectionFactory = sharedCollectionFactory;
    }
-   
-   public boolean isSharedFree(Collection<K> resources)
+
+   @Override
+   public boolean isSharedFree(final Collection<K> resources)
    {
-      for (K resource : resources)
+      for (final K resource : resources)
       {
          if (_shRegistry.containsKey(resource))
          {
@@ -52,11 +53,12 @@ public class DefaultLockRegistry<K> implements LockRegistry<K>, Serializable
       return true;
    }
 
-   public void registerShared(Collection<K> resources)
+   @Override
+   public void registerShared(final Collection<K> resources)
    {
-      Thread currentThread = Thread.currentThread();
+      final Thread currentThread = Thread.currentThread();
 
-      for (K resource : resources)
+      for (final K resource : resources)
       {
          Collection<Thread> threadsForResource = _shRegistry.get(resource);
          if (threadsForResource == null)
@@ -69,18 +71,19 @@ public class DefaultLockRegistry<K> implements LockRegistry<K>, Serializable
       }
    }
 
-   public void unregisterShared(Collection<K> resources)
+   @Override
+   public void unregisterShared(final Collection<K> resources)
    {
-      Thread currentThread = Thread.currentThread();
+      final Thread currentThread = Thread.currentThread();
 
-      for (K resource : resources)
+      for (final K resource : resources)
       {
-         Collection<Thread> threadsForResource = _shRegistry.get(resource);
+         final Collection<Thread> threadsForResource = _shRegistry.get(resource);
          if (threadsForResource == null)
          {
-             continue;
+            continue;
          }
-         
+
          threadsForResource.remove(currentThread);
 
          if (threadsForResource.isEmpty())
@@ -90,9 +93,10 @@ public class DefaultLockRegistry<K> implements LockRegistry<K>, Serializable
       }
    }
 
-   public boolean isExclusiveFree(Collection<K> resources)
+   @Override
+   public boolean isExclusiveFree(final Collection<K> resources)
    {
-      for (K resource : resources)
+      for (final K resource : resources)
       {
          if (_exRegistry.containsKey(resource))
          {
@@ -103,28 +107,31 @@ public class DefaultLockRegistry<K> implements LockRegistry<K>, Serializable
       return true;
    }
 
-   public void registerExclusive(Collection<K> resources)
+   @Override
+   public void registerExclusive(final Collection<K> resources)
    {
-      Thread currentThread = Thread.currentThread();
+      final Thread currentThread = Thread.currentThread();
 
-      for (K resource : resources)
+      for (final K resource : resources)
       {
          _exRegistry.put(resource, currentThread);
       }
    }
 
-   public void unregisterExclusive(Collection<K> resources)
+   @Override
+   public void unregisterExclusive(final Collection<K> resources)
    {
-      for (K resource : resources)
+      for (final K resource : resources)
       {
          _exRegistry.remove(resource);
       }
    }
-   
+
    private static final class HashSetSharedCollectionFactory implements Factory<Collection<Thread>>, Serializable
    {
       private static final long serialVersionUID = 3613642441786733902L;
 
+      @Override
       public Collection<Thread> create()
       {
          return new HashSet<Thread>();

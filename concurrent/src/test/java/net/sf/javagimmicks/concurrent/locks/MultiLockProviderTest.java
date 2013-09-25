@@ -1,4 +1,4 @@
-package net.sf.javagimmicks.concurrent;
+package net.sf.javagimmicks.concurrent.locks;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -12,7 +12,11 @@ import java.util.concurrent.TimeUnit;
 
 import javax.swing.JOptionPane;
 
-import net.sf.javagimmicks.concurrent.impl.DefaultLockProviderFactory;
+import net.sf.javagimmicks.concurrent.locks.MultiLock;
+import net.sf.javagimmicks.concurrent.locks.MultiLockProvider;
+import net.sf.javagimmicks.concurrent.locks.MultiLockProviderFactory;
+import net.sf.javagimmicks.concurrent.locks.MultiReadWriteLock;
+
 
 public class MultiLockProviderTest
 {  
@@ -27,7 +31,7 @@ public class MultiLockProviderTest
    private static final Random RANDOM = new Random();
    private static final List<Character> RESOURCES = new ArrayList<Character>(NUM_RESOURCES);
    private static final Format FORMAT = new MessageFormat("{0,number,00}");
-   private static final MultiLockProvider<Character> PROVIDER = DefaultLockProviderFactory.createHashBasedInstance();
+   private static final MultiLockProvider<Character> PROVIDER = MultiLockProviderFactory.createHashBasedInstance();
    
    static
    {

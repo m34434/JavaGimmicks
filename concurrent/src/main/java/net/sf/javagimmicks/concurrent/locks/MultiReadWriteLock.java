@@ -1,4 +1,4 @@
-package net.sf.javagimmicks.concurrent;
+package net.sf.javagimmicks.concurrent.locks;
 
 import java.util.Collection;
 import java.util.concurrent.locks.ReadWriteLock;

@@ -1,8 +1,7 @@
-package net.sf.javagimmicks.concurrent.impl;
+package net.sf.javagimmicks.concurrent.locks;
 
-import net.sf.javagimmicks.concurrent.MultiLockProvider;
 
-public class DefaultLockProviderFactory
+public class MultiLockProviderFactory
 {
    public static <K> MultiLockProvider<K> createHashBasedInstance()
    {
