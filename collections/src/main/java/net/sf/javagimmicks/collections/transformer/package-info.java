@@ -1,11 +1,13 @@
 /**
  * This package spans up the JavaGimmicks
- * transformation API, which allows to create instances of the
- * standard Java Collection API classes (and some more),
- * that internally work with another form of elements as
- * visible to the client. Let's use the terms
- * <i>internal format</i> and <i>external format</i> for this
- * two element formats.
+ * transformation API which allows to <b>decorate</b>
+ * collections with transforming <i>views</i> that applies
+ * a specified transformation logic <i>on access</i> to all
+ * elements.
+ * <p>
+ * Let's use the terms
+ * <i>internal format</i> and <i>external format</i> for the
+ * two element formats (original and view).
  * <p>
  * For example, you can create a {@code List<String>} which is
  * actually internally backed by a {@code List<Integer>}. You 
