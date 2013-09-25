@@ -25,8 +25,8 @@ import java.util.NoSuchElementException;
 public abstract class AbstractRingCursor<E> extends AbstractCursor<E> implements RingCursor<E>
 {
    /**
-    * A re-implementation of {@link AbstractCursor#next(int)} that optimizes the
-    * internal logic by leveraging advances {@link Ring} features.
+    * A re-implementation of {@link AbstractRingCursor#next(int)} that optimizes
+    * the internal logic by leveraging advances {@link Ring} features.
     */
    @Override
    public E next(int count)
@@ -62,8 +62,8 @@ public abstract class AbstractRingCursor<E> extends AbstractCursor<E> implements
    }
 
    /**
-    * A re-implementation of {@link AbstractCursor#previous(int)} that optimizes
-    * the internal logic by leveraging advances {@link Ring} features.
+    * A re-implementation of {@link AbstractRingCursor#previous(int)} that
+    * optimizes the internal logic by leveraging advances {@link Ring} features.
     */
    @Override
    public E previous(int count)

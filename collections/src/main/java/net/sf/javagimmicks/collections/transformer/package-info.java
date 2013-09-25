@@ -1128,6 +1128,93 @@
  *    </tbody>
  * </table>
  * 
+ * <a name="ringCursor"/>
+ * <h3>Operations on a transformed {@link net.sf.javagimmicks.collections.RingCursor}</h3>
+ * <table border="2">
+ *    <thead>
+ *       <tr>
+ *          <th>Operation</th>
+ *          <th>Transformer</th>
+ *          <th>BidiTransformer</th>
+ *       </tr>
+ *    </thead>
+ *    <tbody>
+ *       <tr>
+ *          <td>cursor()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>get()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>insertAfter()</td>
+ *          <td align="center">not supported</td>
+ *          <td align="center">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>insertBefore()</td>
+ *          <td align="center">not supported</td>
+ *          <td align="center">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>isEmpty()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>iterator()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>next()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>previous()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>remove()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>set()</td>
+ *          <td align="center">not supported</td>
+ *          <td align="center">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>size()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>toList()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *    </tbody>
+ * </table>
+ * 
+ * <a name="ring"/>
+ * <h3>Operations on a transformed {@link net.sf.javagimmicks.collections.Ring}</h3>
+ * <table border="2">
+ *    <thead>
+ *       <tr>
+ *          <th>Operation</th>
+ *          <th>Transformer</th>
+ *          <th>BidiTransformer</th>
+ *       </tr>
+ *    </thead>
+ *    <tbody>
+ *       <tr>
+ *          <td>{@link java.util.Collection} operations</td>
+ *          <td align="center" colspan="2">See table for <a href="#collection">{@code Collection} operations</a></td>
+ *       </tr>
+ *       <tr>
+ *          <td>cursor()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *    </tbody>
+ * </table>
+ * 
  * @author Michael Scholz
  */
 package net.sf.javagimmicks.collections.transformer;

@@ -3,6 +3,8 @@ package net.sf.javagimmicks.collections.transformer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,6 +15,8 @@ import java.util.NavigableSet;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import net.sf.javagimmicks.collections.Ring;
 import net.sf.javagimmicks.collections.RingCursor;
@@ -654,6 +658,22 @@ public class TransformerUtils
       return new ValueBidiTransformingNavigableMap<K, VF, VT>(map, transformer);
    }
 
+   /**
+    * Wraps a new key- and value-transforming {@link Map} using the given key-
+    * {@link Transformer} and value-{@link Transformer} around a given
+    * {@link Map}.
+    * <p>
+    * For a list of available operations see <a
+    * href="package-summary.html#mapKeyValue">package description</a>.
+    * 
+    * @param map
+    *           the {@link Map} to wrap around
+    * @param keyTransformer
+    *           the key-{@link Transformer} to used for wrapping
+    * @param valueTransformer
+    *           the key-{@link Transformer} to used for wrapping
+    * @return the key-and value-transforming wrapped {@link Map}
+    */
    public static <KF, KT, VF, VT> Map<KT, VT> decorate(final Map<KF, VF> map, final Transformer<KF, KT> keyTransformer,
          final Transformer<VF, VT> valueTransformer)
    {
@@ -661,6 +681,22 @@ public class TransformerUtils
       return decorateKeyBased(valueTransformingMap, keyTransformer);
    }
 
+   /**
+    * Wraps a new key- and value-transforming {@link Map} using the given key-
+    * {@link BidiTransformer} and value-{@link Transformer} around a given
+    * {@link Map}.
+    * <p>
+    * For a list of available operations see <a
+    * href="package-summary.html#mapKeyValue">package description</a>.
+    * 
+    * @param map
+    *           the {@link Map} to wrap around
+    * @param keyTransformer
+    *           the key-{@link BidiTransformer} to used for wrapping
+    * @param valueTransformer
+    *           the key-{@link Transformer} to used for wrapping
+    * @return the key-and value-transforming wrapped {@link Map}
+    */
    public static <KF, KT, VF, VT> Map<KT, VT> decorate(final Map<KF, VF> map,
          final BidiTransformer<KF, KT> keyTransformer, final Transformer<VF, VT> valueTransformer)
    {
@@ -668,6 +704,22 @@ public class TransformerUtils
       return decorateKeyBased(valueTransformingMap, keyTransformer);
    }
 
+   /**
+    * Wraps a new key- and value-transforming {@link Map} using the given key-
+    * {@link Transformer} and value-{@link BidiTransformer} around a given
+    * {@link Map}.
+    * <p>
+    * For a list of available operations see <a
+    * href="package-summary.html#mapKeyValue">package description</a>.
+    * 
+    * @param map
+    *           the {@link Map} to wrap around
+    * @param keyTransformer
+    *           the key-{@link Transformer} to used for wrapping
+    * @param valueTransformer
+    *           the key-{@link BidiTransformer} to used for wrapping
+    * @return the key-and value-transforming wrapped {@link Map}
+    */
    public static <KF, KT, VF, VT> Map<KT, VT> decorate(final Map<KF, VF> map, final Transformer<KF, KT> keyTransformer,
          final BidiTransformer<VF, VT> valueTransformer)
    {
@@ -675,6 +727,22 @@ public class TransformerUtils
       return decorateKeyBased(valueTransformingMap, keyTransformer);
    }
 
+   /**
+    * Wraps a new key- and value-transforming {@link Map} using the given key-
+    * {@link BidiTransformer} and value-{@link BidiTransformer} around a given
+    * {@link Map}.
+    * <p>
+    * For a list of available operations see <a
+    * href="package-summary.html#mapKeyValue">package description</a>.
+    * 
+    * @param map
+    *           the {@link Map} to wrap around
+    * @param keyTransformer
+    *           the key-{@link BidiTransformer} to used for wrapping
+    * @param valueTransformer
+    *           the key-{@link BidiTransformer} to used for wrapping
+    * @return the key-and value-transforming wrapped {@link Map}
+    */
    public static <KF, KT, VF, VT> Map<KT, VT> decorate(final Map<KF, VF> map,
          final BidiTransformer<KF, KT> keyTransformer, final BidiTransformer<VF, VT> valueTransformer)
    {
@@ -682,6 +750,22 @@ public class TransformerUtils
       return decorateKeyBased(valueTransformingMap, keyTransformer);
    }
 
+   /**
+    * Wraps a new key- and value-transforming {@link SortedMap} using the given
+    * key-{@link Transformer} and value-{@link Transformer} around a given
+    * {@link SortedMap}.
+    * <p>
+    * For a list of available operations see <a
+    * href="package-summary.html#mapKeyValue">package description</a>.
+    * 
+    * @param map
+    *           the {@link SortedMap} to wrap around
+    * @param keyTransformer
+    *           the key-{@link Transformer} to used for wrapping
+    * @param valueTransformer
+    *           the key-{@link Transformer} to used for wrapping
+    * @return the key-and value-transforming wrapped {@link SortedMap}
+    */
    public static <KF, KT, VF, VT> SortedMap<KT, VT> decorate(final SortedMap<KF, VF> map,
          final Transformer<KF, KT> keyTransformer, final Transformer<VF, VT> valueTransformer)
    {
@@ -689,6 +773,22 @@ public class TransformerUtils
       return decorateKeyBased(valueTransformingMap, keyTransformer);
    }
 
+   /**
+    * Wraps a new key- and value-transforming {@link SortedMap} using the given
+    * key-{@link BidiTransformer} and value-{@link Transformer} around a given
+    * {@link SortedMap}.
+    * <p>
+    * For a list of available operations see <a
+    * href="package-summary.html#mapKeyValue">package description</a>.
+    * 
+    * @param map
+    *           the {@link SortedMap} to wrap around
+    * @param keyTransformer
+    *           the key-{@link BidiTransformer} to used for wrapping
+    * @param valueTransformer
+    *           the key-{@link Transformer} to used for wrapping
+    * @return the key-and value-transforming wrapped {@link SortedMap}
+    */
    public static <KF, KT, VF, VT> SortedMap<KT, VT> decorate(final SortedMap<KF, VF> map,
          final BidiTransformer<KF, KT> keyTransformer, final Transformer<VF, VT> valueTransformer)
    {
@@ -696,6 +796,22 @@ public class TransformerUtils
       return decorateKeyBased(valueTransformingMap, keyTransformer);
    }
 
+   /**
+    * Wraps a new key- and value-transforming {@link SortedMap} using the given
+    * key-{@link Transformer} and value-{@link BidiTransformer} around a given
+    * {@link SortedMap}.
+    * <p>
+    * For a list of available operations see <a
+    * href="package-summary.html#mapKeyValue">package description</a>.
+    * 
+    * @param map
+    *           the {@link SortedMap} to wrap around
+    * @param keyTransformer
+    *           the key-{@link Transformer} to used for wrapping
+    * @param valueTransformer
+    *           the key-{@link BidiTransformer} to used for wrapping
+    * @return the key-and value-transforming wrapped {@link SortedMap}
+    */
    public static <KF, KT, VF, VT> SortedMap<KT, VT> decorate(final SortedMap<KF, VF> map,
          final Transformer<KF, KT> keyTransformer, final BidiTransformer<VF, VT> valueTransformer)
    {
@@ -703,6 +819,22 @@ public class TransformerUtils
       return decorateKeyBased(valueTransformingMap, keyTransformer);
    }
 
+   /**
+    * Wraps a new key- and value-transforming {@link SortedMap} using the given
+    * key-{@link BidiTransformer} and value-{@link BidiTransformer} around a
+    * given {@link SortedMap}.
+    * <p>
+    * For a list of available operations see <a
+    * href="package-summary.html#mapKeyValue">package description</a>.
+    * 
+    * @param map
+    *           the {@link SortedMap} to wrap around
+    * @param keyTransformer
+    *           the key-{@link BidiTransformer} to used for wrapping
+    * @param valueTransformer
+    *           the key-{@link BidiTransformer} to used for wrapping
+    * @return the key-and value-transforming wrapped {@link SortedMap}
+    */
    public static <KF, KT, VF, VT> SortedMap<KT, VT> decorate(final SortedMap<KF, VF> map,
          final BidiTransformer<KF, KT> keyTransformer, final BidiTransformer<VF, VT> valueTransformer)
    {
@@ -710,6 +842,22 @@ public class TransformerUtils
       return decorateKeyBased(valueTransformingMap, keyTransformer);
    }
 
+   /**
+    * Wraps a new key- and value-transforming {@link NavigableMap} using the
+    * given key-{@link Transformer} and value-{@link Transformer} around a given
+    * {@link NavigableMap}.
+    * <p>
+    * For a list of available operations see <a
+    * href="package-summary.html#mapKeyValue">package description</a>.
+    * 
+    * @param map
+    *           the {@link NavigableMap} to wrap around
+    * @param keyTransformer
+    *           the key-{@link Transformer} to used for wrapping
+    * @param valueTransformer
+    *           the key-{@link Transformer} to used for wrapping
+    * @return the key-and value-transforming wrapped {@link NavigableMap}
+    */
    public static <KF, KT, VF, VT> NavigableMap<KT, VT> decorate(final NavigableMap<KF, VF> map,
          final Transformer<KF, KT> keyTransformer, final Transformer<VF, VT> valueTransformer)
    {
@@ -717,6 +865,22 @@ public class TransformerUtils
       return decorateKeyBased(valueTransformingMap, keyTransformer);
    }
 
+   /**
+    * Wraps a new key- and value-transforming {@link NavigableMap} using the
+    * given key-{@link BidiTransformer} and value-{@link Transformer} around a
+    * given {@link NavigableMap}.
+    * <p>
+    * For a list of available operations see <a
+    * href="package-summary.html#mapKeyValue">package description</a>.
+    * 
+    * @param map
+    *           the {@link NavigableMap} to wrap around
+    * @param keyTransformer
+    *           the key-{@link BidiTransformer} to used for wrapping
+    * @param valueTransformer
+    *           the key-{@link Transformer} to used for wrapping
+    * @return the key-and value-transforming wrapped {@link NavigableMap}
+    */
    public static <KF, KT, VF, VT> NavigableMap<KT, VT> decorate(final NavigableMap<KF, VF> map,
          final BidiTransformer<KF, KT> keyTransformer, final Transformer<VF, VT> valueTransformer)
    {
@@ -724,6 +888,22 @@ public class TransformerUtils
       return decorateKeyBased(valueTransformingMap, keyTransformer);
    }
 
+   /**
+    * Wraps a new key- and value-transforming {@link NavigableMap} using the
+    * given key-{@link Transformer} and value-{@link BidiTransformer} around a
+    * given {@link NavigableMap}.
+    * <p>
+    * For a list of available operations see <a
+    * href="package-summary.html#mapKeyValue">package description</a>.
+    * 
+    * @param map
+    *           the {@link NavigableMap} to wrap around
+    * @param keyTransformer
+    *           the key-{@link Transformer} to used for wrapping
+    * @param valueTransformer
+    *           the key-{@link BidiTransformer} to used for wrapping
+    * @return the key-and value-transforming wrapped {@link NavigableMap}
+    */
    public static <KF, KT, VF, VT> NavigableMap<KT, VT> decorate(final NavigableMap<KF, VF> map,
          final Transformer<KF, KT> keyTransformer, final BidiTransformer<VF, VT> valueTransformer)
    {
@@ -731,6 +911,22 @@ public class TransformerUtils
       return decorateKeyBased(valueTransformingMap, keyTransformer);
    }
 
+   /**
+    * Wraps a new key- and value-transforming {@link NavigableMap} using the
+    * given key-{@link BidiTransformer} and value-{@link BidiTransformer} around
+    * a given {@link NavigableMap}.
+    * <p>
+    * For a list of available operations see <a
+    * href="package-summary.html#mapKeyValue">package description</a>.
+    * 
+    * @param map
+    *           the {@link NavigableMap} to wrap around
+    * @param keyTransformer
+    *           the key-{@link BidiTransformer} to used for wrapping
+    * @param valueTransformer
+    *           the key-{@link BidiTransformer} to used for wrapping
+    * @return the key-and value-transforming wrapped {@link NavigableMap}
+    */
    public static <KF, KT, VF, VT> NavigableMap<KT, VT> decorate(final NavigableMap<KF, VF> map,
          final BidiTransformer<KF, KT> keyTransformer, final BidiTransformer<VF, VT> valueTransformer)
    {
@@ -738,42 +934,266 @@ public class TransformerUtils
       return decorateKeyBased(valueTransformingMap, keyTransformer);
    }
 
+   /**
+    * Wraps a new transforming {@link RingCursor} using the given
+    * {@link Transformer} around a given {@link RingCursor}.
+    * <p>
+    * For a list of available operations see <a
+    * href="package-summary.html#ringCursor">package description</a>.
+    * 
+    * @param ringCursor
+    *           the {@link RingCursor} to wrap around
+    * @param transformer
+    *           the {@link Transformer} to use for wrapping
+    * @return the transforming wrapped {@link RingCursor}
+    */
    public static <F, T> RingCursor<T> decorate(final RingCursor<F> ringCursor, final Transformer<F, T> transformer)
    {
       return new TransformingRingCursor<F, T>(ringCursor, transformer);
    }
 
+   /**
+    * Wraps a new transforming {@link RingCursor} using the given
+    * {@link BidiTransformer} around a given {@link RingCursor}.
+    * <p>
+    * For a list of available operations see <a
+    * href="package-summary.html#ringCursor">package description</a>.
+    * 
+    * @param ringCursor
+    *           the {@link RingCursor} to wrap around
+    * @param transformer
+    *           the {@link BidiTransformer} to use for wrapping
+    * @return the transforming wrapped {@link RingCursor}
+    */
    public static <F, T> RingCursor<T> decorate(final RingCursor<F> ringCursor, final BidiTransformer<F, T> transformer)
    {
       return new BidiTransformingRingCursor<F, T>(ringCursor, transformer);
    }
 
+   /**
+    * Wraps a new transforming {@link Ring} using the given {@link Transformer}
+    * around a given {@link Ring}.
+    * <p>
+    * For a list of available operations see <a
+    * href="package-summary.html#ring">package description</a>.
+    * 
+    * @param ring
+    *           the {@link Ring} to wrap around
+    * @param transformer
+    *           the {@link Transformer} to use for wrapping
+    * @return the transforming wrapped {@link Ring}
+    */
    public static <F, T> Ring<T> decorate(final Ring<F> ring, final Transformer<F, T> transformer)
    {
       return new TransformingRing<F, T>(ring, transformer);
    }
 
+   /**
+    * Wraps a new transforming {@link Ring} using the given
+    * {@link BidiTransformer} around a given {@link Ring}.
+    * <p>
+    * For a list of available operations see <a
+    * href="package-summary.html#ring">package description</a>.
+    * 
+    * @param ring
+    *           the {@link Ring} to wrap around
+    * @param transformer
+    *           the {@link BidiTransformer} to use for wrapping
+    * @return the transforming wrapped {@link Ring}
+    */
    public static <F, T> Ring<T> decorate(final Ring<F> ring, final BidiTransformer<F, T> transformer)
    {
       return new BidiTransformingRing<F, T>(ring, transformer);
    }
 
+   /**
+    * Bulk-transforms a given {@link Collection} using the given
+    * {@link Transformer} and stores all transformed elements in a target
+    * {@link Collection}.
+    * 
+    * @param fromCollection
+    *           the source {@link Collection} whose elements should be
+    *           bulk-transformed
+    * @param toCollection
+    *           the target {@link Collection} where the transformed elements
+    *           should be stored
+    * @param transformer
+    *           the {@link Transformer} used for transforming
+    */
    public static <F, T> void transform(final Collection<F> fromCollection, final Collection<T> toCollection,
          final Transformer<F, T> transformer)
    {
       toCollection.addAll(decorate(fromCollection, transformer));
    }
 
+   /**
+    * Bulk-transforms a given {@link Collection} using the given
+    * {@link Transformer} into a new {@link ArrayList} and returns it.
+    * 
+    * @param fromCollection
+    *           the source {@link Collection} whose elements should be
+    *           bulk-transformed
+    * @param transformer
+    *           the {@link Transformer} used for transforming
+    * @return the {@link ArrayList} containing the transformed elements
+    */
    public static <F, T> ArrayList<T> tronsformToArrayList(final Collection<F> fromCollection,
          final Transformer<F, T> transformer)
    {
       return transformInternal(fromCollection, new ArrayList<T>(fromCollection.size()), transformer);
    }
 
+   /**
+    * Bulk-transforms a given {@link Collection} using the given
+    * {@link Transformer} into a new {@link LinkedList} and returns it.
+    * 
+    * @param fromCollection
+    *           the source {@link Collection} whose elements should be
+    *           bulk-transformed
+    * @param transformer
+    *           the {@link Transformer} used for transforming
+    * @return the {@link LinkedList} containing the transformed elements
+    */
    public static <F, T> LinkedList<T> transformToLinkedList(final Collection<F> fromCollection,
          final Transformer<F, T> transformer)
    {
       return transformInternal(fromCollection, new LinkedList<T>(), transformer);
+   }
+
+   /**
+    * Bulk-transforms a given {@link Collection} using the given
+    * {@link Transformer} into a new {@link HashSet} and returns it.
+    * 
+    * @param fromCollection
+    *           the source {@link Collection} whose elements should be
+    *           bulk-transformed
+    * @param transformer
+    *           the {@link Transformer} used for transforming
+    * @return the {@link HashSet} containing the transformed elements
+    */
+   public static <F, T> HashSet<T> transformToHashSet(final Collection<F> fromCollection,
+         final Transformer<F, T> transformer)
+   {
+      return transformInternal(fromCollection, new HashSet<T>(), transformer);
+   }
+
+   /**
+    * Bulk-transforms a given {@link Collection} using the given
+    * {@link Transformer} into a new {@link TreeSet} and returns it.
+    * 
+    * @param fromCollection
+    *           the source {@link Collection} whose elements should be
+    *           bulk-transformed
+    * @param transformer
+    *           the {@link Transformer} used for transforming
+    * @return the {@link TreeSet} containing the transformed elements
+    */
+   public static <F, T> TreeSet<T> transformToTreeSet(final Collection<F> fromCollection,
+         final Transformer<F, T> transformer)
+   {
+      return transformInternal(fromCollection, new TreeSet<T>(), transformer);
+   }
+
+   /**
+    * Bulk-key-transforms a given {@link Map} using the given
+    * {@link Transformer} and stores all transformed elements in a target
+    * {@link Map}.
+    * 
+    * @param fromMap
+    *           the source {@link Map} whose elements should be bulk-transformed
+    * @param toMap
+    *           the target {@link Map} where the transformed elements should be
+    *           stored
+    * @param transformer
+    *           the {@link Transformer} used for transforming
+    */
+   public static <KF, KT, V> void transformKeys(final Map<KF, V> fromMap, final Map<KT, V> toMap,
+         final Transformer<KF, KT> transformer)
+   {
+      toMap.putAll(decorateKeyBased(fromMap, transformer));
+   }
+
+   /**
+    * Bulk-key-transforms a given {@link Map} using the given
+    * {@link Transformer} into a new {@link HashMap} and returns it.
+    * 
+    * @param fromMap
+    *           the source {@link Map} whose elements should be bulk-transformed
+    * @param transformer
+    *           the {@link Transformer} used for transforming
+    * @return the {@link HashMap} containing the transformed elements
+    */
+   public static <KF, KT, V> HashMap<KT, V> transformKeysToHashMap(final Map<KF, V> fromMap,
+         final Transformer<KF, KT> transformer)
+   {
+      return transformKeysInternal(fromMap, new HashMap<KT, V>(), transformer);
+   }
+
+   /**
+    * Bulk-key-transforms a given {@link Map} using the given
+    * {@link Transformer} into a new {@link TreeMap} and returns it.
+    * 
+    * @param fromMap
+    *           the source {@link Map} whose elements should be bulk-transformed
+    * @param transformer
+    *           the {@link Transformer} used for transforming
+    * @return the {@link TreeMap} containing the transformed elements
+    */
+   public static <KF, KT, V> TreeMap<KT, V> transformKeysToTreeMap(final Map<KF, V> fromMap,
+         final Transformer<KF, KT> transformer)
+   {
+      return transformKeysInternal(fromMap, new TreeMap<KT, V>(), transformer);
+   }
+
+   /**
+    * Bulk-key-transforms a given {@link Map} using the given
+    * {@link Transformer} and stores all transformed elements in a target
+    * {@link Map}.
+    * 
+    * @param fromMap
+    *           the source {@link Map} whose elements should be bulk-transformed
+    * @param toMap
+    *           the target {@link Map} where the transformed elements should be
+    *           stored
+    * @param transformer
+    *           the {@link Transformer} used for transforming
+    */
+   public static <K, VF, VT> void transformValues(final Map<K, VF> fromMap, final Map<K, VT> toMap,
+         final Transformer<VF, VT> transformer)
+   {
+      toMap.putAll(decorateValueBased(fromMap, transformer));
+   }
+
+   /**
+    * Bulk-key-transforms a given {@link Map} using the given
+    * {@link Transformer} into a new {@link HashMap} and returns it.
+    * 
+    * @param fromMap
+    *           the source {@link Map} whose elements should be bulk-transformed
+    * @param transformer
+    *           the {@link Transformer} used for transforming
+    * @return the {@link HashMap} containing the transformed elements
+    */
+   public static <K, VF, VT> HashMap<K, VT> transformValuesToHashMap(final Map<K, VF> fromMap,
+         final Transformer<VF, VT> transformer)
+   {
+      return transformValuesInternal(fromMap, new HashMap<K, VT>(), transformer);
+   }
+
+   /**
+    * Bulk-key-transforms a given {@link Map} using the given
+    * {@link Transformer} into a new {@link TreeMap} and returns it.
+    * 
+    * @param fromMap
+    *           the source {@link Map} whose elements should be bulk-transformed
+    * @param transformer
+    *           the {@link Transformer} used for transforming
+    * @return the {@link TreeMap} containing the transformed elements
+    */
+   public static <K, VF, VT> TreeMap<K, VT> transformValuesToTreeMap(final Map<K, VF> fromMap,
+         final Transformer<VF, VT> transformer)
+   {
+      return transformValuesInternal(fromMap, new TreeMap<K, VT>(), transformer);
    }
 
    private static <F, T, C extends Collection<T>> C transformInternal(final Collection<F> fromCollection,
@@ -783,5 +1203,23 @@ public class TransformerUtils
       transform(fromCollection, toCollection, transformer);
 
       return toCollection;
+   }
+
+   private static <KF, KT, V, C extends Map<KT, V>> C transformKeysInternal(final Map<KF, V> fromMap,
+         final C toMap,
+         final Transformer<KF, KT> transformer)
+   {
+      transformKeys(fromMap, toMap, transformer);
+
+      return toMap;
+   }
+
+   private static <K, VF, VT, C extends Map<K, VT>> C transformValuesInternal(final Map<K, VF> fromMap,
+         final C toMap,
+         final Transformer<VF, VT> transformer)
+   {
+      transformValues(fromMap, toMap, transformer);
+
+      return toMap;
    }
 }
