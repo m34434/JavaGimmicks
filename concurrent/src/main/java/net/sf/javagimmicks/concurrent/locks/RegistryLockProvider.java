@@ -2,8 +2,10 @@ package net.sf.javagimmicks.concurrent.locks;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -27,20 +29,26 @@ class RegistryLockProvider<K> implements MultiLockProvider<K>, Serializable
    }
 
    @Override
-   public final MultiReadWriteLock<K> newLock(final Collection<K> resources)
+   public final MultiReadWriteLock<K> newLock(final Iterable<K> resources)
    {
       return new MultiReadWriteLockImpl(resources);
    }
 
+   @Override
+   public MultiReadWriteLock<K> newLock(final K... resources)
+   {
+      return newLock(Arrays.asList(resources));
+   }
+
    protected class MultiReadWriteLockImpl implements MultiReadWriteLock<K>
    {
-      protected final Collection<K> _resources;
+      protected final List<K> _resources;
       protected final MultiReadLockImpl _readLock;
       protected final MultiWriteLockImpl _writeLock;
 
-      protected MultiReadWriteLockImpl(final Collection<K> resources)
+      protected MultiReadWriteLockImpl(final Iterable<K> resources)
       {
-         final Collection<K> internalResourceList = new ArrayList<K>();
+         final List<K> internalResourceList = new ArrayList<K>();
 
          // Filter out null resources
          for (final K resource : resources)
@@ -51,14 +59,14 @@ class RegistryLockProvider<K> implements MultiLockProvider<K>, Serializable
             }
          }
 
-         _resources = Collections.unmodifiableCollection(internalResourceList);
+         _resources = Collections.unmodifiableList(internalResourceList);
 
          _readLock = new MultiReadLockImpl();
          _writeLock = new MultiWriteLockImpl();
       }
 
       @Override
-      public Collection<K> getResources()
+      public Collection<K> getResourceIds()
       {
          return _resources;
       }
@@ -80,9 +88,9 @@ class RegistryLockProvider<K> implements MultiLockProvider<K>, Serializable
          protected final ThreadLocal<Boolean> _lockedFlag = new ThreadLocal<Boolean>();
 
          @Override
-         public final Collection<K> getResources()
+         public final Collection<K> getResourceIds()
          {
-            return MultiReadWriteLockImpl.this.getResources();
+            return MultiReadWriteLockImpl.this.getResourceIds();
          }
 
          @Override
@@ -199,7 +207,7 @@ class RegistryLockProvider<K> implements MultiLockProvider<K>, Serializable
             _exLock.lock();
             try
             {
-               while (!_registry.isExclusiveFree(getResources()))
+               while (!_registry.isExclusiveFree(getResourceIds()))
                {
                   _exCondition.awaitUninterruptibly();
                }
@@ -207,7 +215,7 @@ class RegistryLockProvider<K> implements MultiLockProvider<K>, Serializable
                _shLock.lock();
                try
                {
-                  _registry.registerShared(getResources());
+                  _registry.registerShared(getResourceIds());
                }
                finally
                {
@@ -226,7 +234,7 @@ class RegistryLockProvider<K> implements MultiLockProvider<K>, Serializable
             _exLock.lockInterruptibly();
             try
             {
-               while (!_registry.isExclusiveFree(getResources()))
+               while (!_registry.isExclusiveFree(getResourceIds()))
                {
                   _exCondition.await();
                }
@@ -234,7 +242,7 @@ class RegistryLockProvider<K> implements MultiLockProvider<K>, Serializable
                _shLock.lockInterruptibly();
                try
                {
-                  _registry.registerShared(getResources());
+                  _registry.registerShared(getResourceIds());
                }
                finally
                {
@@ -257,7 +265,7 @@ class RegistryLockProvider<K> implements MultiLockProvider<K>, Serializable
 
             try
             {
-               if (!_registry.isExclusiveFree(getResources()))
+               if (!_registry.isExclusiveFree(getResourceIds()))
                {
                   return false;
                }
@@ -269,7 +277,7 @@ class RegistryLockProvider<K> implements MultiLockProvider<K>, Serializable
 
                try
                {
-                  _registry.registerShared(getResources());
+                  _registry.registerShared(getResourceIds());
                }
                finally
                {
@@ -298,7 +306,7 @@ class RegistryLockProvider<K> implements MultiLockProvider<K>, Serializable
             long nanosLeft = unit.toNanos(time) - (System.nanoTime() - nanosTimestamp);
             try
             {
-               while (!_registry.isExclusiveFree(getResources()))
+               while (!_registry.isExclusiveFree(getResourceIds()))
                {
                   nanosLeft = _exCondition.awaitNanos(nanosLeft);
 
@@ -315,7 +323,7 @@ class RegistryLockProvider<K> implements MultiLockProvider<K>, Serializable
 
                try
                {
-                  _registry.registerShared(getResources());
+                  _registry.registerShared(getResourceIds());
                }
                finally
                {
@@ -348,7 +356,7 @@ class RegistryLockProvider<K> implements MultiLockProvider<K>, Serializable
             _shLock.lock();
             try
             {
-               _registry.unregisterShared(getResources());
+               _registry.unregisterShared(getResourceIds());
 
                _shCondition.signalAll();
             }
@@ -378,13 +386,13 @@ class RegistryLockProvider<K> implements MultiLockProvider<K>, Serializable
             try
             {
                // Wait until all requested resource are free
-               while (!_registry.isExclusiveFree(getResources()))
+               while (!_registry.isExclusiveFree(getResourceIds()))
                {
                   _exCondition.awaitUninterruptibly();
                }
 
                // Register the requested resources
-               _registry.registerExclusive(getResources());
+               _registry.registerExclusive(getResourceIds());
             }
             finally
             {
@@ -398,7 +406,7 @@ class RegistryLockProvider<K> implements MultiLockProvider<K>, Serializable
             {
                // Wait until the requested resources are also freed in the
                // shared registry
-               while (!_registry.isSharedFree(getResources()))
+               while (!_registry.isSharedFree(getResourceIds()))
                {
                   _shCondition.awaitUninterruptibly();
                }
@@ -432,13 +440,13 @@ class RegistryLockProvider<K> implements MultiLockProvider<K>, Serializable
             try
             {
                // Wait until all requested resource are free
-               while (!_registry.isExclusiveFree(getResources()))
+               while (!_registry.isExclusiveFree(getResourceIds()))
                {
                   _exCondition.await();
                }
 
                // Register the requested resources
-               _registry.registerExclusive(getResources());
+               _registry.registerExclusive(getResourceIds());
             }
             finally
             {
@@ -462,7 +470,7 @@ class RegistryLockProvider<K> implements MultiLockProvider<K>, Serializable
             {
                // Wait until the requested resources are also freed in the
                // shared registry
-               while (!_registry.isSharedFree(getResources()))
+               while (!_registry.isSharedFree(getResourceIds()))
                {
                   _shCondition.await();
                }
@@ -514,13 +522,13 @@ class RegistryLockProvider<K> implements MultiLockProvider<K>, Serializable
             try
             {
                // Wait until all requested resource are free
-               if (!_registry.isExclusiveFree(getResources()))
+               if (!_registry.isExclusiveFree(getResourceIds()))
                {
                   return false;
                }
 
                // Register the requested resources
-               _registry.registerExclusive(getResources());
+               _registry.registerExclusive(getResourceIds());
             }
             finally
             {
@@ -540,7 +548,7 @@ class RegistryLockProvider<K> implements MultiLockProvider<K>, Serializable
             {
                // Wait until the requested resources are also freed in the
                // shared registry
-               if (!_registry.isSharedFree(getResources()))
+               if (!_registry.isSharedFree(getResourceIds()))
                {
                   _shLock.unlock();
                   unlockInternal();
@@ -594,7 +602,7 @@ class RegistryLockProvider<K> implements MultiLockProvider<K>, Serializable
             try
             {
                // Wait until all requested resource are free
-               while (!_registry.isExclusiveFree(getResources()))
+               while (!_registry.isExclusiveFree(getResourceIds()))
                {
                   nanosLeft = _exCondition.awaitNanos(nanosLeft);
 
@@ -605,7 +613,7 @@ class RegistryLockProvider<K> implements MultiLockProvider<K>, Serializable
                }
 
                // Register the requested resources
-               _registry.registerExclusive(getResources());
+               _registry.registerExclusive(getResourceIds());
             }
             finally
             {
@@ -647,7 +655,7 @@ class RegistryLockProvider<K> implements MultiLockProvider<K>, Serializable
             {
                // Wait until the requested resources are also freed in the
                // shared registry
-               while (!_registry.isSharedFree(getResources()))
+               while (!_registry.isSharedFree(getResourceIds()))
                {
                   nanosLeft = _shCondition.awaitNanos(nanosLeft);
 
@@ -715,7 +723,7 @@ class RegistryLockProvider<K> implements MultiLockProvider<K>, Serializable
             _exLock.lock();
             try
             {
-               _registry.unregisterExclusive(getResources());
+               _registry.unregisterExclusive(getResourceIds());
 
                _exCondition.signalAll();
             }
