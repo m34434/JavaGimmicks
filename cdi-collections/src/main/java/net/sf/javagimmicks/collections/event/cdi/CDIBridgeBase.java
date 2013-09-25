@@ -1,5 +1,7 @@
 package net.sf.javagimmicks.collections.event.cdi;
 
+import java.lang.annotation.Annotation;
+
 import javax.enterprise.event.Event;
 import javax.enterprise.inject.Any;
 
@@ -18,8 +20,8 @@ abstract class CDIBrigeBase
          .getInjection();
 
    @SuppressWarnings("unchecked")
-   static <EventType> Event<EventType> buildEvent(final Class<EventType> eventType)
+   static <EventType> Event<EventType> buildEvent(final Class<EventType> eventType, final Annotation... annotations)
    {
-      return EVENT_INJECTION.getInstance(CDIContext.getBeanManager()).select(eventType);
+      return EVENT_INJECTION.getInstance(CDIContext.getBeanManager()).select(eventType, annotations);
    }
 }

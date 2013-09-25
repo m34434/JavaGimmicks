@@ -1,5 +1,6 @@
 package net.sf.javagimmicks.collections.event.cdi;
 
+import java.lang.annotation.Annotation;
 import java.util.SortedMap;
 
 import javax.enterprise.event.Event;
@@ -23,11 +24,15 @@ public class CDIBridgeSortedMapEventListener<K, V> extends CDIBrigeBase implemen
     * @param map
     *           the {@link ObservableEventSortedMap} where to register the
     *           {@link CDIBridgeSortedMapEventListener}
+    * @param annotations
+    *           the qualifier {@link Annotation}s that the fired events should
+    *           have
     * @return the registered {@link CDIBridgeSortedMapEventListener}
     */
-   public static <K, V> CDIBridgeSortedMapEventListener<K, V> install(final ObservableEventSortedMap<K, V> map)
+   public static <K, V> CDIBridgeSortedMapEventListener<K, V> install(final ObservableEventSortedMap<K, V> map,
+         final Annotation... annotations)
    {
-      final CDIBridgeSortedMapEventListener<K, V> result = new CDIBridgeSortedMapEventListener<K, V>();
+      final CDIBridgeSortedMapEventListener<K, V> result = new CDIBridgeSortedMapEventListener<K, V>(annotations);
 
       map.addEventListener(result);
 
@@ -41,18 +46,29 @@ public class CDIBridgeSortedMapEventListener<K, V> extends CDIBrigeBase implemen
     * 
     * @param map
     *           the base {@link SortedMap} to wrap
+    * @param annotations
+    *           the qualifier {@link Annotation}s that the fired events should
+    *           have
     * @return the CDI-enabled {@link ObservableEventSortedMap}
     */
-   public static <K, V> ObservableEventSortedMap<K, V> createAndInstall(final SortedMap<K, V> map)
+   public static <K, V> ObservableEventSortedMap<K, V> createAndInstall(final SortedMap<K, V> map,
+         final Annotation... annotations)
    {
       final ObservableEventSortedMap<K, V> result = new ObservableEventSortedMap<K, V>(map);
-      install(result);
+      install(result, annotations);
       return result;
    }
 
-   public CDIBridgeSortedMapEventListener()
+   /**
+    * Creates a new instance for the given qualifier {@link Annotation}s.
+    * 
+    * @param annotations
+    *           the qualifier {@link Annotation}s that the fired events should
+    *           have
+    */
+   public CDIBridgeSortedMapEventListener(final Annotation... annotations)
    {
-      _eventHandle = buildEvent(CDISortedMapEvent.class);
+      _eventHandle = buildEvent(CDISortedMapEvent.class, annotations);
    }
 
    @Override

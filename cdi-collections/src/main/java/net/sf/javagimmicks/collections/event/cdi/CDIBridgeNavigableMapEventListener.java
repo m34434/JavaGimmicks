@@ -1,5 +1,6 @@
 package net.sf.javagimmicks.collections.event.cdi;
 
+import java.lang.annotation.Annotation;
 import java.util.NavigableMap;
 
 import javax.enterprise.event.Event;
@@ -23,11 +24,15 @@ public class CDIBridgeNavigableMapEventListener<K, V> extends CDIBrigeBase imple
     * @param map
     *           the {@link ObservableEventNavigableMap} where to register the
     *           {@link CDIBridgeNavigableMapEventListener}
+    * @param annotations
+    *           the qualifier {@link Annotation}s that the fired events should
+    *           have
     * @return the registered {@link CDIBridgeNavigableMapEventListener}
     */
-   public static <K, V> CDIBridgeNavigableMapEventListener<K, V> install(final ObservableEventNavigableMap<K, V> map)
+   public static <K, V> CDIBridgeNavigableMapEventListener<K, V> install(final ObservableEventNavigableMap<K, V> map,
+         final Annotation... annotations)
    {
-      final CDIBridgeNavigableMapEventListener<K, V> result = new CDIBridgeNavigableMapEventListener<K, V>();
+      final CDIBridgeNavigableMapEventListener<K, V> result = new CDIBridgeNavigableMapEventListener<K, V>(annotations);
 
       map.addEventListener(result);
 
@@ -41,18 +46,29 @@ public class CDIBridgeNavigableMapEventListener<K, V> extends CDIBrigeBase imple
     * 
     * @param map
     *           the base {@link NavigableMap} to wrap
+    * @param annotations
+    *           the qualifier {@link Annotation}s that the fired events should
+    *           have
     * @return the CDI-enabled {@link ObservableEventNavigableMap}
     */
-   public static <K, V> ObservableEventNavigableMap<K, V> createAndInstall(final NavigableMap<K, V> map)
+   public static <K, V> ObservableEventNavigableMap<K, V> createAndInstall(final NavigableMap<K, V> map,
+         final Annotation... annotations)
    {
       final ObservableEventNavigableMap<K, V> result = new ObservableEventNavigableMap<K, V>(map);
-      install(result);
+      install(result, annotations);
       return result;
    }
 
-   public CDIBridgeNavigableMapEventListener()
+   /**
+    * Creates a new instance for the given qualifier {@link Annotation}s.
+    * 
+    * @param annotations
+    *           the qualifier {@link Annotation}s that the fired events should
+    *           have
+    */
+   public CDIBridgeNavigableMapEventListener(final Annotation... annotations)
    {
-      _eventHandle = buildEvent(CDINavigableMapEvent.class);
+      _eventHandle = buildEvent(CDINavigableMapEvent.class, annotations);
    }
 
    @Override

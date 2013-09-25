@@ -1,5 +1,6 @@
 package net.sf.javagimmicks.collections.event.cdi;
 
+import java.lang.annotation.Annotation;
 import java.util.Collection;
 
 import javax.enterprise.event.Event;
@@ -23,11 +24,15 @@ public class CDIBridgeCollectionEventListener<E> extends CDIBrigeBase implements
     * @param collection
     *           the {@link ObservableEventCollection} where to register the
     *           {@link CDIBridgeCollectionEventListener}
+    * @param annotations
+    *           the qualifier {@link Annotation}s that the fired events should
+    *           have
     * @return the registered {@link CDIBridgeCollectionEventListener}
     */
-   public static <E> CDIBridgeCollectionEventListener<E> install(final ObservableEventCollection<E> collection)
+   public static <E> CDIBridgeCollectionEventListener<E> install(final ObservableEventCollection<E> collection,
+         final Annotation... annotations)
    {
-      final CDIBridgeCollectionEventListener<E> result = new CDIBridgeCollectionEventListener<E>();
+      final CDIBridgeCollectionEventListener<E> result = new CDIBridgeCollectionEventListener<E>(annotations);
 
       collection.addEventListener(result);
 
@@ -41,18 +46,29 @@ public class CDIBridgeCollectionEventListener<E> extends CDIBrigeBase implements
     * 
     * @param collection
     *           the base {@link Collection} to wrap
+    * @param annotations
+    *           the qualifier {@link Annotation}s that the fired events should
+    *           have
     * @return the CDI-enabled {@link ObservableEventCollection}
     */
-   public static <E> ObservableEventCollection<E> createAndInstall(final Collection<E> collection)
+   public static <E> ObservableEventCollection<E> createAndInstall(final Collection<E> collection,
+         final Annotation... annotations)
    {
       final ObservableEventCollection<E> result = new ObservableEventCollection<E>(collection);
-      install(result);
+      install(result, annotations);
       return result;
    }
 
-   public CDIBridgeCollectionEventListener()
+   /**
+    * Creates a new instance for the given qualifier {@link Annotation}s.
+    * 
+    * @param annotations
+    *           the qualifier {@link Annotation}s that the fired events should
+    *           have
+    */
+   public CDIBridgeCollectionEventListener(final Annotation... annotations)
    {
-      _eventHandle = buildEvent(CDICollectionEvent.class);
+      _eventHandle = buildEvent(CDICollectionEvent.class, annotations);
    }
 
    @Override

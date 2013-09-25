@@ -1,5 +1,6 @@
 package net.sf.javagimmicks.collections.event.cdi;
 
+import java.lang.annotation.Annotation;
 import java.util.List;
 
 import javax.enterprise.event.Event;
@@ -23,11 +24,15 @@ public class CDIBridgeListEventListener<E> extends CDIBrigeBase implements Event
     * @param list
     *           the {@link ObservableEventList} where to register the
     *           {@link CDIBridgeListEventListener}
+    * @param annotations
+    *           the qualifier {@link Annotation}s that the fired events should
+    *           have
     * @return the registered {@link CDIBridgeListEventListener}
     */
-   public static <E> CDIBridgeListEventListener<E> install(final ObservableEventList<E> list)
+   public static <E> CDIBridgeListEventListener<E> install(final ObservableEventList<E> list,
+         final Annotation... annotations)
    {
-      final CDIBridgeListEventListener<E> result = new CDIBridgeListEventListener<E>();
+      final CDIBridgeListEventListener<E> result = new CDIBridgeListEventListener<E>(annotations);
 
       list.addEventListener(result);
 
@@ -40,18 +45,28 @@ public class CDIBridgeListEventListener<E> extends CDIBrigeBase implements Event
     * 
     * @param list
     *           the base {@link List} to wrap
+    * @param annotations
+    *           the qualifier {@link Annotation}s that the fired events should
+    *           have
     * @return the CDI-enabled {@link ObservableEventList}
     */
-   public static <E> ObservableEventList<E> createAndInstall(final List<E> list)
+   public static <E> ObservableEventList<E> createAndInstall(final List<E> list, final Annotation... annotations)
    {
       final ObservableEventList<E> result = new ObservableEventList<E>(list);
-      install(result);
+      install(result, annotations);
       return result;
    }
 
-   public CDIBridgeListEventListener()
+   /**
+    * Creates a new instance for the given qualifier {@link Annotation}s.
+    * 
+    * @param annotations
+    *           the qualifier {@link Annotation}s that the fired events should
+    *           have
+    */
+   public CDIBridgeListEventListener(final Annotation... annotations)
    {
-      _eventHandle = buildEvent(CDIListEvent.class);
+      _eventHandle = buildEvent(CDIListEvent.class, annotations);
    }
 
    @Override

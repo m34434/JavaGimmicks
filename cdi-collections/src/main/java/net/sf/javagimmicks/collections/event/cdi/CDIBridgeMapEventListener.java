@@ -1,5 +1,6 @@
 package net.sf.javagimmicks.collections.event.cdi;
 
+import java.lang.annotation.Annotation;
 import java.util.Map;
 
 import javax.enterprise.event.Event;
@@ -23,11 +24,15 @@ public class CDIBridgeMapEventListener<K, V> extends CDIBrigeBase implements Eve
     * @param map
     *           the {@link ObservableEventMap} where to register the
     *           {@link CDIBridgeMapEventListener}
+    * @param annotations
+    *           the qualifier {@link Annotation}s that the fired events should
+    *           have
     * @return the registered {@link CDIBridgeMapEventListener}
     */
-   public static <K, V> CDIBridgeMapEventListener<K, V> install(final ObservableEventMap<K, V> map)
+   public static <K, V> CDIBridgeMapEventListener<K, V> install(final ObservableEventMap<K, V> map,
+         final Annotation... annotations)
    {
-      final CDIBridgeMapEventListener<K, V> result = new CDIBridgeMapEventListener<K, V>();
+      final CDIBridgeMapEventListener<K, V> result = new CDIBridgeMapEventListener<K, V>(annotations);
 
       map.addEventListener(result);
 
@@ -40,18 +45,28 @@ public class CDIBridgeMapEventListener<K, V> extends CDIBrigeBase implements Eve
     * 
     * @param map
     *           the base {@link Map} to wrap
+    * @param annotations
+    *           the qualifier {@link Annotation}s that the fired events should
+    *           have
     * @return the CDI-enabled {@link ObservableEventMap}
     */
-   public static <K, V> ObservableEventMap<K, V> createAndInstall(final Map<K, V> map)
+   public static <K, V> ObservableEventMap<K, V> createAndInstall(final Map<K, V> map, final Annotation... annotations)
    {
       final ObservableEventMap<K, V> result = new ObservableEventMap<K, V>(map);
-      install(result);
+      install(result, annotations);
       return result;
    }
 
-   public CDIBridgeMapEventListener()
+   /**
+    * Creates a new instance for the given qualifier {@link Annotation}s.
+    * 
+    * @param annotations
+    *           the qualifier {@link Annotation}s that the fired events should
+    *           have
+    */
+   public CDIBridgeMapEventListener(final Annotation... annotations)
    {
-      _eventHandle = buildEvent(CDIMapEvent.class);
+      _eventHandle = buildEvent(CDIMapEvent.class, annotations);
    }
 
    @Override

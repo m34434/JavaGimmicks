@@ -1,5 +1,6 @@
 package net.sf.javagimmicks.collections.event.cdi;
 
+import java.lang.annotation.Annotation;
 import java.util.Set;
 
 import javax.enterprise.event.Event;
@@ -23,11 +24,15 @@ public class CDIBridgeSetEventListener<E> extends CDIBrigeBase implements EventS
     * @param set
     *           the {@link ObservableEventSet} where to register the
     *           {@link CDIBridgeSetEventListener}
+    * @param annotations
+    *           the qualifier {@link Annotation}s that the fired events should
+    *           have
     * @return the registered {@link CDIBridgeSetEventListener}
     */
-   public static <E> CDIBridgeSetEventListener<E> install(final ObservableEventSet<E> set)
+   public static <E> CDIBridgeSetEventListener<E> install(final ObservableEventSet<E> set,
+         final Annotation... annotations)
    {
-      final CDIBridgeSetEventListener<E> result = new CDIBridgeSetEventListener<E>();
+      final CDIBridgeSetEventListener<E> result = new CDIBridgeSetEventListener<E>(annotations);
 
       set.addEventListener(result);
 
@@ -40,18 +45,28 @@ public class CDIBridgeSetEventListener<E> extends CDIBrigeBase implements EventS
     * 
     * @param set
     *           the base {@link Set} to wrap
+    * @param annotations
+    *           the qualifier {@link Annotation}s that the fired events should
+    *           have
     * @return the CDI-enabled {@link ObservableEventSet}
     */
-   public static <E> ObservableEventSet<E> createAndInstall(final Set<E> set)
+   public static <E> ObservableEventSet<E> createAndInstall(final Set<E> set, final Annotation... annotations)
    {
       final ObservableEventSet<E> result = new ObservableEventSet<E>(set);
-      install(result);
+      install(result, annotations);
       return result;
    }
 
-   public CDIBridgeSetEventListener()
+   /**
+    * Creates a new instance for the given qualifier {@link Annotation}s.
+    * 
+    * @param annotations
+    *           the qualifier {@link Annotation}s that the fired events should
+    *           have
+    */
+   public CDIBridgeSetEventListener(final Annotation... annotations)
    {
-      _eventHandle = buildEvent(CDISetEvent.class);
+      _eventHandle = buildEvent(CDISetEvent.class, annotations);
    }
 
    @Override

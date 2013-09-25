@@ -1,5 +1,6 @@
 package net.sf.javagimmicks.collections.event.cdi;
 
+import java.lang.annotation.Annotation;
 import java.util.NavigableSet;
 
 import javax.enterprise.event.Event;
@@ -23,11 +24,15 @@ public class CDIBridgeNavigableSetEventListener<E> extends CDIBrigeBase implemen
     * @param set
     *           the {@link ObservableEventNavigableSet} where to register the
     *           {@link CDIBridgeNavigableSetEventListener}
+    * @param annotations
+    *           the qualifier {@link Annotation}s that the fired events should
+    *           have
     * @return the registered {@link CDIBridgeNavigableSetEventListener}
     */
-   public static <E> CDIBridgeNavigableSetEventListener<E> install(final ObservableEventNavigableSet<E> set)
+   public static <E> CDIBridgeNavigableSetEventListener<E> install(final ObservableEventNavigableSet<E> set,
+         final Annotation... annotations)
    {
-      final CDIBridgeNavigableSetEventListener<E> result = new CDIBridgeNavigableSetEventListener<E>();
+      final CDIBridgeNavigableSetEventListener<E> result = new CDIBridgeNavigableSetEventListener<E>(annotations);
 
       set.addEventListener(result);
 
@@ -41,18 +46,29 @@ public class CDIBridgeNavigableSetEventListener<E> extends CDIBrigeBase implemen
     * 
     * @param set
     *           the base {@link NavigableSet} to wrap
+    * @param annotations
+    *           the qualifier {@link Annotation}s that the fired events should
+    *           have
     * @return the CDI-enabled {@link ObservableEventNavigableSet}
     */
-   public static <E> ObservableEventNavigableSet<E> createAndInstall(final NavigableSet<E> set)
+   public static <E> ObservableEventNavigableSet<E> createAndInstall(final NavigableSet<E> set,
+         final Annotation... annotations)
    {
       final ObservableEventNavigableSet<E> result = new ObservableEventNavigableSet<E>(set);
-      install(result);
+      install(result, annotations);
       return result;
    }
 
-   public CDIBridgeNavigableSetEventListener()
+   /**
+    * Creates a new instance for the given qualifier {@link Annotation}s.
+    * 
+    * @param annotations
+    *           the qualifier {@link Annotation}s that the fired events should
+    *           have
+    */
+   public CDIBridgeNavigableSetEventListener(final Annotation... annotations)
    {
-      _eventHandle = buildEvent(CDINavigableSetEvent.class);
+      _eventHandle = buildEvent(CDINavigableSetEvent.class, annotations);
    }
 
    @Override

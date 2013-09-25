@@ -1,5 +1,6 @@
 package net.sf.javagimmicks.collections.event.cdi;
 
+import java.lang.annotation.Annotation;
 import java.util.SortedSet;
 
 import javax.enterprise.event.Event;
@@ -23,11 +24,15 @@ public class CDIBridgeSortedSetEventListener<E> extends CDIBrigeBase implements 
     * @param set
     *           the {@link ObservableEventSortedSet} where to register the
     *           {@link CDIBridgeSortedSetEventListener}
+    * @param annotations
+    *           the qualifier {@link Annotation}s that the fired events should
+    *           have
     * @return the registered {@link CDIBridgeSortedSetEventListener}
     */
-   public static <E> CDIBridgeSortedSetEventListener<E> install(final ObservableEventSortedSet<E> set)
+   public static <E> CDIBridgeSortedSetEventListener<E> install(final ObservableEventSortedSet<E> set,
+         final Annotation... annotations)
    {
-      final CDIBridgeSortedSetEventListener<E> result = new CDIBridgeSortedSetEventListener<E>();
+      final CDIBridgeSortedSetEventListener<E> result = new CDIBridgeSortedSetEventListener<E>(annotations);
 
       set.addEventListener(result);
 
@@ -41,18 +46,29 @@ public class CDIBridgeSortedSetEventListener<E> extends CDIBrigeBase implements 
     * 
     * @param set
     *           the base {@link SortedSet} to wrap
+    * @param annotations
+    *           the qualifier {@link Annotation}s that the fired events should
+    *           have
     * @return the CDI-enabled {@link ObservableEventSortedSet}
     */
-   public static <E> ObservableEventSortedSet<E> createAndInstall(final SortedSet<E> set)
+   public static <E> ObservableEventSortedSet<E> createAndInstall(final SortedSet<E> set,
+         final Annotation... annotations)
    {
       final ObservableEventSortedSet<E> result = new ObservableEventSortedSet<E>(set);
-      install(result);
+      install(result, annotations);
       return result;
    }
 
-   public CDIBridgeSortedSetEventListener()
+   /**
+    * Creates a new instance for the given qualifier {@link Annotation}s.
+    * 
+    * @param annotations
+    *           the qualifier {@link Annotation}s that the fired events should
+    *           have
+    */
+   public CDIBridgeSortedSetEventListener(final Annotation... annotations)
    {
-      _eventHandle = buildEvent(CDISortedSetEvent.class);
+      _eventHandle = buildEvent(CDISortedSetEvent.class, annotations);
    }
 
    @Override
