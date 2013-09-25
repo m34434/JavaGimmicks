@@ -6,12 +6,24 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * A default implementation of {@link BidiMap} that internally works with two
+ * convenient {@link Map} (one for each "direction").
+ */
 public class DualBidiMap<K, V> extends AbstractMap<K, V> implements BidiMap<K, V>
 {
    protected final Map<K, V> _forwardMap;
    protected final Map<V, K> _reverseMap;
-   
-   DualBidiMap(Map<K, V> forwardMap, Map<V, K> reverseMap)
+
+   /**
+    * Creates a new instance for the given forward and reverse {@link Map}
+    * 
+    * @param forwardMap
+    *           the forward {@link Map} used to map keys to values
+    * @param reverseMap
+    *           the reverse {@link Map} used to map values to keys
+    */
+   public DualBidiMap(final Map<K, V> forwardMap, final Map<V, K> reverseMap)
    {
       _forwardMap = forwardMap;
       _reverseMap = reverseMap;
@@ -22,42 +34,44 @@ public class DualBidiMap<K, V> extends AbstractMap<K, V> implements BidiMap<K, V
    {
       return new DualBidiEntrySet(getForwardMap().entrySet());
    }
-   
+
    @Override
-   public V put(K key, V value)
+   public V put(final K key, final V value)
    {
       checkValue(value);
 
-      V oldValue = getForwardMap().put(key, value);
-      K oldKey = getReverseMap().put(value, key);
-      
+      final V oldValue = getForwardMap().put(key, value);
+      final K oldKey = getReverseMap().put(value, key);
+
       getForwardMap().remove(oldKey);
       getReverseMap().remove(oldValue);
-      
+
       return oldValue;
    }
 
    @Override
-   public V remove(Object key)
+   public V remove(final Object key)
    {
-      V value = getForwardMap().remove(key);
+      final V value = getForwardMap().remove(key);
       getReverseMap().remove(value);
-      
+
       return value;
    }
 
+   @Override
    public BidiMap<V, K> inverseBidiMap()
    {
       return new InverseDualBidiMap(getReverseMap(), getForwardMap());
    }
-   
+
    @Override
-   public V get(Object key)
+   public V get(final Object key)
    {
       return getForwardMap().get(key);
    }
-   
-   public K getKey(V value)
+
+   @Override
+   public K getKey(final V value)
    {
       return getReverseMap().get(value);
    }
@@ -66,15 +80,15 @@ public class DualBidiMap<K, V> extends AbstractMap<K, V> implements BidiMap<K, V
    {
       return _forwardMap;
    }
-   
+
    protected Map<V, K> getReverseMap()
    {
       return _reverseMap;
    }
-   
-   protected static <V extends Object> void checkValue(V value)
+
+   protected static <V extends Object> void checkValue(final V value)
    {
-      if(value == null)
+      if (value == null)
       {
          throw new IllegalArgumentException("Null values not allowed in BidiMaps!");
       }
@@ -84,22 +98,25 @@ public class DualBidiMap<K, V> extends AbstractMap<K, V> implements BidiMap<K, V
    {
       protected final Entry<K, V> internalEntry;
 
-      protected DualBidiEntry(Entry<K, V> internalEntry)
+      protected DualBidiEntry(final Entry<K, V> internalEntry)
       {
          this.internalEntry = internalEntry;
       }
 
+      @Override
       public K getKey()
       {
          return internalEntry.getKey();
       }
 
+      @Override
       public V getValue()
       {
          return internalEntry.getValue();
       }
 
-      public V setValue(V value)
+      @Override
+      public V setValue(final V value)
       {
          return put(getKey(), value);
       }
@@ -110,22 +127,25 @@ public class DualBidiMap<K, V> extends AbstractMap<K, V> implements BidiMap<K, V
       protected final Iterator<Entry<K, V>> internalIterator;
       protected Entry<K, V> _lastEntry;
 
-      protected DualBidiEntryIterator(Iterator<Entry<K, V>> internalIterator)
+      protected DualBidiEntryIterator(final Iterator<Entry<K, V>> internalIterator)
       {
          this.internalIterator = internalIterator;
       }
 
+      @Override
       public boolean hasNext()
       {
          return internalIterator.hasNext();
       }
 
+      @Override
       public Entry<K, V> next()
       {
          _lastEntry = internalIterator.next();
          return new DualBidiEntry(_lastEntry);
       }
 
+      @Override
       public void remove()
       {
          internalIterator.remove();
@@ -137,7 +157,7 @@ public class DualBidiMap<K, V> extends AbstractMap<K, V> implements BidiMap<K, V
    {
       private final Set<Entry<K, V>> internalEntrySet;
 
-      protected DualBidiEntrySet(Set<Entry<K, V>> internalEntrySet)
+      protected DualBidiEntrySet(final Set<Entry<K, V>> internalEntrySet)
       {
          this.internalEntrySet = internalEntrySet;
       }
@@ -157,7 +177,7 @@ public class DualBidiMap<K, V> extends AbstractMap<K, V> implements BidiMap<K, V
 
    protected class InverseDualBidiMap extends DualBidiMap<V, K>
    {
-      protected InverseDualBidiMap(Map<V, K> reverseMap, Map<K, V> forwardMap)
+      protected InverseDualBidiMap(final Map<V, K> reverseMap, final Map<K, V> forwardMap)
       {
          super(reverseMap, forwardMap);
       }

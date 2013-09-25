@@ -1,20 +1,25 @@
 package net.sf.javagimmicks.collections.bidimap;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 public class BidiMapTest
 {
    protected BidiMap<Integer, String> _bidiMap;
-   
+
    @Before
    public void setUp()
    {
@@ -22,74 +27,73 @@ public class BidiMapTest
    }
 
    @Test
-   public void test()
+   public void testBasic()
    {
       addReferencePairs();
       assertEquals(_referencePairs.size(), _bidiMap.size());
       validateSize();
       validateReferencePairs();
+   }
+
+   @Test
+   public void testAddNewPairs()
+   {
+      addReferencePairs();
 
       addNewPairs();
       assertEquals(_referencePairs.size(), _bidiMap.size());
       validateSize();
       validateNewPairs();
+   }
 
-//      System.out.println(_bidiMap.remove(1));
-//      System.out.println(_bidiMap);
-//      System.out.println(_bidiMap.inverseBidiMap());
-//      System.out.println("===");
-//
-//      System.out.println(_bidiMap.inverseBidiMap().remove("c"));
-//      System.out.println(_bidiMap);
-//      System.out.println(_bidiMap.inverseBidiMap());
-//      System.out.println("===");
-//
-//      Iterator<Integer> keyIterator = _bidiMap.keySet().iterator();
-//      keyIterator.next();
-//      keyIterator.remove();
-//      System.out.println(_bidiMap);
-//      System.out.println(_bidiMap.inverseBidiMap());
-//      System.out.println("===");
-//
-//      Iterator<String> reverseKeyIterator = _bidiMap.inverseBidiMap().keySet().iterator();
-//      reverseKeyIterator.next();
-//      reverseKeyIterator.remove();
-//      System.out.println(_bidiMap);
-//      System.out.println(_bidiMap.inverseBidiMap());
-//      System.out.println("===");
-//
-//      Iterator<String> valueIterator = _bidiMap.values().iterator();
-//      valueIterator.next();
-//      valueIterator.remove();
-//      System.out.println(_bidiMap);
-//      System.out.println(_bidiMap.inverseBidiMap());
-//      System.out.println("===");
-//
-//      Iterator<Integer> reverseValueIterator = _bidiMap.inverseBidiMap().values().iterator();
-//      reverseValueIterator.next();
-//      reverseValueIterator.remove();
-//      System.out.println(_bidiMap);
-//      System.out.println(_bidiMap.inverseBidiMap());
-//      System.out.println("===");
-//
-//      _bidiMap.entrySet().iterator().next().setValue("xxx");
-//      System.out.println(_bidiMap);
-//      System.out.println(_bidiMap.inverseBidiMap());
-//      System.out.println("===");
-//      
-//      _bidiMap.inverseBidiMap().entrySet().iterator().next().setValue(999);
-//      System.out.println(_bidiMap);
-//      System.out.println(_bidiMap.inverseBidiMap());
-//      System.out.println("===");
+   @Test
+   public void testRemove()
+   {
+      addReferencePairs();
+      removeReferencePairs();
+      validateSize();
+
+      addReferencePairs();
+      removeReferencePairsInverted();
+      validateSize();
+   }
+
+   @Test
+   public void testDoubleInvert()
+   {
+      addReferencePairs();
+
+      validateDoubleInvert();
+   }
+
+   @Test
+   public void testEntries()
+   {
+      addReferencePairs();
+
+      updateAndRemoveEntries();
+   }
+
+   @Test
+   public void testAddNullValue()
+   {
+      try
+      {
+         _bidiMap.put(666, null);
+         Assert.fail(IllegalArgumentException.class.getName() + " expected!");
+      }
+      catch (final IllegalArgumentException ignore)
+      {
+      }
    }
 
    protected void addReferencePairs()
    {
-      for(Iterator<Pair<Integer, String>> iterator = _referencePairs.iterator(); iterator.hasNext();)
+      for (final Iterator<Pair<Integer, String>> iterator = _referencePairs.iterator(); iterator.hasNext();)
       {
          assertNull(put(iterator.next()));
-         
-         if(iterator.hasNext())
+
+         if (iterator.hasNext())
          {
             assertNull(putInverted(iterator.next()));
          }
@@ -98,115 +102,221 @@ public class BidiMapTest
 
    protected void validateReferencePairs()
    {
-      for(Pair<Integer, String> pair : _referencePairs)
+      for (final Pair<Integer, String> pair : _referencePairs)
       {
          validate(pair);
       }
-      
-      for(Pair<Integer, String> pair : _referencePairs)
+
+      for (final Pair<Integer, String> pair : _referencePairs)
       {
          validateInverted(pair);
+      }
+   }
+
+   protected void removeReferencePairs()
+   {
+      for (final Pair<Integer, String> pair : _referencePairs)
+      {
+         assertTrue(containsKey(pair.a));
+         assertTrue(containsValue(pair.b));
+         assertTrue(containsKeyInverted(pair.b));
+         assertTrue(containsValueInverted(pair.a));
+
+         assertEquals(pair.b, remove(pair.a));
+
+         assertFalse(containsKey(pair.a));
+         assertFalse(containsValue(pair.b));
+         assertFalse(containsKeyInverted(pair.b));
+         assertFalse(containsValueInverted(pair.a));
+      }
+   }
+
+   protected void removeReferencePairsInverted()
+   {
+      for (final Pair<Integer, String> pair : _referencePairs)
+      {
+         assertTrue(containsKey(pair.a));
+         assertTrue(containsValue(pair.b));
+         assertTrue(containsKeyInverted(pair.b));
+         assertTrue(containsValueInverted(pair.a));
+
+         assertEquals(pair.a, removeInverted(pair.b));
+
+         assertFalse(containsKey(pair.a));
+         assertFalse(containsValue(pair.b));
+         assertFalse(containsKeyInverted(pair.b));
+         assertFalse(containsValueInverted(pair.a));
       }
    }
 
    protected void addNewPairs()
    {
-      for(Iterator<Pair<Integer, String>> iterator = _newPairs.iterator(); iterator.hasNext();)
+      for (final Iterator<Pair<Integer, String>> iterator = _newPairs.iterator(); iterator.hasNext();)
       {
          Pair<Integer, String> pair = iterator.next();
-         String value = get(pair.a);
-         
+         final String value = get(pair.a);
+
          assertEquals(value, put(pair));
-         
-         if(iterator.hasNext())
+
+         if (iterator.hasNext())
          {
             pair = iterator.next();
-            Integer invertedValue = getInverted(pair.b);
+            final Integer invertedValue = getInverted(pair.b);
             assertEquals(invertedValue, putInverted(pair));
          }
       }
    }
 
+   protected void updateAndRemoveEntries()
+   {
+      for (final Entry<Integer, String> entry : _bidiMap.entrySet())
+      {
+         assertEquals(entry.getValue(), entry.setValue("_" + entry.getValue() + "_"));
+      }
+
+      final List<Pair<Integer, String>> referencePairsClone = new ArrayList<Pair<Integer, String>>(_referencePairs);
+      for (final Iterator<Entry<Integer, String>> entryIter = _bidiMap.entrySet().iterator(); entryIter.hasNext();)
+      {
+         final Entry<Integer, String> entry = entryIter.next();
+         final Pair<Integer, String> pair = new Pair<Integer, String>(entry.getKey(), entry.getValue().substring(1, 2));
+
+         referencePairsClone.remove(pair);
+
+         entryIter.remove();
+      }
+
+      assertTrue(referencePairsClone.isEmpty());
+      validateSize();
+      assertEquals(0, _bidiMap.size());
+   }
+
    protected void validateNewPairs()
    {
-      for(Pair<Integer, String> pair : _newPairs)
+      for (final Pair<Integer, String> pair : _newPairs)
       {
          validate(pair);
       }
-      
-      for(Pair<Integer, String> pair : _newPairs)
+
+      for (final Pair<Integer, String> pair : _newPairs)
       {
          validateInverted(pair);
       }
    }
 
-   private void validateSize()
+   protected void validateSize()
    {
       assertEquals(_bidiMap.size(), _bidiMap.inverseBidiMap().size());
    }
-   
-   protected String get(Integer a)
+
+   protected void validateDoubleInvert()
+   {
+      assertEquals(_bidiMap, _bidiMap.inverseBidiMap().inverseBidiMap());
+   }
+
+   protected String get(final Integer a)
    {
       return _bidiMap.get(a);
    }
-   
-   protected Integer getInverted(String a)
+
+   protected Integer getKey(final String a)
+   {
+      return _bidiMap.getKey(a);
+   }
+
+   protected Integer getInverted(final String a)
    {
       return _bidiMap.inverseBidiMap().get(a);
    }
-   
-   protected void validate(Integer a, String b)
+
+   protected String getKeyInverted(final Integer a)
+   {
+      return _bidiMap.inverseBidiMap().getKey(a);
+   }
+
+   protected void validate(final Integer a, final String b)
    {
       assertEquals(b, get(a));
+      assertEquals(b, getKeyInverted(a));
    }
-   
-   protected void validateInverted(Integer a, String b)
+
+   protected void validateInverted(final Integer a, final String b)
    {
       assertEquals(a, getInverted(b));
+      assertEquals(a, getKey(b));
    }
-   
-   protected void validate(Pair<Integer, String> p)
+
+   protected void validate(final Pair<Integer, String> p)
    {
       validate(p.a, p.b);
    }
-   
-   protected void validateInverted(Pair<Integer, String> p)
+
+   protected void validateInverted(final Pair<Integer, String> p)
    {
       validateInverted(p.a, p.b);
    }
-   
-   protected String put(Integer a, String b)
+
+   protected String put(final Integer a, final String b)
    {
       return _bidiMap.put(a, b);
    }
-   
-   protected String put(Pair<Integer, String> p)
+
+   protected String put(final Pair<Integer, String> p)
    {
       return put(p.a, p.b);
    }
-   
-   protected Integer putInverted(Integer a, String b)
+
+   protected String remove(final Integer a)
+   {
+      return _bidiMap.remove(a);
+   }
+
+   protected Integer putInverted(final Integer a, final String b)
    {
       return _bidiMap.inverseBidiMap().put(b, a);
    }
-   
-   protected Integer putInverted(Pair<Integer, String> p)
+
+   protected Integer putInverted(final Pair<Integer, String> p)
    {
       return putInverted(p.a, p.b);
    }
-   
-   protected static <A, B> void add(Collection<Pair<A, B>> c, Pair<A, B> p)
+
+   protected Integer removeInverted(final String b)
+   {
+      return _bidiMap.inverseBidiMap().remove(b);
+   }
+
+   protected boolean containsKey(final Integer a)
+   {
+      return _bidiMap.containsKey(a);
+   }
+
+   protected boolean containsValue(final String b)
+   {
+      return _bidiMap.containsValue(b);
+   }
+
+   protected boolean containsKeyInverted(final String b)
+   {
+      return _bidiMap.inverseBidiMap().containsKey(b);
+   }
+
+   protected boolean containsValueInverted(final Integer a)
+   {
+      return _bidiMap.inverseBidiMap().containsValue(a);
+   }
+
+   protected static <A, B> void add(final Collection<Pair<A, B>> c, final Pair<A, B> p)
    {
       c.add(p);
    }
-   
-   protected static <A, B> void add(Collection<Pair<A, B>> c, A a, B b)
+
+   protected static <A, B> void add(final Collection<Pair<A, B>> c, final A a, final B b)
    {
       add(c, new Pair<A, B>(a, b));
    }
-   
-   protected static List<Pair<Integer, String>> _referencePairs = new ArrayList<Pair<Integer,String>>();
-   protected static List<Pair<Integer, String>> _newPairs = new ArrayList<Pair<Integer,String>>();
+
+   protected static List<Pair<Integer, String>> _referencePairs = new ArrayList<Pair<Integer, String>>();
+   protected static List<Pair<Integer, String>> _newPairs = new ArrayList<Pair<Integer, String>>();
 
    static
    {
@@ -218,7 +328,7 @@ public class BidiMapTest
       add(_referencePairs, 6, "c");
       add(_referencePairs, 7, "b");
       add(_referencePairs, 8, "a");
-      
+
       add(_newPairs, 1, "hh");
       add(_newPairs, 2, "gg");
    }
@@ -227,16 +337,46 @@ public class BidiMapTest
    {
       public final A a;
       public final B b;
-      
-      public Pair(A a, B b)
+
+      public Pair(final A a, final B b)
       {
          this.a = a;
          this.b = b;
       }
-      
+
       public Pair<B, A> invert()
       {
          return new Pair<B, A>(b, a);
+      }
+
+      @Override
+      public int hashCode()
+      {
+         final int prime = 31;
+         int result = 1;
+         result = prime * result + ((a == null) ? 0 : a.hashCode());
+         result = prime * result + ((b == null) ? 0 : b.hashCode());
+         return result;
+      }
+
+      @Override
+      public boolean equals(final Object obj)
+      {
+         if (this == obj) return true;
+         if (obj == null) return false;
+         if (getClass() != obj.getClass()) return false;
+         final Pair<?, ?> other = (Pair<?, ?>) obj;
+         if (a == null)
+         {
+            if (other.a != null) return false;
+         }
+         else if (!a.equals(other.a)) return false;
+         if (b == null)
+         {
+            if (other.b != null) return false;
+         }
+         else if (!b.equals(other.b)) return false;
+         return true;
       }
    }
 }

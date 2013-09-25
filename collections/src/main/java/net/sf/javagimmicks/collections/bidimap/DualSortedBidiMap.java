@@ -5,43 +5,50 @@ import java.util.Comparator;
 import java.util.Set;
 import java.util.SortedMap;
 
-public class DualSortedBidiMap<K, V> extends DualBidiMap<K, V> implements SortedBidiMap<K, V>
+class DualSortedBidiMap<K, V> extends DualBidiMap<K, V> implements SortedBidiMap<K, V>
 {
-   DualSortedBidiMap(SortedMap<K, V> forwardMap, SortedMap<V, K> reverseMap)
+   DualSortedBidiMap(final SortedMap<K, V> forwardMap, final SortedMap<V, K> reverseMap)
    {
       super(forwardMap, reverseMap);
    }
 
+   @Override
    public SortedBidiMap<V, K> inverseBidiSortedMap()
    {
       return new InverseDualSortedBidiMap(getReverseMap(), getForwardMap());
    }
-   
-   public SortedMap<K, V> headMap(K toKey)
+
+   @Override
+   public SortedMap<K, V> headMap(final K toKey)
    {
       return new SortedSubMapDecorator(getForwardMap().headMap(toKey));
    }
 
-   public SortedMap<K, V> subMap(K fromKey, K toKey)
+   @Override
+   public SortedMap<K, V> subMap(final K fromKey, final K toKey)
    {
       return new SortedSubMapDecorator(getForwardMap().subMap(fromKey, toKey));
    }
 
-   public SortedMap<K, V> tailMap(K fromKey)
+   @Override
+   public SortedMap<K, V> tailMap(final K fromKey)
    {
       return new SortedSubMapDecorator(getForwardMap().tailMap(fromKey));
    }
 
+   @Override
    public Comparator<? super K> comparator()
    {
       return getForwardMap().comparator();
    }
 
+   @Override
    public K firstKey()
    {
       return getForwardMap().firstKey();
    }
 
+   @Override
    public K lastKey()
    {
       return getForwardMap().lastKey();
@@ -50,18 +57,18 @@ public class DualSortedBidiMap<K, V> extends DualBidiMap<K, V> implements Sorted
    @Override
    protected SortedMap<K, V> getForwardMap()
    {
-      return (SortedMap<K, V>)super.getForwardMap();
+      return (SortedMap<K, V>) super.getForwardMap();
    }
 
    @Override
    protected SortedMap<V, K> getReverseMap()
    {
-      return (SortedMap<V, K>)super.getReverseMap();
+      return (SortedMap<V, K>) super.getReverseMap();
    }
-   
+
    protected class InverseDualSortedBidiMap extends DualSortedBidiMap<V, K>
    {
-      protected InverseDualSortedBidiMap(SortedMap<V, K> reverseMap, SortedMap<K, V> forwardMap)
+      protected InverseDualSortedBidiMap(final SortedMap<V, K> reverseMap, final SortedMap<K, V> forwardMap)
       {
          super(reverseMap, forwardMap);
       }
@@ -77,86 +84,98 @@ public class DualSortedBidiMap<K, V> extends DualBidiMap<K, V> implements Sorted
    {
       protected final SortedMap<K, V> m_oSubMap;
 
-      protected SortedSubMapDecorator(SortedMap<K, V> oSubMap)
+      protected SortedSubMapDecorator(final SortedMap<K, V> oSubMap)
       {
          m_oSubMap = oSubMap;
       }
-      
+
       @Override
       public Set<Entry<K, V>> entrySet()
       {
          return new DualBidiEntrySet(m_oSubMap.entrySet());
       }
 
-      public SortedMap<K, V> headMap(K toKey)
+      @Override
+      public SortedMap<K, V> headMap(final K toKey)
       {
          return new SortedSubMapDecorator(m_oSubMap.headMap(toKey));
       }
 
-      public SortedMap<K, V> subMap(K fromKey, K toKey)
+      @Override
+      public SortedMap<K, V> subMap(final K fromKey, final K toKey)
       {
          return new SortedSubMapDecorator(m_oSubMap.subMap(fromKey, toKey));
       }
 
-      public SortedMap<K, V> tailMap(K fromKey)
+      @Override
+      public SortedMap<K, V> tailMap(final K fromKey)
       {
          return new SortedSubMapDecorator(m_oSubMap.tailMap(fromKey));
       }
-      
+
       @Override
-      public V put(K key, V value)
+      public V put(final K key, final V value)
       {
          checkValue(value);
 
-         V oldValue = m_oSubMap.put(key, value);
-         K oldKey = getReverseMap().put(value, key);
-         
+         final V oldValue = m_oSubMap.put(key, value);
+         final K oldKey = getReverseMap().put(value, key);
+
          getForwardMap().remove(oldKey);
          getReverseMap().remove(oldValue);
-         
+
          return oldValue;
       }
 
+      @Override
       public void clear()
       {
          m_oSubMap.clear();
       }
 
+      @Override
       public Comparator<? super K> comparator()
       {
          return m_oSubMap.comparator();
       }
 
-      public boolean containsKey(Object key)
+      @Override
+      public boolean containsKey(final Object key)
       {
          return m_oSubMap.containsKey(key);
       }
 
-      public boolean containsValue(Object value)
+      @Override
+      public boolean containsValue(final Object value)
       {
          return m_oSubMap.containsValue(value);
       }
 
+      @Override
       public K firstKey()
       {
          return m_oSubMap.firstKey();
       }
 
-      public V get(Object key)
+      @Override
+      public V get(final Object key)
       {
          return m_oSubMap.get(key);
       }
 
+      @Override
       public boolean isEmpty()
       {
          return m_oSubMap.isEmpty();
       }
 
+      @Override
       public K lastKey()
       {
          return m_oSubMap.lastKey();
       }
 
+      @Override
       public int size()
       {
          return m_oSubMap.size();

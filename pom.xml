@@ -159,7 +159,6 @@
 					<configuration>
 						<quiet>true</quiet>
 						<show>public</show>
-						<excludePackageNames>net.sf.javagimmicks.collections.bidimap</excludePackageNames>
 						<groups>
 							<group>
 								<title>Core utilities</title>
@@ -175,7 +174,7 @@
 							</group>
 							<group>
 								<title>Basic utilities for and around the Java Collection API</title>
-								<packages>net.sf.javagimmicks.collections:net.sf.javagimmicks.collections.builder*:net.sf.javagimmicks.collections.composite*:net.sf.javagimmicks.collections.decorators*:net.sf.javagimmicks.collections.filter*</packages>
+								<packages>net.sf.javagimmicks.collections:net.sf.javagimmicks.collections.bidimap*:net.sf.javagimmicks.collections.builder*:net.sf.javagimmicks.collections.composite*:net.sf.javagimmicks.collections.decorators*:net.sf.javagimmicks.collections.filter*</packages>
 							</group>
 							<group>
 								<title>Observer pattern (events) for the Java Collection API</title>
