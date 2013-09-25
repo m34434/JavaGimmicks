@@ -33,7 +33,7 @@ public class JDBCExecutor
    /**
     * Creates a new instance around the given {@link DataSource}.
     * 
-    * @param connectionProvider
+    * @param dataSource
     *           the {@link DataSource} to use for getting JDBC
     *           {@link Connection}s.
     * @param autoClose
@@ -49,7 +49,7 @@ public class JDBCExecutor
     * Creates a new instance around the given {@link DataSource} which
     * automatically closed no longer used {@link Connection}s.
     * 
-    * @param connectionProvider
+    * @param dataSource
     *           the {@link DataSource} to use for getting JDBC
     *           {@link Connection}s.
     */

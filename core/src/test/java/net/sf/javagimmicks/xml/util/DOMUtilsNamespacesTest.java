@@ -10,7 +10,6 @@ import java.io.InputStream;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import net.sf.javagimmicks.xml.util.DOMUtils.Namespace;
 
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.XMLUnit;

@@ -36,6 +36,10 @@ import org.w3c.dom.ls.LSSerializer;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+/**
+ * Provides several helper methods for advances dealing with W3C XML
+ * {@link Document}s.
+ */
 public class DOMUtils
 {
    private static final String PARAM_PRETTY_PRINT = "format-pretty-print";
@@ -43,28 +47,31 @@ public class DOMUtils
    private static DocumentBuilderFactory _dbf = DocumentBuilderFactory.newInstance();
    private static XPathFactory _xpf = XPathFactory.newInstance();
 
-   private static final Map<String, Map<String, Namespace>> _ns = new HashMap<String, Map<String, Namespace>>();
+   static final Map<String, Map<String, Namespace>> _namespaceCache = new HashMap<String, Map<String, Namespace>>();
 
    static
    {
       _dbf.setNamespaceAware(true);
    }
 
+   private DOMUtils()
+   {}
+
    public static List<Element> getChildElements(final Element element)
    {
-      final List<Element> oResult = new ArrayList<Element>();
+      final List<Element> result = new ArrayList<Element>();
 
-      for (Node oChild = element.getFirstChild(); oChild != null; oChild = oChild.getNextSibling())
+      for (Node child = element.getFirstChild(); child != null; child = child.getNextSibling())
       {
-         if (!(oChild instanceof Element))
+         if (!(child instanceof Element))
          {
             continue;
          }
 
-         oResult.add((Element) oChild);
+         result.add((Element) child);
       }
 
-      return oResult;
+      return result;
    }
 
    public static List<Element> getChildElements(final Element element, final String namespaceURI,
@@ -405,166 +412,9 @@ public class DOMUtils
       }
    }
 
-   private static String getLocalName(final Node node)
+   static String getLocalName(final Node node)
    {
       final String result = node.getLocalName();
       return result != null ? result : node.getNodeName();
-   }
-
-   public static class Namespace implements Comparable<Namespace>
-   {
-      private final String _nsURI;
-      private final String _prefix;
-
-      public static final Namespace NO_NAMESPACE = Namespace.get("", "");
-
-      public static Namespace get(String prefix, String uri)
-      {
-         if (prefix == null)
-         {
-            prefix = "";
-         }
-
-         if (uri == null)
-         {
-            uri = "";
-         }
-
-         Map<String, Namespace> prefixMap;
-         synchronized (_ns)
-         {
-            prefixMap = _ns.get(uri);
-            if (prefixMap == null)
-            {
-               prefixMap = new HashMap<String, Namespace>();
-               _ns.put(uri, prefixMap);
-            }
-         }
-
-         Namespace result;
-         synchronized (prefixMap)
-         {
-            result = prefixMap.get(prefix);
-            if (result == null)
-            {
-               result = new Namespace(uri, prefix);
-               prefixMap.put(prefix, result);
-            }
-         }
-
-         return result;
-      }
-
-      public static Namespace get(final String uri)
-      {
-         return get("", uri);
-      }
-
-      public static Namespace of(final Element element)
-      {
-         return get(element.getPrefix(), element.getNamespaceURI());
-      }
-
-      public static Namespace of(final Attr attribute)
-      {
-         return get(attribute.getPrefix(), attribute.getNamespaceURI());
-      }
-
-      private Namespace(final String uri, final String prefix)
-      {
-         _nsURI = uri;
-         _prefix = prefix;
-      }
-
-      public String getUri()
-      {
-         return _nsURI;
-      }
-
-      public String getPrefix()
-      {
-         return _prefix;
-      }
-
-      public String getQualifiedNameFor(final String localName)
-      {
-         return _prefix.length() == 0 ? localName : _prefix + ":" + localName;
-      }
-
-      public Element applyTo(final Element element)
-      {
-         final String qualifiedName = getQualifiedNameFor(getLocalName(element));
-         final Document ownerDocument = element.getOwnerDocument();
-
-         return (Element) ownerDocument.renameNode(element, _nsURI, qualifiedName);
-      }
-
-      public Attr applyTo(final Attr attribute)
-      {
-         final String qualifiedName = getQualifiedNameFor(getLocalName(attribute));
-         final Document ownerDocument = attribute.getOwnerDocument();
-
-         return (Attr) ownerDocument.renameNode(attribute, _nsURI, qualifiedName);
-      }
-
-      @Override
-      public int hashCode()
-      {
-         final int prime = 17;
-         int result = -247982732;
-         result = prime * result + ((_prefix == null) ? 0 : _prefix.hashCode());
-         result = prime * result + ((_nsURI == null) ? 0 : _nsURI.hashCode());
-         return result;
-      }
-
-      @Override
-      public boolean equals(final Object obj)
-      {
-         if (this == obj)
-         {
-            return true;
-         }
-         if (obj == null)
-         {
-            return false;
-         }
-         if (getClass() != obj.getClass())
-         {
-            return false;
-         }
-
-         final Namespace other = (Namespace) obj;
-         if (_prefix == null)
-         {
-            if (other._prefix != null)
-            {
-               return false;
-            }
-         }
-         else if (!_prefix.equals(other._prefix))
-         {
-            return false;
-         }
-         if (_nsURI == null)
-         {
-            if (other._nsURI != null)
-            {
-               return false;
-            }
-         }
-         else if (!_nsURI.equals(other._nsURI))
-         {
-            return false;
-         }
-         return true;
-      }
-
-      @Override
-      public int compareTo(final Namespace o)
-      {
-         final int result = _nsURI.compareTo(o._nsURI);
-
-         return result != 0 ? result : _prefix.compareTo(o._prefix);
-      }
    }
 }
