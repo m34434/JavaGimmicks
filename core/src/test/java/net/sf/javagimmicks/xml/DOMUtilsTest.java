@@ -1,4 +1,4 @@
-package net.sf.javagimmicks.xml.util;
+package net.sf.javagimmicks.xml;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -11,6 +11,8 @@ import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
+
+import net.sf.javagimmicks.xml.DOMUtils;
 
 import org.junit.Before;
 import org.junit.Test;

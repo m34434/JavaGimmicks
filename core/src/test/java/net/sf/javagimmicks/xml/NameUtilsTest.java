@@ -1,8 +1,8 @@
-package net.sf.javagimmicks.xml.util;
+package net.sf.javagimmicks.xml;
 
-import static net.sf.javagimmicks.xml.util.NameUtils.isNCName;
-import static net.sf.javagimmicks.xml.util.NameUtils.isQualifiedName;
-import static net.sf.javagimmicks.xml.util.NameUtils.splitQualifiedName;
+import static net.sf.javagimmicks.xml.NameUtils.isNCName;
+import static net.sf.javagimmicks.xml.NameUtils.isQualifiedName;
+import static net.sf.javagimmicks.xml.NameUtils.splitQualifiedName;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 

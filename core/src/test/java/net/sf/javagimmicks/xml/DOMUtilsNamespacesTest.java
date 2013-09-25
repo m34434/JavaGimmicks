@@ -1,8 +1,8 @@
-package net.sf.javagimmicks.xml.util;
+package net.sf.javagimmicks.xml;
 
-import static net.sf.javagimmicks.xml.util.DOMUtils.parse;
-import static net.sf.javagimmicks.xml.util.DOMUtils.replaceNamespaces;
-import static net.sf.javagimmicks.xml.util.DOMUtils.serialize;
+import static net.sf.javagimmicks.xml.DOMUtils.parse;
+import static net.sf.javagimmicks.xml.DOMUtils.replaceNamespaces;
+import static net.sf.javagimmicks.xml.DOMUtils.serialize;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -10,6 +10,8 @@ import java.io.InputStream;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+
+import net.sf.javagimmicks.xml.Namespace;
 
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.XMLUnit;
