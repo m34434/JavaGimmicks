@@ -578,16 +578,80 @@ public class TransformerUtils
       return new ValueBidiTransformingMap<K, VF, VT>(map, transformer);
    }
 
+   /**
+    * Wraps a new value-transforming {@link SortedMap} using the given
+    * {@link Transformer} around a given {@link SortedMap}.
+    * <p>
+    * For a list of available operations see <a
+    * href="package-summary.html#sortedMapValue">package description</a>.
+    * 
+    * @param map
+    *           the {@link SortedMap} to wrap around
+    * @param transformer
+    *           the {@link Transformer} to use for wrapping
+    * @return the value-transforming wrapped {@link SortedMap}
+    */
    public static <K, VF, VT> SortedMap<K, VT> decorateValueBased(final SortedMap<K, VF> map,
          final Transformer<VF, VT> transformer)
    {
       return new ValueTransformingSortedMap<K, VF, VT>(map, transformer);
    }
 
+   /**
+    * Wraps a new value-transforming {@link SortedMap} using the given
+    * {@link BidiTransformer} around a given {@link SortedMap}.
+    * <p>
+    * For a list of available operations see <a
+    * href="package-summary.html#sortedMapValue">package description</a>.
+    * 
+    * @param map
+    *           the {@link SortedMap} to wrap around
+    * @param transformer
+    *           the {@link BidiTransformer} to use for wrapping
+    * @return the value-transforming wrapped {@link SortedMap}
+    */
    public static <K, VF, VT> SortedMap<K, VT> decorateValueBased(final SortedMap<K, VF> map,
          final BidiTransformer<VF, VT> transformer)
    {
       return new ValueBidiTransformingSortedMap<K, VF, VT>(map, transformer);
+   }
+
+   /**
+    * Wraps a new value-transforming {@link NavigableMap} using the given
+    * {@link Transformer} around a given {@link NavigableMap}.
+    * <p>
+    * For a list of available operations see <a
+    * href="package-summary.html#navigableMapValue">package description</a>.
+    * 
+    * @param map
+    *           the {@link NavigableMap} to wrap around
+    * @param transformer
+    *           the {@link Transformer} to use for wrapping
+    * @return the value-transforming wrapped {@link NavigableMap}
+    */
+   public static <K, VF, VT> NavigableMap<K, VT> decorateValueBased(final NavigableMap<K, VF> map,
+         final Transformer<VF, VT> transformer)
+   {
+      return new ValueTransformingNavigableMap<K, VF, VT>(map, transformer);
+   }
+
+   /**
+    * Wraps a new value-transforming {@link NavigableMap} using the given
+    * {@link BidiTransformer} around a given {@link NavigableMap}.
+    * <p>
+    * For a list of available operations see <a
+    * href="package-summary.html#navigableMapValue">package description</a>.
+    * 
+    * @param map
+    *           the {@link NavigableMap} to wrap around
+    * @param transformer
+    *           the {@link BidiTransformer} to use for wrapping
+    * @return the value-transforming wrapped {@link NavigableMap}
+    */
+   public static <K, VF, VT> NavigableMap<K, VT> decorateValueBased(final NavigableMap<K, VF> map,
+         final BidiTransformer<VF, VT> transformer)
+   {
+      return new ValueBidiTransformingNavigableMap<K, VF, VT>(map, transformer);
    }
 
    public static <KF, KT, VF, VT> Map<KT, VT> decorate(final Map<KF, VF> map, final Transformer<KF, KT> keyTransformer,
@@ -644,18 +708,6 @@ public class TransformerUtils
    {
       final SortedMap<KF, VT> valueTransformingMap = decorateValueBased(map, valueTransformer);
       return decorateKeyBased(valueTransformingMap, keyTransformer);
-   }
-
-   public static <K, VF, VT> NavigableMap<K, VT> decorateValueBased(final NavigableMap<K, VF> map,
-         final Transformer<VF, VT> valueTransformer)
-   {
-      return new ValueTransformingNavigableMap<K, VF, VT>(map, valueTransformer);
-   }
-
-   public static <K, VF, VT> NavigableMap<K, VT> decorateValueBased(final NavigableMap<K, VF> map,
-         final BidiTransformer<VF, VT> valueTransformer)
-   {
-      return new ValueBidiTransformingNavigableMap<K, VF, VT>(map, valueTransformer);
    }
 
    public static <KF, KT, VF, VT> NavigableMap<KT, VT> decorate(final NavigableMap<KF, VF> map,

@@ -15,6 +15,8 @@ import org.w3c.dom.Element;
  */
 public class Namespace implements Comparable<Namespace>
 {
+   private static final Map<String, Map<String, Namespace>> _instanceCache = new HashMap<String, Map<String, Namespace>>();
+
    private final String _nsURI;
    private final String _prefix;
 
@@ -45,13 +47,13 @@ public class Namespace implements Comparable<Namespace>
       }
 
       Map<String, Namespace> prefixMap;
-      synchronized (DOMUtils._namespaceCache)
+      synchronized (_instanceCache)
       {
-         prefixMap = DOMUtils._namespaceCache.get(uri);
+         prefixMap = _instanceCache.get(uri);
          if (prefixMap == null)
          {
             prefixMap = new HashMap<String, Namespace>();
-            DOMUtils._namespaceCache.put(uri, prefixMap);
+            _instanceCache.put(uri, prefixMap);
          }
       }
 

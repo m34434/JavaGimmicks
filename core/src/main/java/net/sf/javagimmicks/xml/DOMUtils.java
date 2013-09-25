@@ -47,8 +47,6 @@ public class DOMUtils
    private static DocumentBuilderFactory _dbf = DocumentBuilderFactory.newInstance();
    private static XPathFactory _xpf = XPathFactory.newInstance();
 
-   static final Map<String, Map<String, Namespace>> _namespaceCache = new HashMap<String, Map<String, Namespace>>();
-
    static
    {
       _dbf.setNamespaceAware(true);
