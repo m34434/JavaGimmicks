@@ -405,7 +405,7 @@ public class DualMapMappings<L, R> extends AbstractMappings<L, R>
       public <K, V> Map<K, V> createMap();
    }
 
-   public static enum StoreType
+   protected static enum StoreType
    {
       HASH(new StoreFactory()
       {

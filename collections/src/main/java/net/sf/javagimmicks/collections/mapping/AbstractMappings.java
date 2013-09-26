@@ -8,9 +8,23 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+/**
+ * An abstract implementation of {@link Mappings} that provides default
+ * implementations for almost all methods.
+ * <p>
+ * Methods to be implemented by subclasses are:
+ * <ul>
+ * <li>{@link #getLeftView()}</li>
+ * <li>{@link #getRigthView()}</li>
+ * <li>{@link #put(Object, Object)}</li>
+ * </ul>
+ */
 public abstract class AbstractMappings<L, R> implements Mappings<L, R>, Serializable
 {
    private static final long serialVersionUID = -8390090502631423671L;
+
+   protected AbstractMappings()
+   {}
 
    @Override
    public Set<Mapping<L, R>> getMappingSet()

@@ -11,9 +11,23 @@ import java.util.Set;
 import net.sf.javagimmicks.collections.transformer.Transformer;
 import net.sf.javagimmicks.collections.transformer.TransformerUtils;
 
+/**
+ * An abstract implementation of {@link ValueMappings} that provides default
+ * implementations for almost all methods.
+ * <p>
+ * Methods to be implemented by subclasses are:
+ * <ul>
+ * <li>{@link #getLeftView()}</li>
+ * <li>{@link #getRigthView()}</li>
+ * <li>{@link #put(Object, Object, Object)}</li>
+ * </ul>
+ */
 public abstract class AbstractValueMappings<L, R, E> implements ValueMappings<L, R, E>, Serializable
 {
    private static final long serialVersionUID = 3350171311023033933L;
+
+   protected AbstractValueMappings()
+   {}
 
    @Override
    public Set<Mapping<L, R, E>> getMappingSet()

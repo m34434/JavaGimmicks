@@ -396,7 +396,7 @@ public class DualMapValueMappings<L, R, E> extends AbstractValueMappings<L, R, E
       public <K, V> Map<K, V> createMap();
    }
 
-   public static enum StoreType
+   protected static enum StoreType
    {
       HASH(new StoreFactory()
       {

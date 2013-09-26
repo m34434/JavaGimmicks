@@ -13,6 +13,9 @@ public abstract class AbstractValueMapping<L, R, E> implements Mapping<L, R, E>,
 {
    private static final long serialVersionUID = -293860609319776316L;
 
+   protected AbstractValueMapping()
+   {}
+
    @Override
    public Mapping<R, L, E> invert()
    {
