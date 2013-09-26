@@ -39,7 +39,7 @@ public class MappedTransformerUtils
     * {@link IllegalArgumentException} if it should transform a value the has no
     * corresponding key (or value) within the given {@link BidiMap}.
     * 
-    * @param map
+    * @param bidiMap
     *           the {@link BidiMap} to wrap into a {@link BidiTransformer}
     * @return the resulting {@link BidiTransformer}
     */

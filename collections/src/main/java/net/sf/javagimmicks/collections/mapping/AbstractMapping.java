@@ -1,6 +1,5 @@
 package net.sf.javagimmicks.collections.mapping;
 
-import net.sf.javagimmicks.collections.mapping.Mappings.Mapping;
 
 public abstract class AbstractMapping<L, R> implements Mapping<L, R>
 {

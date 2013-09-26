@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-public interface Mappings<L, R> extends Iterable<Mappings.Mapping<L, R>>, Serializable
+public interface Mappings<L, R> extends Iterable<Mapping<L, R>>, Serializable
 {
    public boolean put(L left, R right);
    public boolean putLeft(R right, Collection<? extends L> c);
@@ -33,12 +33,4 @@ public interface Mappings<L, R> extends Iterable<Mappings.Mapping<L, R>>, Serial
    
    public Set<L> getLeft(R right);
    public Set<R> getRight(L left);
-   
-   public static interface Mapping<L, R> extends Serializable
-   {
-      public L getLeft();
-      public R getRight();
-      
-      public Mapping<R, L> getInverseMapping();
-   }
 }

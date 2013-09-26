@@ -2,7 +2,6 @@ package net.sf.javagimmicks.collections.mapping;
 
 import static org.junit.Assert.*;
 
-import net.sf.javagimmicks.collections.mapping.Mappings.Mapping;
 
 import org.junit.Test;
 

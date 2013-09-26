@@ -34,7 +34,7 @@ import net.sf.javagimmicks.collections.RingCursor;
 @SuppressWarnings("deprecation")
 public class TransformerUtils
 {
-   protected TransformerUtils()
+   private TransformerUtils()
    {}
 
    /**
