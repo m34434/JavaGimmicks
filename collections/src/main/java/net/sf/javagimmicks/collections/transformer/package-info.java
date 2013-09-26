@@ -894,12 +894,24 @@
  * 
  * <a name="mapKeyValue"/>
  * <h3>Operations on a key- and value-based transformed {@link java.util.Map}</h3>
+ * <p>
+ * <b>Note:</b> When using a combination of one Transformer and one BidiTransformer
+ * for keys and values allows you can fall back to the supported operation list
+ * for the part that only has a Transformer.
+ * <p>
+ * For example a key-transformed and value-<b>bidi</b>-transformed {@link java.util.Map}
+ * supports the same operations than a <a href="#mapKey">purely key-transformed</a>
+ * {@link java.util.Map}.
+ * <p>
+ * Vice-versa example a key-<b>bidi</b>-transformed and value-transformed {@link java.util.Map}
+ * supports the same operations than a <a href="#mapValue">purely value-transformed</a>
+ * {@link java.util.Map}.
  * <table border="2">
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
- *          <th>Transformer</th>
- *          <th>BidiTransformer</th>
+ *          <th>Key- and Value-Transformer</th>
+ *          <th>Key- and Value-BidiTransformer</th>
  *       </tr>
  *    </thead>
  *    <tbody>
@@ -977,12 +989,24 @@
  * <h3>Operations on a key- and value-based transformed {@link java.util.SortedMap}</h3>
  * <p><b>Note:</b> the sorting order of a transformed {@link java.util.SortedMap}
  * remains that from the wrapped one
+ * <p>
+ * <b>Note:</b> When using a combination of one Transformer and one BidiTransformer
+ * for keys and values allows you can fall back to the supported operation list
+ * for the part that only has a Transformer.
+ * <p>
+ * For example a key-transformed and value-<b>bidi</b>-transformed {@link java.util.SortedMap}
+ * supports the same operations than a <a href="#sortedMapKey">purely key-transformed</a>
+ * {@link java.util.SortedMap}.
+ * <p>
+ * Vice-versa example a key-<b>bidi</b>-transformed and value-transformed {@link java.util.SortedMap}
+ * supports the same operations than a <a href="#sortedMapValue">purely value-transformed</a>
+ * {@link java.util.SortedMap}.
  * <table border="2">
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
- *          <th>Transformer</th>
- *          <th>BidiTransformer</th>
+ *          <th>Key- and Value-Transformer</th>
+ *          <th>Key- and Value-BidiTransformer</th>
  *       </tr>
  *    </thead>
  *    <tbody>
@@ -1025,12 +1049,24 @@
  * <h3>Operations on a key- and value-based transformed {@link java.util.NavigableMap}</h3>
  * <p><b>Note:</b> the sorting order of a transformed {@link java.util.NavigableMap}
  * remains that from the wrapped one
+ * <p>
+ * <b>Note:</b> When using a combination of one Transformer and one BidiTransformer
+ * for keys and values allows you can fall back to the supported operation list
+ * for the part that only has a Transformer.
+ * <p>
+ * For example a key-transformed and value-<b>bidi</b>-transformed {@link java.util.NavigableMap}
+ * supports the same operations than a <a href="#navigableMapKey">purely key-transformed</a>
+ * {@link java.util.NavigableMap}.
+ * <p>
+ * Vice-versa example a key-<b>bidi</b>-transformed and value-transformed {@link java.util.NavigableMap}
+ * supports the same operations than a <a href="#navigableMapValue">purely value-transformed</a>
+ * {@link java.util.NavigableMap}.
  * <table border="2">
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
- *          <th>Transformer</th>
- *          <th>BidiTransformer</th>
+ *          <th>Key- and Value-Transformer</th>
+ *          <th>Key- and Value-BidiTransformer</th>
  *       </tr>
  *    </thead>
  *    <tbody>
