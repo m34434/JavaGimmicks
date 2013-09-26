@@ -114,6 +114,24 @@ public class TransformerUtils
    }
 
    /**
+    * Creates a new {@link BidiTransformer} out of two given {@link Transformer}
+    * s - one for each direction.
+    * 
+    * @param forwardTransformer
+    *           the forward {@link Transformer}
+    * @param backTransformer
+    *           the backward {@link Transformer}
+    * @return a resulting {@link BidiTransformer} combined from the two given
+    *         {@link Transformer}s
+    */
+   public static <F, T> BidiTransformer<F, T> bidiTransformerFromTransformers(
+         final Transformer<F, T> forwardTransformer,
+         final Transformer<T, F> backTransformer)
+   {
+      return new DualTransformerBidiTransformer<F, T>(forwardTransformer, backTransformer);
+   }
+
+   /**
     * Checks if a given object is transforming (if it is an instance of
     * {@link Transforming}).
     * 
