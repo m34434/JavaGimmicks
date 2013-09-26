@@ -13,25 +13,59 @@ import java.util.TreeMap;
 
 import net.sf.javagimmicks.collections.event.AbstractEventMap;
 
+/**
+ * An implementation of {@link ValueMappings} that internally uses two
+ * synchronously updated {@link Map}s (one for the left view and one for the
+ * right view).
+ */
 public class DualMapValueMappings<L, R, E> extends AbstractValueMappings<L, R, E>
 {
    private static final long serialVersionUID = 7852860994833056710L;
 
+   /**
+    * Creates a new instance based on a {@link HashMap} for the left view and a
+    * {@link HashMap} for the right view - so left keys and right keys should
+    * implement {@link Object#hashCode()}.
+    * 
+    * @return the new instance
+    */
    public static <L, R, E> DualMapValueMappings<L, R, E> createHashHashInstance()
    {
       return new DualMapValueMappings<L, R, E>(StoreType.HASH.getFactory(), StoreType.HASH.getFactory());
    }
 
+   /**
+    * Creates a new instance based on a {@link HashMap} for the left view and a
+    * {@link TreeMap} for the right view - so left keys should implement
+    * {@link Object#hashCode()} and right keys should be {@link Comparable}.
+    * 
+    * @return the new instance
+    */
    public static <L, R, E> DualMapValueMappings<L, R, E> createHashTreeInstance()
    {
       return new DualMapValueMappings<L, R, E>(StoreType.HASH.getFactory(), StoreType.TREE.getFactory());
    }
 
+   /**
+    * Creates a new instance based on a {@link TreeMap} for the left view and a
+    * {@link HashMap} for the right view - so left keys should be
+    * {@link Comparable} and right keys should implement
+    * {@link Object#hashCode()}.
+    * 
+    * @return the new instance
+    */
    public static <L, R, E> DualMapValueMappings<L, R, E> createTreeHashInstance()
    {
       return new DualMapValueMappings<L, R, E>(StoreType.TREE.getFactory(), StoreType.HASH.getFactory());
    }
 
+   /**
+    * Creates a new instance based on a {@link TreeMap} for the left view and a
+    * {@link TreeMap} for the right view - so left keys and right keys should be
+    * {@link Comparable}.
+    * 
+    * @return the new instance
+    */
    public static <L, R, E> DualMapValueMappings<L, R, E> createTreeTreeInstance()
    {
       return new DualMapValueMappings<L, R, E>(StoreType.TREE.getFactory(), StoreType.TREE.getFactory());

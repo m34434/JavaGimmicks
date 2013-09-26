@@ -18,7 +18,7 @@ import net.sf.javagimmicks.collections.transformer.TransformerUtils;
  * Methods to be implemented by subclasses are:
  * <ul>
  * <li>{@link #getLeftView()}</li>
- * <li>{@link #getRigthView()}</li>
+ * <li>{@link #getRightView()}</li>
  * <li>{@link #put(Object, Object, Object)}</li>
  * </ul>
  */

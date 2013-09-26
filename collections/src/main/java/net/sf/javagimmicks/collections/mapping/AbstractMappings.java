@@ -15,7 +15,7 @@ import java.util.Set;
  * Methods to be implemented by subclasses are:
  * <ul>
  * <li>{@link #getLeftView()}</li>
- * <li>{@link #getRigthView()}</li>
+ * <li>{@link #getRightView()}</li>
  * <li>{@link #put(Object, Object)}</li>
  * </ul>
  */

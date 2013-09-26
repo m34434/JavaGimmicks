@@ -15,25 +15,58 @@ import java.util.TreeSet;
 
 import net.sf.javagimmicks.collections.event.AbstractEventSet;
 
+/**
+ * An implementation of {@link Mappings} that internally uses two synchronously
+ * updated {@link Map}s (one for the left view and one for the right view).
+ */
 public class DualMapMappings<L, R> extends AbstractMappings<L, R>
 {
    private static final long serialVersionUID = 6670241289938071773L;
 
+   /**
+    * Creates a new instance based on a {@link HashMap} for the left view and a
+    * {@link HashMap} for the right view - so left keys and right keys should
+    * implement {@link Object#hashCode()}.
+    * 
+    * @return the new instance
+    */
    public static <L, R> DualMapMappings<L, R> createHashHashInstance()
    {
       return new DualMapMappings<L, R>(StoreType.HASH.getFactory(), StoreType.HASH.getFactory());
    }
 
+   /**
+    * Creates a new instance based on a {@link HashMap} for the left view and a
+    * {@link TreeMap} for the right view - so left keys should implement
+    * {@link Object#hashCode()} and right keys should be {@link Comparable}.
+    * 
+    * @return the new instance
+    */
    public static <L, R> DualMapMappings<L, R> createHashTreeInstance()
    {
       return new DualMapMappings<L, R>(StoreType.HASH.getFactory(), StoreType.TREE.getFactory());
    }
 
+   /**
+    * Creates a new instance based on a {@link TreeMap} for the left view and a
+    * {@link HashMap} for the right view - so left keys should be
+    * {@link Comparable} and right keys should implement
+    * {@link Object#hashCode()}.
+    * 
+    * @return the new instance
+    */
    public static <L, R> DualMapMappings<L, R> createTreeHashInstance()
    {
       return new DualMapMappings<L, R>(StoreType.TREE.getFactory(), StoreType.HASH.getFactory());
    }
 
+   /**
+    * Creates a new instance based on a {@link TreeMap} for the left view and a
+    * {@link TreeMap} for the right view - so left keys and right keys should be
+    * {@link Comparable}.
+    * 
+    * @return the new instance
+    */
    public static <L, R> DualMapMappings<L, R> createTreeTreeInstance()
    {
       return new DualMapMappings<L, R>(StoreType.TREE.getFactory(), StoreType.TREE.getFactory());
