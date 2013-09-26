@@ -86,7 +86,7 @@ public class DualMapMappingsTest
       assertTrue(mappings.containsRightKey(1));
       assertTrue(mappings.contains("A", 1));
       
-      mappings.putRightValuesFor("A", Arrays.asList(new Integer[]{2, 3}));
+      mappings.putAllForLeftKey("A", Arrays.asList(new Integer[]{2, 3}));
       assertEquals(3, mappings.size());
       assertTrue(mappings.containsLeftKey("A"));
       assertTrue(mappings.containsRightKey(2));
@@ -94,7 +94,7 @@ public class DualMapMappingsTest
       assertTrue(mappings.contains("A", 2));
       assertTrue(mappings.contains("A", 3));
       
-      mappings.putLeftValuesFor(4, Arrays.asList(new String[]{"A", "B", "C", "D"}));
+      mappings.putAllForRightKey(4, Arrays.asList(new String[]{"A", "B", "C", "D"}));
       assertEquals(7, mappings.size());
       assertTrue(mappings.containsLeftKey("A"));
       assertTrue(mappings.containsLeftKey("B"));
@@ -106,23 +106,23 @@ public class DualMapMappingsTest
       assertTrue(mappings.contains("C", 4));
       assertTrue(mappings.contains("D", 4));
       
-      Mappings<Integer, String> inverseMappings = mappings.getInverseMappings();
+      Mappings<Integer, String> inverseMappings = mappings.invert();
       inverseMappings.put(1, "A");
-      inverseMappings.putRightValuesFor(2, Arrays.asList(new String[]{"A", "B"}));
-      inverseMappings.putLeftValuesFor("C", Arrays.asList(new Integer[]{3, 4}));
+      inverseMappings.putAllForLeftKey(2, Arrays.asList(new String[]{"A", "B"}));
+      inverseMappings.putAllForRightKey("C", Arrays.asList(new Integer[]{3, 4}));
       
       assertEquals(refMapLeft, mappings.getLeftView());
       assertEquals(refMapRight, mappings.getRightView());
 
-      assertEquals(refSetA, mappings.getRightValuesFor("A"));
-      assertEquals(refSetB, mappings.getRightValuesFor("B"));
-      assertEquals(refSetC, mappings.getRightValuesFor("C"));
-      assertEquals(refSetD, mappings.getRightValuesFor("D"));
+      assertEquals(refSetA, mappings.getAllForLeftKey("A"));
+      assertEquals(refSetB, mappings.getAllForLeftKey("B"));
+      assertEquals(refSetC, mappings.getAllForLeftKey("C"));
+      assertEquals(refSetD, mappings.getAllForLeftKey("D"));
 
-      assertEquals(refSet1, mappings.getLeftValuesFor(1));
-      assertEquals(refSet2, mappings.getLeftValuesFor(2));
-      assertEquals(refSet3, mappings.getLeftValuesFor(3));
-      assertEquals(refSet4, mappings.getLeftValuesFor(4));
+      assertEquals(refSet1, mappings.getAllForRightKey(1));
+      assertEquals(refSet2, mappings.getAllForRightKey(2));
+      assertEquals(refSet3, mappings.getAllForRightKey(3));
+      assertEquals(refSet4, mappings.getAllForRightKey(4));
    }
    
    @Test
@@ -134,27 +134,27 @@ public class DualMapMappingsTest
       mappings.put("b", 2);
       mappings.put("b", 3);
       
-      Mappings<Integer,String> inverseMappings = mappings.getInverseMappings();
+      Mappings<Integer,String> inverseMappings = mappings.invert();
       
-      assertSame(mappings, inverseMappings.getInverseMappings());
+      assertSame(mappings, inverseMappings.invert());
       
       assertEquals(mappings.getLeftView(), inverseMappings.getRightView());
       assertEquals(mappings.getRightView(), inverseMappings.getLeftView());
       
-      assertEquals(mappings.getLeftValuesFor(1), inverseMappings.getRightValuesFor(1));
-      assertEquals(mappings.getLeftValuesFor(2), inverseMappings.getRightValuesFor(2));
-      assertEquals(mappings.getLeftValuesFor(3), inverseMappings.getRightValuesFor(3));
+      assertEquals(mappings.getAllForRightKey(1), inverseMappings.getAllForLeftKey(1));
+      assertEquals(mappings.getAllForRightKey(2), inverseMappings.getAllForLeftKey(2));
+      assertEquals(mappings.getAllForRightKey(3), inverseMappings.getAllForLeftKey(3));
 
-      assertEquals(mappings.getRightValuesFor("a"), inverseMappings.getLeftValuesFor("a"));
-      assertEquals(mappings.getRightValuesFor("b"), inverseMappings.getLeftValuesFor("b"));
+      assertEquals(mappings.getAllForLeftKey("a"), inverseMappings.getAllForRightKey("a"));
+      assertEquals(mappings.getAllForLeftKey("b"), inverseMappings.getAllForRightKey("b"));
       
       assertTrue(mappings.contains("b", 2));
       inverseMappings.remove(2, "b");
       assertFalse(mappings.contains("b", 2));
       
-      assertFalse(mappings.getLeftValuesFor(2).isEmpty());
+      assertFalse(mappings.getAllForRightKey(2).isEmpty());
       inverseMappings.removeLeftKey(2);
-      assertNull(mappings.getLeftValuesFor(2));
+      assertNull(mappings.getAllForRightKey(2));
    }
    
    @Test
@@ -163,7 +163,7 @@ public class DualMapMappingsTest
       Mappings<String, Integer> mappings = createMappings();
       mappings.put("A", 1);
       
-      Set<Integer> values1 = mappings.getRightValuesFor("A");
+      Set<Integer> values1 = mappings.getAllForLeftKey("A");
       mappings.removeLeftKey("A");
       
       assertTrue(values1.isEmpty());
@@ -187,7 +187,7 @@ public class DualMapMappingsTest
       Mappings<String, Integer> mappings = createMappings();
       mappings.put("A", 1);
       
-      Set<String> values1 = mappings.getLeftValuesFor(1);
+      Set<String> values1 = mappings.getAllForRightKey(1);
       mappings.removeLeftKey("A");
 
       assertTrue(values1.isEmpty());
@@ -211,7 +211,7 @@ public class DualMapMappingsTest
       Mappings<String, Integer> mappings = createMappings();
       mappings.put("A", 1);
       
-      Set<String> values1 = mappings.getLeftValuesFor(1);
+      Set<String> values1 = mappings.getAllForRightKey(1);
       values1.clear();
       
       assertFalse(mappings.containsRightKey(1));
@@ -233,7 +233,7 @@ public class DualMapMappingsTest
       Mappings<String, Integer> mappings = createMappings();
       mappings.put("A", 1);
       
-      Set<Integer> valuesA = mappings.getRightValuesFor("A");
+      Set<Integer> valuesA = mappings.getAllForLeftKey("A");
       valuesA.clear();
       
       assertFalse(mappings.containsRightKey(1));

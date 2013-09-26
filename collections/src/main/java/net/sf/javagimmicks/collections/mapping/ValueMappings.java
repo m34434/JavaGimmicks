@@ -1,6 +1,5 @@
 package net.sf.javagimmicks.collections.mapping;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
@@ -67,9 +66,9 @@ public interface ValueMappings<L, R, E> extends Iterable<Mapping<L, R, E>>
 {
    public E put(L left, R right, E value);
 
-   public void putLeftEntriesFor(R right, Map<? extends L, ? extends E> c);
+   public void putAllForRightKey(R right, Map<? extends L, ? extends E> c);
 
-   public void putRightEntriesFor(L left, Map<? extends R, ? extends E> c);
+   public void putAllForLeftKey(L left, Map<? extends R, ? extends E> c);
 
    public E get(L left, R right);
 
@@ -91,7 +90,7 @@ public interface ValueMappings<L, R, E> extends Iterable<Mapping<L, R, E>>
 
    public boolean isEmpty();
 
-   public ValueMappings<R, L, E> getInverseMappings();
+   public ValueMappings<R, L, E> invert();
 
    public Set<Mapping<L, R, E>> getMappingSet();
 
@@ -101,11 +100,11 @@ public interface ValueMappings<L, R, E> extends Iterable<Mapping<L, R, E>>
 
    public Map<R, Map<L, E>> getRightView();
 
-   public Map<L, E> getLeftEntriesFor(R right);
+   public Map<L, E> getAllForRightKey(R right);
 
-   public Map<R, E> getRightEntriesFor(L left);
+   public Map<R, E> getAllForLeftKey(L left);
 
-   public interface Mapping<L, R, E> extends Serializable
+   public interface Mapping<L, R, E>
    {
       public L getLeftKey();
 

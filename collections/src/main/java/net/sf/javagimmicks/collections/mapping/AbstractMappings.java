@@ -24,19 +24,19 @@ public abstract class AbstractMappings<L, R> implements Mappings<L, R>
    }
 
    @Override
-   public Mappings<R, L> getInverseMappings()
+   public Mappings<R, L> invert()
    {
       return new InverseMappings<L, R>(this);
    }
 
    @Override
-   public Set<R> getRightValuesFor(final L left)
+   public Set<R> getAllForLeftKey(final L left)
    {
       return getLeftView().get(left);
    }
 
    @Override
-   public Set<L> getLeftValuesFor(final R right)
+   public Set<L> getAllForRightKey(final R right)
    {
       return getRightView().get(right);
    }
@@ -48,7 +48,7 @@ public abstract class AbstractMappings<L, R> implements Mappings<L, R>
    }
 
    @Override
-   public boolean putLeftValuesFor(final R right, final Collection<? extends L> c)
+   public boolean putAllForRightKey(final R right, final Collection<? extends L> c)
    {
       boolean result = false;
 
@@ -61,7 +61,7 @@ public abstract class AbstractMappings<L, R> implements Mappings<L, R>
    }
 
    @Override
-   public boolean putRightValuesFor(final L left, final Collection<? extends R> c)
+   public boolean putAllForLeftKey(final L left, final Collection<? extends R> c)
    {
       boolean result = false;
 
@@ -76,7 +76,7 @@ public abstract class AbstractMappings<L, R> implements Mappings<L, R>
    @Override
    public boolean remove(final L left, final R right)
    {
-      final Set<R> mappedValuesLeft = getRightValuesFor(left);
+      final Set<R> mappedValuesLeft = getAllForLeftKey(left);
 
       return mappedValuesLeft != null ? mappedValuesLeft.remove(right) : false;
    }
@@ -96,7 +96,7 @@ public abstract class AbstractMappings<L, R> implements Mappings<L, R>
    @Override
    public boolean contains(final L left, final R right)
    {
-      final Set<R> rightSet = getRightValuesFor(left);
+      final Set<R> rightSet = getAllForLeftKey(left);
       return rightSet != null && rightSet.contains(right);
    }
 
@@ -247,7 +247,7 @@ public abstract class AbstractMappings<L, R> implements Mappings<L, R>
       }
 
       @Override
-      public Mappings<L, R> getInverseMappings()
+      public Mappings<L, R> invert()
       {
          return _partner;
       }
@@ -271,15 +271,15 @@ public abstract class AbstractMappings<L, R> implements Mappings<L, R>
       }
 
       @Override
-      public Set<L> getRightValuesFor(final R left)
+      public Set<L> getAllForLeftKey(final R left)
       {
-         return _partner.getLeftValuesFor(left);
+         return _partner.getAllForRightKey(left);
       }
 
       @Override
-      public Set<R> getLeftValuesFor(final L right)
+      public Set<R> getAllForRightKey(final L right)
       {
-         return _partner.getRightValuesFor(right);
+         return _partner.getAllForLeftKey(right);
       }
 
       @Override

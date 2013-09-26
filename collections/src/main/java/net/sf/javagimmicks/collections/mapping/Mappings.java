@@ -58,45 +58,179 @@ import net.sf.javagimmicks.collections.mapping.Mappings.Mapping;
  * {@link ValueMappings} is the right choice for you
  * 
  * @see ValueMappings
+ * @param <L>
+ *           the type of left keys of the {@link Mappings}
+ * @param <R>
+ *           the type of right key of the {@link Mappings}
  */
 public interface Mappings<L, R> extends Iterable<Mapping<L, R>>
 {
+   /**
+    * Adds a new mapping (or association) between a given left key and right
+    * key.
+    * 
+    * @param left
+    *           the left key of the new mapping
+    * @param right
+    *           the right key of the new mapping
+    * @return if the {@link Mappings} was changed during this operation (i.e.
+    *         the mapping was new)
+    */
    public boolean put(L left, R right);
 
-   public boolean putLeftValuesFor(R right, Collection<? extends L> c);
+   /**
+    * Bulk-adds a bunch of left keys for a single given right key.
+    * 
+    * @param right
+    *           the right key to add a bunch of left keys for
+    * @param c
+    *           a {@link Collection} of left keys to add for the given right key
+    * @return if the {@link Mappings} was changed during this operation
+    */
+   public boolean putAllForRightKey(R right, Collection<? extends L> c);
 
-   public boolean putRightValuesFor(L left, Collection<? extends R> c);
+   /**
+    * Bulk-adds a bunch of right keys for a single given left key.
+    * 
+    * @param left
+    *           the left key to add a bunch of right keys for
+    * @param c
+    *           a {@link Collection} of right keys to add for the given left key
+    * @return if the {@link Mappings} was changed during this operation
+    */
+   public boolean putAllForLeftKey(L left, Collection<? extends R> c);
 
+   /**
+    * Removes a given mapping specified by left and right key from this
+    * instance.
+    * 
+    * @param left
+    *           the left key of the mapping to remove
+    * @param right
+    *           the right key of the mapping to remove
+    * @return if the {@link Mappings} was changed during this operation
+    */
    public boolean remove(L left, R right);
 
+   /**
+    * Completely removes a given right key together with all it's mappings from
+    * this instance.
+    * 
+    * @param right
+    *           the right key to remove
+    * @return the {@link Set} of left keys that were associated with the given
+    *         right key
+    */
    public Set<L> removeRightKey(R right);
 
+   /**
+    * Completely removes a given left key together with all it's mappings from
+    * this instance.
+    * 
+    * @param left
+    *           the left key to remove
+    * @return the {@link Set} of right keys that were associated with the given
+    *         left key
+    */
    public Set<R> removeLeftKey(L left);
 
+   /**
+    * Removes all mappings from this instance
+    */
    public void clear();
 
+   /**
+    * Checks if a given mapping specified by left and right key is contained in
+    * the current instance.
+    * 
+    * @param left
+    *           the left key of the mapping to remove
+    * @param right
+    *           the right key of the mapping to remove
+    * @return if the specified mapping is contained in the current instance
+    */
    public boolean contains(L left, R right);
 
+   /**
+    * Check if any mappings are contained in this instance for a given left key.
+    * 
+    * @param left
+    *           the left key to check for any existing mappings
+    * @return if there is at least one mapping contained for the given left key
+    */
    public boolean containsLeftKey(L left);
 
+   /**
+    * Check if any mappings are contained in this instance for a given right
+    * key.
+    * 
+    * @param right
+    *           the right key to check for any existing mappings
+    * @return if there is at least one mapping contained for the given right key
+    */
    public boolean containsRightKey(R right);
 
+   /**
+    * Returns the number of mappings contained within the current instance.
+    * 
+    * @return the number of mappings contained within the current instance
+    */
    public int size();
 
+   /**
+    * Checks if the current instance contains no mappings.
+    * 
+    * @return if the current instance contains no mappings
+    */
    public boolean isEmpty();
 
-   public Mappings<R, L> getInverseMappings();
+   /**
+    * Returns an inverted view of this instance (left and right keys are
+    * exchanged).
+    * 
+    * @return an inverted view of this instance
+    */
+   public Mappings<R, L> invert();
 
+   /**
+    * Returns all mappings contained within this instance as a {@link Set} of
+    * {@link Mapping} instances.
+    * 
+    * @return all mappings contained within this instance
+    */
    public Set<Mapping<L, R>> getMappingSet();
 
+   /**
+    * Return the "left view" of this instance - that is a {@link Map} that
+    * contains the left mapping keys on the key side and a {@link Set} of the
+    * associated right mapping keys for the left mapping key on the value side.
+    * 
+    * @return the left view of this instance as {@link Map}
+    */
    public Map<L, Set<R>> getLeftView();
 
+   /**
+    * Return the "right view" of this instance - that is a {@link Map} that
+    * contains the right mapping keys on the key side and a {@link Set} of the
+    * associated left mapping keys for the right mapping key on the value side.
+    * 
+    * @return the right view of this instance as {@link Map}
+    */
    public Map<R, Set<L>> getRightView();
 
-   public Set<L> getLeftValuesFor(R right);
+   public Set<L> getAllForRightKey(R right);
 
-   public Set<R> getRightValuesFor(L left);
+   public Set<R> getAllForLeftKey(L left);
 
+   /**
+    * Represents a single left-to-right mapping contained within a
+    * {@link Mappings} object.
+    * 
+    * @param <L>
+    *           the type of left keys of the {@link Mapping}
+    * @param <R>
+    *           the type of right key of the {@link Mapping}
+    */
    public interface Mapping<L, R> extends Serializable
    {
       public L getLeftKey();
