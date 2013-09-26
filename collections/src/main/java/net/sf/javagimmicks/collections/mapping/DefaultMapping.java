@@ -14,13 +14,13 @@ public class DefaultMapping<L, R> extends AbstractMapping<L, R>
    }
 
    @Override
-   public L getLeft()
+   public L getLeftKey()
    {
       return _left;
    }
 
    @Override
-   public R getRight()
+   public R getRightKey()
    {
       return _right;
    }

@@ -18,7 +18,7 @@ public abstract class AbstractValueMappings<L, R, E> implements ValueMappings<L,
    @Override
    public Set<Mapping<L, R, E>> getMappingSet()
    {
-      return new MappingSet<L, R, E>(getLeftOuterMap().entrySet());
+      return new MappingSet<L, R, E>(getLeftView().entrySet());
    }
 
    @Override
@@ -34,15 +34,15 @@ public abstract class AbstractValueMappings<L, R, E> implements ValueMappings<L,
    }
 
    @Override
-   public Map<R, E> getRightInnerMap(final L left)
+   public Map<R, E> getRightEntriesFor(final L left)
    {
-      return getLeftOuterMap().get(left);
+      return getLeftView().get(left);
    }
 
    @Override
-   public Map<L, E> getLeftInnerMap(final R right)
+   public Map<L, E> getLeftEntriesFor(final R right)
    {
-      return getRightOuterMap().get(right);
+      return getRightView().get(right);
    }
 
    @Override
@@ -52,7 +52,7 @@ public abstract class AbstractValueMappings<L, R, E> implements ValueMappings<L,
    }
 
    @Override
-   public void putLeft(final R right, final Map<? extends L, ? extends E> c)
+   public void putLeftEntriesFor(final R right, final Map<? extends L, ? extends E> c)
    {
       for (final Entry<? extends L, ? extends E> left : c.entrySet())
       {
@@ -61,7 +61,7 @@ public abstract class AbstractValueMappings<L, R, E> implements ValueMappings<L,
    }
 
    @Override
-   public void putRight(final L left, final Map<? extends R, ? extends E> c)
+   public void putRightEntriesFor(final L left, final Map<? extends R, ? extends E> c)
    {
       for (final Entry<? extends R, ? extends E> right : c.entrySet())
       {
@@ -72,7 +72,7 @@ public abstract class AbstractValueMappings<L, R, E> implements ValueMappings<L,
    @Override
    public E get(final L left, final R right)
    {
-      final Map<R, E> rightInnerMap = getRightInnerMap(left);
+      final Map<R, E> rightInnerMap = getRightEntriesFor(left);
 
       return rightInnerMap != null ? rightInnerMap.get(right) : null;
    }
@@ -80,7 +80,7 @@ public abstract class AbstractValueMappings<L, R, E> implements ValueMappings<L,
    @Override
    public E remove(final L left, final R right)
    {
-      final Map<R, E> mappedValuesLeft = getRightInnerMap(left);
+      final Map<R, E> mappedValuesLeft = getRightEntriesFor(left);
 
       return mappedValuesLeft != null ? mappedValuesLeft.remove(right) : null;
    }
@@ -92,40 +92,40 @@ public abstract class AbstractValueMappings<L, R, E> implements ValueMappings<L,
    }
 
    @Override
-   public boolean containsLeft(final L left)
+   public boolean containsLeftKey(final L left)
    {
-      return getLeftOuterMap().containsKey(left);
+      return getLeftView().containsKey(left);
    }
 
    @Override
-   public boolean containsRight(final R right)
+   public boolean containsRightKey(final R right)
    {
-      return getRightOuterMap().containsKey(right);
+      return getRightView().containsKey(right);
    }
 
    @Override
    public boolean containsMapping(final L left, final R right)
    {
-      final Map<R, E> rightInnerMap = getRightInnerMap(left);
+      final Map<R, E> rightInnerMap = getRightEntriesFor(left);
       return rightInnerMap != null && rightInnerMap.containsKey(right);
    }
 
    @Override
-   public Map<R, E> removeRight(final L left)
+   public Map<R, E> removeLeftKey(final L left)
    {
-      return getLeftOuterMap().remove(left);
+      return getLeftView().remove(left);
    }
 
    @Override
-   public Map<L, E> removeLeft(final R right)
+   public Map<L, E> removeRightKey(final R right)
    {
-      return getRightOuterMap().remove(right);
+      return getRightView().remove(right);
    }
 
    @Override
    public void clear()
    {
-      getLeftOuterMap().clear();
+      getLeftView().clear();
    }
 
    @Override
@@ -162,9 +162,9 @@ public abstract class AbstractValueMappings<L, R, E> implements ValueMappings<L,
    public String toString()
    {
       return new StringBuilder()
-            .append(getLeftOuterMap())
+            .append(getLeftView())
             .append(" | ")
-            .append(getRightOuterMap())
+            .append(getRightView())
             .toString();
    }
 
@@ -186,15 +186,15 @@ public abstract class AbstractValueMappings<L, R, E> implements ValueMappings<L,
             }
 
             @Override
-            public R getLeft()
+            public R getLeftKey()
             {
-               return AbstractMapping.this.getRight();
+               return AbstractMapping.this.getRightKey();
             }
 
             @Override
-            public L getRight()
+            public L getRightKey()
             {
-               return AbstractMapping.this.getLeft();
+               return AbstractMapping.this.getLeftKey();
             }
 
             @Override
@@ -220,14 +220,14 @@ public abstract class AbstractValueMappings<L, R, E> implements ValueMappings<L,
 
          final Mapping<?, ?, ?> other = (Mapping<?, ?, ?>) obj;
 
-         return getLeft().equals(other.getLeft()) && getRight().equals(other.getRight())
+         return getLeftKey().equals(other.getLeftKey()) && getRightKey().equals(other.getRightKey())
                && LangUtils.equalsNullSafe(getValue(), other.getValue());
       }
 
       @Override
       public int hashCode()
       {
-         return 5 * getLeft().hashCode() + 7 * getRight().hashCode() + 3872123;
+         return 5 * getLeftKey().hashCode() + 7 * getRightKey().hashCode() + 3872123;
       }
 
       @Override
@@ -235,9 +235,9 @@ public abstract class AbstractValueMappings<L, R, E> implements ValueMappings<L,
       {
          return new StringBuilder()
                .append("[")
-               .append(getLeft())
+               .append(getLeftKey())
                .append("/")
-               .append(getRight())
+               .append(getRightKey())
                .append(": ")
                .append(getValue())
                .append("]")
@@ -306,13 +306,13 @@ public abstract class AbstractValueMappings<L, R, E> implements ValueMappings<L,
             private static final long serialVersionUID = -893342873662381319L;
 
             @Override
-            public L getLeft()
+            public L getLeftKey()
             {
                return left;
             }
 
             @Override
-            public R getRight()
+            public R getRightKey()
             {
                return right;
             }
@@ -379,27 +379,27 @@ public abstract class AbstractValueMappings<L, R, E> implements ValueMappings<L,
       }
 
       @Override
-      public Map<R, Map<L, E>> getLeftOuterMap()
+      public Map<R, Map<L, E>> getLeftView()
       {
-         return _partner.getRightOuterMap();
+         return _partner.getRightView();
       }
 
       @Override
-      public Map<L, E> getRightInnerMap(final R left)
+      public Map<L, E> getRightEntriesFor(final R left)
       {
-         return _partner.getLeftInnerMap(left);
+         return _partner.getLeftEntriesFor(left);
       }
 
       @Override
-      public Map<R, E> getLeftInnerMap(final L right)
+      public Map<R, E> getLeftEntriesFor(final L right)
       {
-         return _partner.getRightInnerMap(right);
+         return _partner.getRightEntriesFor(right);
       }
 
       @Override
-      public Map<L, Map<R, E>> getRightOuterMap()
+      public Map<L, Map<R, E>> getRightView()
       {
-         return _partner.getLeftOuterMap();
+         return _partner.getLeftView();
       }
 
       @Override
@@ -409,15 +409,15 @@ public abstract class AbstractValueMappings<L, R, E> implements ValueMappings<L,
       }
 
       @Override
-      public Map<L, E> removeRight(final R left)
+      public Map<L, E> removeLeftKey(final R left)
       {
-         return _partner.removeLeft(left);
+         return _partner.removeRightKey(left);
       }
 
       @Override
-      public Map<R, E> removeLeft(final L right)
+      public Map<R, E> removeRightKey(final L right)
       {
-         return _partner.removeRight(right);
+         return _partner.removeLeftKey(right);
       }
    }
 

@@ -20,15 +20,15 @@ public abstract class AbstractMapping<L, R> implements Mapping<L, R>
          }
 
          @Override
-         public R getLeft()
+         public R getLeftKey()
          {
-            return AbstractMapping.this.getRight();
+            return AbstractMapping.this.getRightKey();
          }
 
          @Override
-         public L getRight()
+         public L getRightKey()
          {
-            return AbstractMapping.this.getLeft();
+            return AbstractMapping.this.getLeftKey();
          }
       };
    }
@@ -48,13 +48,13 @@ public abstract class AbstractMapping<L, R> implements Mapping<L, R>
 
       final Mapping<?, ?> other = (Mapping<?, ?>) obj;
 
-      return getLeft().equals(other.getLeft()) && getRight().equals(other.getRight());
+      return getLeftKey().equals(other.getLeftKey()) && getRightKey().equals(other.getRightKey());
    }
 
    @Override
    public int hashCode()
    {
-      return 5 * getLeft().hashCode() + 7 * getRight().hashCode() + 3872123;
+      return 5 * getLeftKey().hashCode() + 7 * getRightKey().hashCode() + 3872123;
    }
 
    @Override
@@ -62,9 +62,9 @@ public abstract class AbstractMapping<L, R> implements Mapping<L, R>
    {
       return new StringBuilder()
             .append("[")
-            .append(getLeft())
+            .append(getLeftKey())
             .append(", ")
-            .append(getRight())
+            .append(getRightKey())
             .append("]")
             .toString();
    }

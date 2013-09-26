@@ -37,7 +37,7 @@ public class DualMapValueMappingsPackageInfoExampleTest
       m.put(Person.Charles, Hobby.Astrology, Likes.Little);
       m.put(Person.Charles, Hobby.Biking, Likes.Much);
 
-      System.out.println(m.getLeftOuterMap());
-      System.out.println(m.getRightOuterMap());
+      System.out.println(m.getLeftView());
+      System.out.println(m.getRightView());
    }
 }

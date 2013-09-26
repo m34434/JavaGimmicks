@@ -43,10 +43,10 @@ import net.sf.javagimmicks.collections.mapping.Mappings.Mapping;
  * 
  * <pre>
  * {@code
- * System.out.println(m.getLeftMap());
+ * System.out.println(m.getLeftView());
  * // Prints {Alice=[Biking, Chess], Bob=[Astrology, Chess], Charles=[Astrology, Biking]}
  * 
- * System.out.println(m.getRightMap());
+ * System.out.println(m.getRightView());
  * // Prints {Astrology=[Bob, Charles], Biking=[Alice, Charles], Chess=[Alice, Bob]}
  * }
  * </pre>
@@ -59,27 +59,27 @@ import net.sf.javagimmicks.collections.mapping.Mappings.Mapping;
  * 
  * @see ValueMappings
  */
-public interface Mappings<L, R> extends Iterable<Mapping<L, R>>, Serializable
+public interface Mappings<L, R> extends Iterable<Mapping<L, R>>
 {
    public boolean put(L left, R right);
 
-   public boolean putLeft(R right, Collection<? extends L> c);
+   public boolean putLeftValuesFor(R right, Collection<? extends L> c);
 
-   public boolean putRight(L left, Collection<? extends R> c);
+   public boolean putRightValuesFor(L left, Collection<? extends R> c);
 
    public boolean remove(L left, R right);
 
-   public Set<L> removeLeft(R right);
+   public Set<L> removeRightKey(R right);
 
-   public Set<R> removeRight(L left);
+   public Set<R> removeLeftKey(L left);
 
    public void clear();
 
    public boolean contains(L left, R right);
 
-   public boolean containsLeft(L left);
+   public boolean containsLeftKey(L left);
 
-   public boolean containsRight(R right);
+   public boolean containsRightKey(R right);
 
    public int size();
 
@@ -89,19 +89,19 @@ public interface Mappings<L, R> extends Iterable<Mapping<L, R>>, Serializable
 
    public Set<Mapping<L, R>> getMappingSet();
 
-   public Map<L, Set<R>> getLeftMap();
+   public Map<L, Set<R>> getLeftView();
 
-   public Map<R, Set<L>> getRightMap();
+   public Map<R, Set<L>> getRightView();
 
-   public Set<L> getLeft(R right);
+   public Set<L> getLeftValuesFor(R right);
 
-   public Set<R> getRight(L left);
+   public Set<R> getRightValuesFor(L left);
 
    public interface Mapping<L, R> extends Serializable
    {
-      public L getLeft();
+      public L getLeftKey();
 
-      public R getRight();
+      public R getRightKey();
 
       public Mapping<R, L> getInverseMapping();
    }
