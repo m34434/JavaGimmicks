@@ -5,9 +5,8 @@ import java.io.Serializable;
 import net.sf.javagimmicks.collections.mapping.Mappings.Mapping;
 
 /**
- * An abstract implementation of {@link Mapping} that takes care about a default
- * implementation of {@link #invert()}, {@link #equals(Object)},
- * {@link #hashCode()} and {@link #toString()}.
+ * An abstract implementation of {@link Mapping} that provides a default
+ * implementation for all derivable methods.
  */
 public abstract class AbstractMapping<L, R> implements Mapping<L, R>, Serializable
 {

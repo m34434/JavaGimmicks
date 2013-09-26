@@ -10,7 +10,6 @@ import java.util.Set;
 
 import net.sf.javagimmicks.collections.transformer.Transformer;
 import net.sf.javagimmicks.collections.transformer.TransformerUtils;
-import net.sf.javagimmicks.lang.LangUtils;
 
 public abstract class AbstractValueMappings<L, R, E> implements ValueMappings<L, R, E>, Serializable
 {
@@ -169,83 +168,6 @@ public abstract class AbstractValueMappings<L, R, E> implements ValueMappings<L,
             .toString();
    }
 
-   protected static abstract class AbstractMapping<L, R, E> implements Mapping<L, R, E>, Serializable
-   {
-      private static final long serialVersionUID = -293860609319776316L;
-
-      @Override
-      public Mapping<R, L, E> invert()
-      {
-         return new AbstractMapping<R, L, E>()
-         {
-            private static final long serialVersionUID = -2436668735196156472L;
-
-            @Override
-            public Mapping<L, R, E> invert()
-            {
-               return AbstractMapping.this;
-            }
-
-            @Override
-            public R getLeftKey()
-            {
-               return AbstractMapping.this.getRightKey();
-            }
-
-            @Override
-            public L getRightKey()
-            {
-               return AbstractMapping.this.getLeftKey();
-            }
-
-            @Override
-            public E getValue()
-            {
-               return AbstractMapping.this.getValue();
-            }
-         };
-      }
-
-      @Override
-      public boolean equals(final Object obj)
-      {
-         if (this == obj)
-         {
-            return true;
-         }
-
-         if (!(obj instanceof Mapping<?, ?, ?>))
-         {
-            return false;
-         }
-
-         final Mapping<?, ?, ?> other = (Mapping<?, ?, ?>) obj;
-
-         return getLeftKey().equals(other.getLeftKey()) && getRightKey().equals(other.getRightKey())
-               && LangUtils.equalsNullSafe(getValue(), other.getValue());
-      }
-
-      @Override
-      public int hashCode()
-      {
-         return 5 * getLeftKey().hashCode() + 7 * getRightKey().hashCode() + 3872123;
-      }
-
-      @Override
-      public String toString()
-      {
-         return new StringBuilder()
-               .append("[")
-               .append(getLeftKey())
-               .append("/")
-               .append(getRightKey())
-               .append(": ")
-               .append(getValue())
-               .append("]")
-               .toString();
-      }
-   }
-
    protected static class MappingSet<L, R, E> extends AbstractSet<Mapping<L, R, E>>
    {
       protected final Set<Entry<L, Map<R, E>>> _entries;
@@ -298,34 +220,8 @@ public abstract class AbstractValueMappings<L, R, E> implements ValueMappings<L,
       {
          moveNext();
 
-         final L left = _currentEntry.getKey();
-         final R right = _currentValue.getKey();
-         final E value = _currentValue.getValue();
-
-         final AbstractMapping<L, R, E> mapping = new AbstractMapping<L, R, E>()
-         {
-            private static final long serialVersionUID = -893342873662381319L;
-
-            @Override
-            public L getLeftKey()
-            {
-               return left;
-            }
-
-            @Override
-            public R getRightKey()
-            {
-               return right;
-            }
-
-            @Override
-            public E getValue()
-            {
-               return value;
-            }
-         };
-
-         return mapping;
+         return new DefaultValueMapping<L, R, E>(_currentEntry.getKey(), _currentValue.getKey(),
+               _currentValue.getValue());
       }
 
       @Override
