@@ -13,7 +13,7 @@ import java.util.TreeMap;
 
 import net.sf.javagimmicks.collections.event.AbstractEventMap;
 
-public class DualMapValueMappings<L, R, E> extends AbstractValueMappings<L, R, E> implements Serializable
+public class DualMapValueMappings<L, R, E> extends AbstractValueMappings<L, R, E>
 {
    private static final long serialVersionUID = 7852860994833056710L;
 

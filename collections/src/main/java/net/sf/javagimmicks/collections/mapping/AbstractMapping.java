@@ -1,20 +1,22 @@
 package net.sf.javagimmicks.collections.mapping;
 
+import java.io.Serializable;
+
 import net.sf.javagimmicks.collections.mapping.Mappings.Mapping;
 
-public abstract class AbstractMapping<L, R> implements Mapping<L, R>
+public abstract class AbstractMapping<L, R> implements Mapping<L, R>, Serializable
 {
    private static final long serialVersionUID = 718725888769445622L;
 
    @Override
-   public Mapping<R, L> getInverseMapping()
+   public Mapping<R, L> invert()
    {
       return new AbstractMapping<R, L>()
       {
          private static final long serialVersionUID = 1277735552925631376L;
 
          @Override
-         public Mapping<L, R> getInverseMapping()
+         public Mapping<L, R> invert()
          {
             return AbstractMapping.this;
          }

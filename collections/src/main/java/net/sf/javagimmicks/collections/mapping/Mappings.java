@@ -1,6 +1,5 @@
 package net.sf.javagimmicks.collections.mapping;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
@@ -218,8 +217,24 @@ public interface Mappings<L, R> extends Iterable<Mapping<L, R>>
     */
    public Map<R, Set<L>> getRightView();
 
+   /**
+    * Returns all left keys that are mapped to a given right key as a
+    * {@link Set}.
+    * 
+    * @param right
+    *           the right key to get all mapped left keys for
+    * @return the {@link Set} of left keys mapped to the given right key
+    */
    public Set<L> getAllForRightKey(R right);
 
+   /**
+    * Returns all right keys that are mapped to a given left key as a
+    * {@link Set}.
+    * 
+    * @param left
+    *           the left key to get all mapped right keys for
+    * @return the {@link Set} of right keys mapped to the given left key
+    */
    public Set<R> getAllForLeftKey(L left);
 
    /**
@@ -231,12 +246,28 @@ public interface Mappings<L, R> extends Iterable<Mapping<L, R>>
     * @param <R>
     *           the type of right key of the {@link Mapping}
     */
-   public interface Mapping<L, R> extends Serializable
+   public interface Mapping<L, R>
    {
+      /**
+       * Returns the left key of the mapping.
+       * 
+       * @return the left key of the mapping
+       */
       public L getLeftKey();
 
+      /**
+       * Returns the right key of the mapping.
+       * 
+       * @return the right key of the mapping
+       */
       public R getRightKey();
 
-      public Mapping<R, L> getInverseMapping();
+      /**
+       * Returns an inverted view of this instance (with exchanged left and
+       * right key).
+       * 
+       * @return an inverted view of this instance
+       */
+      public Mapping<R, L> invert();
    }
 }

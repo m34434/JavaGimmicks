@@ -1,5 +1,6 @@
 package net.sf.javagimmicks.collections.mapping;
 
+import java.io.Serializable;
 import java.util.AbstractSet;
 import java.util.Collection;
 import java.util.Iterator;
@@ -11,7 +12,7 @@ import net.sf.javagimmicks.collections.transformer.Transformer;
 import net.sf.javagimmicks.collections.transformer.TransformerUtils;
 import net.sf.javagimmicks.lang.LangUtils;
 
-public abstract class AbstractValueMappings<L, R, E> implements ValueMappings<L, R, E>
+public abstract class AbstractValueMappings<L, R, E> implements ValueMappings<L, R, E>, Serializable
 {
    private static final long serialVersionUID = 3350171311023033933L;
 
@@ -168,7 +169,7 @@ public abstract class AbstractValueMappings<L, R, E> implements ValueMappings<L,
             .toString();
    }
 
-   protected static abstract class AbstractMapping<L, R, E> implements Mapping<L, R, E>
+   protected static abstract class AbstractMapping<L, R, E> implements Mapping<L, R, E>, Serializable
    {
       private static final long serialVersionUID = -293860609319776316L;
 

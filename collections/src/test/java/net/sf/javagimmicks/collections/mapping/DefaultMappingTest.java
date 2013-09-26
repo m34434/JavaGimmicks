@@ -44,9 +44,9 @@ public class DefaultMappingTest
    @Test
    public void testInverseMapping()
    {
-      final Mapping<Integer, String> inverseMappingA = mappingA.getInverseMapping();
+      final Mapping<Integer, String> inverseMappingA = mappingA.invert();
 
-      assertSame(mappingA, inverseMappingA.getInverseMapping());
+      assertSame(mappingA, inverseMappingA.invert());
       assertSame(mappingA.getLeftKey(), inverseMappingA.getRightKey());
       assertSame(mappingA.getRightKey(), inverseMappingA.getLeftKey());
 

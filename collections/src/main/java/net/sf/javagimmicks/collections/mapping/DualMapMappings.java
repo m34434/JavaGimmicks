@@ -15,7 +15,7 @@ import java.util.TreeSet;
 
 import net.sf.javagimmicks.collections.event.AbstractEventSet;
 
-public class DualMapMappings<L, R> extends AbstractMappings<L, R> implements Serializable
+public class DualMapMappings<L, R> extends AbstractMappings<L, R>
 {
    private static final long serialVersionUID = 6670241289938071773L;
 

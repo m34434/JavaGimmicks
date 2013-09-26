@@ -1,5 +1,6 @@
 package net.sf.javagimmicks.collections.mapping;
 
+import java.io.Serializable;
 import java.util.AbstractSet;
 import java.util.Collection;
 import java.util.Iterator;
@@ -7,7 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-public abstract class AbstractMappings<L, R> implements Mappings<L, R>
+public abstract class AbstractMappings<L, R> implements Mappings<L, R>, Serializable
 {
    private static final long serialVersionUID = -8390090502631423671L;
 
