@@ -1,7 +1,7 @@
 /**
  * This package spans up the JavaGimmicks
  * transformation API which allows to <b>decorate</b>
- * collections with transforming <i>views</i> that applies
+ * collections with transforming <i>views</i> that apply
  * a specified transformation logic <i>on access</i> to all
  * elements.
  * <p>
