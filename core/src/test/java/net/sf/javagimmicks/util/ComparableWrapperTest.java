@@ -10,9 +10,12 @@ public class ComparableWrapperTest
    @Test
    public void test()
    {
-      final StringWrapperComparable w1 = wrap(new StringWrapperImpl("1"));
-      final StringWrapperComparable w2 = wrap(new StringWrapperImpl("2"));
-      final StringWrapperComparable w3 = wrap(new StringWrapperImpl("3"));
+      final ComparableWrapper<StringWrapper, StringWrapperComparable> wrapper = ComparableWrapper.create(
+            StringWrapper.class, StringWrapperComparable.class, COMPARATOR);
+
+      final StringWrapperComparable w1 = wrapper.wrap(new StringWrapperImpl("1"));
+      final StringWrapperComparable w2 = wrapper.wrap(new StringWrapperImpl("2"));
+      final StringWrapperComparable w3 = wrapper.wrap(new StringWrapperImpl("3"));
 
       Assert.assertEquals("1", w1.toString());
       Assert.assertEquals("2", w2.toString());
@@ -27,11 +30,6 @@ public class ComparableWrapperTest
       Assert.assertTrue(w2.compareTo(w1) > 0);
       Assert.assertTrue(w3.compareTo(w1) > 0);
       Assert.assertTrue(w3.compareTo(w2) > 0);
-   }
-
-   private static StringWrapperComparable wrap(final StringWrapper s)
-   {
-      return ComparableWrapper.wrap(s, StringWrapper.class, StringWrapperComparable.class, COMPARATOR);
    }
 
    private static interface StringWrapper
