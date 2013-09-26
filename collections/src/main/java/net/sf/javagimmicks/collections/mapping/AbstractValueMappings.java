@@ -174,14 +174,14 @@ public abstract class AbstractValueMappings<L, R, E> implements ValueMappings<L,
       private static final long serialVersionUID = -293860609319776316L;
 
       @Override
-      public Mapping<R, L, E> getInverseMapping()
+      public Mapping<R, L, E> invert()
       {
          return new AbstractMapping<R, L, E>()
          {
             private static final long serialVersionUID = -2436668735196156472L;
 
             @Override
-            public Mapping<L, R, E> getInverseMapping()
+            public Mapping<L, R, E> invert()
             {
                return AbstractMapping.this;
             }

@@ -1,6 +1,7 @@
 package net.sf.javagimmicks.collections.mapping;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -8,7 +9,7 @@ import net.sf.javagimmicks.collections.mapping.ValueMappings.Mapping;
 
 /**
  * Represents a n:m relation between two sets of elements where each mapping can
- * carry an additional value (in contradiction to {@link Mappings})providing a
+ * carry an additional value (in contradiction to {@link Mappings}) providing a
  * backed {@link Map} view of each "side" of the relation as well as many
  * analytic and modification operations.
  * <p>
@@ -61,57 +62,272 @@ import net.sf.javagimmicks.collections.mapping.ValueMappings.Mapping;
  * {@link Mappings} is the right choice for you.
  * 
  * @see Mappings
+ * @param <L>
+ *           the type of left keys of the {@link ValueMappings}
+ * @param <R>
+ *           the type of right keys of the {@link ValueMappings}
+ * @param <E>
+ *           the type of values associated with the mappings
  */
 public interface ValueMappings<L, R, E> extends Iterable<Mapping<L, R, E>>
 {
-   public E put(L left, R right, E value);
+   /**
+    * Adds a new or replaces an existing mapping (or association) between a
+    * given left key and right key with the given value.
+    * 
+    * @param left
+    *           the left key of the new mapping
+    * @param right
+    *           the right key of the new mapping
+    * @param value
+    *           the value to associate with the new or existing mapping
+    * @return the previous value associated with the mapping or {@code null} of
+    *         the mapping is new
+    */
+   E put(L left, R right, E value);
 
-   public void putAllForRightKey(R right, Map<? extends L, ? extends E> c);
+   /**
+    * Bulk-adds a bunch of left key-value associations for a single given right
+    * key.
+    * 
+    * @param right
+    *           the right key to add a bunch of left key-value associations for
+    * @param map
+    *           a {@link Map} containing the left keys to add for the given
+    *           right key as well as the values to associate with the respective
+    *           new mappings
+    */
+   void putAllForRightKey(R right, Map<? extends L, ? extends E> map);
 
-   public void putAllForLeftKey(L left, Map<? extends R, ? extends E> c);
+   /**
+    * Bulk-adds a bunch of right key-value associations for a single given left
+    * key.
+    * 
+    * @param left
+    *           the left key to add a bunch of right key-value associations for
+    * @param map
+    *           a {@link Map} containing the right keys to add for the given
+    *           left key as well as the values to associate with the respective
+    *           new mappings
+    */
+   void putAllForLeftKey(L left, Map<? extends R, ? extends E> map);
 
-   public E get(L left, R right);
+   /**
+    * Removes a given mapping specified by left and right key from this
+    * instance.
+    * 
+    * @param left
+    *           the left key of the mapping to remove
+    * @param right
+    *           the right key of the mapping to remove
+    * @return the value that was associated with the removed mapping or
+    *         {@code null} if no such mapping was contained
+    */
+   E remove(L left, R right);
 
-   public E remove(L left, R right);
+   /**
+    * Completely removes a given right key together with all it's mappings from
+    * this instance.
+    * 
+    * @param right
+    *           the right key to remove
+    * @return the {@link Map} containing the left keys that were mapped to the
+    *         given right key as well as the associated values
+    */
+   Map<L, E> removeRightKey(R right);
 
-   public Map<L, E> removeRightKey(R right);
+   /**
+    * Completely removes a given left key together with all it's mappings from
+    * this instance.
+    * 
+    * @param left
+    *           the left key to remove
+    * @return the {@link Map} containing the right keys that were mapped to with
+    *         the given left key as well as the associated values
+    */
+   Map<R, E> removeLeftKey(L left);
 
-   public Map<R, E> removeLeftKey(L left);
+   /**
+    * Removes all mappings from this instance
+    */
+   void clear();
 
-   public void clear();
+   /**
+    * Checks if a given mapping specified by left and right key is contained in
+    * the current instance.
+    * 
+    * @param left
+    *           the left key of the mapping to remove
+    * @param right
+    *           the right key of the mapping to remove
+    * @return if the specified mapping is contained in the current instance
+    */
+   boolean containsMapping(L left, R right);
 
-   public boolean containsMapping(L left, R right);
+   /**
+    * Check if any mappings are contained in this instance for a given left key.
+    * 
+    * @param left
+    *           the left key to check for any existing mappings
+    * @return if there is at least one mapping contained for the given left key
+    */
+   boolean containsLeftKey(L left);
 
-   public boolean containsLeftKey(L left);
+   /**
+    * Check if any mappings are contained in this instance for a given right
+    * key.
+    * 
+    * @param right
+    *           the right key to check for any existing mappings
+    * @return if there is at least one mapping contained for the given right key
+    */
+   boolean containsRightKey(R right);
 
-   public boolean containsRightKey(R right);
+   /**
+    * Returns the number of mappings contained within the current instance.
+    * 
+    * @return the number of mappings contained within the current instance
+    */
+   int size();
 
-   public int size();
+   /**
+    * Checks if the current instance contains no mappings.
+    * 
+    * @return if the current instance contains no mappings
+    */
+   boolean isEmpty();
 
-   public boolean isEmpty();
+   /**
+    * Retrieve the value associated with the mapping specified by left and right
+    * key.
+    * 
+    * @param left
+    *           the left key of the mapping whose value should be retrieved
+    * @param right
+    *           the right key of the mapping whose value should be retrieved
+    * @return the associated value or {@code null} if no such mapping was
+    *         contained
+    */
+   E get(L left, R right);
 
-   public ValueMappings<R, L, E> invert();
+   /**
+    * Returns all mappings contained within this instance as a {@link Set} of
+    * {@link Mapping} instances.
+    * 
+    * @return all mappings contained within this instance
+    */
+   Set<Mapping<L, R, E>> getMappingSet();
 
-   public Set<Mapping<L, R, E>> getMappingSet();
+   /**
+    * Returns a {@link Collection} of the values of all mappings contained
+    * within this instance.
+    * 
+    * @return a {@link Collection} of the values of all mappings
+    */
+   Collection<E> getValues();
 
-   public Collection<E> getValues();
+   /**
+    * Return the "left view" of this instance - that is a {@link Map} that
+    * contains on the key side the left mapping keys and on the value side
+    * another {@link Map} which has on the key side the right mapping keys and
+    * on the value side the associated values.
+    * <p>
+    * Have a look at the example with the {@link ValueMappings class
+    * documentation} to get a better understanding.
+    * 
+    * @return the left view of this instance as {@link Map}
+    */
+   Map<L, Map<R, E>> getLeftView();
 
-   public Map<L, Map<R, E>> getLeftView();
+   /**
+    * Return the "right view" of this instance - that is a {@link Map} that
+    * contains on the key side the right mapping keys and on the value side
+    * another {@link Map} which has on the key side the left mapping keys and on
+    * the value side the associated values.
+    * <p>
+    * Have a look at the example with the {@link ValueMappings class
+    * documentation} to get a better understanding.
+    * 
+    * @return the right view of this instance as {@link Map}
+    */
+   Map<R, Map<L, E>> getRightView();
 
-   public Map<R, Map<L, E>> getRightView();
+   /**
+    * Returns a {@link Map} of all left keys that are mapped to a given right
+    * key and the associated values.
+    * 
+    * @param right
+    *           the right key to get all mapped left keys for
+    * @return the {@link Map} of left keys mapped to the given right key
+    */
+   Map<L, E> getAllForRightKey(R right);
 
-   public Map<L, E> getAllForRightKey(R right);
+   /**
+    * Returns a {@link Map} of all right keys that are mapped to a given left
+    * key and the associated values.
+    * 
+    * @param left
+    *           the left key to get all mapped right keys for
+    * @return the {@link Map} of right keys mapped to the given left key
+    */
+   Map<R, E> getAllForLeftKey(L left);
 
-   public Map<R, E> getAllForLeftKey(L left);
+   /**
+    * Returns an inverted view of this instance (left and right keys are
+    * exchanged).
+    * 
+    * @return an inverted view of this instance
+    */
+   ValueMappings<R, L, E> invert();
 
-   public interface Mapping<L, R, E>
+   /**
+    * Returns an {@link Iterator} of all contained {@link Mapping}s.
+    * 
+    * @see #getMappingSet()
+    */
+   @Override
+   Iterator<Mapping<L, R, E>> iterator();
+
+   /**
+    * Represents a single left-to-right mapping contained within a
+    * {@link ValueMappings} object.
+    * 
+    * @param <L>
+    *           the type of left keys of the {@link Mapping}
+    * @param <R>
+    *           the type of right keys of the {@link Mapping}
+    * @param <E>
+    *           the type of values associated with the mappings
+    */
+   interface Mapping<L, R, E>
    {
-      public L getLeftKey();
+      /**
+       * Returns the left key of the mapping.
+       * 
+       * @return the left key of the mapping
+       */
+      L getLeftKey();
 
-      public R getRightKey();
+      /**
+       * Returns the right key of the mapping.
+       * 
+       * @return the right key of the mapping
+       */
+      R getRightKey();
 
-      public E getValue();
+      /**
+       * Returns the value associated with the mapping.
+       * 
+       * @return the value associated with the mapping
+       */
+      E getValue();
 
-      public Mapping<R, L, E> getInverseMapping();
+      /**
+       * Returns an inverted view of this instance (with exchanged left and
+       * right key).
+       * 
+       * @return an inverted view of this instance
+       */
+      Mapping<R, L, E> invert();
    }
 }

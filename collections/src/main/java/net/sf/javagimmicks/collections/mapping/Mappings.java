@@ -1,6 +1,7 @@
 package net.sf.javagimmicks.collections.mapping;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -60,7 +61,7 @@ import net.sf.javagimmicks.collections.mapping.Mappings.Mapping;
  * @param <L>
  *           the type of left keys of the {@link Mappings}
  * @param <R>
- *           the type of right key of the {@link Mappings}
+ *           the type of right keys of the {@link Mappings}
  */
 public interface Mappings<L, R> extends Iterable<Mapping<L, R>>
 {
@@ -75,7 +76,7 @@ public interface Mappings<L, R> extends Iterable<Mapping<L, R>>
     * @return if the {@link Mappings} was changed during this operation (i.e.
     *         the mapping was new)
     */
-   public boolean put(L left, R right);
+   boolean put(L left, R right);
 
    /**
     * Bulk-adds a bunch of left keys for a single given right key.
@@ -86,7 +87,7 @@ public interface Mappings<L, R> extends Iterable<Mapping<L, R>>
     *           a {@link Collection} of left keys to add for the given right key
     * @return if the {@link Mappings} was changed during this operation
     */
-   public boolean putAllForRightKey(R right, Collection<? extends L> c);
+   boolean putAllForRightKey(R right, Collection<? extends L> c);
 
    /**
     * Bulk-adds a bunch of right keys for a single given left key.
@@ -97,7 +98,7 @@ public interface Mappings<L, R> extends Iterable<Mapping<L, R>>
     *           a {@link Collection} of right keys to add for the given left key
     * @return if the {@link Mappings} was changed during this operation
     */
-   public boolean putAllForLeftKey(L left, Collection<? extends R> c);
+   boolean putAllForLeftKey(L left, Collection<? extends R> c);
 
    /**
     * Removes a given mapping specified by left and right key from this
@@ -109,7 +110,7 @@ public interface Mappings<L, R> extends Iterable<Mapping<L, R>>
     *           the right key of the mapping to remove
     * @return if the {@link Mappings} was changed during this operation
     */
-   public boolean remove(L left, R right);
+   boolean remove(L left, R right);
 
    /**
     * Completely removes a given right key together with all it's mappings from
@@ -120,7 +121,7 @@ public interface Mappings<L, R> extends Iterable<Mapping<L, R>>
     * @return the {@link Set} of left keys that were associated with the given
     *         right key
     */
-   public Set<L> removeRightKey(R right);
+   Set<L> removeRightKey(R right);
 
    /**
     * Completely removes a given left key together with all it's mappings from
@@ -131,12 +132,12 @@ public interface Mappings<L, R> extends Iterable<Mapping<L, R>>
     * @return the {@link Set} of right keys that were associated with the given
     *         left key
     */
-   public Set<R> removeLeftKey(L left);
+   Set<R> removeLeftKey(L left);
 
    /**
     * Removes all mappings from this instance
     */
-   public void clear();
+   void clear();
 
    /**
     * Checks if a given mapping specified by left and right key is contained in
@@ -148,7 +149,7 @@ public interface Mappings<L, R> extends Iterable<Mapping<L, R>>
     *           the right key of the mapping to remove
     * @return if the specified mapping is contained in the current instance
     */
-   public boolean contains(L left, R right);
+   boolean contains(L left, R right);
 
    /**
     * Check if any mappings are contained in this instance for a given left key.
@@ -157,7 +158,7 @@ public interface Mappings<L, R> extends Iterable<Mapping<L, R>>
     *           the left key to check for any existing mappings
     * @return if there is at least one mapping contained for the given left key
     */
-   public boolean containsLeftKey(L left);
+   boolean containsLeftKey(L left);
 
    /**
     * Check if any mappings are contained in this instance for a given right
@@ -167,29 +168,21 @@ public interface Mappings<L, R> extends Iterable<Mapping<L, R>>
     *           the right key to check for any existing mappings
     * @return if there is at least one mapping contained for the given right key
     */
-   public boolean containsRightKey(R right);
+   boolean containsRightKey(R right);
 
    /**
     * Returns the number of mappings contained within the current instance.
     * 
     * @return the number of mappings contained within the current instance
     */
-   public int size();
+   int size();
 
    /**
     * Checks if the current instance contains no mappings.
     * 
     * @return if the current instance contains no mappings
     */
-   public boolean isEmpty();
-
-   /**
-    * Returns an inverted view of this instance (left and right keys are
-    * exchanged).
-    * 
-    * @return an inverted view of this instance
-    */
-   public Mappings<R, L> invert();
+   boolean isEmpty();
 
    /**
     * Returns all mappings contained within this instance as a {@link Set} of
@@ -197,7 +190,7 @@ public interface Mappings<L, R> extends Iterable<Mapping<L, R>>
     * 
     * @return all mappings contained within this instance
     */
-   public Set<Mapping<L, R>> getMappingSet();
+   Set<Mapping<L, R>> getMappingSet();
 
    /**
     * Return the "left view" of this instance - that is a {@link Map} that
@@ -206,7 +199,7 @@ public interface Mappings<L, R> extends Iterable<Mapping<L, R>>
     * 
     * @return the left view of this instance as {@link Map}
     */
-   public Map<L, Set<R>> getLeftView();
+   Map<L, Set<R>> getLeftView();
 
    /**
     * Return the "right view" of this instance - that is a {@link Map} that
@@ -215,7 +208,7 @@ public interface Mappings<L, R> extends Iterable<Mapping<L, R>>
     * 
     * @return the right view of this instance as {@link Map}
     */
-   public Map<R, Set<L>> getRightView();
+   Map<R, Set<L>> getRightView();
 
    /**
     * Returns all left keys that are mapped to a given right key as a
@@ -225,7 +218,7 @@ public interface Mappings<L, R> extends Iterable<Mapping<L, R>>
     *           the right key to get all mapped left keys for
     * @return the {@link Set} of left keys mapped to the given right key
     */
-   public Set<L> getAllForRightKey(R right);
+   Set<L> getAllForRightKey(R right);
 
    /**
     * Returns all right keys that are mapped to a given left key as a
@@ -235,7 +228,23 @@ public interface Mappings<L, R> extends Iterable<Mapping<L, R>>
     *           the left key to get all mapped right keys for
     * @return the {@link Set} of right keys mapped to the given left key
     */
-   public Set<R> getAllForLeftKey(L left);
+   Set<R> getAllForLeftKey(L left);
+
+   /**
+    * Returns an inverted view of this instance (left and right keys are
+    * exchanged).
+    * 
+    * @return an inverted view of this instance
+    */
+   Mappings<R, L> invert();
+
+   /**
+    * Returns an {@link Iterator} of all contained {@link Mapping}s.
+    * 
+    * @see #getMappingSet()
+    */
+   @Override
+   Iterator<Mapping<L, R>> iterator();
 
    /**
     * Represents a single left-to-right mapping contained within a
@@ -244,23 +253,23 @@ public interface Mappings<L, R> extends Iterable<Mapping<L, R>>
     * @param <L>
     *           the type of left keys of the {@link Mapping}
     * @param <R>
-    *           the type of right key of the {@link Mapping}
+    *           the type of right keys of the {@link Mapping}
     */
-   public interface Mapping<L, R>
+   interface Mapping<L, R>
    {
       /**
        * Returns the left key of the mapping.
        * 
        * @return the left key of the mapping
        */
-      public L getLeftKey();
+      L getLeftKey();
 
       /**
        * Returns the right key of the mapping.
        * 
        * @return the right key of the mapping
        */
-      public R getRightKey();
+      R getRightKey();
 
       /**
        * Returns an inverted view of this instance (with exchanged left and
@@ -268,6 +277,6 @@ public interface Mappings<L, R> extends Iterable<Mapping<L, R>>
        * 
        * @return an inverted view of this instance
        */
-      public Mapping<R, L> invert();
+      Mapping<R, L> invert();
    }
 }

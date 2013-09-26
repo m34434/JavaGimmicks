@@ -4,9 +4,17 @@ import java.io.Serializable;
 
 import net.sf.javagimmicks.collections.mapping.Mappings.Mapping;
 
+/**
+ * An abstract implementation of {@link Mapping} that takes care about a default
+ * implementation of {@link #invert()}, {@link #equals(Object)},
+ * {@link #hashCode()} and {@link #toString()}.
+ */
 public abstract class AbstractMapping<L, R> implements Mapping<L, R>, Serializable
 {
    private static final long serialVersionUID = 718725888769445622L;
+
+   protected AbstractMapping()
+   {}
 
    @Override
    public Mapping<R, L> invert()
