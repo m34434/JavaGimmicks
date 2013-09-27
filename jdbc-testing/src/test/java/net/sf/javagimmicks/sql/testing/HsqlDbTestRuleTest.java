@@ -1,10 +1,13 @@
 package net.sf.javagimmicks.sql.testing;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -16,23 +19,28 @@ public class HsqlDbTestRuleTest
    @Test
    public void test() throws SQLException
    {
-      Assert.assertTrue(_db.getDatabaseFolder().exists());
+      assertTrue(_db.getDatabaseFolder().exists());
+
+      assertEquals(0, _db.getDataSource().getNumActive());
 
       final Connection connection = _db.getConnection();
-      Assert.assertNotNull(connection);
+      assertNotNull(connection);
+      assertEquals(1, _db.getDataSource().getNumActive());
 
       final Statement stmtCreate = connection.createStatement();
-      Assert.assertNotNull(stmtCreate);
+      assertNotNull(stmtCreate);
 
       stmtCreate.execute("CREATE TABLE temp (key INTEGER, value VARCHAR(255))");
       stmtCreate.close();
 
       final Statement stmtInsert = connection.createStatement();
-      Assert.assertNotNull(stmtInsert);
+      assertNotNull(stmtInsert);
 
       stmtInsert.execute("INSERT INTO temp VALUES (1, 'test')");
       stmtInsert.close();
 
       connection.close();
+
+      assertEquals(0, _db.getDataSource().getNumActive());
    }
 }

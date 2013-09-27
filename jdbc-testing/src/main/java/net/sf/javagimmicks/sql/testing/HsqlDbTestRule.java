@@ -5,8 +5,6 @@ import java.net.MalformedURLException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import javax.sql.DataSource;
-
 import org.apache.commons.dbcp.BasicDataSource;
 import org.junit.rules.ExternalResource;
 import org.junit.rules.TemporaryFolder;
@@ -20,9 +18,35 @@ import org.junit.rules.TestRule;
  * The developer can influence the temporary folder, where the database should
  * be created and/or can provide initial configuration logic for the used
  * {@link BasicDataSource} via a {@link DataSourceConfigurator}.
+ * <p>
+ * <b>Usage example:</b>
+ * 
+ * <pre>
+ * public class HsqlDbTestRuleTest
+ * {
+ * 
+ *    &#064;Rule
+ *    public HsqlDbTestRule _db = new HsqlDbTestRule();
+ * 
+ *    &#064;Test
+ *    public void test() throws SQLException
+ *    {
+ *       final Connection connection = _db.getConnection();
+ *       assertNotNull(connection);
+ * 
+ *       // Do some DB operations
+ * 
+ *       conneciton.close();
+ *    }
+ * }
+ * </pre>
  */
 public class HsqlDbTestRule extends ExternalResource
 {
+   /**
+    * The name of the temporary Hypersonic SQL database that is creating during
+    * test runs.
+    */
    public static final String NAME_TEST_DB = "test-db";
 
    private final TemporaryFolder _folderRule;
@@ -77,13 +101,13 @@ public class HsqlDbTestRule extends ExternalResource
    }
 
    /**
-    * Returns the {@link DataSource} representing the temporary Hypersonic SQL
-    * database.
+    * Returns the {@link BasicDataSource} representing the temporary Hypersonic
+    * SQL database.
     * 
-    * @return the {@link DataSource} representing the temporary Hypersonic SQL
-    *         database
+    * @return the {@link BasicDataSource} representing the temporary Hypersonic
+    *         SQL database
     */
-   public DataSource getDataSource()
+   public BasicDataSource getDataSource()
    {
       return _dataSource;
    }
