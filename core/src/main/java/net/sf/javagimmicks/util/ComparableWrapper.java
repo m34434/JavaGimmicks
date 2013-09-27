@@ -17,12 +17,12 @@ import java.util.Comparator;
  * one which additionally extends {@link Comparable}. See the following example:
  * 
  * <pre>
- * private static interface StringWrapper
+ * public interface StringWrapper
  * {
  *    String get();
  * }
  * 
- * private static interface StringWrapperComparable extends StringWrapper, Comparable&lt;StringWrapperComparable&gt;
+ * public interface StringWrapperComparable extends StringWrapper, Comparable&lt;StringWrapperComparable&gt;
  * {}
  * </pre>
  * 
