@@ -23,6 +23,8 @@ import org.junit.rules.TestRule;
  */
 public class HsqlDbTestRule extends ExternalResource
 {
+   public static final String NAME_TEST_DB = "test-db";
+
    private final TemporaryFolder _folderRule;
    private final DataSourceConfigurator _configurator;
 
@@ -97,6 +99,16 @@ public class HsqlDbTestRule extends ExternalResource
       return getDataSource().getConnection();
    }
 
+   /**
+    * Returns the folder where the test database is or will be created.
+    * 
+    * @return the folder where the test database is or will be created
+    */
+   public File getDatabaseFolder()
+   {
+      return _folderRule.getRoot();
+   }
+
    @Override
    protected void before() throws Throwable
    {
@@ -133,7 +145,7 @@ public class HsqlDbTestRule extends ExternalResource
 
    private static String buildJdbcUrl(final File tempFolder) throws MalformedURLException
    {
-      final String url = "jdbc:hsqldb:" + tempFolder.toURI().toURL() + "test-db";
+      final String url = "jdbc:hsqldb:" + tempFolder.toURI().toURL() + NAME_TEST_DB;
       return url;
    }
 
