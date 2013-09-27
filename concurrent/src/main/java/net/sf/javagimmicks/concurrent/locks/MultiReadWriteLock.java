@@ -12,7 +12,8 @@ import java.util.concurrent.locks.ReadWriteLock;
  * 
  * @param <K>
  *           The type of the internally used resource identifiers
- * @see MultiLockProvider#newLock(Collection)
+ * @see MultiLockProvider#newLock(Iterable)
+ * @see MultiLockProvider#newLock(Object...)
  */
 public interface MultiReadWriteLock<K> extends ReadWriteLock
 {

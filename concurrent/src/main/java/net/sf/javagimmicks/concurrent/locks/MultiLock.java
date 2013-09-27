@@ -15,7 +15,8 @@ import java.util.concurrent.locks.Lock;
  *           The type of the internally used resource identifiers
  * @see MultiReadWriteLock#readLock()
  * @see MultiReadWriteLock#writeLock()
- * @see MultiLockProvider#newLock(Collection)
+ * @see MultiLockProvider#newLock(Iterable)
+ * @see MultiLockProvider#newLock(Object...)
  */
 public interface MultiLock<K> extends Lock
 {
