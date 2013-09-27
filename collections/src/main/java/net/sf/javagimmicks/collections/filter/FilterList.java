@@ -54,7 +54,7 @@ public class FilterList<E> extends AbstractEventList<E>
    }
 
    /**
-    * Creates a new instance based an internal {@link ArrayList}.
+    * Creates a new instance based on an internal {@link ArrayList}.
     * 
     * @param childrenReadOnly
     *           if created child {@link List} should be read-only or writable
@@ -65,7 +65,7 @@ public class FilterList<E> extends AbstractEventList<E>
    }
 
    /**
-    * Creates a new instance based an internal {@link ArrayList}. Child
+    * Creates a new instance based on an internal {@link ArrayList}. Child
     * {@link List}s will be read-only
     */
    public FilterList()
@@ -77,7 +77,7 @@ public class FilterList<E> extends AbstractEventList<E>
     * Creates a new filtered child {@link List} (of type {@link FilteredList})
     * based on the given {@link Filter}. Please have a look at
     * {@link FilteredList FilteredList documentation} for more details about the
-    * behaviour of filtered child {@link List}s.
+    * Behavior of filtered child {@link List}s.
     * 
     * @param filter
     *           the {@link Filter} that determines which elements should be
@@ -126,10 +126,11 @@ public class FilterList<E> extends AbstractEventList<E>
    /**
     * Returns a {@link List} of "active" {@link FilteredList} children. A child
     * {@link FilteredList} is considered "active" if it is referenced by at
-    * least on {@link Thread}. Inactive {@link FilteredList} will be cleaned up
+    * least one {@link Thread}. Inactive {@link FilteredList} will be cleaned up
     * from time to time.
     * 
     * @return the {@link List} of active {@link FilteredList} children
+    * @see FilteredList
     */
    public List<FilteredList> getActiveFilteredLists()
    {
