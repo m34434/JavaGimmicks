@@ -5,9 +5,8 @@ import java.util.AbstractMap;
 import java.util.Map;
 
 /**
- * A basic class for unmodifiable {@link Map}
- * decorators that simply forwards all read-calls
- * to an internal delegate instance.
+ * A basic class for unmodifiable {@link Map} decorators that simply forwards
+ * all read-calls to an internal delegate instance.
  */
 public abstract class AbstractUnmodifiableMapDecorator<K, V> extends AbstractMap<K, V> implements Serializable
 {
@@ -15,33 +14,25 @@ public abstract class AbstractUnmodifiableMapDecorator<K, V> extends AbstractMap
 
    protected final Map<K, V> _decorated;
 
-   protected AbstractUnmodifiableMapDecorator(Map<K, V> decorated)
+   protected AbstractUnmodifiableMapDecorator(final Map<K, V> decorated)
    {
       _decorated = decorated;
    }
-   
-   /**
-    * Returns the decorated instance (the delegate)
-    */
-   public Map<K, V> getDecorated()
-   {
-      return _decorated;
-   }
 
    @Override
-   public boolean containsKey(Object key)
+   public boolean containsKey(final Object key)
    {
       return getDecorated().containsKey(key);
    }
 
    @Override
-   public boolean containsValue(Object value)
+   public boolean containsValue(final Object value)
    {
       return getDecorated().containsValue(value);
    }
 
    @Override
-   public V get(Object key)
+   public V get(final Object key)
    {
       return getDecorated().get(key);
    }
@@ -57,10 +48,15 @@ public abstract class AbstractUnmodifiableMapDecorator<K, V> extends AbstractMap
    {
       return getDecorated().size();
    }
-   
+
    @Override
    public String toString()
    {
       return getDecorated().toString();
+   }
+
+   protected Map<K, V> getDecorated()
+   {
+      return _decorated;
    }
 }

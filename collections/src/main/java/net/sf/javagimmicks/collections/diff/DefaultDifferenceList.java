@@ -36,4 +36,10 @@ public class DefaultDifferenceList<T> extends AbstractUnmodifiableListDecorator<
    {
       return DifferenceUtils.getInvertedDifferenceList(this);
    }
+
+   @Override
+   public List<Difference<T>> getDecorated()
+   {
+      return super.getDecorated();
+   }
 }

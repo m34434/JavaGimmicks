@@ -242,6 +242,12 @@ public class SortedListUtils
          throw new UnsupportedOperationException("Cannot create sub lists of a sorted list!");
       }
 
+      @Override
+      public List<E> getDecorated()
+      {
+         return super.getDecorated();
+      }
+
       protected class SortedListIteratorDecorator extends AbstractListIteratorDecorator<E>
       {
          public SortedListIteratorDecorator(final ListIterator<E> decorated)

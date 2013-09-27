@@ -5,96 +5,106 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
- * A basic class for {@link Collection} decorators
- * that simply forwards all calls to an internal
- * delegate instance.
+ * A basic class for {@link Collection} decorators that simply forwards all
+ * calls to an internal delegate instance.
  */
 public abstract class AbstractCollectionDecorator<E> implements Collection<E>, Serializable
 {
    private static final long serialVersionUID = -5203666410345126066L;
 
    protected final Collection<E> _decorated;
-   
-   protected AbstractCollectionDecorator(Collection<E> decorated)
+
+   protected AbstractCollectionDecorator(final Collection<E> decorated)
    {
       _decorated = decorated;
    }
-   
-   /**
-    * Returns the decorated instance (the delegate)
-    */
-   public Collection<E> getDecorated()
-   {
-      return _decorated;
-   }
 
-   public boolean add(E e)
+   @Override
+   public boolean add(final E e)
    {
       return getDecorated().add(e);
    }
 
-   public boolean addAll(Collection<? extends E> c)
+   @Override
+   public boolean addAll(final Collection<? extends E> c)
    {
       return getDecorated().addAll(c);
    }
 
+   @Override
    public void clear()
    {
       getDecorated().clear();
    }
 
-   public boolean contains(Object o)
+   @Override
+   public boolean contains(final Object o)
    {
       return getDecorated().contains(o);
    }
 
-   public boolean containsAll(Collection<?> c)
+   @Override
+   public boolean containsAll(final Collection<?> c)
    {
       return getDecorated().containsAll(c);
    }
 
+   @Override
    public boolean isEmpty()
    {
       return getDecorated().isEmpty();
    }
 
+   @Override
    public Iterator<E> iterator()
    {
       return getDecorated().iterator();
    }
 
-   public boolean remove(Object o)
+   @Override
+   public boolean remove(final Object o)
    {
       return getDecorated().remove(o);
    }
 
-   public boolean removeAll(Collection<?> c)
+   @Override
+   public boolean removeAll(final Collection<?> c)
    {
       return getDecorated().removeAll(c);
    }
 
-   public boolean retainAll(Collection<?> c)
+   @Override
+   public boolean retainAll(final Collection<?> c)
    {
       return getDecorated().retainAll(c);
    }
 
+   @Override
    public int size()
    {
       return getDecorated().size();
    }
 
+   @Override
    public Object[] toArray()
    {
       return getDecorated().toArray();
    }
 
-   public <T> T[] toArray(T[] a)
+   @Override
+   public <T> T[] toArray(final T[] a)
    {
       return getDecorated().toArray(a);
    }
-   
+
+   @Override
    public String toString()
    {
       return getDecorated().toString();
+   }
+
+   protected Collection<E> getDecorated()
+   {
+      return _decorated;
    }
 }

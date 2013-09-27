@@ -4,54 +4,57 @@ import java.util.Comparator;
 import java.util.SortedSet;
 
 /**
- * A basic class for {@link SortedSet} decorators
- * that simply forwards all calls to an internal
- * delegate instance.
+ * A basic class for {@link SortedSet} decorators that simply forwards all calls
+ * to an internal delegate instance.
  */
 public abstract class AbstractSortedSetDecorator<E> extends AbstractSetDecorator<E> implements SortedSet<E>
 {
    private static final long serialVersionUID = -5870121449307425074L;
 
-   protected AbstractSortedSetDecorator(SortedSet<E> decorated)
+   protected AbstractSortedSetDecorator(final SortedSet<E> decorated)
    {
       super(decorated);
    }
 
-   /**
-    * Returns the decorated instance (the delegate)
-    */
-   public SortedSet<E> getDecorated()
-   {
-      return (SortedSet<E>)super.getDecorated();
-   }
-
+   @Override
    public Comparator<? super E> comparator()
    {
       return getDecorated().comparator();
    }
 
+   @Override
    public E first()
    {
       return getDecorated().first();
    }
 
-   public SortedSet<E> headSet(E toElement)
+   @Override
+   public SortedSet<E> headSet(final E toElement)
    {
       return getDecorated().headSet(toElement);
    }
 
+   @Override
    public E last()
    {
       return getDecorated().last();
    }
 
-   public SortedSet<E> subSet(E fromElement, E toElement)
+   @Override
+   public SortedSet<E> subSet(final E fromElement, final E toElement)
    {
       return getDecorated().subSet(fromElement, toElement);
    }
 
-   public SortedSet<E> tailSet(E fromElement)
+   @Override
+   public SortedSet<E> tailSet(final E fromElement)
    {
       return getDecorated().tailSet(fromElement);
+   }
+
+   @Override
+   protected SortedSet<E> getDecorated()
+   {
+      return (SortedSet<E>) super.getDecorated();
    }
 }

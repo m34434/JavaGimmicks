@@ -6,9 +6,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * A basic class for {@link Map} decorators
- * that simply forwards all calls to an internal
- * delegate instance.
+ * A basic class for {@link Map} decorators that simply forwards all calls to an
+ * internal delegate instance.
  */
 public abstract class AbstractMapDecorator<K, V> implements Map<K, V>, Serializable
 {
@@ -16,81 +15,91 @@ public abstract class AbstractMapDecorator<K, V> implements Map<K, V>, Serializa
 
    protected final Map<K, V> _decorated;
 
-   protected AbstractMapDecorator(Map<K, V> decorated)
+   protected AbstractMapDecorator(final Map<K, V> decorated)
    {
       _decorated = decorated;
    }
-   
-   /**
-    * Returns the decorated instance (the delegate)
-    */
-   public Map<K, V> getDecorated()
-   {
-      return _decorated;
-   }
 
+   @Override
    public void clear()
    {
       getDecorated().clear();
    }
 
-   public boolean containsKey(Object key)
+   @Override
+   public boolean containsKey(final Object key)
    {
       return getDecorated().containsKey(key);
    }
 
-   public boolean containsValue(Object value)
+   @Override
+   public boolean containsValue(final Object value)
    {
       return getDecorated().containsValue(value);
    }
 
+   @Override
    public Set<Map.Entry<K, V>> entrySet()
    {
       return getDecorated().entrySet();
    }
 
-   public V get(Object key)
+   @Override
+   public V get(final Object key)
    {
       return getDecorated().get(key);
    }
 
+   @Override
    public boolean isEmpty()
    {
       return getDecorated().isEmpty();
    }
 
+   @Override
    public Set<K> keySet()
    {
       return getDecorated().keySet();
    }
 
-   public V put(K key, V value)
+   @Override
+   public V put(final K key, final V value)
    {
       return getDecorated().put(key, value);
    }
 
-   public void putAll(Map<? extends K, ? extends V> m)
+   @Override
+   public void putAll(final Map<? extends K, ? extends V> m)
    {
       getDecorated().putAll(m);
    }
 
-   public V remove(Object key)
+   @Override
+   public V remove(final Object key)
    {
       return getDecorated().remove(key);
    }
 
+   @Override
    public int size()
    {
       return getDecorated().size();
    }
 
+   @Override
    public Collection<V> values()
    {
       return getDecorated().values();
    }
-   
+
+   @Override
    public String toString()
    {
       return getDecorated().toString();
+   }
+
+   protected Map<K, V> getDecorated()
+   {
+      return _decorated;
    }
 }

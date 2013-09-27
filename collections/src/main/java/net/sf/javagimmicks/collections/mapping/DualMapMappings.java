@@ -381,6 +381,12 @@ public class DualMapMappings<L, R> extends AbstractMappings<L, R>
          super.clear();
       }
 
+      @Override
+      public Set<R> getDecorated()
+      {
+         return super.getDecorated();
+      }
+
       protected void clearForReuse()
       {
          _internalFlag = true;

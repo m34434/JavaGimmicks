@@ -6,31 +6,22 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * A basic class for unmodifiable {@link List}
- * decorators that simply forwards all read-calls
- * to an internal delegate instance.
+ * A basic class for unmodifiable {@link List} decorators that simply forwards
+ * all read-calls to an internal delegate instance.
  */
 public abstract class AbstractUnmodifiableListDecorator<E> extends AbstractList<E> implements Serializable
 {
    private static final long serialVersionUID = 8953157735186723748L;
 
    protected final List<E> _decorated;
-   
-   protected AbstractUnmodifiableListDecorator(List<E> decorated)
+
+   protected AbstractUnmodifiableListDecorator(final List<E> decorated)
    {
       _decorated = decorated;
    }
-   
-   /**
-    * Returns the decorated instance (the delegate)
-    */
-   public List<E> getDecorated()
-   {
-      return _decorated;
-   }
 
    @Override
-   public E get(int index)
+   public E get(final int index)
    {
       return getDecorated().get(index);
    }
@@ -41,43 +32,56 @@ public abstract class AbstractUnmodifiableListDecorator<E> extends AbstractList<
       return getDecorated().size();
    }
 
-   public boolean contains(Object o)
+   @Override
+   public boolean contains(final Object o)
    {
       return getDecorated().contains(o);
    }
 
-   public boolean containsAll(Collection<?> c)
+   @Override
+   public boolean containsAll(final Collection<?> c)
    {
       return getDecorated().containsAll(c);
    }
 
-   public int indexOf(Object o)
+   @Override
+   public int indexOf(final Object o)
    {
       return getDecorated().indexOf(o);
    }
 
+   @Override
    public boolean isEmpty()
    {
       return getDecorated().isEmpty();
    }
 
-   public int lastIndexOf(Object o)
+   @Override
+   public int lastIndexOf(final Object o)
    {
       return getDecorated().lastIndexOf(o);
    }
 
+   @Override
    public Object[] toArray()
    {
       return getDecorated().toArray();
    }
 
-   public <T> T[] toArray(T[] a)
+   @Override
+   public <T> T[] toArray(final T[] a)
    {
       return getDecorated().toArray(a);
    }
-   
+
+   @Override
    public String toString()
    {
       return getDecorated().toString();
+   }
+
+   protected List<E> getDecorated()
+   {
+      return _decorated;
    }
 }

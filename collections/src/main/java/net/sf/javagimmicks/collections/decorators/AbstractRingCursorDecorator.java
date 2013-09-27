@@ -7,104 +7,114 @@ import java.util.List;
 import net.sf.javagimmicks.collections.RingCursor;
 
 /**
- * A basic class for {@link RingCursor} decorators
- * that simply forwards all calls to an internal
- * delegate instance.
+ * A basic class for {@link RingCursor} decorators that simply forwards all
+ * calls to an internal delegate instance.
  */
 public abstract class AbstractRingCursorDecorator<E> implements RingCursor<E>
 {
    protected final RingCursor<E> _decorated;
 
-   protected AbstractRingCursorDecorator(RingCursor<E> decorated)
+   protected AbstractRingCursorDecorator(final RingCursor<E> decorated)
    {
       _decorated = decorated;
    }
-   
-   /**
-    * Returns the decorated instance (the delegate)
-    */
-   public RingCursor<E> getDecorated()
-   {
-      return _decorated;
-   }
-   
+
+   @Override
    public int size()
    {
       return getDecorated().size();
    }
-   
+
+   @Override
    public boolean isEmpty()
    {
       return getDecorated().isEmpty();
    }
 
+   @Override
    public E get()
    {
       return getDecorated().get();
    }
 
-   public void insertAfter(Collection<? extends E> collection)
+   public void insertAfter(final Collection<? extends E> collection)
    {
       getDecorated().insertAfter(collection);
    }
 
-   public void insertAfter(E value)
+   @Override
+   public void insertAfter(final E value)
    {
       getDecorated().insertAfter(value);
    }
 
-   public void insertBefore(Collection<? extends E> collection)
+   public void insertBefore(final Collection<? extends E> collection)
    {
       getDecorated().insertBefore(collection);
    }
 
-   public void insertBefore(E value)
+   @Override
+   public void insertBefore(final E value)
    {
       getDecorated().insertBefore(value);
    }
 
+   @Override
    public E next()
    {
       return getDecorated().next();
    }
 
-   public E next(int count)
+   @Override
+   public E next(final int count)
    {
       return getDecorated().next(count);
    }
 
+   @Override
    public E previous()
    {
       return getDecorated().previous();
    }
 
-   public E previous(int count)
+   @Override
+   public E previous(final int count)
    {
       return getDecorated().previous(count);
    }
 
+   @Override
    public E remove()
    {
       return getDecorated().remove();
    }
 
-   public E set(E value)
+   @Override
+   public E set(final E value)
    {
       return getDecorated().set(value);
    }
 
+   @Override
    public List<E> toList()
    {
       return getDecorated().toList();
    }
 
+   @Override
    public RingCursor<E> cursor()
    {
       return getDecorated().cursor();
    }
 
+   @Override
    public Iterator<E> iterator()
    {
       return getDecorated().iterator();
+   }
+
+   protected RingCursor<E> getDecorated()
+   {
+      return _decorated;
    }
 }

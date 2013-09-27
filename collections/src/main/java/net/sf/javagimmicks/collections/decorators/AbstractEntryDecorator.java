@@ -4,9 +4,8 @@ import java.io.Serializable;
 import java.util.Map.Entry;
 
 /**
- * A basic class for {@link Entry} decorators
- * that simply forwards all calls to an internal
- * delegate instance.
+ * A basic class for {@link Entry} decorators that simply forwards all calls to
+ * an internal delegate instance.
  */
 public abstract class AbstractEntryDecorator<K, V> implements Entry<K, V>, Serializable
 {
@@ -14,31 +13,31 @@ public abstract class AbstractEntryDecorator<K, V> implements Entry<K, V>, Seria
 
    protected final Entry<K, V> _decorated;
 
-   protected AbstractEntryDecorator(Entry<K, V> decorated)
+   protected AbstractEntryDecorator(final Entry<K, V> decorated)
    {
       _decorated = decorated;
    }
-   
-   /**
-    * Returns the decorated instance (the delegate)
-    */
-   public Entry<K, V> getDecorated()
-   {
-      return _decorated;
-   }
 
+   @Override
    public K getKey()
    {
       return getDecorated().getKey();
    }
 
+   @Override
    public V getValue()
    {
       return getDecorated().getValue();
    }
 
-   public V setValue(V value)
+   @Override
+   public V setValue(final V value)
    {
       return getDecorated().setValue(value);
+   }
+
+   protected Entry<K, V> getDecorated()
+   {
+      return _decorated;
    }
 }

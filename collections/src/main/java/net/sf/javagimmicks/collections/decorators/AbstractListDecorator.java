@@ -5,75 +5,81 @@ import java.util.List;
 import java.util.ListIterator;
 
 /**
- * A basic class for {@link List} decorators
- * that simply forwards all calls to an internal
- * delegate instance.
+ * A basic class for {@link List} decorators that simply forwards all calls to
+ * an internal delegate instance.
  */
 public abstract class AbstractListDecorator<E> extends AbstractCollectionDecorator<E> implements List<E>
 {
    private static final long serialVersionUID = -1438615027180189129L;
 
-   protected AbstractListDecorator(List<E> decorated)
+   protected AbstractListDecorator(final List<E> decorated)
    {
       super(decorated);
    }
 
-   /**
-    * Returns the decorated instance (the delegate)
-    */
    @Override
-   public List<E> getDecorated()
-   {
-      return (List<E>)super.getDecorated();
-   }
-
-   public void add(int index, E element)
+   public void add(final int index, final E element)
    {
       getDecorated().add(index, element);
    }
 
-   public boolean addAll(int index, Collection<? extends E> c)
+   @Override
+   public boolean addAll(final int index, final Collection<? extends E> c)
    {
       return getDecorated().addAll(index, c);
    }
 
-   public E get(int index)
+   @Override
+   public E get(final int index)
    {
       return getDecorated().get(index);
    }
 
-   public int indexOf(Object o)
+   @Override
+   public int indexOf(final Object o)
    {
       return getDecorated().indexOf(o);
    }
 
-   public int lastIndexOf(Object o)
+   @Override
+   public int lastIndexOf(final Object o)
    {
       return getDecorated().lastIndexOf(o);
    }
 
+   @Override
    public ListIterator<E> listIterator()
    {
       return getDecorated().listIterator();
    }
 
-   public ListIterator<E> listIterator(int index)
+   @Override
+   public ListIterator<E> listIterator(final int index)
    {
       return getDecorated().listIterator(index);
    }
 
-   public E remove(int index)
+   @Override
+   public E remove(final int index)
    {
       return getDecorated().remove(index);
    }
 
-   public E set(int index, E element)
+   @Override
+   public E set(final int index, final E element)
    {
       return getDecorated().set(index, element);
    }
 
-   public List<E> subList(int fromIndex, int toIndex)
+   @Override
+   public List<E> subList(final int fromIndex, final int toIndex)
    {
       return getDecorated().subList(fromIndex, toIndex);
+   }
+
+   @Override
+   protected List<E> getDecorated()
+   {
+      return (List<E>) super.getDecorated();
    }
 }

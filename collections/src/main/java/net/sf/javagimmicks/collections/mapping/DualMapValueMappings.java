@@ -370,6 +370,12 @@ public class DualMapValueMappings<L, R, E> extends AbstractValueMappings<L, R, E
          return super.put(key, value);
       }
 
+      @Override
+      public Map<R, E> getDecorated()
+      {
+         return super.getDecorated();
+      }
+
       protected void clearForReuse()
       {
          _internalFlag = true;

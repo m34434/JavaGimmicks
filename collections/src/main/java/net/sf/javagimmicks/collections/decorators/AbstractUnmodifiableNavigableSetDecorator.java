@@ -3,55 +3,58 @@ package net.sf.javagimmicks.collections.decorators;
 import java.util.NavigableSet;
 
 /**
- * A basic class for unmodifiable {@link NavigableSet}
- * decorators that simply forwards all read-calls
- * to an internal delegate instance.
+ * A basic class for unmodifiable {@link NavigableSet} decorators that simply
+ * forwards all read-calls to an internal delegate instance.
  */
-public abstract class AbstractUnmodifiableNavigableSetDecorator<E> extends AbstractUnmodifiableSortedSetDecorator<E> implements NavigableSet<E>
+public abstract class AbstractUnmodifiableNavigableSetDecorator<E> extends AbstractUnmodifiableSortedSetDecorator<E>
+      implements NavigableSet<E>
 {
    private static final long serialVersionUID = -2004886060529930248L;
 
-   protected AbstractUnmodifiableNavigableSetDecorator(NavigableSet<E> decorated)
+   protected AbstractUnmodifiableNavigableSetDecorator(final NavigableSet<E> decorated)
    {
       super(decorated);
    }
 
-   /**
-    * Returns the decorated instance (the delegate)
-    */
    @Override
-   public NavigableSet<E> getDecorated()
-   {
-      return (NavigableSet<E>) super.getDecorated();
-   }
-
-   public E ceiling(E e)
+   public E ceiling(final E e)
    {
       return getDecorated().ceiling(e);
    }
 
-   public E floor(E e)
+   @Override
+   public E floor(final E e)
    {
       return getDecorated().floor(e);
    }
 
-   public E higher(E e)
+   @Override
+   public E higher(final E e)
    {
       return getDecorated().higher(e);
    }
 
-   public E lower(E e)
+   @Override
+   public E lower(final E e)
    {
       return getDecorated().lower(e);
    }
 
+   @Override
    public E pollFirst()
    {
       return getDecorated().pollFirst();
    }
 
+   @Override
    public E pollLast()
    {
       return getDecorated().pollLast();
+   }
+
+   @Override
+   protected NavigableSet<E> getDecorated()
+   {
+      return (NavigableSet<E>) super.getDecorated();
    }
 }
