@@ -1,14 +1,16 @@
 package net.sf.javagimmicks.util;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Comparator;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 public class ComparableWrapperTest
 {
    @Test
-   public void test()
+   public void testWithComparableInterface()
    {
       final ComparableWrapper<StringWrapper, StringWrapperComparable> wrapper = ComparableWrapper.create(
             StringWrapper.class, StringWrapperComparable.class, COMPARATOR);
@@ -17,28 +19,51 @@ public class ComparableWrapperTest
       final StringWrapperComparable w2 = wrapper.wrap(new StringWrapperImpl("2"));
       final StringWrapperComparable w3 = wrapper.wrap(new StringWrapperImpl("3"));
 
-      Assert.assertEquals("1", w1.toString());
-      Assert.assertEquals("2", w2.toString());
-      Assert.assertEquals("3", w3.toString());
+      assertEquals("1", w1.toString());
+      assertEquals("2", w2.toString());
+      assertEquals("3", w3.toString());
 
-      Assert.assertEquals(0, w1.compareTo(w1));
+      assertEquals(0, w1.compareTo(w1));
 
-      Assert.assertTrue(w1.compareTo(w2) < 0);
-      Assert.assertTrue(w1.compareTo(w3) < 0);
-      Assert.assertTrue(w2.compareTo(w3) < 0);
+      assertTrue(w1.compareTo(w2) < 0);
+      assertTrue(w1.compareTo(w3) < 0);
+      assertTrue(w2.compareTo(w3) < 0);
 
-      Assert.assertTrue(w2.compareTo(w1) > 0);
-      Assert.assertTrue(w3.compareTo(w1) > 0);
-      Assert.assertTrue(w3.compareTo(w2) > 0);
+      assertTrue(w2.compareTo(w1) > 0);
+      assertTrue(w3.compareTo(w1) > 0);
+      assertTrue(w3.compareTo(w2) > 0);
+   }
+
+   @SuppressWarnings("unchecked")
+   @Test
+   public void testWithoutComparableInterface()
+   {
+      final ComparableWrapper<StringWrapper, StringWrapper> wrapper = ComparableWrapper.create(
+            StringWrapper.class, COMPARATOR);
+
+      final StringWrapper w1 = wrapper.wrap(new StringWrapperImpl("1"));
+      final StringWrapper w2 = wrapper.wrap(new StringWrapperImpl("2"));
+      final StringWrapper w3 = wrapper.wrap(new StringWrapperImpl("3"));
+
+      assertEquals("1", w1.toString());
+      assertEquals("2", w2.toString());
+      assertEquals("3", w3.toString());
+
+      assertEquals(0, ((Comparable<StringWrapper>) w1).compareTo(w1));
+
+      assertTrue(((Comparable<StringWrapper>) w1).compareTo(w2) < 0);
+      assertTrue(((Comparable<StringWrapper>) w1).compareTo(w3) < 0);
+      assertTrue(((Comparable<StringWrapper>) w2).compareTo(w3) < 0);
+
+      assertTrue(((Comparable<StringWrapper>) w2).compareTo(w1) > 0);
+      assertTrue(((Comparable<StringWrapper>) w3).compareTo(w1) > 0);
+      assertTrue(((Comparable<StringWrapper>) w3).compareTo(w2) > 0);
    }
 
    private static interface StringWrapper
    {
       String get();
    }
-
-   private static interface StringWrapperComparable extends StringWrapper, Comparable<StringWrapperComparable>
-   {}
 
    private static class StringWrapperImpl implements StringWrapper
    {
@@ -62,6 +87,9 @@ public class ComparableWrapperTest
       }
    }
 
+   private static interface StringWrapperComparable extends StringWrapper, Comparable<StringWrapperComparable>
+   {}
+
    private static final Comparator<StringWrapper> COMPARATOR = new Comparator<StringWrapper>()
    {
       @Override
@@ -81,7 +109,7 @@ public class ComparableWrapperTest
          }
          else
          {
-            return o1.toString().compareTo(o2.toString());
+            return o1.get().compareTo(o2.get());
          }
       }
    };

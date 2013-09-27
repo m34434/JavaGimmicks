@@ -11,17 +11,56 @@ import java.util.Comparator;
  * {@link Comparable} object by decorating it with a dynamic proxy.
  * <p>
  * As usual for dynamic proxies, the decorated object must implement an
- * interface. It is also necessary to write an extension interface to the
- * decorated one which additionally extends {@link Comparable}. A
- * {@link ComparableWrapper} can only create the proxy object for that new
- * interface.
+ * interface which must also be provided with the construction methods.
+ * <p>
+ * It is also recommended to write an own extension interface to the decorated
+ * one which additionally extends {@link Comparable}. See the following example:
+ * 
+ * <pre>
+ * private static interface StringWrapper
+ * {
+ *    String get();
+ * }
+ * 
+ * private static interface StringWrapperComparable extends StringWrapper, Comparable&lt;StringWrapperComparable&gt;
+ * {}
+ * </pre>
+ * 
+ * Then you can use {@link ComparableWrapper} to create dynamic proxies for the
+ * {@link Comparable} extension interface:
+ * 
+ * <pre>
+ * final ComparableWrapper&lt;StringWrapper, StringWrapperComparable&gt; wrapper =
+ *       ComparableWrapper.create(StringWrapper.class, StringWrapperComparable.class, COMPARATOR);
+ * 
+ * final StringWrapperComparable w1 = wrapper.wrap(new StringWrapperImpl(&quot;1&quot;));
+ * final StringWrapperComparable w2 = wrapper.wrap(new StringWrapperImpl(&quot;2&quot;));
+ * final StringWrapperComparable w3 = wrapper.wrap(new StringWrapperImpl(&quot;3&quot;));
+ * </pre>
+ * 
+ * <p>
+ * However, if you do not provide such an interface, {@link ComparableWrapper}
+ * can also create proxies which will implement {@link Comparable} in addition
+ * to the provided delegate interface, but then you have to take care about
+ * casting to {@link Comparable} by your own:
+ * 
+ * <pre>
+ * final ComparableWrapper&lt;StringWrapper, StringWrapper&gt; wrapper =
+ *       ComparableWrapper.create(StringWrapper.class, COMPARATOR);
+ * 
+ * final StringWrapper w1 = wrapper.wrap(new StringWrapperImpl(&quot;1&quot;));
+ * final StringWrapper w2 = wrapper.wrap(new StringWrapperImpl(&quot;2&quot;));
+ * final StringWrapper w3 = wrapper.wrap(new StringWrapperImpl(&quot;3&quot;));
+ * 
+ * assertTrue(((Comparable&lt;StringWrapper&gt;) w1).compareTo(w2) &lt; 0);
+ * </pre>
  * 
  * @param <T>
  *           the (non-{@link Comparable}) type of objects to wrap
  * @param <C>
- *           the ({@link Comparable}) type of proxies to create
+ *           the type of proxies to create
  */
-public class ComparableWrapper<T, C extends Comparable<C>>
+public class ComparableWrapper<T, C>
 {
    private static final Method COMPARE_TO_METHOD;
 
@@ -57,8 +96,8 @@ public class ComparableWrapper<T, C extends Comparable<C>>
     * @param nonComparableType
     *           an interface type that delegate objects to wrap must implement
     * @param comparableType
-    *           the proxy interface the extends {@link Comparable} and the
-    *           original delegate interface
+    *           the proxy interface that must extend {@link Comparable} and the
+    *           non-{@link Comparable} delegate interface
     * @param comparator
     *           the {@link Comparator} to use for creating proxies
     * @param <T>
@@ -66,6 +105,11 @@ public class ComparableWrapper<T, C extends Comparable<C>>
     * @param <C>
     *           the ({@link Comparable}) type of proxies to create
     * @return the resulting {@link ComparableWrapper}
+    * @throws IllegalArgumentException
+    *            if {@code comparableType} does not extend
+    *            {@code nonComparableType} or it does not follow dynamic proxy
+    *            prerequisites (see
+    *            {@link Proxy#getProxyClass(ClassLoader, Class...)})
     */
    @SuppressWarnings("unchecked")
    public static <T, C extends Comparable<C>> ComparableWrapper<T, C> create(final ClassLoader classLoader,
@@ -81,10 +125,8 @@ public class ComparableWrapper<T, C extends Comparable<C>>
       }
 
       final Class<C> proxyClass = (Class<C>) Proxy.getProxyClass(classLoader, comparableType);
-      final Constructor<C> proxyConstructor = getConstructor(proxyClass);
 
-      return new ComparableWrapper<T, C>(nonComparableType,
-            proxyClass, proxyConstructor, comparator);
+      return createInternal(nonComparableType, proxyClass, comparator);
    }
 
    /**
@@ -95,8 +137,8 @@ public class ComparableWrapper<T, C extends Comparable<C>>
     * @param nonComparableType
     *           an interface type that delegate objects to wrap must implement
     * @param comparableType
-    *           the proxy interface the extends {@link Comparable} and the
-    *           original delegate interface
+    *           the proxy interface that must extend {@link Comparable} and the
+    *           non-{@link Comparable} delegate interface
     * @param comparator
     *           the {@link Comparator} to use for creating proxies
     * @param <T>
@@ -104,12 +146,83 @@ public class ComparableWrapper<T, C extends Comparable<C>>
     * @param <C>
     *           the ({@link Comparable}) type of proxies to create
     * @return the resulting {@link ComparableWrapper}
+    * @throws IllegalArgumentException
+    *            if {@code comparableType} does not extend
+    *            {@code nonComparableType} or it does not follow dynamic proxy
+    *            prerequisites (see
+    *            {@link Proxy#getProxyClass(ClassLoader, Class...)})
     */
    public static <T, C extends Comparable<C>> ComparableWrapper<T, C> create(final Class<T> nonComparableType,
          final Class<C> comparableType,
          final Comparator<T> comparator)
    {
       return create(comparableType.getClassLoader(), nonComparableType, comparableType, comparator);
+   }
+
+   /**
+    * Creates a new {@link ComparableWrapper} instance which can be reused to
+    * create {@link Comparable} proxies for any delegate objects implementing
+    * the provided non-{@link Comparable} interface - returned proxies will
+    * always implement the {@link Comparable} interface in addition to the
+    * provided one.
+    * 
+    * @param classLoader
+    *           the {@link ClassLoader} to use for creating proxy instances
+    * @param nonComparableType
+    *           an interface type that delegate objects to wrap must implement
+    * @param comparator
+    *           the {@link Comparator} to use for creating proxies
+    * @param <T>
+    *           the (non-{@link Comparable}) type of objects to wrap
+    * @return the resulting {@link ComparableWrapper}
+    * @throws IllegalArgumentException
+    *            if {@code comparableType} does not follow dynamic proxy
+    *            prerequisites (see
+    *            {@link Proxy#getProxyClass(ClassLoader, Class...)})
+    */
+   @SuppressWarnings("unchecked")
+   public static <T> ComparableWrapper<T, T> create(final ClassLoader classLoader,
+         final Class<T> nonComparableType,
+         final Comparator<T> comparator)
+   {
+      return createInternal(nonComparableType,
+            (Class<T>) Proxy.getProxyClass(classLoader, new Class[] { nonComparableType, Comparable.class }),
+            comparator);
+   }
+
+   /**
+    * Creates a new {@link ComparableWrapper} instance which can be reused to
+    * create {@link Comparable} proxies for any delegate objects implementing
+    * the provided non-{@link Comparable} interface - returned proxies will
+    * always implement the {@link Comparable} interface in addition to the
+    * provided one.
+    * 
+    * @param nonComparableType
+    *           an interface type that delegate objects to wrap must implement
+    * @param comparator
+    *           the {@link Comparator} to use for creating proxies
+    * @param <T>
+    *           the (non-{@link Comparable}) type of objects to wrap
+    * @return the resulting {@link ComparableWrapper}
+    * @throws IllegalArgumentException
+    *            if {@code comparableType} does not follow dynamic proxy
+    *            prerequisites (see
+    *            {@link Proxy#getProxyClass(ClassLoader, Class...)})
+    */
+   public static <T> ComparableWrapper<T, T> create(final Class<T> nonComparableType,
+         final Comparator<T> comparator)
+   {
+      return create(nonComparableType.getClassLoader(), nonComparableType, comparator);
+   }
+
+   private static <T, C> ComparableWrapper<T, C> createInternal(final Class<T> nonComparableType,
+         final Class<C> proxyClass,
+         final Comparator<T> comparator)
+   {
+      final Constructor<C> proxyConstructor = getConstructor(proxyClass);
+
+      return new ComparableWrapper<T, C>(nonComparableType,
+            proxyClass, proxyConstructor, comparator);
    }
 
    private ComparableWrapper(final Class<T> nonComparableType, final Class<C> proxyClass,
@@ -180,7 +293,7 @@ public class ComparableWrapper<T, C extends Comparable<C>>
       }
    }
 
-   private static <C extends Comparable<C>> Constructor<C> getConstructor(final Class<C> proxyClass)
+   private static <C> Constructor<C> getConstructor(final Class<C> proxyClass)
    {
       try
       {
