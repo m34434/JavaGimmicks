@@ -1,11 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>GimmickUtils-cdi</artifactId>
+	<artifactId>gimmicks-cdi</artifactId>
 
 	<parent>
 		<groupId>net.sf.javagimmicks</groupId>
-		<artifactId>GimmickUtils-parent</artifactId>
+		<artifactId>gimmicks-parent</artifactId>
 		<version>0.81-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
@@ -17,7 +17,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>net.sf.javagimmicks</groupId>
-			<artifactId>GimmickUtils-core</artifactId>
+			<artifactId>gimmicks-core</artifactId>
 		</dependency>
 
 		<dependency>
@@ -35,7 +35,7 @@
 		</dependency>
 		<dependency>
 			<groupId>net.sf.javagimmicks</groupId>
-			<artifactId>GimmickUtils-cdi-testing</artifactId>
+			<artifactId>gimmicks-cdi-testing</artifactId>
 		</dependency>
 	</dependencies>
 </project>

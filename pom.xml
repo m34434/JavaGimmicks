@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>net.sf.javagimmicks</groupId>
-	<artifactId>GimmickUtils-parent</artifactId>
+	<artifactId>gimmicks-parent</artifactId>
 	<version>0.81-SNAPSHOT</version>
 
 	<parent>
@@ -44,66 +44,66 @@
 		<dependencies>
 			<dependency>
 				<groupId>net.sf.javagimmicks</groupId>
-				<artifactId>GimmickUtils-cdi</artifactId>
+				<artifactId>gimmicks-cdi</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>net.sf.javagimmicks</groupId>
-				<artifactId>GimmickUtils-cdi-collections</artifactId>
+				<artifactId>gimmicks-cdi-collections</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>net.sf.javagimmicks</groupId>
-				<artifactId>GimmickUtils-collections</artifactId>
+				<artifactId>gimmicks-collections</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>net.sf.javagimmicks</groupId>
-				<artifactId>GimmickUtils-concurrent</artifactId>
+				<artifactId>gimmicks-concurrent</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>net.sf.javagimmicks</groupId>
-				<artifactId>GimmickUtils-core</artifactId>
+				<artifactId>gimmicks-core</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>net.sf.javagimmicks</groupId>
-				<artifactId>GimmickUtils-graph</artifactId>
+				<artifactId>gimmicks-graph</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>net.sf.javagimmicks</groupId>
-				<artifactId>GimmickUtils-io</artifactId>
+				<artifactId>gimmicks-io</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>net.sf.javagimmicks</groupId>
-				<artifactId>GimmickUtils-math</artifactId>
+				<artifactId>gimmicks-math</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>net.sf.javagimmicks</groupId>
-				<artifactId>GimmickUtils-swing</artifactId>
+				<artifactId>gimmicks-swing</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
 			<!-- GimmickUtils test dependencies -->
 			<dependency>
 				<groupId>net.sf.javagimmicks</groupId>
-				<artifactId>GimmickUtils-cdi-testing</artifactId>
+				<artifactId>gimmicks-cdi-testing</artifactId>
 				<version>${project.version}</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>net.sf.javagimmicks</groupId>
-				<artifactId>GimmickUtils-jdbc-testing</artifactId>
+				<artifactId>gimmicks-jdbc-testing</artifactId>
 				<version>${project.version}</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>net.sf.javagimmicks</groupId>
-				<artifactId>GimmickUtils-testing</artifactId>
+				<artifactId>gimmicks-testing</artifactId>
 				<version>${project.version}</version>
 				<scope>test</scope>
 			</dependency>
