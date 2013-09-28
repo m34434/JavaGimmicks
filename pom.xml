@@ -337,9 +337,9 @@
 			<developerConnection>scm:svn:https://svn.code.sf.net/p/jgutils/code/GimmickUtils/trunk</developerConnection> 
 			============================================================================================== -->
 
-		<url>https://github.com/m34434/GimmickUtils</url>
-		<connection>scm:git:https://github.com/m34434/GimmickUtils.git</connection>
-		<developerConnection>scm:git:https://github.com/m34434/GimmickUtils.git</developerConnection>
+		<url>https://github.com/m34434/JavaGimmicks</url>
+		<connection>scm:git:https://github.com/m34434/JavaGimmicks.git</connection>
+		<developerConnection>scm:git:https://github.com/m34434/JavaGimmicks.git</developerConnection>
 	</scm>
 
 </project>
