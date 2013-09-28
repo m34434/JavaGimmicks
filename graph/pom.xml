@@ -10,7 +10,7 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<name>JavaGimmicks - GimmickUtils - Grpah</name>
+	<name>JavaGimmicks - Grpah</name>
 	<description>A small API for graph data structures</description>
 	<url>http://jgutils.sourceforge.net</url>
 

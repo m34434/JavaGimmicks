@@ -10,7 +10,7 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<name>JavaGimmicks - GimmickUtils - Testing</name>
+	<name>JavaGimmicks - Testing</name>
 	<description>Testing utilities and extensions</description>
 	<url>http://jgutils.sourceforge.net</url>
 

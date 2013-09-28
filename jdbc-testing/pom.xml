@@ -10,7 +10,7 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<name>JavaGimmicks - GimmickUtils - JDBC-Testing</name>
+	<name>JavaGimmicks - JDBC-Testing</name>
 	<description>Utilities for testing JDBC based class with a temporary Hypersonic SQL Database</description>
 	<url>http://jgutils.sourceforge.net</url>
 

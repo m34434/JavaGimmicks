@@ -11,7 +11,7 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<name>JavaGimmicks - GimmickUtils - CDI-Collections</name>
+	<name>JavaGimmicks - CDI-Collections</name>
 	<description>CDI extensions to JavaGimmicks - GimmickUtils - Collections API</description>
 	<url>http://jgutils.sourceforge.net</url>
 

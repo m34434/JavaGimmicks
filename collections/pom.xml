@@ -10,7 +10,7 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<name>JavaGimmicks - GimmickUtils - Collections</name>
+	<name>JavaGimmicks - Collections</name>
 	<description>Several utilities for and around the Java Collection API</description>
 	<url>http://jgutils.sourceforge.net</url>
 

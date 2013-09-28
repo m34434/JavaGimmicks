@@ -10,7 +10,7 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<name>JavaGimmicks - GimmickUtils - CDI-Testing</name>
+	<name>JavaGimmicks - CDI-Testing</name>
 	<description>JUnit extensions for testing CDI applications in a local container</description>
 	<url>http://jgutils.sourceforge.net</url>
 

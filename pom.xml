@@ -14,7 +14,7 @@
 
 	<packaging>pom</packaging>
 
-	<name>JavaGimmicks - GimmickUtils (Parent)</name>
+	<name>JavaGimmicks (Parent)</name>
 	<description>Utility classes, APIs and tools for Java</description>
 	<url>http://jgutils.sourceforge.net/</url>
 

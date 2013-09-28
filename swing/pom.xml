@@ -10,7 +10,7 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<name>JavaGimmicks - GimmickUtils - Swing</name>
+	<name>JavaGimmicks - Swing</name>
 	<description>Swing utilities and extensions</description>
 	<url>http://jgutils.sourceforge.net</url>
 

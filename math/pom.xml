@@ -10,7 +10,7 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<name>JavaGimmicks - GimmickUtils - Math</name>
+	<name>JavaGimmicks - Math</name>
 	<description>A few mathematical utilities</description>
 	<url>http://jgutils.sourceforge.net</url>
 	

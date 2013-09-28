@@ -11,7 +11,7 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<name>JavaGimmicks - GimmickUtils - Core</name>
+	<name>JavaGimmicks - Core</name>
 	<description>Core utilities for many basic programming purposes</description>
 	<url>http://jgutils.sourceforge.net</url>
 

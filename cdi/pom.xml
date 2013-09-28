@@ -10,7 +10,7 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<name>JavaGimmicks - GimmickUtils - CDI</name>
+	<name>JavaGimmicks - CDI</name>
 	<description>CDI utilities and extensions</description>
 	<url>http://jgutils.sourceforge.net</url>
 
