@@ -1,11 +1,13 @@
 package net.sf.javagimmicks.jpa.testing;
 
+import java.io.File;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 import net.sf.javagimmicks.sql.testing.HsqlDbTestRule;
+import net.sf.javagimmicks.sql.testing.HsqlDbTestRule.DataSourceConfigurator;
 
 import org.junit.rules.ExternalResource;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -15,9 +17,21 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 public class JpaHsqlDbTestRule extends ExternalResource
 {
-   private final HsqlDbTestRule _db = new HsqlDbTestRule();
+   private final String[] _entityPackages;
+   private final EntityManagerFactoryConfigurator _configurator;
+
+   private final HsqlDbTestRule _db;
 
    private LocalContainerEntityManagerFactoryBean _localEmf;
+
+   public JpaHsqlDbTestRule(final EntityManagerFactoryConfigurator emfConfigurator,
+         final DataSourceConfigurator dsConfigurator, final File dbFolder,
+         final String... entityPackages)
+   {
+      _entityPackages = entityPackages;
+      _configurator = emfConfigurator;
+      _db = new HsqlDbTestRule(dsConfigurator, dbFolder);
+   }
 
    public EntityManagerFactory getEntityManagerFactory()
    {
@@ -41,11 +55,14 @@ public class JpaHsqlDbTestRule extends ExternalResource
       _db.init();
 
       _localEmf = new LocalContainerEntityManagerFactoryBean();
-      configureEntityManagerFactoryBean(_localEmf);
+      if (_configurator != null)
+      {
+         _configurator.configure(_localEmf);
+      }
 
       _localEmf.setDataSource(_db.getDataSource());
       _localEmf.setJpaVendorAdapter(createVendorAdapter());
-      _localEmf.setPackagesToScan("net.sf.javagimmicks.jpa.testing");
+      _localEmf.setPackagesToScan(_entityPackages);
 
       _localEmf.afterPropertiesSet();
    }
@@ -62,9 +79,6 @@ public class JpaHsqlDbTestRule extends ExternalResource
       _db.shutdown();
    }
 
-   protected void configureEntityManagerFactoryBean(final LocalContainerEntityManagerFactoryBean factoryBean)
-   {}
-
    protected JpaVendorAdapter createVendorAdapter()
    {
       final HibernateJpaVendorAdapter hibernate = new HibernateJpaVendorAdapter();
@@ -73,5 +87,10 @@ public class JpaHsqlDbTestRule extends ExternalResource
       hibernate.setShowSql(false);
 
       return hibernate;
+   }
+
+   public static interface EntityManagerFactoryConfigurator
+   {
+      void configure(LocalContainerEntityManagerFactoryBean factoryBean);
    }
 }

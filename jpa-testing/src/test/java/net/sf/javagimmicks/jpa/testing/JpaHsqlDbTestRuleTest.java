@@ -2,8 +2,6 @@ package net.sf.javagimmicks.jpa.testing;
 
 import javax.persistence.EntityManager;
 
-import net.sf.javagimmicks.jpa.testing.JpaHsqlDbTestRule;
-
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -11,7 +9,7 @@ import org.junit.Test;
 public class JpaHsqlDbTestRuleTest
 {
    @Rule
-   public JpaHsqlDbTestRule _jpa = new JpaHsqlDbTestRule();
+   public JpaHsqlDbTestRule _jpa = new JpaHsqlDbTestRule(null, null, null, getClass().getPackage().getName());
 
    @Test
    public void test()
