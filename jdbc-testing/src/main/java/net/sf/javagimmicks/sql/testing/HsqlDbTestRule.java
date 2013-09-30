@@ -133,6 +133,16 @@ public class HsqlDbTestRule extends ExternalResource
       return _folderRule.getRoot();
    }
 
+   public void init() throws Throwable
+   {
+      before();
+   }
+
+   public void shutdown()
+   {
+      after();
+   }
+
    @Override
    protected void before() throws Throwable
    {
