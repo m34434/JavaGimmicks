@@ -12,7 +12,7 @@
 	</parent>
 
 	<name>JavaGimmicks - JDBC-Testing</name>
-	<description>Utilities for testing JDBC based class with a temporary Hypersonic SQL Database</description>
+	<description>Utilities for testing JDBC based classes with a temporary Hypersonic SQL Database</description>
 	<url>http://jgutils.sourceforge.net</url>
 
 	<dependencies>
