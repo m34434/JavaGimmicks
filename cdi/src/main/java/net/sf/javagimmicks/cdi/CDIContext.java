@@ -152,8 +152,6 @@ public class CDIContext
     * Processes non-constructor injections and calls to post-construct methods
     * on a given non-CDI bean.
     * <p>
-    * After calling this method, the bean is 'illuminated' by CDI.
-    * <p>
     * <b>Attention:</b> Requires CDI 1.1 or higher
     * 
     * @param nonCdiObject
@@ -162,7 +160,7 @@ public class CDIContext
     *         performed
     */
    @SuppressWarnings("unchecked")
-   public static <T> T illuminate(final T nonCdiObject)
+   public static <T> T initBean(final T nonCdiObject)
    {
       final BeanManager beanManager = getBeanManager();
 

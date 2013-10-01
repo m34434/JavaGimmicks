@@ -52,13 +52,13 @@ public class CDIContextTest
    }
 
    @Test
-   public void testIlluminate()
+   public void testInitBean()
    {
       final AnotherNonCDIGeneratedClass o = new AnotherNonCDIGeneratedClass();
       assertNull(o.getA());
       assertFalse(o.isPostConstructed());
 
-      CDIContext.illuminate(o);
+      CDIContext.initBean(o);
       assertNotNull(o.getA());
       assertTrue(o.isPostConstructed());
    }

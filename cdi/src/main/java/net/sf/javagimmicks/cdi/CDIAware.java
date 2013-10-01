@@ -95,10 +95,10 @@ public abstract class CDIAware
     * <p>
     * <b>Attention:</b> Requires CDI 1.1 or higher
     * 
-    * @see CDIContext#illuminate(Object)
+    * @see CDIContext#initBean(Object)
     */
-   public void illuminate()
+   public void initBean()
    {
-      CDIContext.illuminate(this);
+      CDIContext.initBean(this);
    }
 }

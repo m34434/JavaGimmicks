@@ -18,6 +18,6 @@ public abstract class CDIObject
 {
    protected CDIObject()
    {
-      CDIContext.illuminate(this);
+      CDIContext.initBean(this);
    }
 }
