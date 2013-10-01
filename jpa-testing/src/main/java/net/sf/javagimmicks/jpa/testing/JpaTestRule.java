@@ -15,7 +15,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
-public class JpaHsqlDbTestRule extends ExternalResource
+public class JpaTestRule extends ExternalResource
 {
    private final String[] _entityPackages;
    private final EntityManagerFactoryConfigurator _configurator;
@@ -24,13 +24,34 @@ public class JpaHsqlDbTestRule extends ExternalResource
 
    private LocalContainerEntityManagerFactoryBean _localEmf;
 
-   public JpaHsqlDbTestRule(final EntityManagerFactoryConfigurator emfConfigurator,
-         final DataSourceConfigurator dsConfigurator, final File dbFolder,
+   public JpaTestRule(final EntityManagerFactoryConfigurator configurator,
+         final File dbFolder,
          final String... entityPackages)
    {
+      if (entityPackages == null || entityPackages.length == 0)
+      {
+         throw new IllegalArgumentException("At least one entity package must be specified!");
+      }
+
       _entityPackages = entityPackages;
-      _configurator = emfConfigurator;
-      _db = new HsqlDbTestRule(dsConfigurator, dbFolder);
+      _configurator = configurator;
+      _db = new HsqlDbTestRule(configurator, dbFolder);
+   }
+
+   public JpaTestRule(final File dbFolder, final String... entityPackages)
+   {
+      this(null, dbFolder, entityPackages);
+   }
+
+   public JpaTestRule(final EntityManagerFactoryConfigurator configurator,
+         final String... entityPackages)
+   {
+      this(configurator, null, entityPackages);
+   }
+
+   public JpaTestRule(final String... entityPackages)
+   {
+      this(null, null, entityPackages);
    }
 
    public EntityManagerFactory getEntityManagerFactory()
@@ -89,7 +110,7 @@ public class JpaHsqlDbTestRule extends ExternalResource
       return hibernate;
    }
 
-   public static interface EntityManagerFactoryConfigurator
+   public static interface EntityManagerFactoryConfigurator extends DataSourceConfigurator
    {
       void configure(LocalContainerEntityManagerFactoryBean factoryBean);
    }

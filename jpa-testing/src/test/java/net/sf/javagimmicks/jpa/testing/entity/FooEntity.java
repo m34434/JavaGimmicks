@@ -1,4 +1,4 @@
-package net.sf.javagimmicks.jpa.testing;
+package net.sf.javagimmicks.jpa.testing.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
