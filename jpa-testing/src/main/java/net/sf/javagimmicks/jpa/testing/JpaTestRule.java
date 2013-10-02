@@ -43,18 +43,15 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
  *    &#064;Test
  *    public void test() throws SQLException
  *    {
- *    @Test
- *    public void testPersistTx()
- *    {
  *       final EntityManager em = _jpa.createEntityManager();
  *       Assert.assertNotNull(em);
  * 
  *       em.getTransaction().begin();
- *       
+ * 
  *       // Do some JPA operations
- *       
+ * 
  *       em.getTranscation().commit();
- *       
+ * 
  *       em.close();
  *    }
  * }
