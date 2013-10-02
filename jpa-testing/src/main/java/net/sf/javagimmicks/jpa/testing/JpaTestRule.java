@@ -9,12 +9,57 @@ import javax.persistence.EntityManagerFactory;
 import net.sf.javagimmicks.sql.testing.HsqlDbTestRule;
 import net.sf.javagimmicks.sql.testing.HsqlDbTestRule.DataSourceConfigurator;
 
+import org.apache.commons.dbcp.BasicDataSource;
 import org.junit.rules.ExternalResource;
+import org.junit.rules.TestRule;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
+/**
+ * A JUnit {@link TestRule} that creates a temporary file-based Hypersonic SQL
+ * database (using {@link HsqlDbTestRule}) during test execution and wraps
+ * Spring/Hibernate based local JPA container around it.
+ * <p>
+ * The developer can influence the temporary folder, where the database should
+ * be created and/or can provide initial configuration logic for the used
+ * {@link BasicDataSource} and {@link LocalContainerEntityManagerFactoryBean}
+ * via a {@link EntityManagerFactoryConfigurator}.
+ * <p>
+ * There is no need for a {@code persistence.xml} file for test execution,
+ * instead a list of package names must be provided that will automatically be
+ * scanned for entity classes.
+ * <p>
+ * <b>Usage example:</b>
+ * 
+ * <pre>
+ * public class HsqlDbTestRuleTest
+ * {
+ * 
+ *    &#064;Rule
+ *    public JpaTestRule _jpa = new JpaTestRule(FooEntity.class.getPackage().getName());
+ * 
+ *    &#064;Test
+ *    public void test() throws SQLException
+ *    {
+ *    @Test
+ *    public void testPersistTx()
+ *    {
+ *       final EntityManager em = _jpa.createEntityManager();
+ *       Assert.assertNotNull(em);
+ * 
+ *       em.getTransaction().begin();
+ *       
+ *       // Do some JPA operations
+ *       
+ *       em.getTranscation().commit();
+ *       
+ *       em.close();
+ *    }
+ * }
+ * </pre>
+ */
 public class JpaTestRule extends ExternalResource
 {
    private final String[] _entityPackages;
