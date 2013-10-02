@@ -91,11 +91,8 @@ public class JpaTestRule extends ExternalResource
    @Override
    protected void after()
    {
-      final EntityManagerFactory emf = getEntityManagerFactory();
-      if (emf != null && emf.isOpen())
-      {
-         emf.close();
-      }
+      _localEmf.destroy();
+      _localEmf = null;
 
       _db.shutdown();
    }
