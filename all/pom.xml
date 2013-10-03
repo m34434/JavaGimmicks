@@ -56,6 +56,11 @@
 		</dependency>
 		<dependency>
 			<groupId>net.sf.javagimmicks</groupId>
+			<artifactId>gimmicks-jpa-testing</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.javagimmicks</groupId>
 			<artifactId>gimmicks-math</artifactId>
 		</dependency>
 		<dependency>

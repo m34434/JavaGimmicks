@@ -1,0 +1,46 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>gimmicks-jpa-testing</artifactId>
+
+	<parent>
+		<groupId>net.sf.javagimmicks</groupId>
+		<artifactId>gimmicks-parent</artifactId>
+		<version>0.90-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<name>JavaGimmicks - JPA-Testing</name>
+	<description>Utilities for testing JPA based classes with a temporary Hypersonic SQL Database and a Spring/Hibernate based local JPA environment</description>
+	<url>http://jgutils.sourceforge.net</url>
+
+	<dependencies>
+		<dependency>
+			<groupId>net.sf.javagimmicks</groupId>
+			<artifactId>gimmicks-jdbc-testing</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+		</dependency>
+	</dependencies>
+</project>
