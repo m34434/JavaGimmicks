@@ -190,7 +190,7 @@ public class HsqlDbTestRule extends ExternalResource
    public static interface DataSourceConfigurator
    {
       /**
-       * Configures the {@link BasicDataSource} used for testing
+       * Configures the {@link BasicDataSource} used for testing.
        * 
        * @param dataSource
        *           the {@link BasicDataSource} to configure

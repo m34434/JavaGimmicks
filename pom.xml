@@ -206,7 +206,7 @@
 						<groups>
 							<group>
 								<title>Core utilities</title>
-								<packages>net.sf.javagimmicks.beans*:net.sf.javagimmicks.event*:net.sf.javagimmicks.lang*:net.sf.javagimmicks.sql*:net.sf.javagimmicks.testing*:net.sf.javagimmicks.util*:net.sf.javagimmicks.xml.util*</packages>
+								<packages>net.sf.javagimmicks.beans*:net.sf.javagimmicks.event*:net.sf.javagimmicks.lang*:net.sf.javagimmicks.jpa*:net.sf.javagimmicks.sql*:net.sf.javagimmicks.testing*:net.sf.javagimmicks.util*:net.sf.javagimmicks.xml*</packages>
 							</group>
 							<group>
 								<title>CDI utilities (Java API for context and dependency injection)</title>

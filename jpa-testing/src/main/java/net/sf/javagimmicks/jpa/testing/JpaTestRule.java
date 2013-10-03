@@ -149,8 +149,21 @@ public class JpaTestRule extends ExternalResource
       return hibernate;
    }
 
+   /**
+    * A command interface for providing custom configuration logic for the
+    * internal {@link LocalContainerEntityManagerFactoryBean} and
+    * {@link BasicDataSource}.
+    */
    public static interface EntityManagerFactoryConfigurator extends DataSourceConfigurator
    {
+      /**
+       * Configures the {@link LocalContainerEntityManagerFactoryBean} used for
+       * testing.
+       * 
+       * @param factoryBean
+       *           the {@link LocalContainerEntityManagerFactoryBean} to
+       *           configure
+       */
       void configure(LocalContainerEntityManagerFactoryBean factoryBean);
    }
 }
