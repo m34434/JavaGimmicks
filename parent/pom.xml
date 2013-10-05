@@ -186,56 +186,56 @@
 						<show>public</show>
 						<groups>
 							<group>
-								<title>Core utilities</title>
-								<packages>net.sf.javagimmicks.beans*:net.sf.javagimmicks.event*:net.sf.javagimmicks.lang*:net.sf.javagimmicks.jpa*:net.sf.javagimmicks.sql*:net.sf.javagimmicks.testing*:net.sf.javagimmicks.util*:net.sf.javagimmicks.xml*</packages>
+								<title>Module "core" - Core Utilities</title>
+								<packages>net.sf.javagimmicks.beans:net.sf.javagimmicks.event:net.sf.javagimmicks.lang:net.sf.javagimmicks.sql:net.sf.javagimmicks.util:net.sf.javagimmicks.xml</packages>
 							</group>
 							<group>
-								<title>CDI utilities (Java API for context and dependency injection)</title>
-								<packages>net.sf.javagimmicks.cdi*</packages>
+								<title>Module "collections" - Basic utilities for and around the Java Collection API</title>
+								<packages>net.sf.javagimmicks.collections:net.sf.javagimmicks.collections.bidimap:net.sf.javagimmicks.collections.builder:net.sf.javagimmicks.collections.composite:net.sf.javagimmicks.collections.decorators:net.sf.javagimmicks.collections.diff:net.sf.javagimmicks.collections.event:net.sf.javagimmicks.collections.filter:net.sf.javagimmicks.collections.mapping:net.sf.javagimmicks.collections.transformer</packages>
 							</group>
 							<group>
-								<title>Utilities for multi-threaded programming</title>
-								<packages>net.sf.javagimmicks.concurrent*</packages>
+								<title>Module "concurrent" - Utilities for multi-threaded programming</title>
+								<packages>net.sf.javagimmicks.concurrent:net.sf.javagimmicks.concurrent.locks</packages>
 							</group>
 							<group>
-								<title>Basic utilities for and around the Java Collection API</title>
-								<packages>net.sf.javagimmicks.collections:net.sf.javagimmicks.collections.bidimap*:net.sf.javagimmicks.collections.builder*:net.sf.javagimmicks.collections.composite*:net.sf.javagimmicks.collections.decorators*:net.sf.javagimmicks.collections.filter*</packages>
+								<title>Module "cdi" - CDI utilities (Java API for context and dependency injection)</title>
+								<packages>net.sf.javagimmicks.cdi</packages>
 							</group>
 							<group>
-								<title>Observer pattern (events) for the Java Collection API</title>
-								<packages>net.sf.javagimmicks.collections.event*</packages>
+								<title>Module "cdi-collections" - CDI extensions to the JavaGimmicks collection API</title>
+								<packages>net.sf.javagimmicks.collections.event.cdi</packages>
 							</group>
 							<group>
-								<title>Implementations for dealing with n:m relationship data
-									structures</title>
-								<packages>net.sf.javagimmicks.collections.mapping*</packages>
+								<title>Module "io" - Basic I/O utilities and a diff engine for file system folders</title>
+								<packages>net.sf.javagimmicks.io:net.sf.javagimmicks.io.folderdiff</packages>
 							</group>
 							<group>
-								<title>Provides a "transforming decorator" API for the Java
-									Collection API</title>
-								<packages>net.sf.javagimmicks.collections.transformer*</packages>
+								<title>Module "graph" - Yet another (small) graph API</title>
+								<packages>net.sf.javagimmicks.graph:net.sf.javagimmicks.graph.routing</packages>
 							</group>
 							<group>
-								<title>A diff engine for finding differences between data
-									structures</title>
-								<packages>net.sf.javagimmicks.collections.diff*</packages>
+								<title>Module "math" - A few mathematical utilities</title>
+								<packages>net.sf.javagimmicks.math:net.sf.javagimmicks.math.comparator</packages>
 							</group>
 							<group>
-								<title>Basic I/O utilities and a diff engine for file system
-									folders</title>
-								<packages>net.sf.javagimmicks.io*</packages>
+								<title>Module "swing" - Swing utilities and extensions</title>
+								<packages>net.sf.javagimmicks.swing:net.sf.javagimmicks.swing.builder:net.sf.javagimmicks.swing.controller:net.sf.javagimmicks.swing.model</packages>
 							</group>
 							<group>
-								<title>Yet another (small) graph API</title>
-								<packages>net.sf.javagimmicks.graph*</packages>
+								<title>Module "testing" - Basic JUnit test helpers</title>
+								<packages>net.sf.javagimmicks.event.testing:net.sf.javagimmicks.testing</packages>
 							</group>
 							<group>
-								<title>A few mathematical utilities</title>
-								<packages>net.sf.javagimmicks.math*</packages>
+								<title>Module "cdi-testing" - JUnit test helpers for the CDI-API</title>
+								<packages>net.sf.javagimmicks.cdi.testing</packages>
 							</group>
 							<group>
-								<title>Swing utilities and extensions</title>
-								<packages>net.sf.javagimmicks.swing*</packages>
+								<title>Module "jdbc-testing" - JUnit test helpers for the JDBC-API</title>
+								<packages>net.sf.javagimmicks.sql.testing</packages>
+							</group>
+							<group>
+								<title>Module "jpa-testing" - JUnit test helpers for the JPA-API</title>
+								<packages>net.sf.javagimmicks.jpa.testing</packages>
 							</group>
 						</groups>
 					</configuration>
