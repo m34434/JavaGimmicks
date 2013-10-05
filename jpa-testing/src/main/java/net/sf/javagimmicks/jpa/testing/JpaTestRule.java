@@ -66,6 +66,22 @@ public class JpaTestRule extends ExternalResource
 
    private LocalContainerEntityManagerFactoryBean _localEmf;
 
+   /**
+    * Creates a new instance using the given
+    * {@link EntityManagerFactoryConfigurator} and {@link File folder} for the
+    * internal database.
+    * 
+    * @param configurator
+    *           a {@link EntityManagerFactoryConfigurator} for performing custom
+    *           configuration logic on the internal {@link BasicDataSource} and
+    *           {@link LocalContainerEntityManagerFactoryBean}
+    * @param dbFolder
+    *           the temporary folder where the database should be set up
+    * @param entityPackages
+    *           a list of names of packages to scan for entity classes
+    * @throws IllegalArgumentException
+    *            if the list of package names is empty
+    */
    public JpaTestRule(final EntityManagerFactoryConfigurator configurator,
          final File dbFolder,
          final String... entityPackages)
@@ -80,32 +96,89 @@ public class JpaTestRule extends ExternalResource
       _db = new HsqlDbTestRule(configurator, dbFolder);
    }
 
+   /**
+    * Creates a new instance using the given {@link File folder} for the
+    * internal database.
+    * 
+    * @param dbFolder
+    *           the temporary folder where the database should be set up
+    * @param entityPackages
+    *           a list of names of packages to scan for entity classes
+    * @throws IllegalArgumentException
+    *            if the list of package names is empty
+    */
    public JpaTestRule(final File dbFolder, final String... entityPackages)
    {
       this(null, dbFolder, entityPackages);
    }
 
+   /**
+    * Creates a new instance using the given
+    * {@link EntityManagerFactoryConfigurator} for the internal database.
+    * 
+    * @param configurator
+    *           a {@link EntityManagerFactoryConfigurator} for performing custom
+    *           configuration logic on the internal {@link BasicDataSource} and
+    *           {@link LocalContainerEntityManagerFactoryBean}
+    * @param entityPackages
+    *           a list of names of packages to scan for entity classes
+    * @throws IllegalArgumentException
+    *            if the list of package names is empty
+    */
    public JpaTestRule(final EntityManagerFactoryConfigurator configurator,
          final String... entityPackages)
    {
       this(configurator, null, entityPackages);
    }
 
+   /**
+    * Creates a new instance with no special configuration.
+    * 
+    * @param entityPackages
+    *           a list of names of packages to scan for entity classes
+    * @throws IllegalArgumentException
+    *            if the list of package names is empty
+    */
    public JpaTestRule(final String... entityPackages)
    {
       this(null, null, entityPackages);
    }
 
+   /**
+    * Returns the internal {@link EntityManagerFactory}.
+    * 
+    * @return the internal {@link EntityManagerFactory}
+    */
    public EntityManagerFactory getEntityManagerFactory()
    {
       return _localEmf.getNativeEntityManagerFactory();
    }
 
+   /**
+    * Creates and returns a new {@link EntityManager} using the internal
+    * {@link EntityManagerFactory}.
+    * 
+    * @return the new {@link EntityManager}
+    */
    public EntityManager createEntityManager()
    {
       return getEntityManagerFactory().createEntityManager();
    }
 
+   /**
+    * Creates and returns a new {@link EntityManager} using the internal
+    * {@link EntityManagerFactory} and applying the given {@link Map} of
+    * properties.
+    * <p>
+    * As <i>Hibernate</i> is used as internal JPA layer, the properties need to
+    * be Hibernate-specific.
+    * 
+    * @param properties
+    *           a {@link Map} of properties to use for creating the
+    *           {@link EntityManager}
+    * 
+    * @return the new {@link EntityManager}
+    */
    @SuppressWarnings("rawtypes")
    public EntityManager createEntityManager(final Map properties)
    {

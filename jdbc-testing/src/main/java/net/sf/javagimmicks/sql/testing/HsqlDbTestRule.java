@@ -55,7 +55,8 @@ public class HsqlDbTestRule extends ExternalResource
    private BasicDataSource _dataSource;
 
    /**
-    * Creates a new instance.
+    * Creates a new instance using the given {@link DataSourceConfigurator} and
+    * {@link File folder} for the internal database.
     * 
     * @param configurator
     *           a {@link DataSourceConfigurator} for performing custom
@@ -70,7 +71,8 @@ public class HsqlDbTestRule extends ExternalResource
    }
 
    /**
-    * Creates a new instance.
+    * Creates a new instance using the given {@link DataSourceConfigurator} for
+    * the internal database.
     * 
     * @param configurator
     *           a {@link DataSourceConfigurator} for performing custom
@@ -82,7 +84,8 @@ public class HsqlDbTestRule extends ExternalResource
    }
 
    /**
-    * Creates a new instance.
+    * Creates a new instance using the given {@link File folder} for the
+    * internal database.
     * 
     * @param dbFolder
     *           the temporary folder where the database should be set up
@@ -93,7 +96,7 @@ public class HsqlDbTestRule extends ExternalResource
    }
 
    /**
-    * Creates a new instance.
+    * Creates a new instance with no special configuration.
     */
    public HsqlDbTestRule()
    {
