@@ -1,7 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>gimmicks-build</artifactId>
+	<artifactId>gimmicks</artifactId>
 
 	<parent>
 		<groupId>net.sf.javagimmicks</groupId>
@@ -42,6 +43,7 @@
 
 	<build>
 		<plugins>
+			<!-- Don't run default JavaDoc goal - instead aggregate all JavaDocs -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
@@ -53,6 +55,18 @@
 					<execution>
 						<id>aggregate-javadocs</id>
 						<phase>verify</phase>
+						<goals>
+							<goal>aggregate</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>aggregate-sources</id>
 						<goals>
 							<goal>aggregate</goal>
 						</goals>
