@@ -8,7 +8,7 @@
 		<groupId>net.sf.javagimmicks</groupId>
 		<artifactId>gimmicks-parent</artifactId>
 		<version>0.90-SNAPSHOT</version>
-		<relativePath>../pom.xml</relativePath>
+		<relativePath>../parent/pom.xml</relativePath>
 	</parent>
 
 	<name>JavaGimmicks (Bundle)</name>
@@ -98,10 +98,16 @@
 				</executions>
 			</plugin>
 
-			<!-- Build cumulative JavaDoc -->
+			<!-- Disable default JavaDoc -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<phase>none</phase>
+					</execution>
+				</executions>
 				<configuration>
 					<includeDependencySources>true</includeDependencySources>
 				</configuration>
