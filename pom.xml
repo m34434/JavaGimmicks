@@ -36,14 +36,31 @@
 	</modules>
 
 	<scm>
-		<!-- ======================== OLD SourceForge SVN Connection =================================== 
-			<url>https://svn.code.sf.net/p/jgutils/code/GimmickUtils/trunk</url> <connection>scm:svn:https://svn.code.sf.net/p/jgutils/code/GimmickUtils/trunk</connection> 
-			<developerConnection>scm:svn:https://svn.code.sf.net/p/jgutils/code/GimmickUtils/trunk</developerConnection> 
-			============================================================================================== -->
-
 		<url>https://github.com/m34434/JavaGimmicks</url>
 		<connection>scm:git:https://github.com/m34434/JavaGimmicks.git</connection>
 		<developerConnection>scm:git:https://github.com/m34434/JavaGimmicks.git</developerConnection>
 	</scm>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<phase>none</phase>
+					</execution>
+					<execution>
+						<id>aggregate-javadocs</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>aggregate</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>

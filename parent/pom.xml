@@ -19,7 +19,6 @@
 	<url>http://jgutils.sourceforge.net/</url>
 
 	<properties>
-
 		<maven.compiler.source>1.6</maven.compiler.source>
 		<maven.compiler.target>1.6</maven.compiler.target>
 	</properties>
@@ -342,14 +341,9 @@
 	</developers>
 
 	<scm>
-		<!-- ======================== OLD SourceForge SVN Connection =================================== 
-			<url>https://svn.code.sf.net/p/jgutils/code/GimmickUtils/trunk</url> <connection>scm:svn:https://svn.code.sf.net/p/jgutils/code/GimmickUtils/trunk</connection> 
-			<developerConnection>scm:svn:https://svn.code.sf.net/p/jgutils/code/GimmickUtils/trunk</developerConnection> 
-			============================================================================================== -->
-
-		<url>https://github.com/m34434/JavaGimmicks</url>
-		<connection>scm:git:https://github.com/m34434/JavaGimmicks.git</connection>
-		<developerConnection>scm:git:https://github.com/m34434/JavaGimmicks.git</developerConnection>
+		<url>https://github.com/m34434/JavaGimmicks/parent</url>
+		<connection>scm:git:https://github.com/m34434/JavaGimmicks.git/parent</connection>
+		<developerConnection>scm:git:https://github.com/m34434/JavaGimmicks.git/parent</developerConnection>
 	</scm>
 
 </project>
