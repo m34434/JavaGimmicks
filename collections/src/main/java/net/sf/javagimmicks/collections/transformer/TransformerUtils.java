@@ -20,8 +20,8 @@ import java.util.TreeSet;
 
 import net.sf.javagimmicks.collections.Ring;
 import net.sf.javagimmicks.collections.RingCursor;
-import net.sf.javagimmicks.lang.BidiTransformer;
-import net.sf.javagimmicks.lang.Transformer;
+import net.sf.javagimmicks.transform.BidiTransformer;
+import net.sf.javagimmicks.transform.Transformer;
 
 /**
  * This class is the central entry point to the JavaGimmicks transforming

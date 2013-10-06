@@ -4,8 +4,8 @@ import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Iterator;
 
-import net.sf.javagimmicks.lang.Transformer;
-import net.sf.javagimmicks.lang.Transforming;
+import net.sf.javagimmicks.transform.Transformer;
+import net.sf.javagimmicks.transform.Transforming;
 
 class TransformingCollection<F, T>
 	extends AbstractCollection<T>

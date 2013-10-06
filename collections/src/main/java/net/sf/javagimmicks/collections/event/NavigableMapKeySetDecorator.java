@@ -9,7 +9,7 @@ import java.util.NavigableSet;
 import java.util.SortedSet;
 
 import net.sf.javagimmicks.collections.transformer.TransformerUtils;
-import net.sf.javagimmicks.lang.Transformer;
+import net.sf.javagimmicks.transform.Transformer;
 
 class NavigableMapKeySetDecorator<K, V> extends AbstractSet<K> implements NavigableSet<K>
 {

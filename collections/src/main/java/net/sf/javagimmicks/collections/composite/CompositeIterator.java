@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import net.sf.javagimmicks.collections.transformer.TransformerUtils;
-import net.sf.javagimmicks.lang.Transformer;
+import net.sf.javagimmicks.transform.Transformer;
 
 class CompositeIterator<E> implements Iterator<E>
 {

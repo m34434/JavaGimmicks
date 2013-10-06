@@ -1,4 +1,5 @@
-package net.sf.javagimmicks.lang;
+package net.sf.javagimmicks.transform;
+
 
 /**
  * A basic helper for dealing with {@link Transformer}s, {@link BidiTransformer}

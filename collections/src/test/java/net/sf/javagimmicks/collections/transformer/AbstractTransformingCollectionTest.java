@@ -11,9 +11,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import net.sf.javagimmicks.lang.AbstractBidiTransformer;
-import net.sf.javagimmicks.lang.BidiTransformer;
-import net.sf.javagimmicks.lang.Transformer;
+import net.sf.javagimmicks.transform.AbstractBidiTransformer;
+import net.sf.javagimmicks.transform.BidiTransformer;
+import net.sf.javagimmicks.transform.Transformer;
 
 import org.junit.Before;
 import org.junit.Test;

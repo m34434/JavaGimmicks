@@ -4,7 +4,7 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.SortedMap;
 
-import net.sf.javagimmicks.lang.BidiTransformer;
+import net.sf.javagimmicks.transform.BidiTransformer;
 
 class ValueBidiTransformingSortedMap<K, VF, VT> extends ValueBidiTransformingMap<K, VF, VT> implements SortedMap<K, VT>
 {

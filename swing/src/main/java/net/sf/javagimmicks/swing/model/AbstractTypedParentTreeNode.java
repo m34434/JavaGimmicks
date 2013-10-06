@@ -7,7 +7,7 @@ import java.util.List;
 import javax.swing.tree.TreeNode;
 
 import net.sf.javagimmicks.collections.transformer.TransformerUtils;
-import net.sf.javagimmicks.lang.Transformer;
+import net.sf.javagimmicks.transform.Transformer;
 
 public abstract class AbstractTypedParentTreeNode<Value, ChildValue, ChildNode extends TypedChildTreeNode<? extends ChildValue, Value, ? extends TypedParentTreeNode<?, ?, ?>>> extends AbstractTypedTreeNode<Value> implements TypedParentTreeNode<Value, ChildValue, ChildNode>
 {

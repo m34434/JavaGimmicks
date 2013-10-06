@@ -3,7 +3,7 @@ package net.sf.javagimmicks.collections.transformer;
 import java.util.Comparator;
 import java.util.SortedSet;
 
-import net.sf.javagimmicks.lang.Transformer;
+import net.sf.javagimmicks.transform.Transformer;
 
 class TransformingSortedSet<F, T> extends TransformingSet<F, T> implements SortedSet<T>
 {

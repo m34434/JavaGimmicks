@@ -27,11 +27,11 @@
  * Of course, in order to be able to work with transforming
  * instances, you need to provide to them the transformation rules.
  * This you can do by writing a class that implements the
- * {@link net.sf.javagimmicks.lang.Transformer} or
- * {@link net.sf.javagimmicks.lang.BidiTransformer} interface
+ * {@link net.sf.javagimmicks.transform.Transformer} or
+ * {@link net.sf.javagimmicks.transform.BidiTransformer} interface
  * which are both contained in this API.
  * <p>
- * When providing a {@link net.sf.javagimmicks.lang.Transformer},
+ * When providing a {@link net.sf.javagimmicks.transform.Transformer},
  * you will only be able to perform operations on the transforming instance that
  * do not need to convert from the external format to the internal
  * format. For example, you will be able to iterate over a
@@ -40,7 +40,7 @@
  * (neither on the {@link java.util.List} nor on any of its
  * {@link java.util.ListIterator}s. For more details, see below.
  * <p>
- * When providing a {@link net.sf.javagimmicks.lang.BidiTransformer},
+ * When providing a {@link net.sf.javagimmicks.transform.BidiTransformer},
  * all operations will be available and some operations will even be faster.
  * 
  * <h2>Decorator methods in {@link net.sf.javagimmicks.collections.transformer.TransformerUtils}</h2>
@@ -48,13 +48,13 @@
  * (and {@code decorateKeyBased()} and {@code decorateValueBased()}
  * for {@link java.util.Map}s) which can be used to create transformed instances
  * of a number of (generic) base classes by providing an instance of this
- * base class and one of {@link net.sf.javagimmicks.lang.Transformer} or
- * {@link net.sf.javagimmicks.lang.BidiTransformer}.
+ * base class and one of {@link net.sf.javagimmicks.transform.Transformer} or
+ * {@link net.sf.javagimmicks.transform.BidiTransformer}.
  * <p>
  * The resulting instance will implement the same interface (but
  * eventually with different type parameters) and additionally
- * {@link net.sf.javagimmicks.lang.Transforming} or
- * {@link net.sf.javagimmicks.lang.BidiTransforming}
+ * {@link net.sf.javagimmicks.transform.Transforming} or
+ * {@link net.sf.javagimmicks.transform.BidiTransforming}
  * (both depending on the provided transformation rule instance).
  * Furthermore, this instance
  * is completely backed on the the provided one and will contain

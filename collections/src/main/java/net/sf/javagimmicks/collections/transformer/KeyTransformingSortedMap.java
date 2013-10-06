@@ -3,7 +3,7 @@ package net.sf.javagimmicks.collections.transformer;
 import java.util.Comparator;
 import java.util.SortedMap;
 
-import net.sf.javagimmicks.lang.Transformer;
+import net.sf.javagimmicks.transform.Transformer;
 
 class KeyTransformingSortedMap<KF, KT, V> extends KeyTransformingMap<KF, KT, V> implements SortedMap<KT, V>
 {

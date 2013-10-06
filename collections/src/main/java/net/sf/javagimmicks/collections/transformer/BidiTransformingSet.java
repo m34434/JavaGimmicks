@@ -2,8 +2,8 @@ package net.sf.javagimmicks.collections.transformer;
 
 import java.util.Set;
 
-import net.sf.javagimmicks.lang.BidiTransformer;
-import net.sf.javagimmicks.lang.BidiTransforming;
+import net.sf.javagimmicks.transform.BidiTransformer;
+import net.sf.javagimmicks.transform.BidiTransforming;
 
 class BidiTransformingSet<F, T>
    extends TransformingSet<F, T>

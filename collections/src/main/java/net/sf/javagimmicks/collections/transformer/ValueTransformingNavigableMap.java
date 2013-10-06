@@ -3,7 +3,7 @@ package net.sf.javagimmicks.collections.transformer;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
 
-import net.sf.javagimmicks.lang.Transformer;
+import net.sf.javagimmicks.transform.Transformer;
 
 class ValueTransformingNavigableMap<K, VF, VT>
    extends ValueTransformingSortedMap<K, VF, VT>

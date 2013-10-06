@@ -3,7 +3,7 @@ package net.sf.javagimmicks.collections.transformer;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
 
-import net.sf.javagimmicks.lang.BidiTransformer;
+import net.sf.javagimmicks.transform.BidiTransformer;
 
 class ValueBidiTransformingNavigableMap<K, VF, VT>
    extends ValueBidiTransformingSortedMap<K, VF, VT>

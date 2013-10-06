@@ -4,8 +4,8 @@ import java.util.AbstractSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import net.sf.javagimmicks.lang.Transformer;
-import net.sf.javagimmicks.lang.Transforming;
+import net.sf.javagimmicks.transform.Transformer;
+import net.sf.javagimmicks.transform.Transforming;
 
 class TransformingSet<F, T>
    extends AbstractSet<T>

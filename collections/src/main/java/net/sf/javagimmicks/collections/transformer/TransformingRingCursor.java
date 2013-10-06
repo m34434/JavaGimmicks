@@ -5,8 +5,8 @@ package net.sf.javagimmicks.collections.transformer;
 
 import net.sf.javagimmicks.collections.AbstractRingCursor;
 import net.sf.javagimmicks.collections.RingCursor;
-import net.sf.javagimmicks.lang.Transformer;
-import net.sf.javagimmicks.lang.Transforming;
+import net.sf.javagimmicks.transform.Transformer;
+import net.sf.javagimmicks.transform.Transforming;
 
 class TransformingRingCursor<F, T>
    extends AbstractRingCursor<T>

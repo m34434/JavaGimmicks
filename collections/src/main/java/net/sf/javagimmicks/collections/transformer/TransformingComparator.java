@@ -2,7 +2,7 @@ package net.sf.javagimmicks.collections.transformer;
 
 import java.util.Comparator;
 
-import net.sf.javagimmicks.lang.Transformer;
+import net.sf.javagimmicks.transform.Transformer;
 
 class TransformingComparator<F, T> implements Comparator<T>
 {  

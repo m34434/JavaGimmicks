@@ -3,9 +3,9 @@ package net.sf.javagimmicks.collections.transformer;
 import java.util.Map;
 
 import net.sf.javagimmicks.collections.bidimap.BidiMap;
-import net.sf.javagimmicks.lang.BidiTransformer;
-import net.sf.javagimmicks.lang.Transformer;
-import net.sf.javagimmicks.lang.Transformers;
+import net.sf.javagimmicks.transform.BidiTransformer;
+import net.sf.javagimmicks.transform.Transformer;
+import net.sf.javagimmicks.transform.Transformers;
 
 /**
  * Provides features to build {@link Transformer}s and transformation based on

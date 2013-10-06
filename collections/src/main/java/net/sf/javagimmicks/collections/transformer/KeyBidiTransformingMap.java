@@ -3,9 +3,9 @@ package net.sf.javagimmicks.collections.transformer;
 import java.util.Map;
 import java.util.Set;
 
-import net.sf.javagimmicks.lang.BidiTransformer;
-import net.sf.javagimmicks.lang.BidiTransforming;
-import net.sf.javagimmicks.lang.Transformers;
+import net.sf.javagimmicks.transform.BidiTransformer;
+import net.sf.javagimmicks.transform.BidiTransforming;
+import net.sf.javagimmicks.transform.Transformers;
 
 class KeyBidiTransformingMap<KF, KT, V>
    extends KeyTransformingMap<KF, KT, V>

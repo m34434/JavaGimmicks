@@ -9,7 +9,7 @@ import net.sf.javagimmicks.collections.AbstractMap2;
 import net.sf.javagimmicks.collections.transformer.TransformerUtils;
 import net.sf.javagimmicks.lang.Factory;
 import net.sf.javagimmicks.lang.LangUtils;
-import net.sf.javagimmicks.lang.Transformer;
+import net.sf.javagimmicks.transform.Transformer;
 
 public abstract class AbstractGraph<V, E extends Edge<V, E>> implements Graph<V, E> 
 {

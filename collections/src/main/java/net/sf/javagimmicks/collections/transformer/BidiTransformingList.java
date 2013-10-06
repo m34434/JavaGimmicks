@@ -3,8 +3,8 @@ package net.sf.javagimmicks.collections.transformer;
 import java.util.List;
 import java.util.ListIterator;
 
-import net.sf.javagimmicks.lang.BidiTransformer;
-import net.sf.javagimmicks.lang.BidiTransforming;
+import net.sf.javagimmicks.transform.BidiTransformer;
+import net.sf.javagimmicks.transform.BidiTransforming;
 
 class BidiTransformingList<F, T>
 	extends TransformingList<F, T>

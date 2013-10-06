@@ -3,7 +3,7 @@ package net.sf.javagimmicks.collections.transformer;
 import java.util.Iterator;
 import java.util.NavigableSet;
 
-import net.sf.javagimmicks.lang.BidiTransformer;
+import net.sf.javagimmicks.transform.BidiTransformer;
 
 class BidiTransformingNavigableSet<F, T>
    extends BidiTransformingSortedSet<F, T>

@@ -1,4 +1,4 @@
-package net.sf.javagimmicks.lang;
+package net.sf.javagimmicks.transform;
 
 /**
  * A basic class for writing {@link BidiTransformer}s - provides a default

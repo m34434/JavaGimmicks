@@ -3,7 +3,7 @@ package net.sf.javagimmicks.collections.transformer;
 import java.util.Comparator;
 import java.util.SortedSet;
 
-import net.sf.javagimmicks.lang.BidiTransformer;
+import net.sf.javagimmicks.transform.BidiTransformer;
 import net.sf.javagimmicks.util.ComparableComparator;
 
 class BidiTransformingSortedSet<F, T> extends BidiTransformingSet<F, T> implements SortedSet<T>

@@ -13,10 +13,10 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.Map.Entry;
 
-import net.sf.javagimmicks.lang.AbstractBidiTransformer;
-import net.sf.javagimmicks.lang.BidiTransformer;
-import net.sf.javagimmicks.lang.Transformer;
-import net.sf.javagimmicks.lang.Transformers;
+import net.sf.javagimmicks.transform.AbstractBidiTransformer;
+import net.sf.javagimmicks.transform.BidiTransformer;
+import net.sf.javagimmicks.transform.Transformer;
+import net.sf.javagimmicks.transform.Transformers;
 
 import org.junit.Before;
 import org.junit.Test;

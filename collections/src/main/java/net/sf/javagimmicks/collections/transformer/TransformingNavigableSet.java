@@ -3,7 +3,7 @@ package net.sf.javagimmicks.collections.transformer;
 import java.util.Iterator;
 import java.util.NavigableSet;
 
-import net.sf.javagimmicks.lang.Transformer;
+import net.sf.javagimmicks.transform.Transformer;
 
 class TransformingNavigableSet<F, T>
    extends TransformingSortedSet<F, T>

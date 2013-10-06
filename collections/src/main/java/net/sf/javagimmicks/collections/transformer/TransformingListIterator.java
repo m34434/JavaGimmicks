@@ -2,7 +2,7 @@ package net.sf.javagimmicks.collections.transformer;
 
 import java.util.ListIterator;
 
-import net.sf.javagimmicks.lang.Transformer;
+import net.sf.javagimmicks.transform.Transformer;
 
 class TransformingListIterator<F, T>
    extends TransformingIterator<F, T>
