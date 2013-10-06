@@ -1,4 +1,5 @@
-package net.sf.javagimmicks.collections.transformer;
+package net.sf.javagimmicks.lang;
+
 
 class DualTransformerBidiTransformer<F, T> extends AbstractBidiTransformer<F, T>
 {

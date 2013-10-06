@@ -2,6 +2,9 @@ package net.sf.javagimmicks.collections.transformer;
 
 import java.util.Iterator;
 
+import net.sf.javagimmicks.lang.Transformer;
+import net.sf.javagimmicks.lang.Transforming;
+
 class TransformingIterator<F, T> implements Iterator<T>, Transforming<F, T>
 {
    protected final Iterator<F> _internalIterator;

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
-import net.sf.javagimmicks.collections.transformer.Transformer;
+import net.sf.javagimmicks.lang.Transformer;
 
 class CompositeListIterator<E> implements ListIterator<E>
 {

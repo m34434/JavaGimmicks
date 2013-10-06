@@ -3,6 +3,8 @@ package net.sf.javagimmicks.collections.transformer;
 import net.sf.javagimmicks.collections.AbstractRing;
 import net.sf.javagimmicks.collections.Ring;
 import net.sf.javagimmicks.collections.RingCursor;
+import net.sf.javagimmicks.lang.Transformer;
+import net.sf.javagimmicks.lang.Transforming;
 
 class TransformingRing<F, T>
    extends AbstractRing<T>

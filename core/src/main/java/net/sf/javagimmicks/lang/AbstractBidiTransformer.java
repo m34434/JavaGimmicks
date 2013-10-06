@@ -1,4 +1,4 @@
-package net.sf.javagimmicks.collections.transformer;
+package net.sf.javagimmicks.lang;
 
 /**
  * A basic class for writing {@link BidiTransformer}s - provides a default
@@ -13,6 +13,6 @@ public abstract class AbstractBidiTransformer<F, T> implements BidiTransformer<F
    @Override
    public BidiTransformer<T, F> invert()
    {
-      return TransformerUtils.invert(this);
+      return Transformers.invert(this);
    }
 }

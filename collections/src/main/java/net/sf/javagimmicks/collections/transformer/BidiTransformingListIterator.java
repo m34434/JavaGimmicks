@@ -2,6 +2,9 @@ package net.sf.javagimmicks.collections.transformer;
 
 import java.util.ListIterator;
 
+import net.sf.javagimmicks.lang.BidiTransformer;
+import net.sf.javagimmicks.lang.BidiTransforming;
+
 class BidiTransformingListIterator<F, T>
    extends TransformingListIterator<F, T>
    implements BidiTransforming<F, T>

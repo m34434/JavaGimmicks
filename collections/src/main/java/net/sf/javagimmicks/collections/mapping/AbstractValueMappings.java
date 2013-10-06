@@ -8,8 +8,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import net.sf.javagimmicks.collections.transformer.Transformer;
 import net.sf.javagimmicks.collections.transformer.TransformerUtils;
+import net.sf.javagimmicks.lang.Transformer;
 
 /**
  * An abstract implementation of {@link ValueMappings} that provides default

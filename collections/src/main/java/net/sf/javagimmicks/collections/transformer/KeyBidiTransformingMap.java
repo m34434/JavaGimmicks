@@ -3,6 +3,10 @@ package net.sf.javagimmicks.collections.transformer;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.javagimmicks.lang.BidiTransformer;
+import net.sf.javagimmicks.lang.BidiTransforming;
+import net.sf.javagimmicks.lang.Transformers;
+
 class KeyBidiTransformingMap<KF, KT, V>
    extends KeyTransformingMap<KF, KT, V>
    implements BidiTransforming<KF, KT>
@@ -118,7 +122,7 @@ class KeyBidiTransformingMap<KF, KT, V>
    
       public BidiTransformer<Entry<KT, V>, Entry<KF, V>> invert()
       {
-         return TransformerUtils.invert(this);
+         return Transformers.invert(this);
       }
 
       public Entry<KF, V> transformBack(Entry<KT, V> source)

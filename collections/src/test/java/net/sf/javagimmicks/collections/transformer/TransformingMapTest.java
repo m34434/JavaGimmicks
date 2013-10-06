@@ -13,6 +13,11 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.Map.Entry;
 
+import net.sf.javagimmicks.lang.AbstractBidiTransformer;
+import net.sf.javagimmicks.lang.BidiTransformer;
+import net.sf.javagimmicks.lang.Transformer;
+import net.sf.javagimmicks.lang.Transformers;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -212,7 +217,7 @@ public class TransformingMapTest
       assertFalse(transformed.containsKey(3));
       assertFalse(transformed.containsValue(30));
       
-      Transformer<Integer, Integer> valueTransformer = TransformerUtils.identityTransformer();
+      Transformer<Integer, Integer> valueTransformer = Transformers.identityTransformer();
       testEntrySets(base.entrySet(), transformed.entrySet(), _keyTransformer, valueTransformer);
    }
    
@@ -239,7 +244,7 @@ public class TransformingMapTest
       assertFalse(transformed.containsKey("3"));
       assertFalse(transformed.containsValue("30"));
       
-      Transformer<String, String> keyTransformer = TransformerUtils.identityTransformer();
+      Transformer<String, String> keyTransformer = Transformers.identityTransformer();
       testEntrySets(base.entrySet(), transformed.entrySet(), keyTransformer, _valueTransformer);
    }
    

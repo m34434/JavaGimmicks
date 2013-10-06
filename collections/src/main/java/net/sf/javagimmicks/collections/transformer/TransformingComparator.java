@@ -2,6 +2,8 @@ package net.sf.javagimmicks.collections.transformer;
 
 import java.util.Comparator;
 
+import net.sf.javagimmicks.lang.Transformer;
+
 class TransformingComparator<F, T> implements Comparator<T>
 {  
    protected final Comparator<? super F> _internalComparator;

@@ -2,6 +2,9 @@ package net.sf.javagimmicks.collections.transformer;
 
 import java.util.Collection;
 
+import net.sf.javagimmicks.lang.BidiTransformer;
+import net.sf.javagimmicks.lang.BidiTransforming;
+
 class BidiTransformingCollection<F, T>
 	extends TransformingCollection<F, T>
 	implements BidiTransforming<F, T>

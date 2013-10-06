@@ -1,4 +1,4 @@
-package net.sf.javagimmicks.collections.transformer;
+package net.sf.javagimmicks.lang;
 
 /**
  * A bidirectional version of {@link Transformer} that is able to transform

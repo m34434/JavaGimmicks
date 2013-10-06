@@ -3,6 +3,8 @@ package net.sf.javagimmicks.collections.transformer;
 import java.util.Comparator;
 import java.util.SortedMap;
 
+import net.sf.javagimmicks.lang.Transformer;
+
 class ValueTransformingSortedMap<K, VF, VT> extends ValueTransformingMap<K, VF, VT> implements SortedMap<K, VT>
 {
    /**

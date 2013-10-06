@@ -3,6 +3,8 @@ package net.sf.javagimmicks.collections.transformer;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
 
+import net.sf.javagimmicks.lang.Transformer;
+
 class KeyTransformingNavigableMap<KF, KT, V>
       extends KeyTransformingSortedMap<KF, KT, V>
       implements NavigableMap<KT, V>

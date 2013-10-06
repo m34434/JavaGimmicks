@@ -2,6 +2,8 @@ package net.sf.javagimmicks.collections.transformer;
 
 import java.util.ListIterator;
 
+import net.sf.javagimmicks.lang.Transformer;
+
 class TransformingListIterator<F, T>
    extends TransformingIterator<F, T>
    implements ListIterator<T>

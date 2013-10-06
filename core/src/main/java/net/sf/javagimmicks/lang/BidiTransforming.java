@@ -1,4 +1,4 @@
-package net.sf.javagimmicks.collections.transformer;
+package net.sf.javagimmicks.lang;
 
 /**
  * An interface for objects that carry a {@link BidiTransformer} for internally

@@ -2,6 +2,8 @@ package net.sf.javagimmicks.collections.transformer;
 
 import net.sf.javagimmicks.collections.Ring;
 import net.sf.javagimmicks.collections.RingCursor;
+import net.sf.javagimmicks.lang.BidiTransformer;
+import net.sf.javagimmicks.lang.BidiTransforming;
 
 class BidiTransformingRing<F, T>
    extends TransformingRing<F, T>

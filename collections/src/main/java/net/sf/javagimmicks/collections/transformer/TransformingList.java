@@ -5,6 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import net.sf.javagimmicks.lang.Transformer;
+import net.sf.javagimmicks.lang.Transforming;
+
 class TransformingList<F, T>
 	extends AbstractList<T>
 	implements Transforming<F, T>

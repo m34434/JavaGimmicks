@@ -1,4 +1,4 @@
-package net.sf.javagimmicks.collections.transformer;
+package net.sf.javagimmicks.lang;
 
 /**
  * A simple interface for classes that can transform objects into another value

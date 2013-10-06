@@ -4,6 +4,10 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.javagimmicks.lang.BidiTransformer;
+import net.sf.javagimmicks.lang.BidiTransforming;
+import net.sf.javagimmicks.lang.Transformers;
+
 class ValueBidiTransformingMap<K, VF, VT>
    extends ValueTransformingMap<K, VF, VT>
    implements BidiTransforming<VF, VT>
@@ -97,7 +101,7 @@ class ValueBidiTransformingMap<K, VF, VT>
 
       public BidiTransformer<Entry<K, VT>, Entry<K, VF>> invert()
       {
-         return TransformerUtils.invert(this);
+         return Transformers.invert(this);
       }
 
       protected BidiTransformer<VF, VT> getTransformer()

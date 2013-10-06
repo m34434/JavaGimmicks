@@ -5,6 +5,9 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.javagimmicks.lang.Transformer;
+import net.sf.javagimmicks.lang.Transforming;
+
 class ValueTransformingMap<K, VF, VT>
    extends AbstractMap<K, VT>
    implements Transforming<VF, VT>
