@@ -8,9 +8,8 @@ import net.sf.javagimmicks.transform.Transformer;
 import net.sf.javagimmicks.transform.Transformers;
 
 /**
- * Provides features to build {@link Transformer}s and transformation based on
- * {@link Map}s and {@link BidiTransformer}s and transformations based on
- * {@link BidiMap}s.
+ * Provides features to build {@link Transformer}s based on {@link Map}s and
+ * {@link BidiTransformer}s based on {@link BidiMap}s.
  */
 public class MappedTransformerUtils
 {

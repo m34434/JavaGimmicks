@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.Collection;
 
-import net.sf.javagimmicks.collections.transformer.Transformer;
 import net.sf.javagimmicks.collections.transformer.TransformerUtils;
+import net.sf.javagimmicks.transform.Transformer;
 import net.sf.javagimmicks.util.IncludeExcludePatternFilter;
 
 class IncludeExcludeFilenameFilter implements FilenameFilter

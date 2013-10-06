@@ -11,8 +11,8 @@ import net.sf.javagimmicks.collections.CollectionDifference;
 import net.sf.javagimmicks.collections.diff.Difference;
 import net.sf.javagimmicks.collections.diff.DifferenceList;
 import net.sf.javagimmicks.collections.diff.DifferenceUtils;
-import net.sf.javagimmicks.collections.transformer.Transformer;
 import net.sf.javagimmicks.collections.transformer.TransformerUtils;
+import net.sf.javagimmicks.transform.Transformer;
 
 public class FolderDiffBuilder
 {

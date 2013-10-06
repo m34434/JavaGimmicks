@@ -26,7 +26,7 @@
  * <p>
  * Of course, in order to be able to work with transforming
  * instances, you need to provide to them the transformation rules.
- * This you can do by writing a class that implements the
+ * You can do so by writing a class that implements the
  * {@link net.sf.javagimmicks.transform.Transformer} or
  * {@link net.sf.javagimmicks.transform.BidiTransformer} interface
  * which are both contained in this API.

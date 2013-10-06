@@ -187,7 +187,7 @@
 						<groups>
 							<group>
 								<title>Module "core" - Core Utilities</title>
-								<packages>net.sf.javagimmicks.beans:net.sf.javagimmicks.event:net.sf.javagimmicks.lang:net.sf.javagimmicks.sql:net.sf.javagimmicks.util:net.sf.javagimmicks.xml</packages>
+								<packages>net.sf.javagimmicks.beans:net.sf.javagimmicks.event:net.sf.javagimmicks.lang:net.sf.javagimmicks.sql:net.sf.javagimmicks.transform:net.sf.javagimmicks.util:net.sf.javagimmicks.xml</packages>
 							</group>
 							<group>
 								<title>Module "collections" - Basic utilities for and around the Java Collection API</title>
