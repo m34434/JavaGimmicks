@@ -6,23 +6,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.javagimmicks.io.FileUtils;
-import net.sf.javagimmicks.io.folderdiff.event.FolderDiffEvent;
+import net.sf.javagimmicks.io.folderdiff.FileInfo.Origin;
 
 class FileScanner
 {
+   private final Origin _origin;
+
    private final FolderDiffBuilder _builder;
 
    private final FilenameFilter _filter;
    private final File _rootFile;
    private final boolean _recursive;
 
-   public FileScanner(final FolderDiffBuilder builder, final File rootFile, final FilenameFilter filter,
+   public FileScanner(final Origin origin, final FolderDiffBuilder builder, final File rootFile,
+         final FilenameFilter filter,
          final boolean recursive)
    {
       if (rootFile == null)
       {
          throw new IllegalArgumentException("Root file may not be null!");
       }
+
+      _origin = origin;
 
       _builder = builder;
 
@@ -55,7 +60,7 @@ class FileScanner
       {
          if (child.isDirectory())
          {
-            result.add(new FileInfo(child, skipSegments));
+            result.add(new FileInfo(child, skipSegments, _origin));
 
             if (_recursive)
             {
@@ -68,7 +73,7 @@ class FileScanner
       {
          if (!childFile.isDirectory())
          {
-            result.add(new FileInfo(childFile, skipSegments));
+            result.add(new FileInfo(childFile, skipSegments, _origin));
          }
       }
    }

@@ -13,7 +13,7 @@ import net.sf.javagimmicks.collections.diff.DifferenceList;
 import net.sf.javagimmicks.collections.diff.DifferenceUtils;
 import net.sf.javagimmicks.collections.transformer.TransformerUtils;
 import net.sf.javagimmicks.event.ObservableBase;
-import net.sf.javagimmicks.io.folderdiff.event.FolderDiffEvent;
+import net.sf.javagimmicks.io.folderdiff.FileInfo.Origin;
 import net.sf.javagimmicks.transform.Transformer;
 
 public class FolderDiffBuilder extends ObservableBase<FolderDiffEvent>
@@ -49,12 +49,12 @@ public class FolderDiffBuilder extends ObservableBase<FolderDiffEvent>
    {
       final IncludeExcludeFilenameFilter sourceFilter = new IncludeExcludeFilenameFilter(_sourceIncludes,
             _sourceExcludes);
-      final FileScanner sourceScanner = new FileScanner(this, _sourceFolder, sourceFilter, _recursive);
+      final FileScanner sourceScanner = new FileScanner(Origin.Source, this, _sourceFolder, sourceFilter, _recursive);
       final List<FileInfo> sourceFiles = sourceScanner.scan();
 
       final IncludeExcludeFilenameFilter targetFilter = new IncludeExcludeFilenameFilter(_targetIncludes,
             _targetExcludes);
-      final FileScanner targetScanner = new FileScanner(this, _targetFolder, targetFilter, _recursive);
+      final FileScanner targetScanner = new FileScanner(Origin.Target, this, _targetFolder, targetFilter, _recursive);
       final List<FileInfo> targetFiles = targetScanner.scan();
 
       final SortedSet<PathInfo> filesAll = new TreeSet<PathInfo>(PATH_COMPARATOR);

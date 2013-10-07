@@ -11,15 +11,34 @@ import net.sf.javagimmicks.io.FileUtils;
  */
 public class FileInfo
 {
+   /**
+    * The origin (source or target) of the scanned {@link File}.
+    */
+   public static enum Origin
+   {
+      /**
+       * The scanned {@link File} is from the source folder.
+       */
+      Source,
+
+      /**
+       * The scanned {@link File} is from the target folder.
+       */
+      Target
+   }
+
    private final File _file;
    private long _checkSum;
    private final PathInfo _pathInfo;
+   private final Origin _origin;
 
-   FileInfo(final File file, final int skipFragments)
+   FileInfo(final File file, final int skipFragments, final Origin origin)
    {
       _file = file;
 
       _pathInfo = new PathInfo(file, skipFragments);
+
+      _origin = origin;
    }
 
    /**
@@ -105,6 +124,40 @@ public class FileInfo
    public PathInfo getPathInfo()
    {
       return _pathInfo;
+   }
+
+   /**
+    * Returns the {@link Origin} of the underlying {@link File}.
+    * 
+    * @return the {@link Origin} of the underlying {@link File}
+    */
+   public Origin getOrigin()
+   {
+      return _origin;
+   }
+
+   /**
+    * Returns if the underlying {@link File}'s {@link #getOrigin() Origin} is
+    * {@link Origin#Source}.
+    * 
+    * @return if the underlying {@link File}'s {@link #getOrigin() Origin} is
+    *         {@link Origin#Source}
+    */
+   public boolean isSource()
+   {
+      return getOrigin() == Origin.Source;
+   }
+
+   /**
+    * Returns if the underlying {@link File}'s {@link #getOrigin() Origin} is
+    * {@link Origin#Target}.
+    * 
+    * @return if the underlying {@link File}'s {@link #getOrigin() Origin} is
+    *         {@link Origin#Target}
+    */
+   public boolean isTarget()
+   {
+      return getOrigin() == Origin.Target;
    }
 
    @Override
