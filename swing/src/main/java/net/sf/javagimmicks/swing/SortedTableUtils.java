@@ -15,7 +15,10 @@ import net.sf.javagimmicks.beans.BeanPropertyComparator.SortOrder;
 import net.sf.javagimmicks.collections.SortedListUtils;
 import net.sf.javagimmicks.swing.model.ListTableModel;
 
-public class SortedTableUtils
+/*
+ * TODO: Not yet finished - next task: show sort order in table header
+ */
+class SortedTableUtils
 {
    protected static class SortTableSuite<E>
    {
@@ -27,8 +30,8 @@ public class SortedTableUtils
       protected ListTableModel<E> _tableModel;
 
       protected List<E> _rowDataInterface;
-      
-      protected SortTableSuite(Class<E> rowType, List<E> rowData)
+
+      protected SortTableSuite(final Class<E> rowType, final List<E> rowData)
       {
          _rowData = rowData;
          _headerSortMouseListener = new HeaderSortMouseListener(this);
@@ -37,64 +40,65 @@ public class SortedTableUtils
 
          _tableModel = new ListTableModel<E>(_rowData, rowType);
          _rowDataInterface = SortedListUtils.decorate(_tableModel, _comparator);
-         
+
          _resortTableModelListener = new ResortTableModelListener(this);
          _tableModel.addTableModelListener(_resortTableModelListener);
       }
 
-      protected List<E> applyTo(JTable table)
+      protected List<E> applyTo(final JTable table)
       {
          table.setModel(_tableModel);
          table.getTableHeader().addMouseListener(_headerSortMouseListener);
-         
+
          return _rowDataInterface;
       }
-      
+
       protected void resort()
       {
          _resortTableModelListener.setEnabled(false);
-         
+
          SortedListUtils.resort(_rowDataInterface);
 
          _resortTableModelListener.setEnabled(true);
       }
    }
-   
+
    protected static class ResortTableModelListener implements TableModelListener
    {
       protected final SortTableSuite<?> _sortTableSuite;
       protected boolean _enabled = true;
 
-      protected ResortTableModelListener(SortTableSuite<?> sortTableSuite)
+      protected ResortTableModelListener(final SortTableSuite<?> sortTableSuite)
       {
          _sortTableSuite = sortTableSuite;
       }
 
-      protected void setEnabled(boolean enabled)
+      protected void setEnabled(final boolean enabled)
       {
          _enabled = enabled;
       }
 
-      public void tableChanged(TableModelEvent e)
+      @Override
+      public void tableChanged(final TableModelEvent e)
       {
-         if(!_enabled)
+         if (!_enabled)
          {
             return;
          }
-         
-         int column = e.getColumn();
-         List<String> tablePropertyNames = _sortTableSuite._tableModel.getPropertyNames();
-         List<String> sortedProperties = _sortTableSuite._comparator.getBeanPropertyNames();
-         
-         if(column == TableModelEvent.ALL_COLUMNS && !sortedProperties.isEmpty())
+
+         final int column = e.getColumn();
+         final List<String> tablePropertyNames = _sortTableSuite._tableModel.getPropertyNames();
+         final List<String> sortedProperties = _sortTableSuite._comparator.getBeanPropertyNames();
+
+         if (column == TableModelEvent.ALL_COLUMNS && !sortedProperties.isEmpty())
          {
             _sortTableSuite.resort();
          }
          else
          {
-            String propertyName = tablePropertyNames.get(column);
-            
-            if(sortedProperties.contains(propertyName))
+            final String propertyName = tablePropertyNames.get(column);
+
+            if (sortedProperties.contains(propertyName))
             {
                _sortTableSuite.resort();
             }
@@ -106,27 +110,27 @@ public class SortedTableUtils
    {
       protected final SortTableSuite<?> _sortTableSuite;
 
-      protected HeaderSortMouseListener(SortTableSuite<?> sortTableSuite)
+      protected HeaderSortMouseListener(final SortTableSuite<?> sortTableSuite)
       {
          _sortTableSuite = sortTableSuite;
       }
 
       @Override
-      public void mouseClicked(MouseEvent e)
+      public void mouseClicked(final MouseEvent e)
       {
-         JTableHeader tableHeader = (JTableHeader) e.getSource();
+         final JTableHeader tableHeader = (JTableHeader) e.getSource();
 
-         TableColumnModel columnModel = tableHeader.getColumnModel();
-         int viewColumn = columnModel.getColumnIndexAtX(e.getX());
-         int column = columnModel.getColumn(viewColumn).getModelIndex();
+         final TableColumnModel columnModel = tableHeader.getColumnModel();
+         final int viewColumn = columnModel.getColumnIndexAtX(e.getX());
+         final int column = columnModel.getColumn(viewColumn).getModelIndex();
 
          if (column == -1)
          {
             return;
          }
 
-         String propertyName = _sortTableSuite._tableModel.getPropertyNames().get(column);
-         SortOrder sortOrder = _sortTableSuite._comparator.getSortOrder(propertyName);
+         final String propertyName = _sortTableSuite._tableModel.getPropertyNames().get(column);
+         final SortOrder sortOrder = _sortTableSuite._comparator.getSortOrder(propertyName);
 
          switch (sortOrder)
          {
