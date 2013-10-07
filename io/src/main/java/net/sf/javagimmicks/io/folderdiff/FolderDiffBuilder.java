@@ -12,9 +12,11 @@ import net.sf.javagimmicks.collections.diff.Difference;
 import net.sf.javagimmicks.collections.diff.DifferenceList;
 import net.sf.javagimmicks.collections.diff.DifferenceUtils;
 import net.sf.javagimmicks.collections.transformer.TransformerUtils;
+import net.sf.javagimmicks.event.ObservableBase;
+import net.sf.javagimmicks.io.folderdiff.event.FolderDiffEvent;
 import net.sf.javagimmicks.transform.Transformer;
 
-public class FolderDiffBuilder
+public class FolderDiffBuilder extends ObservableBase<FolderDiffEvent>
 {
    private final Comparator<PathInfo> PATH_COMPARATOR = FileInfoComparatorBuilder.PATH_INFO_COMPARATOR;
 
@@ -26,10 +28,9 @@ public class FolderDiffBuilder
    private final Collection<String> _targetIncludes = new TreeSet<String>();
    private final Collection<String> _targetExcludes = new TreeSet<String>();
 
-   private final FileInfoComparatorBuilder _comparatorBuilder = new FileInfoComparatorBuilder();
+   private final FileInfoComparatorBuilder _comparatorBuilder = new FileInfoComparatorBuilder(this);
 
    private boolean _recursive;
-   private FolderDiffListener _listener;
 
    public FolderDiffBuilder(final File sourceFolder, final File targetFolder, final boolean recursive)
    {
@@ -48,20 +49,12 @@ public class FolderDiffBuilder
    {
       final IncludeExcludeFilenameFilter sourceFilter = new IncludeExcludeFilenameFilter(_sourceIncludes,
             _sourceExcludes);
-      final FileScanner sourceScanner = new FileScanner(_sourceFolder, sourceFilter, _recursive);
-      if (_listener != null)
-      {
-         sourceScanner.setFolderDiffListener(_listener);
-      }
+      final FileScanner sourceScanner = new FileScanner(this, _sourceFolder, sourceFilter, _recursive);
       final List<FileInfo> sourceFiles = sourceScanner.scan();
 
       final IncludeExcludeFilenameFilter targetFilter = new IncludeExcludeFilenameFilter(_targetIncludes,
             _targetExcludes);
-      final FileScanner targetScanner = new FileScanner(_targetFolder, targetFilter, _recursive);
-      if (_listener != null)
-      {
-         targetScanner.setFolderDiffListener(_listener);
-      }
+      final FileScanner targetScanner = new FileScanner(this, _targetFolder, targetFilter, _recursive);
       final List<FileInfo> targetFiles = targetScanner.scan();
 
       final SortedSet<PathInfo> filesAll = new TreeSet<PathInfo>(PATH_COMPARATOR);
@@ -232,14 +225,6 @@ public class FolderDiffBuilder
       setCompareLastModified(false);
       setCompareSize(false);
       setRecursive(true);
-
-      return this;
-   }
-
-   public FolderDiffBuilder setFolderDiffListener(final FolderDiffListener listener)
-   {
-      _listener = listener;
-      _comparatorBuilder.setFolderDiffListener(listener);
 
       return this;
    }
