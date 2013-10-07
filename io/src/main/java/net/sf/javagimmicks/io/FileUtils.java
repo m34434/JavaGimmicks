@@ -2,12 +2,15 @@ package net.sf.javagimmicks.io;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 import java.util.zip.Adler32;
 import java.util.zip.CheckedInputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 /**
  * Provides utility methods for basic file handling.
@@ -82,6 +85,84 @@ public class FileUtils
             {
             }
          }
+      }
+   }
+
+   /**
+    * Unzips a given ZIP {@link File} into a given target {@link File folder}.
+    * <p>
+    * The given target {@link File folder} must either exist (and must really be
+    * a directory) or is must be producible by the calling application.
+    * 
+    * @param zipFile
+    *           the ZIP {@link File} to unzip
+    * @param targetFolder
+    *           the target {@link File folder} where to unzip the files
+    * @throws IOException
+    *            if any internal file operation fails
+    * @throws {@link IllegalArgumentException} if the given ZIP {@link File} is
+    *         not valid or the given target {@link File folder} is not a
+    *         directory
+    */
+   public static void unzip(final File zipFile, final File targetFolder) throws IOException
+   {
+      if (zipFile == null || !zipFile.exists() || !zipFile.isFile())
+      {
+         throw new IllegalArgumentException(String.format(
+               "Given ZIP file '%1$s' is null, does not exist or is not a file!", zipFile));
+      }
+
+      if (targetFolder.exists())
+      {
+         if (!targetFolder.isDirectory())
+         {
+            throw new IllegalArgumentException(String.format(
+                  "Given existing target folder '%1$s' is not a directory!", targetFolder));
+         }
+      }
+      else
+      {
+         if (!targetFolder.mkdirs())
+         {
+            throw new IOException(String.format(
+                  "Could not create target folder '%1$s'!", targetFolder));
+         }
+      }
+
+      final ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFile));
+      final byte[] buffer = new byte[1024];
+
+      try
+      {
+         for (ZipEntry entry = zis.getNextEntry(); entry != null; entry = zis.getNextEntry())
+         {
+            try
+            {
+               final File targetFile = new File(targetFolder, entry.getName());
+               targetFile.getParentFile().mkdirs();
+
+               final FileOutputStream fos = new FileOutputStream(targetFile);
+               try
+               {
+                  for (int len = zis.read(buffer); len > 0; len = zis.read(buffer))
+                  {
+                     fos.write(buffer, 0, len);
+                  }
+               }
+               finally
+               {
+                  fos.close();
+               }
+            }
+            finally
+            {
+               zis.closeEntry();
+            }
+         }
+      }
+      finally
+      {
+         zis.close();
       }
    }
 }
