@@ -14,7 +14,6 @@ class FileInfoComparatorBuilder
 {
    private final FolderDiffBuilder _builder;
 
-   private boolean _comparePaths = true;
    private boolean _compareSize = false;
    private boolean _compareLastModified = false;
    private boolean _compareChecksum = false;
@@ -28,6 +27,8 @@ class FileInfoComparatorBuilder
    {
       final List<Comparator<FileInfo>> comparators = new ArrayList<Comparator<FileInfo>>();
 
+      comparators.add(PATH_COMPARATOR);
+
       if (_compareSize)
       {
          comparators.add(SIZE_COMPARATOR);
@@ -36,11 +37,6 @@ class FileInfoComparatorBuilder
       if (_compareLastModified)
       {
          comparators.add(LAST_MOD_COMPARATOR);
-      }
-
-      if (_comparePaths)
-      {
-         comparators.add(PATH_COMPARATOR);
       }
 
       if (_compareChecksum)
@@ -65,15 +61,16 @@ class FileInfoComparatorBuilder
       @Override
       public int compare(final FileInfo o1, final FileInfo o2)
       {
-         _builder.fireEvent(new FolderDiffEvent(_builder, o1, o2));
+         // Fire an Event only in the Non-Trivial case (i.e. two files with the
+         // same path are compared)
+         if (!o1.isDirectory() && !o2.isDirectory() && o1.getPathFragments().equals(o2.getPathFragments())
+               && o1.getOrigin() != o2.getOrigin())
+         {
+            _builder.fireEvent(new FolderDiffEvent(_builder, o1, o2));
+         }
 
          return _baseComparator.compare(o1, o2);
       }
-   }
-
-   public boolean isComparePaths()
-   {
-      return _comparePaths;
    }
 
    public boolean isCompareSize()
@@ -89,13 +86,6 @@ class FileInfoComparatorBuilder
    public boolean isCompareChecksum()
    {
       return _compareChecksum;
-   }
-
-   public FileInfoComparatorBuilder setComparePaths(final boolean comparePaths)
-   {
-      _comparePaths = comparePaths;
-
-      return this;
    }
 
    public FileInfoComparatorBuilder setCompareSize(final boolean compareSize)

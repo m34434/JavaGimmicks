@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
@@ -89,29 +90,24 @@ public class FileUtils
    }
 
    /**
-    * Unzips a given ZIP {@link File} into a given target {@link File folder}.
+    * Unzips a given ZIP file {@link InputStream} into a given target
+    * {@link File folder}.
     * <p>
     * The given target {@link File folder} must either exist (and must really be
     * a directory) or is must be producible by the calling application.
     * 
     * @param zipFile
-    *           the ZIP {@link File} to unzip
+    *           the ZIP file to unzip as {@link InputStream}
     * @param targetFolder
     *           the target {@link File folder} where to unzip the files
     * @throws IOException
     *            if any internal file operation fails
-    * @throws {@link IllegalArgumentException} if the given ZIP {@link File} is
-    *         not valid or the given target {@link File folder} is not a
-    *         directory
+    * @throws {@link IllegalArgumentException} the given target {@link File
+    *         folder} is not a directory
     */
-   public static void unzip(final File zipFile, final File targetFolder) throws IOException
+   public static void unzip(final InputStream zipFile, final File targetFolder) throws IOException,
+         IllegalArgumentException
    {
-      if (zipFile == null || !zipFile.exists() || !zipFile.isFile())
-      {
-         throw new IllegalArgumentException(String.format(
-               "Given ZIP file '%1$s' is null, does not exist or is not a file!", zipFile));
-      }
-
       if (targetFolder.exists())
       {
          if (!targetFolder.isDirectory())
@@ -129,7 +125,7 @@ public class FileUtils
          }
       }
 
-      final ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFile));
+      final ZipInputStream zis = new ZipInputStream(zipFile);
       final byte[] buffer = new byte[1024];
 
       try
@@ -138,20 +134,27 @@ public class FileUtils
          {
             try
             {
-               final File targetFile = new File(targetFolder, entry.getName());
-               targetFile.getParentFile().mkdirs();
-
-               final FileOutputStream fos = new FileOutputStream(targetFile);
-               try
+               if (entry.isDirectory())
                {
-                  for (int len = zis.read(buffer); len > 0; len = zis.read(buffer))
-                  {
-                     fos.write(buffer, 0, len);
-                  }
+                  new File(targetFolder, entry.getName()).mkdirs();
                }
-               finally
+               else
                {
-                  fos.close();
+                  final File targetFile = new File(targetFolder, entry.getName());
+                  targetFile.getParentFile().mkdirs();
+
+                  final FileOutputStream fos = new FileOutputStream(targetFile);
+                  try
+                  {
+                     for (int len = zis.read(buffer); len > 0; len = zis.read(buffer))
+                     {
+                        fos.write(buffer, 0, len);
+                     }
+                  }
+                  finally
+                  {
+                     fos.close();
+                  }
                }
             }
             finally
@@ -164,5 +167,32 @@ public class FileUtils
       {
          zis.close();
       }
+   }
+
+   /**
+    * Unzips a given ZIP {@link File} into a given target {@link File folder}.
+    * <p>
+    * The given target {@link File folder} must either exist (and must really be
+    * a directory) or is must be producible by the calling application.
+    * 
+    * @param zipFile
+    *           the ZIP {@link File} to unzip
+    * @param targetFolder
+    *           the target {@link File folder} where to unzip the files
+    * @throws IOException
+    *            if any internal file operation fails
+    * @throws {@link IllegalArgumentException} if the given ZIP {@link File} is
+    *         not valid or the given target {@link File folder} is not a
+    *         directory
+    */
+   public static void unzip(final File zipFile, final File targetFolder) throws IOException, IllegalArgumentException
+   {
+      if (zipFile == null || !zipFile.exists() || !zipFile.isFile())
+      {
+         throw new IllegalArgumentException(String.format(
+               "Given ZIP file '%1$s' is null, does not exist or is not a file!", zipFile));
+      }
+
+      unzip(new FileInputStream(zipFile), targetFolder);
    }
 }
