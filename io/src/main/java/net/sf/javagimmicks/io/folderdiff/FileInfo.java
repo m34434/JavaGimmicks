@@ -109,7 +109,7 @@ public class FileInfo
    /**
     * Returns the underlying {@link File}
     * 
-    * @return
+    * @return the underlying {@link File}
     */
    public File getOriginalFile()
    {

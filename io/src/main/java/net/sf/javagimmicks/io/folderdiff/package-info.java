@@ -1,6 +1,6 @@
 /**
  * Contains a folder comparison engine that scans the contents of two folders
- * and find differences between them down to file level.
+ * and finds differences between them down to file level.
  * <p>
  * It is easily configurable, how files are compared by activating any of the
  * following modes:

@@ -1,6 +1,7 @@
 package net.sf.javagimmicks.io.folderdiff;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -16,6 +17,28 @@ import net.sf.javagimmicks.event.ObservableBase;
 import net.sf.javagimmicks.io.folderdiff.FileInfo.Origin;
 import net.sf.javagimmicks.transform.Transformer;
 
+/**
+ * This class is the starting point for comparing two folders - it allows to
+ * configure and finally execute the folder comparison returning a
+ * {@link FolderDiff} object which wraps the results.
+ * <p>
+ * Folder comparison always needs a source and target folder specification and
+ * can be performed {@link #setRecursive(boolean) recursively} or not.
+ * <p>
+ * It is also configurable how {@link File} contents are to be compared. Clients
+ * can activate any of the following modes (all are off by default):
+ * <ul>
+ * <li>{@link #setCompareSize(boolean) File size comparison}</li>
+ * <li>{@link #setCompareLastModified(boolean) Change date comparison}</li>
+ * <li>{@link #setCompareChecksum(boolean) File checksum comparison}</li>
+ * </ul>
+ * <b>Note that comparison strategies are applied in the shown order using a
+ * first-hit algorithm (e.g. checksum is not compared if size already
+ * differs).</b>
+ * <p>
+ * Finally it is possible to filter compared files/folders per side via
+ * includes/excludes (following Ant style).
+ */
 public class FolderDiffBuilder extends ObservableBase<FolderDiffEvent>
 {
    private final Comparator<PathInfo> PATH_COMPARATOR = FileInfoComparatorBuilder.PATH_INFO_COMPARATOR;
@@ -32,6 +55,17 @@ public class FolderDiffBuilder extends ObservableBase<FolderDiffEvent>
 
    private boolean _recursive;
 
+   /**
+    * Creates a new instance for the given {@link File source folder} and
+    * {@link File target folder} using recursion depending on the given flag.
+    * 
+    * @param sourceFolder
+    *           the {@link File source folder} of the comparison
+    * @param targetFolder
+    *           the {@link File target folder} of the comparison
+    * @param recursive
+    *           if comparison should be done recursively
+    */
    public FolderDiffBuilder(final File sourceFolder, final File targetFolder, final boolean recursive)
    {
       _sourceFolder = sourceFolder;
@@ -40,11 +74,30 @@ public class FolderDiffBuilder extends ObservableBase<FolderDiffEvent>
       _recursive = recursive;
    }
 
+   /**
+    * Creates a new instance for the given {@link File source folder} and
+    * {@link File target folder} using recursive scanning.
+    * 
+    * @param sourceFolder
+    *           the {@link File source folder} of the comparison
+    * @param targetFolder
+    *           the {@link File target folder} of the comparison
+    */
    public FolderDiffBuilder(final File sourceFolder, final File targetFolder)
    {
       this(sourceFolder, targetFolder, true);
    }
 
+   /**
+    * Starts a new comparison run and wraps the results into a
+    * {@link FolderDiff} object.
+    * <p>
+    * <b>Attention:</b> this operation is not Thread-safe! Client should take
+    * care about proper synchronization!
+    * 
+    * @return the {@link FolderDiff} object containing the results of the
+    *         comparison
+    */
    public FolderDiff buildFolderDiff()
    {
       final IncludeExcludeFilenameFilter sourceFilter = new IncludeExcludeFilenameFilter(_sourceIncludes,
@@ -73,8 +126,7 @@ public class FolderDiffBuilder extends ObservableBase<FolderDiffEvent>
          final List<FileInfo> listDelete = difference.deleteRange();
          final List<FileInfo> listAdd = difference.addRange();
 
-         @SuppressWarnings("deprecation")
-         final CollectionDifference<FileInfo> collectionDifference = new CollectionDifference<FileInfo>(listDelete,
+         final CollectionDifference<FileInfo> collectionDifference = CollectionDifference.create(listDelete,
                listAdd);
 
          filesDifferent.addAll(getPathInfoCollection(collectionDifference.getBoth()));
@@ -92,128 +144,271 @@ public class FolderDiffBuilder extends ObservableBase<FolderDiffEvent>
             filesAll, filesEqual, filesDifferent, filesSourceOnly, filesTargetOnly);
    }
 
+   /**
+    * Returns the {@link File source folder} of the comparison
+    * 
+    * @return the {@link File source folder} of the comparison
+    */
    public File getSourceFolder()
    {
       return _sourceFolder;
    }
 
+   /**
+    * Returns the included names of files/folders to scan on the source side
+    * 
+    * @return the included names of files/folders to scan on the source side
+    */
    public Collection<String> getSourceIncludes()
    {
       return _sourceIncludes;
    }
 
+   /**
+    * Returns the excluded names of files/folders not to scan on the source side
+    * 
+    * @return the excluded names of files/folders not to scan on the source side
+    */
    public Collection<String> getSourceExcludes()
    {
       return _sourceExcludes;
    }
 
+   /**
+    * Returns the {@link File target folder} of the comparison
+    * 
+    * @return the {@link File target folder} of the comparison
+    */
    public File getTargetFolder()
    {
       return _targetFolder;
    }
 
+   /**
+    * Returns the included names of files/folders to scan on the target side
+    * 
+    * @return the included names of files/folders to scan on the target side
+    */
    public Collection<String> getTargetIncludes()
    {
       return _targetIncludes;
    }
 
+   /**
+    * Returns the excluded names of files/folders not to scan on the target side
+    * 
+    * @return the excluded names of files/folders not to scan on the target side
+    */
    public Collection<String> getTargetExcludes()
    {
       return _targetExcludes;
    }
 
+   /**
+    * Returns if comparisons are run in recursive mode.
+    * 
+    * @return if comparisons are run in recursive mode
+    */
    public boolean isRecursive()
    {
       return _recursive;
    }
 
+   /**
+    * Returns if {@link File}s should be compared via checksum.
+    * 
+    * @return if {@link File}s should be compared via checksum
+    */
    public boolean isCompareChecksum()
    {
       return _comparatorBuilder.isCompareChecksum();
    }
 
+   /**
+    * Returns if {@link File}s should be compared via last modified date.
+    * 
+    * @return if {@link File}s should be compared via last modified date
+    */
    public boolean isCompareLastModified()
    {
       return _comparatorBuilder.isCompareLastModified();
    }
 
+   /**
+    * Returns if {@link File}s should be compared via size.
+    * 
+    * @return if {@link File}s should be compared via size
+    */
    public boolean isCompareSize()
    {
       return _comparatorBuilder.isCompareSize();
    }
 
-   public FolderDiffBuilder addSourceInclude(final String pattern)
+   /**
+    * Adds new inclusion pattern(s) for the source folder
+    * 
+    * @param patterns
+    *           the pattern {@link String}s to add
+    * @return the {@link FolderDiffBuilder} itself
+    */
+   public FolderDiffBuilder addSourceIncludes(final String... patterns)
    {
-      _sourceIncludes.add(pattern);
-      return this;
+      return addSourceIncludes(Arrays.asList(patterns));
    }
 
-   public FolderDiffBuilder addSourceExclude(final String pattern)
+   /**
+    * Adds new exclusion patterns for the source folder
+    * 
+    * @param patterns
+    *           the pattern {@link String}s to add
+    * @return the {@link FolderDiffBuilder} itself
+    */
+   public FolderDiffBuilder addSourceExcludes(final String... patterns)
    {
-      _sourceExcludes.add(pattern);
-      return this;
+      return addSourceExcludes(Arrays.asList(patterns));
    }
 
-   public FolderDiffBuilder addTargetInclude(final String pattern)
+   /**
+    * Adds new inclusion pattern(s) for the target folder
+    * 
+    * @param patterns
+    *           the pattern {@link String}s to add
+    * @return the {@link FolderDiffBuilder} itself
+    */
+   public FolderDiffBuilder addTargetIncludes(final String... patterns)
    {
-      _targetIncludes.add(pattern);
-      return this;
+      return addTargetIncludes(Arrays.asList(patterns));
    }
 
-   public FolderDiffBuilder addTargetExclude(final String pattern)
+   /**
+    * Adds new exclusion pattern(s) for the target folder
+    * 
+    * @param patterns
+    *           the pattern {@link String}s to add
+    * @return the {@link FolderDiffBuilder} itself
+    */
+   public FolderDiffBuilder addTargetExcludes(final String... patterns)
    {
-      _targetExcludes.add(pattern);
-      return this;
+      return addTargetExcludes(Arrays.asList(patterns));
    }
 
+   /**
+    * Adds new inclusion pattern(s) for the source folder
+    * 
+    * @param patterns
+    *           the pattern {@link String}s to add
+    * @return the {@link FolderDiffBuilder} itself
+    */
    public FolderDiffBuilder addSourceIncludes(final Collection<String> patterns)
    {
       _sourceIncludes.addAll(patterns);
       return this;
    }
 
+   /**
+    * Adds new exclusion pattern(s) for the source folder
+    * 
+    * @param patterns
+    *           the pattern {@link String}s to add
+    * @return the {@link FolderDiffBuilder} itself
+    */
    public FolderDiffBuilder addSourceExcludes(final Collection<String> patterns)
    {
       _sourceExcludes.addAll(patterns);
       return this;
    }
 
+   /**
+    * Adds new inclusion pattern(s) for the target folder
+    * 
+    * @param patterns
+    *           the pattern {@link String}s to add
+    * @return the {@link FolderDiffBuilder} itself
+    */
    public FolderDiffBuilder addTargetIncludes(final Collection<String> patterns)
    {
       _targetIncludes.addAll(patterns);
       return this;
    }
 
+   /**
+    * Adds new exclusion pattern(s) for the target folder
+    * 
+    * @param patterns
+    *           the pattern {@link String}s to add
+    * @return the {@link FolderDiffBuilder} itself
+    */
    public FolderDiffBuilder addTargetExcludes(final Collection<String> patterns)
    {
       _targetExcludes.addAll(patterns);
       return this;
    }
 
+   /**
+    * Enables or disables recursive scanning.
+    * 
+    * @param recursive
+    *           if recursive scanning should be enabled or disabled
+    * @return the {@link FolderDiffBuilder} itself
+    */
    public FolderDiffBuilder setRecursive(final boolean recursive)
    {
       _recursive = recursive;
       return this;
    }
 
+   /**
+    * Enables or disables {@link File} checksum comparison.
+    * 
+    * @param compareChecksum
+    *           if {@link File} checksum comparison should be enabled or
+    *           disabled
+    * @return the {@link FolderDiffBuilder} itself
+    */
    public FolderDiffBuilder setCompareChecksum(final boolean compareChecksum)
    {
       _comparatorBuilder.setCompareChecksum(compareChecksum);
       return this;
    }
 
+   /**
+    * Enables or disables {@link File} change date comparison.
+    * 
+    * @param compareLastModified
+    *           if {@link File} change date comparison should be enabled or
+    *           disabled
+    * @return the {@link FolderDiffBuilder} itself
+    */
    public FolderDiffBuilder setCompareLastModified(final boolean compareLastModified)
    {
       _comparatorBuilder.setCompareLastModified(compareLastModified);
       return this;
    }
 
+   /**
+    * Enables or disables {@link File} size comparison.
+    * 
+    * @param compareSize
+    *           if {@link File} change size should be enabled or disabled
+    * @return the {@link FolderDiffBuilder} itself
+    */
    public FolderDiffBuilder setCompareSize(final boolean compareSize)
    {
       _comparatorBuilder.setCompareSize(compareSize);
       return this;
    }
 
+   /**
+    * Reset this instance to default values:
+    * <ul>
+    * <li>Clears all include/exclude filters on source and target side</li>
+    * <li>Disables all three file comparison options (file will only be compared
+    * by existence)</li>
+    * <li>Enables recursion</li>
+    * </ul>
+    * 
+    * @return the {@link FolderDiffBuilder} itself
+    */
    public FolderDiffBuilder reset()
    {
       _sourceIncludes.clear();
