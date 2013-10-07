@@ -7,12 +7,14 @@ import net.sf.javagimmicks.lang.LangUtils;
 
 public class DefaultEdgeFactory<V> implements EdgeFactory<V, DefaultEdgeFactory.DefaultEdge<V>>
 {
-   public DefaultEdge<V> createEdge(Graph<V, DefaultEdge<V>> graph, V source, V target)
+   @Override
+   public DefaultEdge<V> createEdge(final Graph<V, DefaultEdge<V>> graph, final V source, final V target)
    {
       return new DefaultEdge<V>(graph, source, target);
    }
 
-   public static abstract class AbstractDefaultEdge<V, E extends AbstractDefaultEdge<V, E>> implements Edge<V, E>, DirectedEdge<V, E>, WeightedEdge<V, E>
+   public static abstract class AbstractDefaultEdge<V, E extends AbstractDefaultEdge<V, E>> implements Edge<V, E>,
+         DirectedEdge<V, E>, WeightedEdge<V, E>
    {
       protected final Graph<V, ? extends E> _graph;
       protected final V _source;
@@ -20,45 +22,51 @@ public class DefaultEdgeFactory<V> implements EdgeFactory<V, DefaultEdgeFactory.
 
       protected double _cost = 1.0;
 
-      public AbstractDefaultEdge(Graph<V, ? extends E> graph, V source, V target)
+      public AbstractDefaultEdge(final Graph<V, ? extends E> graph, final V source, final V target)
       {
          _graph = graph;
          _source = source;
          _target = target;
       }
 
+      @Override
       public double getCost()
       {
          return _cost;
       }
-      
-      public void setCost(double cost)
+
+      @Override
+      public void setCost(final double cost)
       {
          _cost = cost;
       }
-      
+
+      @Override
       public Graph<V, ? extends E> getGraph()
       {
          return _graph;
       }
 
+      @Override
       public V getSourceVertex()
       {
          return _source;
       }
 
+      @Override
       public V getTargetVertex()
       {
          return _target;
       }
-      
-      public V getOutgoingVertex(V incoming)
+
+      @Override
+      public V getOutgoingVertex(final V incoming)
       {
-         if(LangUtils.equalsNullSafe(incoming, _source))
+         if (LangUtils.equalsNullSafe(incoming, _source))
          {
             return _target;
          }
-         else if(LangUtils.equalsNullSafe(incoming, _target))
+         else if (LangUtils.equalsNullSafe(incoming, _target))
          {
             return _source;
          }
@@ -67,27 +75,34 @@ public class DefaultEdgeFactory<V> implements EdgeFactory<V, DefaultEdgeFactory.
             return null;
          }
       }
-      
-      public boolean connectsTo(V vertex)
+
+      @Override
+      public boolean connectsTo(final V vertex)
       {
-         return
-            LangUtils.equalsNullSafe(vertex, _source) ||
-            LangUtils.equalsNullSafe(vertex, _target);
+         return LangUtils.equalsNullSafe(vertex, _source) ||
+               LangUtils.equalsNullSafe(vertex, _target);
       }
 
+      @Override
       @SuppressWarnings("unchecked")
-      public Collection<V> getVerteces()
+      public Collection<V> getVertices()
       {
          return Arrays.asList(_source, _target);
       }
 
-      public String toString(V incoming)
+      @Override
+      public String toString(final V incoming)
       {
+         if (!connectsTo(incoming))
+         {
+            throw new IllegalArgumentException(String.format("'%1$s' is not connected to this Edge!"));
+         }
+
          return new StringBuilder()
-            .append(incoming)
-            .append("->")
-            .append(getOutgoingVertex(incoming))
-            .toString();
+               .append(incoming)
+               .append("->")
+               .append(getOutgoingVertex(incoming))
+               .toString();
       }
 
       @Override
@@ -96,10 +111,10 @@ public class DefaultEdgeFactory<V> implements EdgeFactory<V, DefaultEdgeFactory.
          return toString(_source);
       }
    }
-   
+
    public static class DefaultEdge<V> extends AbstractDefaultEdge<V, DefaultEdge<V>>
    {
-      public DefaultEdge(Graph<V, DefaultEdge<V>> graph, V source, V target)
+      public DefaultEdge(final Graph<V, DefaultEdge<V>> graph, final V source, final V target)
       {
          super(graph, source, target);
       }

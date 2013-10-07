@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 
 import net.sf.javagimmicks.graph.DefaultEdgeFactory.DefaultEdge;
 import net.sf.javagimmicks.lang.Factory;
@@ -13,32 +12,33 @@ public class MapGraphBuilder<V, E extends Edge<V, E>>
 {
    protected boolean _directed = false;
    protected Map<V, Set<E>> _edgeMap = new HashMap<V, Set<E>>();
-   protected Factory<? extends Set<E>> _setFactory = new HashSetFactory<E>();
+   protected Factory<? extends Set<E>> _edgeSetFactory = new HashSetFactory<E>();
    protected EdgeFactory<V, E> _edgeFactory = null;
 
-   public static <V> MapGraphBuilder<V, DefaultEdge<V>> createDefaultInstance(Map<V, Set<DefaultEdge<V>>> edges, Factory<Set<DefaultEdge<V>>> setFactory)
+   public static <V> MapGraphBuilder<V, DefaultEdge<V>> createDefaultInstance(final Map<V, Set<DefaultEdge<V>>> edges,
+         final Factory<Set<DefaultEdge<V>>> edgeSetFactory)
    {
       return new MapGraphBuilder<V, DefaultEdge<V>>()
-         .setEdgeMap(edges)
-         .setSetFactory(setFactory)
-         .setEdgeFactory(new DefaultEdgeFactory<V>());
+            .setEdgeMap(edges)
+            .setEdgeSetFactory(edgeSetFactory)
+            .setEdgeFactory(new DefaultEdgeFactory<V>());
    }
-   
+
    public static <V> MapGraphBuilder<V, DefaultEdge<V>> createDefaultHashInstance()
    {
       return createDefaultInstance(new HashMap<V, Set<DefaultEdge<V>>>(), new HashSetFactory<DefaultEdge<V>>());
    }
-   
+
    public MapGraph<V, E> build()
    {
-      if(_edgeFactory == null)
+      if (_edgeFactory == null)
       {
          throw new IllegalStateException("No EdgeFactory set yet!");
       }
-      
-      return new MapGraph<V, E>(_edgeMap, _setFactory, _edgeFactory, _directed);
+
+      return new MapGraph<V, E>(_edgeMap, _edgeSetFactory, _edgeFactory, _directed);
    }
-   
+
    public boolean isDirected()
    {
       return _directed;
@@ -49,9 +49,9 @@ public class MapGraphBuilder<V, E extends Edge<V, E>>
       return _edgeMap;
    }
 
-   public Factory<? extends Set<E>> getSetFactory()
+   public Factory<? extends Set<E>> getEdgeSetFactory()
    {
-      return _setFactory;
+      return _edgeSetFactory;
    }
 
    public EdgeFactory<V, E> getEdgeFactory()
@@ -59,47 +59,40 @@ public class MapGraphBuilder<V, E extends Edge<V, E>>
       return _edgeFactory;
    }
 
-   public MapGraphBuilder<V, E> setDirected(boolean directed)
+   public MapGraphBuilder<V, E> setDirected(final boolean directed)
    {
       _directed = directed;
-      
+
       return this;
    }
 
-   public MapGraphBuilder<V, E> setEdgeMap(Map<V, Set<E>> edgeMap)
+   public MapGraphBuilder<V, E> setEdgeMap(final Map<V, Set<E>> edgeMap)
    {
       _edgeMap = edgeMap;
-      
+
       return this;
    }
 
-   public MapGraphBuilder<V, E> setSetFactory(Factory<? extends Set<E>> setFactory)
+   public MapGraphBuilder<V, E> setEdgeSetFactory(final Factory<? extends Set<E>> edgeSetFactory)
    {
-      _setFactory = setFactory;
-      
+      _edgeSetFactory = edgeSetFactory;
+
       return this;
    }
 
-   public MapGraphBuilder<V, E> setEdgeFactory(EdgeFactory<V, E> edgeFactory)
+   public MapGraphBuilder<V, E> setEdgeFactory(final EdgeFactory<V, E> edgeFactory)
    {
       _edgeFactory = edgeFactory;
-      
+
       return this;
    }
 
-   public static class HashSetFactory<E> implements Factory<Set<E>>
+   private static class HashSetFactory<E> implements Factory<Set<E>>
    {
+      @Override
       public Set<E> create()
       {
          return new HashSet<E>();
-      }
-   }
-
-   public static class TreeSetFactory<E> implements Factory<Set<E>>
-   {
-      public Set<E> create()
-      {
-         return new TreeSet<E>();
       }
    }
 }

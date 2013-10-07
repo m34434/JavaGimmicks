@@ -1,7 +1,23 @@
 package net.sf.javagimmicks.graph;
 
-public interface DirectedEdge<V, E extends DirectedEdge<V, E>> extends Edge<V, E>
+/**
+ * A directed version of {@link Edge} that has a well-defined
+ * {@link #getSourceVertex() source} side and {@link #getTargetVertex() target}
+ * side.
+ */
+public interface DirectedEdge<VertexType, EdgeType extends DirectedEdge<VertexType, EdgeType>> extends Edge<VertexType, EdgeType>
 {
-   public V getSourceVertex();
-   public V getTargetVertex();
+   /**
+    * Returns the source vertex of this {@link DirectedEdge}.
+    * 
+    * @return the source vertex of this {@link DirectedEdge}
+    */
+   public VertexType getSourceVertex();
+
+   /**
+    * Returns the target vertex of this {@link DirectedEdge}.
+    * 
+    * @return the target vertex of this {@link DirectedEdge}
+    */
+   public VertexType getTargetVertex();
 }

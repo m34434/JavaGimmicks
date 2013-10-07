@@ -1,6 +1,18 @@
 package net.sf.javagimmicks.graph;
 
-public interface ValuedEdge<V, O, E extends ValuedEdge<V, O, E>> extends Edge<V, E>
+/**
+ * A special version of {@link Edge} that can carry additional information
+ * (simply called "value").
+ * 
+ * @param <ValueType>
+ *           the type of values that this {@link ValuedEdge} can carry
+ */
+public interface ValuedEdge<VertexType, ValueType, EdgeType extends ValuedEdge<VertexType, ValueType, EdgeType>> extends Edge<VertexType, EdgeType>
 {
-   public O getValue();
+   /**
+    * Returns the value of this {@link ValuedEdge}.
+    * 
+    * @return the value of this {@link ValuedEdge}
+    */
+   public ValueType getValue();
 }

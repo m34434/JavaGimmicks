@@ -67,7 +67,7 @@ public class DijkstraRouteFinder<V, E extends Edge<V, E>> extends AbstractRouteF
    protected static <V, E extends Edge<V, E>> void doFindRoutes(final Graph<V, E> graph, final Map<V, Double> costs, final Map<V, E> previous, V optionalTargetVertex)
    {
       final List<V> vertexList = new ArrayList<V>(graph.vertexSet());
-      sortVertecesByCost(vertexList, costs);
+      sortVerticesByCost(vertexList, costs);
 
       while(!vertexList.isEmpty())
       {
@@ -92,7 +92,7 @@ public class DijkstraRouteFinder<V, E extends Edge<V, E>> extends AbstractRouteF
                costs.put(targetVertex, targetNewCost);
                previous.put(targetVertex, edge);
                
-               sortVertecesByCost(vertexList, costs);
+               sortVerticesByCost(vertexList, costs);
             }
             
             if(optionalTargetVertex != null && optionalTargetVertex.equals(targetVertex))
@@ -133,7 +133,7 @@ public class DijkstraRouteFinder<V, E extends Edge<V, E>> extends AbstractRouteF
       routes.put(target, newRoute);
    }
 
-   protected static <V> void sortVertecesByCost(final List<V> vertexList, final Map<V, Double> costs)
+   protected static <V> void sortVerticesByCost(final List<V> vertexList, final Map<V, Double> costs)
    {
       Collections.sort(vertexList, new DistComparator<V>(costs));
    }
