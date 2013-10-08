@@ -15,11 +15,17 @@ import net.sf.javagimmicks.lang.Factory;
  * Note that instances cannot be created directly - instead a
  * {@link MapGraphBuilder} needs to be used.
  * <p>
- * Thus - to work properly - vertices should provide a valid implementation of
+ * As a {@link Map} is the internal base - to have the {@link MapGraph} work
+ * properly - vertices should provide a valid implementation of
  * {@link Object#equals(Object)} and {@link Object#hashCode()} if a
  * {@link HashMap} is provided internally and should implement
  * {@link Comparable} if a {@link TreeMap} without {@link Comparator} is used
  * internally.
+ * <p>
+ * {@link MapGraph} redirects {@link Edge} creation (resulting from a call to
+ * {@link #addEdge(Object, Object)} or
+ * {@link #addEdges(Object, java.util.Collection)}) to an internal
+ * {@link EdgeFactory}.
  * <p>
  * A {@link MapGraph} also can be created in directed or non-directed mode. See
  * {@link #isDirected()} for more details about this modes.
@@ -49,10 +55,12 @@ public class MapGraph<V, E extends Edge<V, E>> extends AbstractGraph<V, E>
     * <p>
     * If the instance is created in <b>directed</b> mode, only one {@link Edge}
     * will be created for each call to {@link #addEdge(Object, Object)} or
+    * vertex combination given within
     * {@link #addEdges(Object, java.util.Collection)}.
     * <p>
     * If the instance is created in <b>non-directed</b> mode, two {@link Edge}s
     * will be created for each call to {@link #addEdge(Object, Object)} or
+    * vertex combination given within
     * {@link #addEdges(Object, java.util.Collection)} - one for each direction.
     * <p>
     * <b>Attention:</b> this behavior is completely isolated from the usage or
