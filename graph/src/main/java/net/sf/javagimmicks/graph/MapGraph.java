@@ -24,6 +24,18 @@ public class MapGraph<V, E extends Edge<V, E>> extends AbstractGraph<V, E>
    }
 
    @Override
+   public int size()
+   {
+      return vertexSet().size();
+   }
+
+   @Override
+   public boolean isEmpty()
+   {
+      return size() == 0;
+   }
+
+   @Override
    public Set<E> edgesOf(final V source)
    {
       return _edges.get(source);

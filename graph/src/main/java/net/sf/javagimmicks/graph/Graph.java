@@ -27,6 +27,20 @@ import java.util.Set;
 public interface Graph<VertexType, EdgeType extends Edge<VertexType, EdgeType>>
 {
    /**
+    * Returns the number of vertices that this instance contains.
+    * 
+    * @return the number of vertices that this instance contains
+    */
+   int size();
+
+   /**
+    * Returns if this instance is empty (it contains no vertices).
+    * 
+    * @return if this instance is empty
+    */
+   boolean isEmpty();
+
+   /**
     * Returns a {@link Set} of all vertices contained within this instance.
     * 
     * @return a {@link Set} of all vertices contained within this instance
