@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import net.sf.javagimmicks.graph.DefaultEdgeFactory.DefaultEdge;
 import net.sf.javagimmicks.lang.Factory;
 
 public class MapGraphBuilder<V, E extends Edge<V, E>>

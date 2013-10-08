@@ -1,6 +1,5 @@
 package net.sf.javagimmicks.graph;
 
-import net.sf.javagimmicks.graph.DefaultEdgeFactory.DefaultEdge;
 
 import org.junit.Assert;
 import org.junit.Test;

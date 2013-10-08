@@ -2,7 +2,7 @@ package net.sf.javagimmicks.graph.routing;
 
 import java.util.Map.Entry;
 
-import net.sf.javagimmicks.graph.DefaultEdgeFactory.DefaultEdge;
+import net.sf.javagimmicks.graph.DefaultEdge;
 import net.sf.javagimmicks.graph.Graph;
 import net.sf.javagimmicks.graph.MapGraphBuilder;
 
