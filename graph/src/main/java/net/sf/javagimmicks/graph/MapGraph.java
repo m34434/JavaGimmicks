@@ -1,10 +1,31 @@
 package net.sf.javagimmicks.graph;
 
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import net.sf.javagimmicks.lang.Factory;
 
+/**
+ * An implementation of {@link Graph} that internally maintains a {@link Map} of
+ * vertices and their associated {@link Edge}s.
+ * <p>
+ * Note that instances cannot be created directly - instead a
+ * {@link MapGraphBuilder} needs to be used.
+ * <p>
+ * Thus - to work properly - vertices should provide a valid implementation of
+ * {@link Object#equals(Object)} and {@link Object#hashCode()} if a
+ * {@link HashMap} is provided internally and should implement
+ * {@link Comparable} if a {@link TreeMap} without {@link Comparator} is used
+ * internally.
+ * <p>
+ * A {@link MapGraph} also can be created in directed or non-directed mode. See
+ * {@link #isDirected()} for more details about this modes.
+ * 
+ * @see MapGraphBuilder
+ */
 public class MapGraph<V, E extends Edge<V, E>> extends AbstractGraph<V, E>
 {
    protected final Map<V, Set<E>> _edges;
@@ -21,6 +42,30 @@ public class MapGraph<V, E extends Edge<V, E>> extends AbstractGraph<V, E>
       _edgeFactory = edgeFactory;
 
       _directed = directed;
+   }
+
+   /**
+    * Returns if this instance is created in directed or non-directed mode.
+    * <p>
+    * If the instance is created in <b>directed</b> mode, only one {@link Edge}
+    * will be created for each call to {@link #addEdge(Object, Object)} or
+    * {@link #addEdges(Object, java.util.Collection)}.
+    * <p>
+    * If the instance is created in <b>non-directed</b> mode, two {@link Edge}s
+    * will be created for each call to {@link #addEdge(Object, Object)} or
+    * {@link #addEdges(Object, java.util.Collection)} - one for each direction.
+    * <p>
+    * <b>Attention:</b> this behavior is completely isolated from the usage or
+    * non-usage of {@link Edge}s of type {@link DirectedEdge} for this
+    * {@link MapGraph} - it only influences the number of created {@link Edge}s
+    * per add-operation and the vertex parameter order of each respective
+    * internal call to {@link EdgeFactory#createEdge(Graph, Object, Object)}.
+    * 
+    * @return if this instance is directed
+    */
+   public boolean isDirected()
+   {
+      return _directed;
    }
 
    @Override

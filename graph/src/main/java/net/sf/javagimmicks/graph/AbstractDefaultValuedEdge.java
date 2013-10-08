@@ -1,11 +1,11 @@
 package net.sf.javagimmicks.graph;
 
-abstract class AbstractDefaultValuedEdge<VertexType, O, EdgeType extends AbstractDefaultValuedEdge<VertexType, O, EdgeType>> extends
-      AbstractDefaultEdge<VertexType, EdgeType> implements ValuedEdge<VertexType, O, EdgeType>
+abstract class AbstractDefaultValuedEdge<VertexType, ValueType, EdgeType extends AbstractDefaultValuedEdge<VertexType, ValueType, EdgeType>> extends
+      AbstractDefaultEdge<VertexType, EdgeType> implements ValuedEdge<VertexType, ValueType, EdgeType>
 {
-   protected O _value;
+   protected ValueType _value;
 
-   AbstractDefaultValuedEdge(final Graph<VertexType, ? extends EdgeType> graph, final VertexType source, final VertexType target, final O value)
+   AbstractDefaultValuedEdge(final Graph<VertexType, ? extends EdgeType> graph, final VertexType source, final VertexType target, final ValueType value)
    {
       super(graph, source, target);
 
@@ -13,12 +13,12 @@ abstract class AbstractDefaultValuedEdge<VertexType, O, EdgeType extends Abstrac
    }
 
    @Override
-   public O getValue()
+   public ValueType getValue()
    {
       return _value;
    }
 
-   public void setValue(final O value)
+   public void setValue(final ValueType value)
    {
       _value = value;
    }
