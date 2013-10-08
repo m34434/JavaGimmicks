@@ -18,7 +18,6 @@
 	<url>http://jgutils.sourceforge.net/</url>
 
 	<modules>
-		<module>all</module>
 		<module>cdi</module>
 		<module>cdi-collections</module>
 		<module>cdi-testing</module>
@@ -43,15 +42,18 @@
 
 	<build>
 		<plugins>
-			<!-- Don't run default JavaDoc goal - instead aggregate all JavaDocs -->
+			<!-- Build cumulative javadoc JAR -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<executions>
+					<!-- Switch of default execution -->
 					<execution>
 						<id>attach-javadocs</id>
 						<phase>none</phase>
 					</execution>
+					
+					<!-- Instead switch on aggregation -->
 					<execution>
 						<id>aggregate-javadocs</id>
 						<phase>verify</phase>
@@ -61,7 +63,8 @@
 					</execution>
 				</executions>
 			</plugin>
-
+			
+			<!-- Build cumulative sources JAR -->
 			<plugin>
 				<artifactId>maven-source-plugin</artifactId>
 				<executions>
@@ -70,6 +73,24 @@
 						<goals>
 							<goal>aggregate</goal>
 						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Build cumulative binary JAR -->
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<appendAssemblyId>false</appendAssemblyId>
+							<descriptor>assembly.xml</descriptor>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>

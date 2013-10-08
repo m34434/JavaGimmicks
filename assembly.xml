@@ -8,13 +8,13 @@
 		<format>jar</format>
 	</formats>
 	<includeBaseDirectory>false</includeBaseDirectory>
-	<dependencySets>
-		<dependencySet>
-			<outputDirectory>/</outputDirectory>
-			<useProjectArtifact>false</useProjectArtifact>
-			<unpack>true</unpack>
-			<scope>runtime</scope>
-			<useTransitiveDependencies>false</useTransitiveDependencies>
-		</dependencySet>
-	</dependencySets>
+	
+	<moduleSets>
+		<moduleSet>
+			<binaries>
+				<includeDependencies>false</includeDependencies>
+			</binaries>
+		</moduleSet>
+	</moduleSets>
+
 </assembly>
