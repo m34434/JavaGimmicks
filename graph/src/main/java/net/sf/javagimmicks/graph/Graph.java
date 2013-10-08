@@ -166,7 +166,7 @@ public interface Graph<VertexType, EdgeType extends Edge<VertexType, EdgeType>>
     *           the source vertex of the new connections
     * @param targets
     *           the target vertices of the new connections
-    * @return
+    * @return a {@link Set} of containing all newly created {@link Edge}s
     */
    Set<EdgeType> addEdges(VertexType source, Collection<? extends VertexType> targets);
 

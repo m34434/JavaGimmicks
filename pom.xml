@@ -47,7 +47,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<executions>
-					<!-- Switch of default execution -->
+					<!-- Switch off default execution -->
 					<execution>
 						<id>attach-javadocs</id>
 						<phase>none</phase>
@@ -68,6 +68,13 @@
 			<plugin>
 				<artifactId>maven-source-plugin</artifactId>
 				<executions>
+					<!-- Switch off default execution -->
+					<execution>
+						<id>attach-sources</id>
+						<phase>none</phase>
+					</execution>
+					
+					<!-- Instead switch on aggregation -->
 					<execution>
 						<id>aggregate-sources</id>
 						<goals>
