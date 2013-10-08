@@ -1,4 +1,7 @@
-package net.sf.javagimmicks.graph;
+package net.sf.javagimmicks.graph.routing;
+
+import net.sf.javagimmicks.graph.Edge;
+import net.sf.javagimmicks.graph.Graph;
 
 public abstract class AbstractRouteFinder<V, E extends Edge<V, E>> implements RouteFinder<V, E>
 {

@@ -1,6 +1,8 @@
-package net.sf.javagimmicks.graph;
+package net.sf.javagimmicks.graph.routing;
 
 import java.util.Map;
+
+import net.sf.javagimmicks.graph.Edge;
 
 public interface RouteFinder<V, E extends Edge<V, E>>
 {

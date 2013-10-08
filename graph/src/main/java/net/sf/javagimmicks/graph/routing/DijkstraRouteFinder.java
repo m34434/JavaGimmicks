@@ -7,11 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.javagimmicks.graph.AbstractRouteFinder;
-import net.sf.javagimmicks.graph.DefaultRoute;
 import net.sf.javagimmicks.graph.Edge;
 import net.sf.javagimmicks.graph.Graph;
-import net.sf.javagimmicks.graph.Route;
 import net.sf.javagimmicks.graph.WeightedEdge;
 
 public class DijkstraRouteFinder<V, E extends Edge<V, E>> extends AbstractRouteFinder<V, E>

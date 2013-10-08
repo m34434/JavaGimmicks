@@ -1,6 +1,8 @@
-package net.sf.javagimmicks.graph;
+package net.sf.javagimmicks.graph.routing;
 
 import java.util.List;
+
+import net.sf.javagimmicks.graph.Edge;
 
 
 public interface Route<V, E extends Edge<V, E>> extends List<E>

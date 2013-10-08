@@ -5,7 +5,6 @@ import java.util.Map.Entry;
 import net.sf.javagimmicks.graph.DefaultEdgeFactory.DefaultEdge;
 import net.sf.javagimmicks.graph.Graph;
 import net.sf.javagimmicks.graph.MapGraphBuilder;
-import net.sf.javagimmicks.graph.Route;
 
 import org.junit.Test;
 

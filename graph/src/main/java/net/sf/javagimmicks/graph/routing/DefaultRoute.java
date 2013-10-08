@@ -1,7 +1,10 @@
-package net.sf.javagimmicks.graph;
+package net.sf.javagimmicks.graph.routing;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import net.sf.javagimmicks.graph.Edge;
+import net.sf.javagimmicks.graph.WeightedEdge;
 
 public class DefaultRoute<V, E extends Edge<V, E>> extends ArrayList<E> implements Route<V, E>
 {

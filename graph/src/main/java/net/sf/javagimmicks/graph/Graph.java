@@ -119,7 +119,7 @@ public interface Graph<VertexType, EdgeType extends Edge<VertexType, EdgeType>>
    boolean isConnected(VertexType source, VertexType target);
 
    /**
-    * Return the {@link Set} of {@link Edge}s that connect two given vertices.
+    * Returns the {@link Set} of {@link Edge}s that connect two given vertices.
     * 
     * @param source
     *           the source vertex of the {@link Edge}s to retrieve
@@ -170,9 +170,42 @@ public interface Graph<VertexType, EdgeType extends Edge<VertexType, EdgeType>>
     */
    Set<EdgeType> addEdges(VertexType source, Collection<? extends VertexType> targets);
 
-   EdgeType removeEdge(VertexType source, VertexType target);
-
+   /**
+    * Removes all {@link Edge}s that connect the two given vertices.
+    * 
+    * @param source
+    *           the source vertex of the {@link Edge}s to remove
+    * @param target
+    *           the target vertex of the {@link Edge}s to remove
+    * @return the {@link Set} of removed {@link Edge}s (will be empty if the
+    *         vertices are not connected within this instance)
+    */
    Set<EdgeType> removeEdges(VertexType source, VertexType target);
 
+   /**
+    * Removes the first {@link Edge}s that connects the two given vertices.
+    * 
+    * @param source
+    *           the source vertex of the {@link Edge} to remove
+    * @param target
+    *           the target vertex of the {@link Edge} to remove
+    * @return the removed {@link Edge} or {@code null} if the vertices are not
+    *         connected within this instance
+    */
+   EdgeType removeEdge(VertexType source, VertexType target);
+
+   /**
+    * Removes all {@link Edge}s that connect the given source vertex with any of
+    * the given target vertices.
+    * 
+    * @param source
+    *           the source vertex of the {@link Edge}s to remove
+    * @param targets
+    *           the {@link Collection} of target vertices of the {@link Edge}s
+    *           to remove
+    * @return the {@link Set} of removed {@link Edge}s (will be empty if none of
+    *         the given target vertices is connected to the given source vertex
+    *         within this instance)
+    */
    Set<EdgeType> removeEdges(VertexType source, Collection<? extends VertexType> targets);
 }
