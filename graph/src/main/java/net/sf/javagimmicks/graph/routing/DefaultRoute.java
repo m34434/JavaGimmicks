@@ -18,6 +18,14 @@ public class DefaultRoute<VertexType, EdgeType extends Edge<VertexType, EdgeType
    protected final VertexType _source;
    protected final VertexType _target;
 
+   /**
+    * Creates a new instance for the given source and target vertex.
+    * 
+    * @param source
+    *           the source vertex for this instance
+    * @param target
+    *           the target vertex for this instance
+    */
    public DefaultRoute(final VertexType source, final VertexType target)
    {
       _source = source;
