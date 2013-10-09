@@ -6,38 +6,46 @@ import java.util.Iterator;
 import net.sf.javagimmicks.graph.Edge;
 import net.sf.javagimmicks.graph.WeightedEdge;
 
-public class DefaultRoute<V, E extends Edge<V, E>> extends ArrayList<E> implements Route<V, E>
+/**
+ * A simple default {@link Route} implementation based on an {@link ArrayList}
+ * that can automatically calculate the {@link #getCost() cost}.
+ */
+public class DefaultRoute<VertexType, EdgeType extends Edge<VertexType, EdgeType>> extends ArrayList<EdgeType>
+      implements Route<VertexType, EdgeType>
 {
    private static final long serialVersionUID = 8309167375893037566L;
 
-   protected final V _source;
-   protected final V _target;
-   
-   public DefaultRoute(V source, V target)
+   protected final VertexType _source;
+   protected final VertexType _target;
+
+   public DefaultRoute(final VertexType source, final VertexType target)
    {
       _source = source;
       _target = target;
    }
 
+   @Override
    public double getCost()
    {
       double cost = 0.0;
-      
-      for(E edge : this)
+
+      for (final EdgeType edge : this)
       {
          cost += (edge instanceof WeightedEdge<?, ?>) ?
-            ((WeightedEdge<V, ?>)edge).getCost() : 1.0;
+               ((WeightedEdge<VertexType, ?>) edge).getCost() : 1.0;
       }
-      
+
       return cost;
    }
-   
-   public V getSourceVertex()
+
+   @Override
+   public VertexType getSourceVertex()
    {
       return _source;
    }
 
-   public V getTargetVertex()
+   @Override
+   public VertexType getTargetVertex()
    {
       return _target;
    }
@@ -46,33 +54,33 @@ public class DefaultRoute<V, E extends Edge<V, E>> extends ArrayList<E> implemen
    public String toString()
    {
       final StringBuilder result = new StringBuilder()
-         .append(_source)
-         .append("->")
-         .append(_target);
-         
-      if(!isEmpty())
+            .append(_source)
+            .append("->")
+            .append(_target);
+
+      if (!isEmpty())
       {
          result.append(" (");
-         
-         final Iterator<E> edgeIterator = iterator();
-         V source = _source;
-         E edge = edgeIterator.next();
-         
+
+         final Iterator<EdgeType> edgeIterator = iterator();
+         VertexType source = _source;
+         EdgeType edge = edgeIterator.next();
+
          result.append(edge.toString(_source));
-         
-         while(edgeIterator.hasNext())
+
+         while (edgeIterator.hasNext())
          {
             source = edge.getOutgoingVertex(source);
             edge = edgeIterator.next();
             result.append(", ").append(edge.toString(source));
          }
-         
+
          result.append(")");
       }
-         
+
       return result
-         .append(" / Overall cost: ")
-         .append(getCost())
-         .toString();
+            .append(" / Overall cost: ")
+            .append(getCost())
+            .toString();
    }
 }

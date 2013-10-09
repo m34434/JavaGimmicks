@@ -25,8 +25,8 @@ public class DijkstraRouteFinderTest
       addEdge(graph, "5", "3", 2);
       addEdge(graph, "5", "6", 3);
 
-      final DijkstraRouteFinder<String, DefaultEdge<String>> routingAlgorithm = DijkstraRouteFinder
-            .createInstance(graph);
+      final DijkstraRouteFinder<String, DefaultEdge<String>> routingAlgorithm = new DijkstraRouteFinder<String, DefaultEdge<String>>(
+            graph);
       for (final Entry<String, Route<String, DefaultEdge<String>>> entry : routingAlgorithm.findRoutes("1").entrySet())
       {
          System.out.println("Target: " + entry.getKey());
