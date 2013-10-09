@@ -13,7 +13,7 @@ public class DijkstraRouteFinderTest
    @Test
    public void testDijkstra() throws Exception
    {
-      final MapGraphBuilder<String, DefaultEdge<String>> builder = MapGraphBuilder.createDefaultHashInstance();
+      final MapGraphBuilder<String, DefaultEdge<String>> builder = MapGraphBuilder.withDefaultEdgeFactory();
       final Graph<String, DefaultEdge<String>> graph = builder.build();
 
       addEdge(graph, "1", "2", 1);

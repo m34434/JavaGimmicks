@@ -1,6 +1,5 @@
 package net.sf.javagimmicks.graph;
 
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -17,7 +16,7 @@ public class MapGraphTest
    @Test
    public void testBasicOperations()
    {
-      final MapGraphBuilder<String, DefaultEdge<String>> builder = MapGraphBuilder.createDefaultHashInstance();
+      final MapGraphBuilder<String, DefaultEdge<String>> builder = MapGraphBuilder.withDefaultEdgeFactory();
       final Graph<String, DefaultEdge<String>> graph = builder.build();
 
       Assert.assertTrue(graph.isEmpty());
