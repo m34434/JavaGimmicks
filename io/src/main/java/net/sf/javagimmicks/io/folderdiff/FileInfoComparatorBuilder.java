@@ -5,7 +5,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import net.sf.javagimmicks.collections.ListComparator;
-import net.sf.javagimmicks.math.NumberCompareUtils;
 import net.sf.javagimmicks.math.comparator.LongComparator;
 import net.sf.javagimmicks.util.CompositeComparator;
 
@@ -107,7 +106,7 @@ class FileInfoComparatorBuilder
       _compareChecksum = compareChecksum;
    }
 
-   private static final LongComparator LONG_COMPARATOR = NumberCompareUtils.getLongComparator();
+   private static final LongComparator LONG_COMPARATOR = new LongComparator();
    private static final ListComparator<String> STRING_LIST_COMPARATOR;
 
    static

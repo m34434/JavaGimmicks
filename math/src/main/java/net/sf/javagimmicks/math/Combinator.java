@@ -1,5 +1,7 @@
 package net.sf.javagimmicks.math;
 
+import static net.sf.javagimmicks.math.MathExt.factorial;
+
 import java.math.BigInteger;
 import java.util.Collection;
 
@@ -90,11 +92,11 @@ public class Combinator<T> extends CombinatoricOperator<T>
    }
 
    @Override
-   protected void computeNext()
+   protected void computeNext(final int[] indices)
    {
       final int r = indices.length;
       int i = r - 1;
-      final int n = elements.size();
+      final int n = _elements.size();
       while (indices[i] == n - r + i)
       {
          i--;

@@ -76,7 +76,7 @@ public class VariatorWithRepetition<T> extends CombinatoricOperator<T>
     * to be initialised with all 0s
     */
    @Override
-   protected void initialiseIndices()
+   protected void initialiseIndices(final int[] indices)
    {
       Arrays.fill(indices, 0);
    }
@@ -88,10 +88,10 @@ public class VariatorWithRepetition<T> extends CombinatoricOperator<T>
    }
 
    @Override
-   protected void computeNext()
+   protected void computeNext(final int[] indices)
    {
       int i = indices.length - 1;
-      final int n = elements.size();
+      final int n = _elements.size();
       while (++indices[i] == n && i > 0)
       {
          indices[i--] = 0;

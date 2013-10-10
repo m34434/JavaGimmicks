@@ -1,17 +1,20 @@
 package net.sf.javagimmicks.math;
 
+import net.sf.javagimmicks.math.comparator.ByteComparator;
 import net.sf.javagimmicks.math.comparator.LongComparator;
-
 
 public class NumberCompareUtils
 {
-   public static LongComparator getLongComparator()
+   private NumberCompareUtils()
+   {}
+
+   public static int compareLong(final long long1, final long long2)
    {
-      return new LongComparator();
+      return new LongComparator().compare(long1, long2);
    }
-   
-   public static int compareLong(long long1, long long2)
+
+   public static int compareBye(final byte byte1, final byte byte2)
    {
-      return getLongComparator().compare(long1, long2);
+      return new ByteComparator().compare(byte1, byte2);
    }
 }

@@ -1,4 +1,5 @@
 package net.sf.javagimmicks.math;
+
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.ZERO;
 
@@ -9,208 +10,110 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-public abstract class CombinatoricOperator<T> implements
-		Iterator<ArrayList<T>>, Iterable<ArrayList<T>>
+public abstract class CombinatoricOperator<T> implements Iterable<ArrayList<T>>
 {
+   protected final List<T> _elements;
+   protected final BigInteger _numTotal;
+   protected final int _combinationSize;
 
-	/**
-	 * Initialise a new operator, with given elements and size of the arrays to
-	 * be returned.
-	 * 
-	 * @param elements
-	 *            The elements on which this combinatoric operator has to act.
-	 * @param r
-	 *            The size of the arrays to compute.
-	 */
-	protected CombinatoricOperator(T[] elements, int r)
-	{
-		this(Arrays.asList(elements), r);
-	}
+   protected CombinatoricOperator(final Collection<T> elements, final int r)
+   {
+      if (r < 0)
+      {
+         throw new IllegalArgumentException("Size of combinations to create must at least 0!");
+      }
+      _combinationSize = r;
 
-	/**
-	 * Initialise a new operator, with given elements and size of the arrays to
-	 * be returned.
-	 * 
-	 * @param elements
-	 *            The elements on which this combinatoric operator has to act.
-	 * @param r
-	 *            The size of the arrays to compute.
-	 * @pre r should not be smaller than 0. | 0 <= r
-	 * @post The total number of iterations is set to the correct number. |
-	 *       new.getTotal() == initialiseTotal();
-	 * @post The number of variations left is set to the total number. |
-	 *       new.getNumLeft() == new.getTotal()
-	 */
-	protected CombinatoricOperator(Collection<T> elements, int r)
-	{
-		if (r < 0)
-		{
-			throw new IllegalArgumentException(
-					"Size of lists to create must at least 0!");
-		}
-		indices = new int[r];
-		this.elements = new ArrayList<T>(elements);
-		total = calculateTotal(elements.size(), r);
-		reset();
-	}
+      _elements = new ArrayList<T>(elements);
+      _numTotal = calculateTotal(elements.size(), r);
+   }
 
-	/**
-	 * The elements the operator works upon.
-	 */
-	protected List<T> elements;
+   protected CombinatoricOperator(final T[] elements, final int r)
+   {
+      this(Arrays.asList(elements), r);
+   }
 
-	/**
-	 * An integer array backing up the original one to keep track of the
-	 * indices.
-	 */
-	protected int[] indices;
+   protected abstract BigInteger calculateTotal(int n, int r);
 
-	/**
-	 * Initialise the array of indices. By default, it is initialised with
-	 * incrementing integers.
-	 */
-	protected void initialiseIndices()
-	{
-		for (int i = 0; i < indices.length; i++)
-		{
-			indices[i] = i;
-		}
-	}
+   protected abstract void computeNext(int[] indices);
 
-	/**
-	 * The variations still to go.
-	 */
-	private BigInteger numLeft;
+   protected void initialiseIndices(final int[] indices)
+   {
+      for (int i = 0; i < indices.length; i++)
+      {
+         indices[i] = i;
+      }
+   }
 
-	/**
-	 * The total number of variations to be computed.
-	 */
-	private BigInteger total;
+   /**
+    * Return the total number of combinations that this
+    * {@link CombinatoricOperator} will create.
+    * 
+    * @return the total number of combinations
+    */
+   public BigInteger getTotal()
+   {
+      return _numTotal;
+   }
 
-	/**
-	 * Compute the total number of elements to return.
-	 * 
-	 * @param n
-	 *            The number of elements the operator works on.
-	 * @param r
-	 *            The size of the arrays to return.
-	 * @return The total number of elements is always bigger than 0. | result >=
-	 *         0
-	 */
-	protected abstract BigInteger calculateTotal(int n, int r);
+   @Override
+   public CombinationIterator iterator()
+   {
+      return new CombinationIterator();
+   }
 
-	/**
-	 * Reset the iteration.
-	 */
-	public void reset()
-	{
-		initialiseIndices();
-		numLeft = total;
-	}
+   public class CombinationIterator implements Iterator<ArrayList<T>>
+   {
+      private final int[] _indices;
+      private BigInteger _numLeft = _numTotal;
 
-	/**
-	 * Return number of variations not yet generated.
-	 */
-	public BigInteger getNumLeft()
-	{
-		return numLeft;
-	}
+      private CombinationIterator()
+      {
+         _indices = new int[_combinationSize];
+         initialiseIndices(_indices);
+      }
 
-	/**
-	 * Return the total number of variations.
-	 * 
-	 * @return The factorial of the number of elements divided by the factorials
-	 *         of the size of the variations and the number of elements minus
-	 *         the size of the variations. That is, with the number of elements =
-	 *         n and the size of the variations = r: n^r
-	 */
-	public BigInteger getTotal()
-	{
-		return total;
-	}
+      /**
+       * Returns the number of combinations not yet generated.
+       * 
+       * @return the number of combinations not yet generated
+       */
+      public BigInteger getNumLeft()
+      {
+         return _numLeft;
+      }
 
-	/**
-	 * Returns <tt>true</tt> if the iteration has more elements. This is the
-	 * case if not all n! permutations have been covered.
-	 * 
-	 * @return The number of permutations to go is bigger than zero. | result ==
-	 *         getNumLeft().compareTo(BigInteger.ZERO) > 0;
-	 * @see java.util.Iterator#hasNext()
-	 */
-	public boolean hasNext()
-	{
-		return numLeft.compareTo(ZERO) == 1;
-	}
+      @Override
+      public boolean hasNext()
+      {
+         return _numLeft.compareTo(ZERO) == 1;
+      }
 
-	/**
-	 * Compute the next combination.
-	 * 
-	 * @see java.util.Iterator#next()
-	 */
-	public ArrayList<T> next()
-	{
-		if (!numLeft.equals(total))
-		{
-			computeNext();
-		}
-		numLeft = numLeft.subtract(ONE);
-		return getResult(indices);
-	}
+      @Override
+      public ArrayList<T> next()
+      {
+         if (!_numLeft.equals(_numTotal))
+         {
+            computeNext(_indices);
+         }
+         _numLeft = _numLeft.subtract(ONE);
+         return getResult(_indices);
+      }
 
-	/**
-	 * Compute the next array of indices.
-	 */
-	protected abstract void computeNext();
+      @Override
+      public void remove()
+      {
+         throw new UnsupportedOperationException();
+      }
+   }
 
-	/**
-	 * Compute the result, based on the given array of indices.
-	 * 
-	 * @param indexes
-	 *            An array of indices into the element array.
-	 * @return An array consisting of the elements at positions of the given
-	 *         array. | result[i] == elements[indexes[i]]
-	 */
-	private ArrayList<T> getResult(int[] indexes)
-	{
-		ArrayList<T> result = new ArrayList<T>(indexes.length);
-		for (int i = 0; i < indexes.length; i++)
-		{
-			result.add(elements.get(indexes[i]));
-		}
-		return result;
-	}
-
-	/**
-	 * Not supported.
-	 * 
-	 * @see java.util.Iterator#remove()
-	 */
-	public void remove()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * A combinatoric operator is itself an iterator.
-	 * 
-	 * @return Itself. | result == this
-	 * @see java.lang.Iterable#iterator()
-	 */
-	public Iterator<ArrayList<T>> iterator()
-	{
-		return this;
-	}
-
-	/**
-	 * Compute the factorial of n.
-	 */
-	public static BigInteger factorial(int n)
-	{
-		BigInteger fact = ONE;
-		for (int i = n; i > 1; i--)
-		{
-			fact = fact.multiply(BigInteger.valueOf(i));
-		}
-		return fact;
-	}
+   private ArrayList<T> getResult(final int[] indexes)
+   {
+      final ArrayList<T> result = new ArrayList<T>(indexes.length);
+      for (final int indexe : indexes)
+      {
+         result.add(_elements.get(indexe));
+      }
+      return result;
+   }
 }

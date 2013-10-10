@@ -1,5 +1,7 @@
 package net.sf.javagimmicks.math;
 
+import static net.sf.javagimmicks.math.MathExt.factorial;
+
 import java.math.BigInteger;
 import java.util.Collection;
 
@@ -53,7 +55,7 @@ public class Permuter<T> extends CombinatoricOperator<T>
    }
 
    @Override
-   protected void computeNext()
+   protected void computeNext(final int[] indices)
    {
       // find the rightmost element that is smaller than the element at its
       // right
@@ -65,14 +67,14 @@ public class Permuter<T> extends CombinatoricOperator<T>
       while (indices[j - 1] <= indices[i - 1])
          j = j - 1;
       // swap them (always is i < j)
-      swap(i - 1, j - 1);
+      swap(indices, i - 1, j - 1);
       // now the elements at the right of i
       // are in descending order, so reverse them all
       i++;
       j = indices.length;
       while (i < j)
       {
-         swap(i - 1, j - 1);
+         swap(indices, i - 1, j - 1);
          i++;
          j--;
       }
@@ -88,7 +90,7 @@ public class Permuter<T> extends CombinatoricOperator<T>
     * @param a
     *           , b The indices of the elements to be swapped.
     */
-   private void swap(final int a, final int b)
+   private void swap(final int[] indices, final int a, final int b)
    {
       final int temp = indices[a];
       indices[a] = indices[b];
