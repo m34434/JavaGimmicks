@@ -6,45 +6,87 @@ import javax.swing.SwingUtilities;
 
 import net.sf.javagimmicks.collections.AutoDroppingQueueDecorator;
 
+/**
+ * A wrapper around the Swing event queue with a limited size that drops events
+ * if there are too much - useful for example for continuous status updates of
+ * some long-running action where it does not matter, if single status updates
+ * are lost or not.
+ * <p>
+ * This class uses an {@link AutoDroppingQueueDecorator} for controlling drop
+ * behavior.
+ */
 public class BoundedEventQueue
 {
    private final AutoDroppingQueueDecorator<Runnable> _internalQueue;
    private WorkerThread _workerThread;
-   
-   public BoundedEventQueue(int maxSize, int skipCount)
+
+   /**
+    * Creates a new instance with the given maximum queue size and drop count.
+    * 
+    * @param maxSize
+    *           the maximum size of the internal queue before events are dropped
+    * @param dropCount
+    *           the number of events to drop if the queue size is exceeded
+    */
+   public BoundedEventQueue(final int maxSize, final int dropCount)
    {
-      _internalQueue = new AutoDroppingQueueDecorator<Runnable>(maxSize, skipCount);
+      _internalQueue = new AutoDroppingQueueDecorator<Runnable>(maxSize, dropCount);
    }
-   
-   public BoundedEventQueue(int maxSize)
+
+   /**
+    * Creates a new instance with the given maximum queue that completely
+    * flushes upon reaching this size.
+    * 
+    * @param maxSize
+    *           the maximum size of the internal queue before events are dropped
+    */
+   public BoundedEventQueue(final int maxSize)
    {
       _internalQueue = new AutoDroppingQueueDecorator<Runnable>(maxSize);
    }
-   
+
+   /**
+    * Starts to process the internal queue be forwarding all events to the Swing
+    * event queue.
+    * 
+    * @see SwingUtilities#invokeAndWait(Runnable)
+    */
    public void startWorking()
    {
-      if(_workerThread == null || !_workerThread.isAlive())
+      if (_workerThread == null || !_workerThread.isAlive())
       {
          _workerThread = new WorkerThread();
          _workerThread.start();
       }
    }
-   
+
+   /**
+    * Stops forwarding the event within the internal queue to the Swing event
+    * queue.
+    * 
+    * @see SwingUtilities#invokeAndWait(Runnable)
+    */
    public void stopWorking()
    {
-      if(_workerThread != null && _workerThread.isAlive())
+      if (_workerThread != null && _workerThread.isAlive())
       {
          _workerThread.interrupt();
          _workerThread = null;
       }
-      
+
       synchronized (_internalQueue)
       {
          _internalQueue.clear();
       }
    }
-   
-   public void invoke(Runnable action)
+
+   /**
+    * Submits a new event (as {@link Runnable}) to this instance.
+    * 
+    * @param action
+    *           the event to process within the Swing event queue
+    */
+   public void invoke(final Runnable action)
    {
       synchronized (_internalQueue)
       {
@@ -52,7 +94,7 @@ public class BoundedEventQueue
          _internalQueue.notify();
       }
    }
-   
+
    @Override
    protected void finalize() throws Throwable
    {
@@ -66,26 +108,27 @@ public class BoundedEventQueue
          super("BoundedEventQueue_Worker");
       }
 
+      @Override
       public void run()
       {
-         while(!Thread.interrupted())
+         while (!Thread.interrupted())
          {
             Runnable action;
-            
+
             synchronized (_internalQueue)
             {
-               while(_internalQueue.isEmpty())
+               while (_internalQueue.isEmpty())
                {
                   try
                   {
                      _internalQueue.wait();
                   }
-                  catch (InterruptedException e)
+                  catch (final InterruptedException e)
                   {
                      return;
                   }
                }
-               
+
                action = _internalQueue.poll();
             }
 
@@ -93,11 +136,11 @@ public class BoundedEventQueue
             {
                SwingUtilities.invokeAndWait(action);
             }
-            catch (InterruptedException e)
+            catch (final InterruptedException e)
             {
                return;
             }
-            catch (InvocationTargetException e)
+            catch (final InvocationTargetException e)
             {
             }
          }
