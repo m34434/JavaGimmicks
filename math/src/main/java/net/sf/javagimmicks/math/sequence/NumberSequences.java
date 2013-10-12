@@ -15,6 +15,7 @@ public class NumberSequences
    static
    {
       register(new FactorialSequence());
+      register(new FibonacciSequence());
    }
 
    private NumberSequences()

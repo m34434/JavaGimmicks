@@ -12,7 +12,7 @@ import net.sf.javagimmicks.math.comparator.ShortComparator;
 /**
  * A shortcut helper for comparing non-{@code int}s in a {@link Comparator}
  * style. Internally uses {@link Comparator}s from
- * {@link net.sf.javagimmicks.comparator} package.
+ * {@link net.sf.javagimmicks.math.comparator} package.
  */
 public class NumberCompareUtils
 {

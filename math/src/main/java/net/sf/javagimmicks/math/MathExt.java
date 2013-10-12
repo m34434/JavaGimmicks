@@ -80,4 +80,20 @@ public class MathExt
 
       return result;
    }
+
+   /**
+    * Calculates the <a
+    * href="http://en.wikipedia.org/wiki/Binomial_coefficient">binomial
+    * coefficient</a> for a given <b>n</b> and <b>k</b> number.
+    * 
+    * @param n
+    *           the <b>n</b> part of the binomial coefficient
+    * @param k
+    *           the <b>k</b> part of the binomial coefficient
+    * @return the resulting binomial coefficient
+    */
+   public static BigInteger binomial(final long n, final long k)
+   {
+      return binomial(BigInteger.valueOf(n), BigInteger.valueOf(k));
+   }
 }
