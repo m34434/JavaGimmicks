@@ -1,4 +1,4 @@
-package net.sf.javagimmicks.math.sequence;
+package net.sf.javagimmicks.math;
 
 import static org.junit.Assert.assertEquals;
 
@@ -13,6 +13,6 @@ public class MathExtTest
    @Test
    public void test()
    {
-      assertEquals(BigInteger.valueOf(15), MathExt.binominal(BigInteger.valueOf(6), BigInteger.valueOf(2)));
+      assertEquals(BigInteger.valueOf(15), MathExt.binomial(BigInteger.valueOf(6), BigInteger.valueOf(2)));
    }
 }

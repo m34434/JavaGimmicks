@@ -1,4 +1,4 @@
-package net.sf.javagimmicks.math;
+package net.sf.javagimmicks.math.combinatorics;
 
 import static net.sf.javagimmicks.math.MathExt.factorial;
 
@@ -23,7 +23,7 @@ import java.util.Collection;
  * @param <T>
  *           The type of the elements to be permuted.
  */
-public class Permuter<T> extends CombinatoricOperator<T>
+public class Permuter<T> extends CombinatoricIterable<T>
 {
 
    /**

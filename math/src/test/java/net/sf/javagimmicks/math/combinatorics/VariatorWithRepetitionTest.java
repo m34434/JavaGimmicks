@@ -1,4 +1,6 @@
-package net.sf.javagimmicks.math;
+package net.sf.javagimmicks.math.combinatorics;
+
+import net.sf.javagimmicks.math.combinatorics.VariatorWithRepetition;
 
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package net.sf.javagimmicks.math;
+package net.sf.javagimmicks.math.combinatorics;
 
 import java.util.ArrayList;
 import java.util.Arrays;

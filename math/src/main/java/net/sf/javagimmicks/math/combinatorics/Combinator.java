@@ -1,4 +1,4 @@
-package net.sf.javagimmicks.math;
+package net.sf.javagimmicks.math.combinatorics;
 
 import static net.sf.javagimmicks.math.MathExt.factorial;
 
@@ -23,7 +23,7 @@ import java.util.Collection;
  * @param <T>
  *           The type of the elements of which combinations are to be returned.
  */
-public class Combinator<T> extends CombinatoricOperator<T>
+public class Combinator<T> extends CombinatoricIterable<T>
 {
 
    /**

@@ -1,4 +1,4 @@
-package net.sf.javagimmicks.math;
+package net.sf.javagimmicks.math.combinatorics;
 
 import java.math.BigInteger;
 import java.util.Arrays;
@@ -26,7 +26,7 @@ import java.util.Collection;
  * @param <T>
  *           The type of the elements of which variations are to be returned.
  */
-public class VariatorWithRepetition<T> extends CombinatoricOperator<T>
+public class VariatorWithRepetition<T> extends CombinatoricIterable<T>
 {
 
    /**
