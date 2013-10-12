@@ -4,6 +4,15 @@ import static java.math.BigInteger.ONE;
 
 import java.math.BigInteger;
 
+/**
+ * An abstract helper for creating {@link NumberSequence}s that uses caching
+ * (based on {@link CachedNumberSequence}) on one hand side and ensures within
+ * each call of {@link #computeInductive(BigInteger)} that all previous value
+ * (with a lower index) are already computed and can be retrieved safely via
+ * {@link #getCached(BigInteger)}. This is pretty useful for sequences that are
+ * <b>inductive</b> - i.e. they need previous values for calculation of the
+ * current value.
+ */
 public abstract class InductiveNumberSequence<N extends Number> extends CachedNumberSequence<N>
 {
    private final BigInteger _startIndex;
@@ -33,7 +42,7 @@ public abstract class InductiveNumberSequence<N extends Number> extends CachedNu
    }
 
    @Override
-   protected N compute(final BigInteger index)
+   protected final N compute(final BigInteger index)
    {
       if (index.compareTo(_startIndex) < 0)
       {
@@ -45,7 +54,7 @@ public abstract class InductiveNumberSequence<N extends Number> extends CachedNu
             .add(ONE))
       {
          result = computeInductive(currentIndex);
-         cache(currentIndex, result);
+         putToCache(currentIndex, result);
       }
 
       return result;

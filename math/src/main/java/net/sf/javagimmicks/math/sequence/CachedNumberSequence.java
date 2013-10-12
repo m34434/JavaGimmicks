@@ -6,10 +6,13 @@ import java.util.TreeMap;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+/**
+ * An abstract helper for creating {@link NumberSequence} instances that cache
+ * already calculated values for later use.
+ */
 public abstract class CachedNumberSequence<N extends Number> implements NumberSequence<N>
 {
-   protected ReadWriteLock _lock = new ReentrantReadWriteLock();
-
+   private final ReadWriteLock _cacheLock = new ReentrantReadWriteLock();
    private final Map<BigInteger, N> _cache = new TreeMap<BigInteger, N>();
 
    protected CachedNumberSequence()
@@ -23,7 +26,7 @@ public abstract class CachedNumberSequence<N extends Number> implements NumberSe
       N result = getCached(index);
       if (result == null)
       {
-         _lock.writeLock().lock();
+         _cacheLock.writeLock().lock();
          try
          {
             result = _cache.get(index);
@@ -35,7 +38,7 @@ public abstract class CachedNumberSequence<N extends Number> implements NumberSe
          }
          finally
          {
-            _lock.writeLock().unlock();
+            _cacheLock.writeLock().unlock();
          }
       }
 
@@ -44,27 +47,27 @@ public abstract class CachedNumberSequence<N extends Number> implements NumberSe
 
    protected final N getCached(final BigInteger index)
    {
-      _lock.readLock().lock();
+      _cacheLock.readLock().lock();
       try
       {
          return _cache.get(index);
       }
       finally
       {
-         _lock.readLock().unlock();
+         _cacheLock.readLock().unlock();
       }
    }
 
-   protected final void cache(final BigInteger index, final N value)
+   protected final void putToCache(final BigInteger index, final N value)
    {
-      _lock.writeLock().lock();
+      _cacheLock.writeLock().lock();
       try
       {
          _cache.put(index, value);
       }
       finally
       {
-         _lock.writeLock().unlock();
+         _cacheLock.writeLock().unlock();
       }
    }
 }
