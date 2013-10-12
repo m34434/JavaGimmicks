@@ -1,23 +1,34 @@
 package net.sf.javagimmicks.math.sequence;
 
+import static java.math.BigInteger.ONE;
+
 import java.math.BigInteger;
 
 public class FactorialSequence extends InductiveNumberSequence<BigInteger>
 {
-   public FactorialSequence()
+   public static FactorialSequence get()
    {
-      super(BigInteger.ONE);
+      return NumberSequences.get(FactorialSequence.class);
+   }
+
+   public static BigInteger getValue(final BigInteger index)
+   {
+      return get().get(index);
+   }
+
+   protected FactorialSequence()
+   {
+      super(ONE);
    }
 
    @Override
-   protected BigInteger computeFirst()
+   protected BigInteger computeInductive(final BigInteger index)
    {
-      return BigInteger.ONE;
-   }
+      if (isStartIndex(index))
+      {
+         return ONE;
+      }
 
-   @Override
-   protected BigInteger computeNext(final BigInteger previous, final BigInteger currentIndex)
-   {
-      return previous.multiply(currentIndex);
+      return getCached(index.subtract(ONE)).multiply(index);
    }
 }

@@ -24,16 +24,16 @@ public abstract class CombinatoricIterable<T> implements Iterable<List<T>>
    protected final BigInteger _size;
    protected final int _tupleSize;
 
-   protected CombinatoricIterable(final Collection<T> elements, final int r)
+   protected CombinatoricIterable(final Collection<T> elements, final int tupleSize)
    {
-      if (r < 0)
+      if (tupleSize < 0)
       {
          throw new IllegalArgumentException("Size of combinations to create must at least 0!");
       }
-      _tupleSize = r;
+      _tupleSize = tupleSize;
 
       _elements = new ArrayList<T>(elements);
-      _size = calculateTotal(elements.size(), r);
+      _size = calculateTotal(elements.size(), tupleSize);
    }
 
    protected CombinatoricIterable(final T[] elements, final int r)
@@ -77,7 +77,7 @@ public abstract class CombinatoricIterable<T> implements Iterable<List<T>>
       return new CombinationIterator();
    }
 
-   abstract protected BigInteger calculateTotal(int n, int r);
+   abstract protected BigInteger calculateTotal(int elementCount, int tupleSize);
 
    abstract protected void computeNext(int[] indices);
 

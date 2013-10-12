@@ -1,14 +1,11 @@
 package net.sf.javagimmicks.math.sequence;
 
+import static java.math.BigInteger.ONE;
+
 import java.math.BigInteger;
-import java.util.Collections;
-import java.util.Map;
-import java.util.TreeMap;
 
-public abstract class InductiveNumberSequence<N extends Number> implements NumberSequence<N>
+public abstract class InductiveNumberSequence<N extends Number> extends CachedNumberSequence<N>
 {
-   private final Map<BigInteger, N> _cache = Collections.synchronizedMap(new TreeMap<BigInteger, N>());
-
    private final BigInteger _startIndex;
 
    private BigInteger _cacheIndex;
@@ -20,47 +17,35 @@ public abstract class InductiveNumberSequence<N extends Number> implements Numbe
          throw new IllegalArgumentException("Start index cannot be null!");
       }
       _startIndex = startIndex;
+      _cacheIndex = _startIndex.subtract(ONE);
    }
 
-   abstract protected N computeFirst();
+   abstract protected N computeInductive(BigInteger currentIndex);
 
-   abstract protected N computeNext(N previous, BigInteger currentIndex);
+   protected final boolean isStartIndex(final BigInteger index)
+   {
+      return _startIndex.equals(index);
+   }
+
+   protected final BigInteger getStartIndex()
+   {
+      return _startIndex;
+   }
 
    @Override
-   public N get(final BigInteger index)
+   protected N compute(final BigInteger index)
    {
       if (index.compareTo(_startIndex) < 0)
       {
          throw new IndexOutOfBoundsException(String.format("Index must be %1$s or greater!", _startIndex));
       }
 
-      N result = _cache.get(index);
-      if (result == null)
+      N result = null;
+      for (BigInteger currentIndex = _cacheIndex.add(ONE); currentIndex.compareTo(index) <= 0; currentIndex = currentIndex
+            .add(ONE))
       {
-         synchronized (_cache)
-         {
-            result = _cache.get(index);
-            if (result == null)
-            {
-               if (_cacheIndex == null)
-               {
-                  _cacheIndex = _startIndex;
-                  _cache.put(_cacheIndex, computeFirst());
-               }
-               result = _cache.get(_cacheIndex);
-
-               BigInteger currentIndex = _cacheIndex;
-               while (currentIndex.compareTo(index) < 0)
-               {
-                  currentIndex = currentIndex.add(BigInteger.ONE);
-                  result = computeNext(result, currentIndex);
-
-                  _cache.put(currentIndex, result);
-               }
-
-               _cacheIndex = index;
-            }
-         }
+         result = computeInductive(currentIndex);
+         cache(currentIndex, result);
       }
 
       return result;

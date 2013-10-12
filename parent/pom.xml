@@ -215,7 +215,7 @@
 							</group>
 							<group>
 								<title>Module "math" - A few mathematical utilities</title>
-								<packages>net.sf.javagimmicks.math:net.sf.javagimmicks.math.comparator</packages>
+								<packages>net.sf.javagimmicks.math:net.sf.javagimmicks.math.combinatorics:net.sf.javagimmicks.math.comparator:net.sf.javagimmicks.math.sequence</packages>
 							</group>
 							<group>
 								<title>Module "swing" - Swing utilities and extensions</title>

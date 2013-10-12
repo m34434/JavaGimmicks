@@ -9,8 +9,6 @@ import net.sf.javagimmicks.math.sequence.FactorialSequence;
  */
 public class MathExt
 {
-   private static final FactorialSequence _factorials = new FactorialSequence();
-
    private MathExt()
    {}
 
@@ -25,7 +23,7 @@ public class MathExt
     */
    public static BigInteger factorial(final BigInteger base)
    {
-      return _factorials.get(base);
+      return FactorialSequence.getValue(base);
    }
 
    /**
