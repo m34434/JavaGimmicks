@@ -242,7 +242,7 @@ public class PanelBuilder<Parent extends PanelBuilder<?>> extends ComponentBuild
     *           the number of columns for the new {@link GridLayout}
     * @return the current builder instance
     * @see JPanel#setLayout(LayoutManager)
-    * @see GridLayout#GridLayout(int, int))
+    * @see GridLayout#GridLayout(int, int)
     */
    public PanelBuilder<Parent> gridLayout(final int rows, final int cols)
    {
@@ -262,7 +262,7 @@ public class PanelBuilder<Parent extends PanelBuilder<?>> extends ComponentBuild
     *           the vertical gap for the new {@link GridLayout}
     * @return the current builder instance
     * @see JPanel#setLayout(LayoutManager)
-    * @see GridLayout#GridLayout(int, int))
+    * @see GridLayout#GridLayout(int, int)
     */
    public PanelBuilder<Parent> gridLayout(final int rows, final int cols, final int hgap, final int vgap)
    {
@@ -278,6 +278,7 @@ public class PanelBuilder<Parent extends PanelBuilder<?>> extends ComponentBuild
     * @param <Component>
     *           the concrete type of the {@link JComponent} to add
     * @return the {@link ComponentBuilder} for the added {@link JComponent}
+    * @see JPanel#add(java.awt.Component)
     */
    public <Component extends JComponent> ComponentBuilder<Component, PanelBuilder<Parent>> component(
          final Component component)
@@ -287,6 +288,19 @@ public class PanelBuilder<Parent extends PanelBuilder<?>> extends ComponentBuild
       return new ComponentBuilder<Component, PanelBuilder<Parent>>(this, component);
    }
 
+   /**
+    * Adds a new given {@link JComponent} to the currently built {@link JPanel}
+    * and returns a {@link ComponentBuilder} for it.
+    * 
+    * @param component
+    *           the {@link JComponent} to add
+    * @param constraints
+    *           the constraints to apply upon adding
+    * @param <Component>
+    *           the concrete type of the {@link JComponent} to add
+    * @return the {@link ComponentBuilder} for the added {@link JComponent}
+    * @see JPanel#add(java.awt.Component, Object)
+    */
    public <Component extends JComponent> ComponentBuilder<Component, PanelBuilder<Parent>> component(
          final Component component,
          final Object constraints)
@@ -296,21 +310,63 @@ public class PanelBuilder<Parent extends PanelBuilder<?>> extends ComponentBuild
       return new ComponentBuilder<Component, PanelBuilder<Parent>>(this, component);
    }
 
-   public <C extends JComponent> ComponentBuilder<C, PanelBuilder<Parent>> component(final C component,
+   /**
+    * Adds a new given {@link JComponent} to the currently built {@link JPanel}
+    * and returns a {@link ComponentBuilder} for it.
+    * 
+    * @param component
+    *           the {@link JComponent} to add
+    * @param constraints
+    *           the constraints to apply upon adding
+    * @param index
+    *           the index where to add the new {@link JComponent} within the
+    *           current {@link JPanel}
+    * @param <Component>
+    *           the concrete type of the {@link JComponent} to add
+    * @return the {@link ComponentBuilder} for the added {@link JComponent}
+    * @see JPanel#add(java.awt.Component, Object, int)
+    */
+   public <Component extends JComponent> ComponentBuilder<Component, PanelBuilder<Parent>> component(
+         final Component component,
          final Object constraints, final int index)
    {
       get().add(component, constraints, index);
 
-      return new ComponentBuilder<C, PanelBuilder<Parent>>(this, component);
+      return new ComponentBuilder<Component, PanelBuilder<Parent>>(this, component);
    }
 
-   public <C extends JComponent> ComponentBuilder<C, PanelBuilder<Parent>> component(final C component, final int index)
+   /**
+    * Adds a new given {@link JComponent} to the currently built {@link JPanel}
+    * and returns a {@link ComponentBuilder} for it.
+    * 
+    * @param component
+    *           the {@link JComponent} to add
+    * @param index
+    *           the index where to add the new {@link JComponent} within the
+    *           current {@link JPanel}
+    * @param <Component>
+    *           the concrete type of the {@link JComponent} to add
+    * @return the {@link ComponentBuilder} for the added {@link JComponent}
+    * @see JPanel#add(java.awt.Component, int)
+    */
+   public <Component extends JComponent> ComponentBuilder<Component, PanelBuilder<Parent>> component(
+         final Component component, final int index)
    {
       get().add(component, index);
 
-      return new ComponentBuilder<C, PanelBuilder<Parent>>(this, component);
+      return new ComponentBuilder<Component, PanelBuilder<Parent>>(this, component);
    }
 
+   /**
+    * Add a new {@link JButton} to the currently built {@link JPanel} and
+    * returns a {@link ButtonBuilder} for it.
+    * 
+    * @param text
+    *           the label that the new {@link JButton} should have
+    * @return the {@link ButtonBuilder} for the added {@link JButton}
+    * @see JPanel#add(java.awt.Component)
+    * @see JButton#JButton(String)
+    */
    public ButtonBuilder<PanelBuilder<Parent>> button(final String text)
    {
       final JButton button = new JButton(text);
@@ -319,6 +375,16 @@ public class PanelBuilder<Parent extends PanelBuilder<?>> extends ComponentBuild
       return new ButtonBuilder<PanelBuilder<Parent>>(this, button);
    }
 
+   /**
+    * Add a new {@link JButton} to the currently built {@link JPanel} and
+    * returns a {@link ButtonBuilder} for it.
+    * 
+    * @param action
+    *           the {@link Action} to apply for the new {@link JButton}
+    * @return the {@link ButtonBuilder} for the added {@link JButton}
+    * @see JPanel#add(java.awt.Component)
+    * @see JButton#JButton(Action)
+    */
    public ButtonBuilder<PanelBuilder<Parent>> button(final Action action)
    {
       final JButton button = new JButton(action);
@@ -327,38 +393,105 @@ public class PanelBuilder<Parent extends PanelBuilder<?>> extends ComponentBuild
       return new ButtonBuilder<PanelBuilder<Parent>>(this, button);
    }
 
-   public ButtonBuilder<PanelBuilder<Parent>> button(final String text, final Object contraints)
+   /**
+    * Add a new {@link JButton} to the currently built {@link JPanel} and
+    * returns a {@link ButtonBuilder} for it.
+    * 
+    * @param text
+    *           the label that the new {@link JButton} should have
+    * @param constraints
+    *           the constraints to apply upon adding
+    * @return the {@link ButtonBuilder} for the added {@link JButton}
+    * @see JPanel#add(java.awt.Component, Object)
+    * @see JButton#JButton(String)
+    */
+   public ButtonBuilder<PanelBuilder<Parent>> button(final String text, final Object constraints)
    {
       final JButton button = new JButton(text);
-      get().add(button, contraints);
+      get().add(button, constraints);
 
       return new ButtonBuilder<PanelBuilder<Parent>>(this, button);
    }
 
-   public ButtonBuilder<PanelBuilder<Parent>> button(final Action action, final Object contraints)
+   /**
+    * Add a new {@link JButton} to the currently built {@link JPanel} and
+    * returns a {@link ButtonBuilder} for it.
+    * 
+    * @param action
+    *           the {@link Action} to apply for the new {@link JButton}
+    * @param constraints
+    *           the constraints to apply upon adding
+    * @return the {@link ButtonBuilder} for the added {@link JButton}
+    * @see JPanel#add(java.awt.Component, Object)
+    * @see JButton#JButton(Action)
+    */
+   public ButtonBuilder<PanelBuilder<Parent>> button(final Action action, final Object constraints)
    {
       final JButton button = new JButton(action);
-      get().add(button, contraints);
+      get().add(button, constraints);
 
       return new ButtonBuilder<PanelBuilder<Parent>>(this, button);
    }
 
-   public ButtonBuilder<PanelBuilder<Parent>> button(final String text, final Object contraints, final int index)
+   /**
+    * Add a new {@link JButton} to the currently built {@link JPanel} and
+    * returns a {@link ButtonBuilder} for it.
+    * 
+    * @param text
+    *           the label that the new {@link JButton} should have
+    * @param constraints
+    *           the constraints to apply upon adding
+    * @param index
+    *           the index where to add the new {@link JButton} within the
+    *           current {@link JPanel}
+    * @return the {@link ButtonBuilder} for the added {@link JButton}
+    * @see JPanel#add(java.awt.Component, Object, int)
+    * @see JButton#JButton(String)
+    */
+   public ButtonBuilder<PanelBuilder<Parent>> button(final String text, final Object constraints, final int index)
    {
       final JButton button = new JButton(text);
-      get().add(button, contraints, index);
+      get().add(button, constraints, index);
 
       return new ButtonBuilder<PanelBuilder<Parent>>(this, button);
    }
 
-   public ButtonBuilder<PanelBuilder<Parent>> button(final Action action, final Object contraints, final int index)
+   /**
+    * Add a new {@link JButton} to the currently built {@link JPanel} and
+    * returns a {@link ButtonBuilder} for it.
+    * 
+    * @param action
+    *           the {@link Action} to apply for the new {@link JButton}
+    * @param constraints
+    *           the constraints to apply upon adding
+    * @param index
+    *           the index where to add the new {@link JButton} within the
+    *           current {@link JPanel}
+    * @return the {@link ButtonBuilder} for the added {@link JButton}
+    * @see JPanel#add(java.awt.Component, Object, int)
+    * @see JButton#JButton(Action)
+    */
+   public ButtonBuilder<PanelBuilder<Parent>> button(final Action action, final Object constraints, final int index)
    {
       final JButton button = new JButton(action);
-      get().add(button, contraints, index);
+      get().add(button, constraints, index);
 
       return new ButtonBuilder<PanelBuilder<Parent>>(this, button);
    }
 
+   /**
+    * Add a new {@link JButton} to the currently built {@link JPanel} and
+    * returns a {@link ButtonBuilder} for it.
+    * 
+    * @param text
+    *           the label that the new {@link JButton} should have
+    * @param index
+    *           the index where to add the new {@link JButton} within the
+    *           current {@link JPanel}
+    * @return the {@link ButtonBuilder} for the added {@link JButton}
+    * @see JPanel#add(java.awt.Component, int)
+    * @see JButton#JButton(String)
+    */
    public ButtonBuilder<PanelBuilder<Parent>> button(final String text, final int index)
    {
       final JButton button = new JButton(text);
@@ -367,6 +500,19 @@ public class PanelBuilder<Parent extends PanelBuilder<?>> extends ComponentBuild
       return new ButtonBuilder<PanelBuilder<Parent>>(this, button);
    }
 
+   /**
+    * Add a new {@link JButton} to the currently built {@link JPanel} and
+    * returns a {@link ButtonBuilder} for it.
+    * 
+    * @param action
+    *           the {@link Action} to apply for the new {@link JButton}
+    * @param index
+    *           the index where to add the new {@link JButton} within the
+    *           current {@link JPanel}
+    * @return the {@link ButtonBuilder} for the added {@link JButton}
+    * @see JPanel#add(java.awt.Component, int)
+    * @see JButton#JButton(Action)
+    */
    public ButtonBuilder<PanelBuilder<Parent>> button(final Action action, final int index)
    {
       final JButton button = new JButton(action);

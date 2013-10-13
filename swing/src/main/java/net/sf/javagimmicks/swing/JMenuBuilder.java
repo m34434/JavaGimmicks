@@ -138,9 +138,9 @@ public class JMenuBuilder
     *           )
     * @return the current {@link JMenuBuilder}
     */
-   public JMenuBuilder item(final String same, final ActionListener listener, final int keyCode, final int modifiers)
+   public JMenuBuilder item(final String name, final ActionListener listener, final int keyCode, final int modifiers)
    {
-      return item(new AbstractKeyAcceleratorAction(same, keyCode, modifiers)
+      return item(new AbstractKeyAcceleratorAction(name, keyCode, modifiers)
       {
          private static final long serialVersionUID = -1845717164976373483L;
 

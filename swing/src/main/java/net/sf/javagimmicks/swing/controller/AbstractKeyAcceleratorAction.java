@@ -124,8 +124,6 @@ public abstract class AbstractKeyAcceleratorAction extends AbstractAction
     * 
     * @param keyCode
     *           the key code for the {@link KeyStroke} to use as accelerator
-    * @param modifiers
-    *           the modifiers for the {@link KeyStroke} to use as accelerator
     * @see KeyStroke#getKeyStroke(int, int)
     */
    public AbstractKeyAcceleratorAction(final int keyCode)
@@ -145,8 +143,6 @@ public abstract class AbstractKeyAcceleratorAction extends AbstractAction
     *           the {@link Icon} of this action
     * @param keyCode
     *           the key code for the {@link KeyStroke} to use as accelerator
-    * @param modifiers
-    *           the modifiers for the {@link KeyStroke} to use as accelerator
     * @see KeyStroke#getKeyStroke(int, int)
     * @see AbstractAction#AbstractAction(String, Icon)
     */
@@ -165,8 +161,6 @@ public abstract class AbstractKeyAcceleratorAction extends AbstractAction
     *           the name of this action
     * @param keyCode
     *           the key code for the {@link KeyStroke} to use as accelerator
-    * @param modifiers
-    *           the modifiers for the {@link KeyStroke} to use as accelerator
     * @see KeyStroke#getKeyStroke(int, int)
     * @see AbstractAction#AbstractAction(String)
     */
