@@ -12,189 +12,366 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-public class PanelBuilder<P extends PanelBuilder<?>> extends ComponentBuilder<JPanel, P>
+/**
+ * A builder for setting up any {@link JPanel} with a fluent API.
+ * 
+ * @param <Parent>
+ *           the type of the parent {@link PanelBuilder} that created this
+ *           {@link PanelBuilder}
+ */
+public class PanelBuilder<Parent extends PanelBuilder<?>> extends ComponentBuilder<JPanel, Parent>
 {
-   PanelBuilder(P parentBuilder, JPanel panel)
+   PanelBuilder(final Parent parentBuilder, final JPanel panel)
    {
       super(parentBuilder, panel);
    }
 
-   public PanelBuilder<PanelBuilder<P>> panel()
+   /**
+    * Adds a new child {@link JPanel} within the currently built {@link JPanel}
+    * and returns the {@link PanelBuilder} for it.
+    * 
+    * @return the {@link PanelBuilder} for the created child {@link JPanel}
+    */
+   public PanelBuilder<PanelBuilder<Parent>> panel()
    {
-      return new PanelBuilder<PanelBuilder<P>>(this, new JPanel());
+      return new PanelBuilder<PanelBuilder<Parent>>(this, new JPanel());
    }
 
-   public PanelBuilder<PanelBuilder<P>> panel(LayoutManager layoutManager)
+   /**
+    * Adds a new child {@link JPanel} within the currently built {@link JPanel}
+    * and returns the {@link PanelBuilder} for it.
+    * 
+    * @param layoutManager
+    *           the {@link LayoutManager} to apply in the created child
+    *           {@link JPanel}
+    * @return the {@link PanelBuilder} for the created child {@link JPanel}
+    */
+   public PanelBuilder<PanelBuilder<Parent>> panel(final LayoutManager layoutManager)
    {
-      return new PanelBuilder<PanelBuilder<P>>(this, new JPanel(layoutManager));
+      return new PanelBuilder<PanelBuilder<Parent>>(this, new JPanel(layoutManager));
    }
-   
-   public PanelBuilder<P> layout(LayoutManager layoutManager)
+
+   /**
+    * Applies the given {@link LayoutManager} to the currently built
+    * {@link JPanel}.
+    * 
+    * @param layoutManager
+    *           the {@link LayoutManager} to apply
+    * @return the current builder instance
+    * @see JPanel#setLayout(LayoutManager)
+    */
+   public PanelBuilder<Parent> layout(final LayoutManager layoutManager)
    {
       get().setLayout(layoutManager);
-      
+
       return this;
    }
-   
-   public PanelBuilder<P> borderLayout()
+
+   /**
+    * Applies a new {@link BorderLayout} to the currently built {@link JPanel}.
+    * 
+    * @return the current builder instance
+    * @see JPanel#setLayout(LayoutManager)
+    * @see BorderLayout#BorderLayout()
+    */
+   public PanelBuilder<Parent> borderLayout()
    {
       return layout(new BorderLayout());
    }
-   
-   public PanelBuilder<P> borderLayout(int hgap, int vgap)
+
+   /**
+    * Applies a new {@link BorderLayout} to the currently built {@link JPanel}.
+    * 
+    * @param hgap
+    *           the horizontal gap for the new {@link BorderLayout}
+    * @param vgap
+    *           the vertical gap for the new {@link BorderLayout}
+    * @return the current builder instance
+    * @see JPanel#setLayout(LayoutManager)
+    * @see BorderLayout#BorderLayout(int, int)
+    */
+   public PanelBuilder<Parent> borderLayout(final int hgap, final int vgap)
    {
       return layout(new BorderLayout(hgap, vgap));
    }
-   
-   public PanelBuilder<P> boxLayout(int axis)
+
+   /**
+    * Applies a new {@link BoxLayout} to the currently built {@link JPanel}.
+    * 
+    * @param axis
+    *           the axis settings to apply on the new {@link BoxLayout}
+    * @return the current builder instance
+    * @see JPanel#setLayout(LayoutManager)
+    * @see BoxLayout#BoxLayout(java.awt.Container, int)
+    */
+   public PanelBuilder<Parent> boxLayout(final int axis)
    {
       return layout(new BoxLayout(get(), axis));
    }
-   
-   public PanelBuilder<P> boxLayoutX()
+
+   /**
+    * Applies a new {@link BoxLayout} in {@link BoxLayout#X_AXIS} mode to the
+    * currently built {@link JPanel}.
+    * 
+    * @return the current builder instance
+    * @see JPanel#setLayout(LayoutManager)
+    * @see BoxLayout#BoxLayout(java.awt.Container, int)
+    * @see BoxLayout#X_AXIS
+    */
+   public PanelBuilder<Parent> boxLayoutX()
    {
       return layout(new BoxLayout(get(), BoxLayout.X_AXIS));
    }
-   
-   public PanelBuilder<P> boxLayoutY()
+
+   /**
+    * Applies a new {@link BoxLayout} in {@link BoxLayout#Y_AXIS} mode to the
+    * currently built {@link JPanel}.
+    * 
+    * @return the current builder instance
+    * @see JPanel#setLayout(LayoutManager)
+    * @see BoxLayout#BoxLayout(java.awt.Container, int)
+    * @see BoxLayout#Y_AXIS
+    */
+   public PanelBuilder<Parent> boxLayoutY()
    {
       return layout(new BoxLayout(get(), BoxLayout.Y_AXIS));
    }
-   
-   public PanelBuilder<P> boxLayoutLine()
+
+   /**
+    * Applies a new {@link BoxLayout} in {@link BoxLayout#LINE_AXIS} mode to the
+    * currently built {@link JPanel}.
+    * 
+    * @return the current builder instance
+    * @see JPanel#setLayout(LayoutManager)
+    * @see BoxLayout#BoxLayout(java.awt.Container, int)
+    * @see BoxLayout#LINE_AXIS
+    */
+   public PanelBuilder<Parent> boxLayoutLine()
    {
       return layout(new BoxLayout(get(), BoxLayout.LINE_AXIS));
    }
-   
-   public PanelBuilder<P> boxLayoutPage()
+
+   /**
+    * Applies a new {@link BoxLayout} in {@link BoxLayout#PAGE_AXIS} mode to the
+    * currently built {@link JPanel}.
+    * 
+    * @return the current builder instance
+    * @see JPanel#setLayout(LayoutManager)
+    * @see BoxLayout#BoxLayout(java.awt.Container, int)
+    * @see BoxLayout#PAGE_AXIS
+    */
+   public PanelBuilder<Parent> boxLayoutPage()
    {
       return layout(new BoxLayout(get(), BoxLayout.PAGE_AXIS));
    }
-   
-   public PanelBuilder<P> flowLayout()
+
+   /**
+    * Applies a new {@link FlowLayout} to the currently built {@link JPanel}.
+    * 
+    * @return the current builder instance
+    * @see JPanel#setLayout(LayoutManager)
+    * @see FlowLayout#FlowLayout()
+    */
+   public PanelBuilder<Parent> flowLayout()
    {
       return layout(new FlowLayout());
    }
-   
-   public PanelBuilder<P> flowLayout(int align)
+
+   /**
+    * Applies a new {@link FlowLayout} to the currently built {@link JPanel}.
+    * 
+    * @param align
+    *           the alignment for the new {@link FlowLayout}
+    * @return the current builder instance
+    * @see JPanel#setLayout(LayoutManager)
+    * @see FlowLayout#FlowLayout(int)
+    */
+   public PanelBuilder<Parent> flowLayout(final int align)
    {
       return layout(new FlowLayout(align));
    }
-   
-   public PanelBuilder<P> flowLayout(int align, int hgap, int vgap)
+
+   /**
+    * Applies a new {@link FlowLayout} to the currently built {@link JPanel}.
+    * 
+    * @param align
+    *           the alignment for the new {@link FlowLayout}
+    * @param hgap
+    *           the horizontal gap for the new {@link FlowLayout}
+    * @param vgap
+    *           the vertical gap for the new {@link FlowLayout}
+    * @return the current builder instance
+    * @see JPanel#setLayout(LayoutManager)
+    * @see FlowLayout#FlowLayout(int, int, int)
+    */
+   public PanelBuilder<Parent> flowLayout(final int align, final int hgap, final int vgap)
    {
       return layout(new FlowLayout(align, hgap, vgap));
    }
-   
-   public PanelBuilder<P> gridBagLayout()
+
+   /**
+    * Applies a new {@link GridBagLayout} to the currently built {@link JPanel}.
+    * 
+    * @return the current builder instance
+    * @see JPanel#setLayout(LayoutManager)
+    * @see GridBagLayout#GridBagLayout()
+    */
+   public PanelBuilder<Parent> gridBagLayout()
    {
       return layout(new GridBagLayout());
    }
-   
-   public PanelBuilder<P> gridLayout()
+
+   /**
+    * Applies a new {@link GridLayout} to the currently built {@link JPanel}.
+    * 
+    * @return the current builder instance
+    * @see JPanel#setLayout(LayoutManager)
+    * @see GridLayout#GridLayout()
+    */
+   public PanelBuilder<Parent> gridLayout()
    {
       return layout(new GridLayout());
    }
-   
-   public PanelBuilder<P> gridLayout(int rows, int cols)
+
+   /**
+    * Applies a new {@link GridLayout} to the currently built {@link JPanel}.
+    * 
+    * @param rows
+    *           the number of rows for the new {@link GridLayout}
+    * @param cols
+    *           the number of columns for the new {@link GridLayout}
+    * @return the current builder instance
+    * @see JPanel#setLayout(LayoutManager)
+    * @see GridLayout#GridLayout(int, int))
+    */
+   public PanelBuilder<Parent> gridLayout(final int rows, final int cols)
    {
       return layout(new GridLayout(rows, cols));
    }
-   
-   public PanelBuilder<P> gridLayout(int rows, int cols, int hgap, int vgap)
+
+   /**
+    * Applies a new {@link GridLayout} to the currently built {@link JPanel}.
+    * 
+    * @param rows
+    *           the number of rows for the new {@link GridLayout}
+    * @param cols
+    *           the number of columns for the new {@link GridLayout}
+    * @param hgap
+    *           the horizontal gap for the new {@link GridLayout}
+    * @param vgap
+    *           the vertical gap for the new {@link GridLayout}
+    * @return the current builder instance
+    * @see JPanel#setLayout(LayoutManager)
+    * @see GridLayout#GridLayout(int, int))
+    */
+   public PanelBuilder<Parent> gridLayout(final int rows, final int cols, final int hgap, final int vgap)
    {
       return layout(new GridLayout(rows, cols, hgap, vgap));
    }
-   
-   public <C extends JComponent> ComponentBuilder<C, PanelBuilder<P>> component(C component)
+
+   /**
+    * Adds a new given {@link JComponent} to the currently built {@link JPanel}
+    * and returns a {@link ComponentBuilder} for it.
+    * 
+    * @param component
+    *           the {@link JComponent} to add
+    * @param <Component>
+    *           the concrete type of the {@link JComponent} to add
+    * @return the {@link ComponentBuilder} for the added {@link JComponent}
+    */
+   public <Component extends JComponent> ComponentBuilder<Component, PanelBuilder<Parent>> component(
+         final Component component)
    {
       get().add(component);
 
-      return new ComponentBuilder<C, PanelBuilder<P>>(this, component);
+      return new ComponentBuilder<Component, PanelBuilder<Parent>>(this, component);
    }
 
-   public <C extends JComponent> ComponentBuilder<C, PanelBuilder<P>> component(C component, Object constraints)
+   public <Component extends JComponent> ComponentBuilder<Component, PanelBuilder<Parent>> component(
+         final Component component,
+         final Object constraints)
    {
       get().add(component, constraints);
-      
-      return new ComponentBuilder<C, PanelBuilder<P>>(this, component);
+
+      return new ComponentBuilder<Component, PanelBuilder<Parent>>(this, component);
    }
 
-   public <C extends JComponent> ComponentBuilder<C, PanelBuilder<P>> component(C component, Object constraints, int index)
+   public <C extends JComponent> ComponentBuilder<C, PanelBuilder<Parent>> component(final C component,
+         final Object constraints, final int index)
    {
       get().add(component, constraints, index);
-      
-      return new ComponentBuilder<C, PanelBuilder<P>>(this, component);
+
+      return new ComponentBuilder<C, PanelBuilder<Parent>>(this, component);
    }
 
-   public <C extends JComponent> ComponentBuilder<C, PanelBuilder<P>> component(C component, int index)
+   public <C extends JComponent> ComponentBuilder<C, PanelBuilder<Parent>> component(final C component, final int index)
    {
       get().add(component, index);
-      
-      return new ComponentBuilder<C, PanelBuilder<P>>(this, component);
-   }
-   
-   public ButtonBuilder<PanelBuilder<P>> button(String text)
-   {
-      JButton button = new JButton(text);
-      get().add(button);
-      
-      return new ButtonBuilder<PanelBuilder<P>>(this, button);
-   }
-   
-   public ButtonBuilder<PanelBuilder<P>> button(Action action)
-   {
-      JButton button = new JButton(action);
-      get().add(button);
-      
-      return new ButtonBuilder<PanelBuilder<P>>(this, button);
+
+      return new ComponentBuilder<C, PanelBuilder<Parent>>(this, component);
    }
 
-   public ButtonBuilder<PanelBuilder<P>> button(String text, Object contraints)
+   public ButtonBuilder<PanelBuilder<Parent>> button(final String text)
    {
-      JButton button = new JButton(text);
+      final JButton button = new JButton(text);
+      get().add(button);
+
+      return new ButtonBuilder<PanelBuilder<Parent>>(this, button);
+   }
+
+   public ButtonBuilder<PanelBuilder<Parent>> button(final Action action)
+   {
+      final JButton button = new JButton(action);
+      get().add(button);
+
+      return new ButtonBuilder<PanelBuilder<Parent>>(this, button);
+   }
+
+   public ButtonBuilder<PanelBuilder<Parent>> button(final String text, final Object contraints)
+   {
+      final JButton button = new JButton(text);
       get().add(button, contraints);
-      
-      return new ButtonBuilder<PanelBuilder<P>>(this, button);
+
+      return new ButtonBuilder<PanelBuilder<Parent>>(this, button);
    }
-   
-   public ButtonBuilder<PanelBuilder<P>> button(Action action, Object contraints)
+
+   public ButtonBuilder<PanelBuilder<Parent>> button(final Action action, final Object contraints)
    {
-      JButton button = new JButton(action);
+      final JButton button = new JButton(action);
       get().add(button, contraints);
-      
-      return new ButtonBuilder<PanelBuilder<P>>(this, button);
+
+      return new ButtonBuilder<PanelBuilder<Parent>>(this, button);
    }
-   
-   public ButtonBuilder<PanelBuilder<P>> button(String text, Object contraints, int index)
+
+   public ButtonBuilder<PanelBuilder<Parent>> button(final String text, final Object contraints, final int index)
    {
-      JButton button = new JButton(text);
+      final JButton button = new JButton(text);
       get().add(button, contraints, index);
-      
-      return new ButtonBuilder<PanelBuilder<P>>(this, button);
+
+      return new ButtonBuilder<PanelBuilder<Parent>>(this, button);
    }
-   
-   public ButtonBuilder<PanelBuilder<P>> button(Action action, Object contraints, int index)
+
+   public ButtonBuilder<PanelBuilder<Parent>> button(final Action action, final Object contraints, final int index)
    {
-      JButton button = new JButton(action);
+      final JButton button = new JButton(action);
       get().add(button, contraints, index);
-      
-      return new ButtonBuilder<PanelBuilder<P>>(this, button);
+
+      return new ButtonBuilder<PanelBuilder<Parent>>(this, button);
    }
-   
-   public ButtonBuilder<PanelBuilder<P>> button(String text, int index)
+
+   public ButtonBuilder<PanelBuilder<Parent>> button(final String text, final int index)
    {
-      JButton button = new JButton(text);
+      final JButton button = new JButton(text);
       get().add(button, index);
-      
-      return new ButtonBuilder<PanelBuilder<P>>(this, button);
+
+      return new ButtonBuilder<PanelBuilder<Parent>>(this, button);
    }
-   
-   public ButtonBuilder<PanelBuilder<P>> button(Action action, int index)
+
+   public ButtonBuilder<PanelBuilder<Parent>> button(final Action action, final int index)
    {
-      JButton button = new JButton(action);
+      final JButton button = new JButton(action);
       get().add(button, index);
-      
-      return new ButtonBuilder<PanelBuilder<P>>(this, button);
+
+      return new ButtonBuilder<PanelBuilder<Parent>>(this, button);
    }
 }
