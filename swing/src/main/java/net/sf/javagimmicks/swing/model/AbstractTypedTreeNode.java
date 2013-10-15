@@ -5,73 +5,86 @@ import java.util.Enumeration;
 
 import javax.swing.tree.TreeNode;
 
+/**
+ * A very basic implementation of {@link TypedTreeNode} without child or parent
+ * support.
+ */
 public abstract class AbstractTypedTreeNode<Value> implements TypedTreeNode<Value>
 {
-    protected final Value _value;
+   protected final Value _value;
 
-    protected final boolean _allowsChildren;
-    protected final boolean _noChildrenMeansLeaf; 
-    
-    protected AbstractTypedTreeNode(Value value, boolean allowsChildren, boolean noChildrenMeansLeaf)
-    {
-        _value = value;
+   protected final boolean _allowsChildren;
+   protected final boolean _noChildrenMeansLeaf;
 
-        _allowsChildren = allowsChildren;
-        _noChildrenMeansLeaf = noChildrenMeansLeaf;
-    }
-    
-    protected AbstractTypedTreeNode(Value value, boolean allowsChildren)
-    {
-        this(value, allowsChildren, false);
-    }
-    
-    protected AbstractTypedTreeNode(Value value)
-    {
-        this(value, false);
-    }
-    
-    public TreeNode getParent()
-    {
-        return null;
-    }
+   protected AbstractTypedTreeNode(final Value value, final boolean allowsChildren, final boolean noChildrenMeansLeaf)
+   {
+      _value = value;
 
-    public Value getValue()
-    {
-        return _value;
-    }
-    
-    public boolean getAllowsChildren()
-    {
-        return _allowsChildren;
-    }
+      _allowsChildren = allowsChildren;
+      _noChildrenMeansLeaf = noChildrenMeansLeaf;
+   }
 
-    public boolean isLeaf()
-    {
-        return _noChildrenMeansLeaf ? !children().hasMoreElements() : !_allowsChildren;
-    }
-    
-    public Enumeration<?> children()
-    {
-        return Collections.enumeration(Collections.emptySet());
-    }
-    
-    public TreeNode getChildAt(int childIndex)
-    {
-        return null;
-    }
+   protected AbstractTypedTreeNode(final Value value, final boolean allowsChildren)
+   {
+      this(value, allowsChildren, false);
+   }
 
-    public int getChildCount()
-    {
-        return 0;
-    }
+   protected AbstractTypedTreeNode(final Value value)
+   {
+      this(value, false);
+   }
 
-    public int getIndex(TreeNode node)
-    {
-        return -1;
-    }
-    
-    public String toString()
-    {
-        return _value.toString();
-    }
+   @Override
+   public TreeNode getParent()
+   {
+      return null;
+   }
+
+   @Override
+   public Value getValue()
+   {
+      return _value;
+   }
+
+   @Override
+   public boolean getAllowsChildren()
+   {
+      return _allowsChildren;
+   }
+
+   @Override
+   public boolean isLeaf()
+   {
+      return _noChildrenMeansLeaf ? !children().hasMoreElements() : !_allowsChildren;
+   }
+
+   @Override
+   public Enumeration<?> children()
+   {
+      return Collections.enumeration(Collections.emptySet());
+   }
+
+   @Override
+   public TreeNode getChildAt(final int childIndex)
+   {
+      return null;
+   }
+
+   @Override
+   public int getChildCount()
+   {
+      return 0;
+   }
+
+   @Override
+   public int getIndex(final TreeNode node)
+   {
+      return -1;
+   }
+
+   @Override
+   public String toString()
+   {
+      return _value.toString();
+   }
 }

@@ -4,112 +4,126 @@ import java.util.List;
 
 import javax.swing.ComboBoxModel;
 
+import net.sf.javagimmicks.lang.LangUtils;
+
+/**
+ * A {@link ComboBoxModel} implementation that is also a {@link List}.
+ */
 public class ComboBoxModelAdapter<E> extends ListModelAdapter<E> implements ComboBoxModel
 {
-	private static final long serialVersionUID = -5100057877489621837L;
+   private static final long serialVersionUID = -5100057877489621837L;
 
-	protected Object m_oSelectedItem;
+   protected Object _selectedItem;
 
-	public ComboBoxModelAdapter()
-	{
-		super();
-	}
+   public ComboBoxModelAdapter()
+   {
+      super();
+   }
 
-	public ComboBoxModelAdapter(List<E> oInternalList)
-	{
-		super(oInternalList);
-	}
-	
-    public Object getSelectedItem()
-    {
-        return m_oSelectedItem;
-    }
+   /**
+    * Creates a new instance wrapping a given {@link List}.
+    * 
+    * @param internalList
+    *           the {@link List} to use internally for element management
+    */
+   public ComboBoxModelAdapter(final List<E> internalList)
+   {
+      super(internalList);
+   }
 
-    public void setSelectedItem(Object oItem)
-    {
-        if(m_oSelectedItem != null && !m_oSelectedItem.equals(oItem) || m_oSelectedItem == null && oItem != null)
-        {
-            m_oSelectedItem = oItem;
-            fireContentsChanged(this, -1, -1);
-        }
-    }
-    
-	@Override
-	public ComboBoxModelAdapter<E> subList(int iFromIndex, int iToIndex)
-	{
-		return new SubListDecorator<E>(this, iFromIndex, iToIndex);
-	}
+   @Override
+   public Object getSelectedItem()
+   {
+      return _selectedItem;
+   }
 
-	@Override
-	public boolean equals(Object o)
-	{
-        if(!(o instanceof ComboBoxModelAdapter<?>))
-        {
-            return false;
-        }
+   @Override
+   public void setSelectedItem(final Object item)
+   {
+      if (_selectedItem != null && !_selectedItem.equals(item) || _selectedItem == null && item != null)
+      {
+         _selectedItem = item;
+         fireContentsChanged(this, -1, -1);
+      }
+   }
 
-        ComboBoxModelAdapter<?> oOther = (ComboBoxModelAdapter<?>) o;
+   @Override
+   public ComboBoxModelAdapter<E> subList(final int from, final int to)
+   {
+      return new SubListDecorator<E>(this, from, to);
+   }
 
-        boolean bSelectedEqual = (this.m_oSelectedItem == null && oOther.m_oSelectedItem == null)
-        	|| this.m_oSelectedItem == null
-        	|| oOther.m_oSelectedItem == null
-        	|| (this.m_oSelectedItem.equals(oOther.m_oSelectedItem));
-        
-        return bSelectedEqual && super.equals(o);
-	}
+   @Override
+   public boolean equals(final Object o)
+   {
+      if (!(o instanceof ComboBoxModelAdapter<?>))
+      {
+         return false;
+      }
 
-	@Override
-	public int hashCode()
-	{
-		return super.hashCode() + (1 << 15) + (m_oSelectedItem == null ? 0 : m_oSelectedItem.hashCode());
-	}
+      final ComboBoxModelAdapter<?> other = (ComboBoxModelAdapter<?>) o;
 
-	// Unfortunately I had to duplicate the code from ListModelListDecorator to here
-	// in order to keep the type ComboBoxModelListDecorator also for the sub list.
-	// Maybe there is a much better way. If you know one, please send me your proposal.
-    protected static class SubListDecorator<E> extends ComboBoxModelAdapter<E>
-    {
-		private static final long serialVersionUID = -5301211360041031237L;
+      return LangUtils.equalsNullSafe(this._selectedItem, other._selectedItem) && super.equals(o);
+   }
 
-		protected final int m_iOffset;
-        protected final ComboBoxModelAdapter<E> m_oParent;
-        
-        protected SubListDecorator(ComboBoxModelAdapter<E> oParent, int iFromIndex, int iToIndex)
-        {
-            super(oParent._internalList.subList(iFromIndex, iToIndex));
-            
-            m_oParent = oParent;
-            m_iOffset = iFromIndex;
-        }
+   @Override
+   public int hashCode()
+   {
+      return super.hashCode() + (1 << 15) + (_selectedItem == null ? 0 : _selectedItem.hashCode());
+   }
 
-        protected void fireContentsChanged(Object source, int index0, int index1)
-        {
-            super.fireContentsChanged(source, index0, index1);
-            
-            if(source == this && index0 >= 0 && index1 >= 0)
-            {
-                m_oParent.fireContentsChanged(m_oParent, m_iOffset + index0, m_iOffset + index1);
-            }
-        }
+   // Unfortunately I had to duplicate the code from ListModelListDecorator to
+   // here
+   // in order to keep the type ComboBoxModelListDecorator also for the sub
+   // list.
+   // Maybe there is a much better way. If you know one, please send me your
+   // proposal.
+   protected static class SubListDecorator<E> extends ComboBoxModelAdapter<E>
+   {
+      private static final long serialVersionUID = -5301211360041031237L;
 
-        protected void fireIntervalAdded(Object source, int index0, int index1)
-        {
-            super.fireIntervalAdded(source, index0, index1);
+      protected final int m_iOffset;
+      protected final ComboBoxModelAdapter<E> m_oParent;
 
-            if(source == this)
-            {
-                m_oParent.fireIntervalAdded(m_oParent, m_iOffset + index0, m_iOffset + index1);
-            }
-        }
+      protected SubListDecorator(final ComboBoxModelAdapter<E> oParent, final int iFromIndex, final int iToIndex)
+      {
+         super(oParent._internalList.subList(iFromIndex, iToIndex));
 
-        protected void fireIntervalRemoved(Object source, int index0, int index1)
-        {
-            super.fireIntervalRemoved(source, index0, index1);
+         m_oParent = oParent;
+         m_iOffset = iFromIndex;
+      }
 
-            if(source == this)
-            {
-                m_oParent.fireIntervalRemoved(m_oParent, m_iOffset + index0, m_iOffset + index1);
-            }
-        }
-    }
+      @Override
+      protected void fireContentsChanged(final Object source, final int index0, final int index1)
+      {
+         super.fireContentsChanged(source, index0, index1);
+
+         if (source == this && index0 >= 0 && index1 >= 0)
+         {
+            m_oParent.fireContentsChanged(m_oParent, m_iOffset + index0, m_iOffset + index1);
+         }
+      }
+
+      @Override
+      protected void fireIntervalAdded(final Object source, final int index0, final int index1)
+      {
+         super.fireIntervalAdded(source, index0, index1);
+
+         if (source == this)
+         {
+            m_oParent.fireIntervalAdded(m_oParent, m_iOffset + index0, m_iOffset + index1);
+         }
+      }
+
+      @Override
+      protected void fireIntervalRemoved(final Object source, final int index0, final int index1)
+      {
+         super.fireIntervalRemoved(source, index0, index1);
+
+         if (source == this)
+         {
+            m_oParent.fireIntervalRemoved(m_oParent, m_iOffset + index0, m_iOffset + index1);
+         }
+      }
+   }
 }

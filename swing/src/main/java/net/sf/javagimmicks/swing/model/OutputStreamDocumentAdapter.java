@@ -19,7 +19,7 @@ public class OutputStreamDocumentAdapter extends OutputStream
     * Creates a new instance for the given {@link Document}.
     * 
     * @param document
-    *           the {@link Document} where to output up-streamed content.
+    *           the {@link Document} where to output up-streamed content
     */
    public OutputStreamDocumentAdapter(final Document document)
    {
