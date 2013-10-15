@@ -1,5 +1,6 @@
 package net.sf.javagimmicks.swing.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ComboBoxModel;
@@ -15,6 +16,9 @@ public class ComboBoxModelAdapter<E> extends ListModelAdapter<E> implements Comb
 
    protected Object _selectedItem;
 
+   /**
+    * Creates a new instance using a new {@link ArrayList} internally.
+    */
    public ComboBoxModelAdapter()
    {
       super();
