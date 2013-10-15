@@ -16,7 +16,66 @@ import net.sf.javagimmicks.swing.model.DependencyComboBoxModel.CompositeKey;
 /**
  * A fluent API builder for creating a hierarchy of inter-depending
  * {@link DependencyComboBoxModel}s.
+ * <p>
+ * The fluent API is very simple: {@link #add(Object)} adds an element to the
+ * currently built {@link ComboBoxModel}, {@link #children()} internally
+ * switches down one level and allows to specify elements for a depending
+ * {@link ComboBoxModel} (and so on) until a call to {@link #parent()} which
+ * comes back to the original level and allows to specify more elements there.
+ * The resulting {@link List} of {@link ComboBoxModel}s can finally be retrieved
+ * via {@link #buildModels()}.
+ * <p>
+ * For a better understanding, please have a look at this example from the test
+ * code of this class:
  * 
+ * <pre>
+ * // @formatter:off
+ * new DependencyComboBoxModelBuilder()
+ *    .add(&quot;A&quot;).children()
+ *       .add(&quot;A1&quot;).children()
+ *          .add(&quot;A1x&quot;)
+ *          .add(&quot;A1y&quot;)
+ *          .add(&quot;A1z&quot;).parent()
+ *       .add(&quot;A2&quot;).children()
+ *          .add(&quot;A2x&quot;)
+ *          .add(&quot;A2y&quot;)
+ *          .add(&quot;A2z&quot;).parent()
+ *       .add(&quot;A3&quot;).children()
+ *          .add(&quot;A3x&quot;)
+ *          .add(&quot;A3y&quot;)
+ *          .add(&quot;A3z&quot;).parent()
+ *       .add(&quot;A4&quot;).children()
+ *          .add(&quot;A4x&quot;)
+ *          .add(&quot;A4y&quot;)
+ *          .add(&quot;A4z&quot;).parent().parent()
+ *          
+ *    .add(&quot;B&quot;).children()
+ *       .add(&quot;B1&quot;).children()
+ *          .add(&quot;B1x&quot;)
+ *          .add(&quot;B1y&quot;)
+ *          .add(&quot;B1z&quot;).parent()
+ *       .add(&quot;B2&quot;).children()
+ *          .add(&quot;B2x&quot;)
+ *          .add(&quot;B2y&quot;)
+ *          .add(&quot;B2z&quot;).parent().parent()
+ *    
+ *    .add(&quot;C&quot;).children()
+ *       .add(&quot;C1&quot;).children()
+ *          .add(&quot;C1x&quot;)
+ *          .add(&quot;C1y&quot;)
+ *          .add(&quot;C1z&quot;).parent()
+ *       .add(&quot;C2&quot;).children()
+ *          .add(&quot;C2x&quot;)
+ *          .add(&quot;C2y&quot;)
+ *          .add(&quot;C2z&quot;).parent()
+ *       .add(&quot;C3&quot;).children()
+ *          .add(&quot;C3x&quot;)
+ *          .add(&quot;C3y&quot;)
+ *          .add(&quot;C3z&quot;).parent().parent()
+ *    
+ *    .buildModels();
+ * // @formatter:on
+ * </pre>
  */
 public class DependencyComboBoxModelBuilder
 {
@@ -25,6 +84,13 @@ public class DependencyComboBoxModelBuilder
    private Object _lastAdded;
    private List<Object> _currentData = new ArrayList<Object>();
 
+   /**
+    * Adds a new item to the currently built {@link ComboBoxModel}.
+    * 
+    * @param item
+    *           the item to add
+    * @return this instance
+    */
    public DependencyComboBoxModelBuilder add(final Object item)
    {
       _currentData.add(item);
@@ -33,6 +99,16 @@ public class DependencyComboBoxModelBuilder
       return this;
    }
 
+   /**
+    * Switches down one level to {@link #add(Object) add} elements for the
+    * next-level {@link DependencyComboBoxModel} which will depend on the last
+    * {@link #add(Object) added} values up all levels.
+    * 
+    * @return this instance but switched down one level
+    * @throws IllegalStateException
+    *            if no values were yet {@link #add(Object) added} on the current
+    *            level
+    */
    public DependencyComboBoxModelBuilder children()
    {
       if (_lastAdded == null)
@@ -49,6 +125,15 @@ public class DependencyComboBoxModelBuilder
       return this;
    }
 
+   /**
+    * Finishes collecting contents for the current internal
+    * {@link DependencyComboBoxModel} and goes back up one level in the
+    * hierarchy.
+    * 
+    * @return the current instance but switched up one level
+    * @throws IllegalStateException
+    *            if the builder is currently on the top level
+    */
    public DependencyComboBoxModelBuilder parent()
    {
       if (_parentsStack.isEmpty())
@@ -63,6 +148,16 @@ public class DependencyComboBoxModelBuilder
       return this;
    }
 
+   /**
+    * Returns a {@link List} containing a {@link ComboBoxModel} for each level
+    * that was modeled so far on this instance.
+    * <p>
+    * The first {@link ComboBoxModel} in the result will always be a normal
+    * {@link DefaultComboBoxModel} - all other ones will be respective
+    * {@link DependencyComboBoxModel}s having all theirs predecessors as parent.
+    * 
+    * @return the resulting {@link List} of {@link ComboBoxModel}s
+    */
    public List<ComboBoxModel> buildModels()
    {
       addCurrentElements();
