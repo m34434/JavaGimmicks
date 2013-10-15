@@ -85,6 +85,12 @@ public class DependencyComboBoxModelBuilder
    private List<Object> _currentData = new ArrayList<Object>();
 
    /**
+    * Creates a new instance.
+    */
+   public DependencyComboBoxModelBuilder()
+   {}
+
+   /**
     * Adds a new item to the currently built {@link ComboBoxModel}.
     * 
     * @param item
