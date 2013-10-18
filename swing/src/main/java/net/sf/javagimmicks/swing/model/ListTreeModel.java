@@ -12,7 +12,7 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 
 /**
- * A {@link TreeModel} implementation that used {@link ListTreeNode}s as
+ * A {@link TreeModel} implementation that uses {@link ListTreeNode}s as
  * internal node implementation.
  * 
  * @param <E>
