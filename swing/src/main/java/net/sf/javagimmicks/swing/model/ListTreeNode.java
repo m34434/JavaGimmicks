@@ -7,9 +7,28 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 
+import javax.swing.event.TreeModelEvent;
+import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 
-public class ListTreeNode<E> implements TypedTreeNode<E>
+/**
+ * A very powerful implementation of {@link TypedTreeNode} (and it's child
+ * interfaces) dedicated to act as a leaf, intermediate or root node within a
+ * {@link ListTreeModel} (but works as well for other {@link TreeModel}s) that
+ * allows easy {@link List}-style and fluent API access to child nodes and
+ * values.
+ * <p>
+ * Nevertheless - it is only suitable, if all nodes within the {@link TreeModel}
+ * carry the same type of values (like in a {@link ListTreeModel}. This is
+ * basically no problem, because you can choose {@link Object} as value type -
+ * but you might have many type-casts then.
+ * 
+ * @param <E>
+ *           the type of values that <b>ALL</b> nodes with the represented
+ *           {@link TreeModel} or {@link ListTreeModel} can carry
+ */
+public class ListTreeNode<E> implements TypedTreeNode<E>, TypedChildTreeNode<E, E, ListTreeNode<E>>,
+      TypedParentTreeNode<E, E, ListTreeNode<E>>
 {
    protected ArrayList<ListTreeNode<E>> _children;
    protected ChildrenListView _childrenListView;
@@ -19,6 +38,16 @@ public class ListTreeNode<E> implements TypedTreeNode<E>
    protected ListTreeNode<E> _parent;
    protected E _value;
 
+   /**
+    * Creates a new instance with the given value and leaf-setting (see
+    * {@link #setLeaf(boolean)}).
+    * 
+    * @param value
+    *           the value that this node should carry
+    * @param leaf
+    *           if this node is a dedicated leaf or not (see
+    *           {@link #setLeaf(boolean)})
+    */
    public ListTreeNode(final E value, final boolean leaf)
    {
       this(null, null, leaf, value);
@@ -45,40 +74,124 @@ public class ListTreeNode<E> implements TypedTreeNode<E>
       _childrenValueListView = new ChildrenValueListView();
    }
 
+   /**
+    * Adds and returns a new child {@link ListTreeNode} for the given value at
+    * the given position and with the given {@link #setLeaf(boolean) leaf
+    * setting}.
+    * 
+    * @param index
+    *           the index within the internal child list where to add the new
+    *           child {@link ListTreeNode}
+    * @param value
+    *           the value to set for the new child {@link ListTreeNode}
+    * @param leaf
+    *           the {@link #setLeaf(boolean) leaf setting} for the new child
+    *           {@link ListTreeNode}
+    * @return the new child {@link ListTreeNode}
+    */
    public ListTreeNode<E> addChildAt(final int index, final E value, final boolean leaf)
    {
       final ListTreeNode<E> result = new ListTreeNode<E>(value, leaf);
-      getChildListView().add(index, result);
+      getChildList().add(index, result);
 
       return result;
    }
 
+   /**
+    * Adds and returns a new child {@link ListTreeNode} for the given value at
+    * the given position in {@link #setLeaf(boolean) non-leaf} mode.
+    * 
+    * @param index
+    *           the index within the internal child list where to add the new
+    *           child {@link ListTreeNode}
+    * @param value
+    *           the value to set for the new child {@link ListTreeNode}
+    * @return the new child {@link ListTreeNode}
+    */
    public ListTreeNode<E> addChildAt(final int index, final E value)
    {
       return addChildAt(index, value, false);
    }
 
+   /**
+    * Appends and returns a new child {@link ListTreeNode} for the given value
+    * with the given {@link #setLeaf(boolean) leaf setting}.
+    * 
+    * @param value
+    *           the value to set for the new child {@link ListTreeNode}
+    * @param leaf
+    *           the {@link #setLeaf(boolean) leaf setting} for the new child
+    *           {@link ListTreeNode}
+    * @return the new child {@link ListTreeNode}
+    */
    public ListTreeNode<E> addChild(final E value, final boolean leaf)
    {
       return addChildAt(getChildCount(), value, leaf);
    }
 
+   /**
+    * Appends and returns a new child {@link ListTreeNode} for the given value
+    * with tin {@link #setLeaf(boolean) non-leaf} mode.
+    * 
+    * @param value
+    *           the value to set for the new child {@link ListTreeNode}
+    * @return the new child {@link ListTreeNode}
+    */
    public ListTreeNode<E> addChild(final E value)
    {
       return addChild(value, false);
    }
 
+   /**
+    * Removes the child {@link ListTreeNode} at the given position,
+    * {@link #detach() detaches} and returns it.
+    * 
+    * @param index
+    *           the index of the child {@link ListTreeNode} to remove
+    * @return the removed and {@link #detach() detached} {@link ListTreeNode}
+    */
    public ListTreeNode<E> removeChildAt(final int index)
    {
-      return getChildListView().remove(index);
+      return getChildList().remove(index);
    }
 
-   public List<ListTreeNode<E>> getChildListView()
+   /**
+    * Returns a {@link List} view of the internal child list of
+    * {@link ListTreeNode}s that takes care about proper state
+    * checking/manipulation upon any called operation on it.
+    * <p>
+    * This means the following:
+    * <ul>
+    * <li>Upon add operations (including new nodes added via
+    * {@link List#set(int, Object) set()})</li>
+    * <ul>
+    * <li>Make a consistency check, if the new {@link ListTreeNode} is
+    * {@link #detach() detached} - if not, throw an
+    * {@link IllegalStateException}</li>
+    * <li>Attach the new {@link ListTreeNode} - i.e. set it's parent to this
+    * {@link ListTreeNode} and apply recursively our internal
+    * {@link ListTreeModel} if existing</li>
+    * <li>Fire respective {@link TreeModelEvent}s if this instance is internally
+    * attached to a {@link ListTreeModel}</li>
+    * </ul>
+    * <li>Upon remove operations (including old nodes removed via
+    * {@link List#set(int, Object) set()})</li>
+    * <ul>
+    * <li>{@link #detach() Detach} the removed {@link ListTreeNode}</li>
+    * <li>Fire respective {@link TreeModelEvent}s if this instance is internally
+    * attached to a {@link ListTreeModel}</li>
+    * </ul>
+    * </ul>
+    * 
+    * @return
+    */
+   public List<ListTreeNode<E>> getChildList()
    {
       return _childrenListView;
    }
 
-   public List<E> getChildValueListView()
+   @Override
+   public List<E> getChildValues()
    {
       return _childrenValueListView;
    }
@@ -163,6 +276,17 @@ public class ListTreeNode<E> implements TypedTreeNode<E>
    }
 
    @Override
+   public E getParentValue()
+   {
+      if (_parent == null)
+      {
+         throw new IllegalStateException("Node has no parent!");
+      }
+
+      return _parent.getValue();
+   }
+
+   @Override
    public boolean isLeaf()
    {
       return _children == null;
@@ -172,7 +296,8 @@ public class ListTreeNode<E> implements TypedTreeNode<E>
    {
       if (_parent == null && _model == null)
       {
-         throw new IllegalStateException("This node cannot be detached. It has no parent and is not a root node!");
+         throw new IllegalStateException(
+               "This node cannot be detached. It has no parent and is not the root node of a ListTreeModel!");
       }
 
       if (_parent != null)
@@ -214,17 +339,7 @@ public class ListTreeNode<E> implements TypedTreeNode<E>
 
          for (final ListTreeNode<E> newChild : c)
          {
-            if (newChild._model != null)
-            {
-               throw new IllegalArgumentException("Cannot add a node which already belongs to a model!");
-            }
-            else if (newChild._parent != null)
-            {
-               throw new IllegalArgumentException("Cannot add a non-detached node!");
-            }
-
-            newChild._parent = ListTreeNode.this;
-            newChild.updateModel(_model);
+            preProcessAdd(newChild);
          }
 
          _children.addAll(index, c);
@@ -252,11 +367,72 @@ public class ListTreeNode<E> implements TypedTreeNode<E>
       @Override
       public void clear()
       {
-         checkLeaf();
+         super.clear();
 
-         clear(true);
+         /*
+          * The following implementation of the clear() operation whould
+          * recursively clear child nodes! I think this would break the contract
+          * of List where clear() is the same as a buld remove()
+          */
+         // checkLeaf();
+
+         // clear(true);
       }
 
+      @Override
+      public ListTreeNode<E> get(final int index)
+      {
+         checkLeaf();
+
+         return _children.get(index);
+      }
+
+      @Override
+      public ListTreeNode<E> remove(final int index)
+      {
+         checkLeaf();
+
+         final ListTreeNode<E> removedNode = _children.remove(index);
+         postProcessRemove(removedNode);
+
+         if (_model != null)
+         {
+            _model.fireNodesRemoved(ListTreeNode.this, index, Collections.singleton(removedNode));
+         }
+
+         return removedNode;
+      }
+
+      @Override
+      public ListTreeNode<E> set(final int index, final ListTreeNode<E> element)
+      {
+         checkLeaf();
+
+         preProcessAdd(element);
+
+         final ListTreeNode<E> removedNode = _children.set(index, element);
+         postProcessRemove(removedNode);
+
+         if (_model != null)
+         {
+            _model.fireNodeChanged(ListTreeNode.this, index);
+         }
+
+         return removedNode;
+      }
+
+      @Override
+      public int size()
+      {
+         if (isLeaf())
+         {
+            return 0;
+         }
+
+         return _children.size();
+      }
+
+      @SuppressWarnings("unused")
       private void clear(final boolean isTop)
       {
          if (isLeaf())
@@ -285,62 +461,32 @@ public class ListTreeNode<E> implements TypedTreeNode<E>
          }
       }
 
-      @Override
-      public ListTreeNode<E> get(final int index)
+      private void preProcessAdd(final ListTreeNode<E> newChild)
       {
-         checkLeaf();
+         if (newChild._model != null)
+         {
+            throw new IllegalArgumentException("Cannot add a node which already belongs to a model!");
+         }
+         else if (newChild._parent != null)
+         {
+            throw new IllegalArgumentException("Cannot add a non-detached node!");
+         }
 
-         return _children.get(index);
+         newChild._parent = ListTreeNode.this;
+         newChild.updateModel(_model);
       }
 
-      @Override
-      public ListTreeNode<E> remove(final int index)
+      private void postProcessRemove(final ListTreeNode<E> removedNode)
       {
-         checkLeaf();
-
-         final ListTreeNode<E> removedNode = _children.remove(index);
          removedNode.updateModel(null);
          removedNode._parent = null;
-
-         if (_model != null)
-         {
-            _model.fireNodesRemoved(ListTreeNode.this, index, Collections.singleton(removedNode));
-         }
-
-         return removedNode;
-      }
-
-      @Override
-      public ListTreeNode<E> set(final int index, final ListTreeNode<E> element)
-      {
-         checkLeaf();
-
-         final ListTreeNode<E> result = _children.set(index, element);
-
-         if (_model != null)
-         {
-            _model.fireNodeChanged(ListTreeNode.this, index);
-         }
-
-         return result;
-      }
-
-      @Override
-      public int size()
-      {
-         if (isLeaf())
-         {
-            return 0;
-         }
-
-         return _children.size();
       }
 
       private void checkLeaf()
       {
          if (isLeaf())
          {
-            throw new UnsupportedOperationException("Node is a leaf!");
+            throw new IllegalStateException("Node is a leaf!");
          }
       }
    }

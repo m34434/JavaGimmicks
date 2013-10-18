@@ -77,7 +77,7 @@ public class ListTreeModel<E> implements TreeModel
    {
       final ListTreeNode<E> simpleTreeNode = checkAndConvertToNode(parent);
 
-      return simpleTreeNode.getChildListView().indexOf(child);
+      return simpleTreeNode.getChildList().indexOf(child);
    }
 
    @Override
