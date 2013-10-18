@@ -4,22 +4,22 @@ package net.sf.javagimmicks.swing.model;
  * An special {@link TypedTreeNode} that represents a child node within a tree -
  * it has a parameterized parent of type {@link TypedParentTreeNode}.
  * 
- * @param <ParentValue>
+ * @param <PV>
  *           the type of values that the parent {@link TypedParentTreeNode}
  *           carries
- * @param <ParentNode>
+ * @param <P>
  *           the type of the parent {@link TypedParentTreeNode}
  */
-public interface TypedChildTreeNode<Value, ParentValue, ParentNode extends TypedParentTreeNode<ParentValue, ? super Value, ? extends TypedChildTreeNode<?, ?, ?>>>
-      extends TypedTreeNode<Value>
+public interface TypedChildTreeNode<V, PV, P extends TypedParentTreeNode<PV, ? super V, ? extends TypedChildTreeNode<?, ?, ?>>>
+      extends TypedTreeNode<V>
 {
    @Override
-   public ParentNode getParent();
+   public P getParent();
 
    /**
     * Returns the value of the parent {@link TypedParentTreeNode}.
     * 
     * @return the value of the parent {@link TypedParentTreeNode}
     */
-   public ParentValue getParentValue();
+   public PV getParentValue();
 }

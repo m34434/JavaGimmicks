@@ -9,14 +9,14 @@ import javax.swing.tree.TreeNode;
  * A very basic implementation of {@link TypedTreeNode} without child or parent
  * support.
  */
-public abstract class AbstractTypedTreeNode<Value> implements TypedTreeNode<Value>
+public abstract class AbstractTypedTreeNode<V> implements TypedTreeNode<V>
 {
-   protected final Value _value;
+   protected final V _value;
 
    protected final boolean _allowsChildren;
    protected final boolean _noChildrenMeansLeaf;
 
-   protected AbstractTypedTreeNode(final Value value, final boolean allowsChildren, final boolean noChildrenMeansLeaf)
+   protected AbstractTypedTreeNode(final V value, final boolean allowsChildren, final boolean noChildrenMeansLeaf)
    {
       _value = value;
 
@@ -24,12 +24,12 @@ public abstract class AbstractTypedTreeNode<Value> implements TypedTreeNode<Valu
       _noChildrenMeansLeaf = noChildrenMeansLeaf;
    }
 
-   protected AbstractTypedTreeNode(final Value value, final boolean allowsChildren)
+   protected AbstractTypedTreeNode(final V value, final boolean allowsChildren)
    {
       this(value, allowsChildren, false);
    }
 
-   protected AbstractTypedTreeNode(final Value value)
+   protected AbstractTypedTreeNode(final V value)
    {
       this(value, false);
    }
@@ -41,7 +41,7 @@ public abstract class AbstractTypedTreeNode<Value> implements TypedTreeNode<Valu
    }
 
    @Override
-   public Value getValue()
+   public V getValue()
    {
       return _value;
    }

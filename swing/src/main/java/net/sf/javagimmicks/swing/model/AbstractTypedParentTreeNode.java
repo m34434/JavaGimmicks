@@ -13,28 +13,28 @@ import net.sf.javagimmicks.transform.Transformer;
  * An abstract base implementation of {@link TypedParentTreeNode} that provides
  * some basics for child handling.
  */
-public abstract class AbstractTypedParentTreeNode<Value, ChildValue, ChildNode extends TypedChildTreeNode<? extends ChildValue, Value, ? extends TypedParentTreeNode<?, ?, ?>>>
-      extends AbstractTypedTreeNode<Value> implements TypedParentTreeNode<Value, ChildValue, ChildNode>
+public abstract class AbstractTypedParentTreeNode<V, CV, C extends TypedChildTreeNode<? extends CV, V, ? extends TypedParentTreeNode<?, ?, ?>>>
+      extends AbstractTypedTreeNode<V> implements TypedParentTreeNode<V, CV, C>
 {
-   protected AbstractTypedParentTreeNode(final Value value, final boolean noChildrenMeansLeaf)
+   protected AbstractTypedParentTreeNode(final V value, final boolean noChildrenMeansLeaf)
    {
       super(value, true, noChildrenMeansLeaf);
    }
 
-   protected AbstractTypedParentTreeNode(final Value value)
+   protected AbstractTypedParentTreeNode(final V value)
    {
       super(value, true);
    }
 
    @Override
-   public Enumeration<? extends ChildNode> children()
+   public Enumeration<? extends C> children()
    {
-      final List<? extends ChildNode> childNodesList = getChildNodes();
+      final List<? extends C> childNodesList = getChildNodes();
       return Collections.enumeration(childNodesList);
    }
 
    @Override
-   public ChildNode getChildAt(final int childIndex)
+   public C getChildAt(final int childIndex)
    {
       return buildChildNode(getChildValues().get(childIndex));
    }
@@ -58,9 +58,9 @@ public abstract class AbstractTypedParentTreeNode<Value, ChildValue, ChildNode e
       return getChildValues().indexOf(childValue);
    }
 
-   protected List<ChildNode> getChildNodes()
+   protected List<C> getChildNodes()
    {
-      final List<ChildValue> childValues = getChildValues();
+      final List<CV> childValues = getChildValues();
 
       if (childValues == null || childValues.isEmpty())
       {
@@ -70,12 +70,12 @@ public abstract class AbstractTypedParentTreeNode<Value, ChildValue, ChildNode e
       return TransformerUtils.decorate(childValues, _valueToNodeTransformer);
    }
 
-   abstract protected ChildNode buildChildNode(ChildValue childValue);
+   abstract protected C buildChildNode(CV childValue);
 
-   private final Transformer<ChildValue, ChildNode> _valueToNodeTransformer = new Transformer<ChildValue, ChildNode>()
+   private final Transformer<CV, C> _valueToNodeTransformer = new Transformer<CV, C>()
    {
       @Override
-      public ChildNode transform(final ChildValue childValue)
+      public C transform(final CV childValue)
       {
          return buildChildNode(childValue);
       }

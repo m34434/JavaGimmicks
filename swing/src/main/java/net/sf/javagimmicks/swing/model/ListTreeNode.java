@@ -19,12 +19,12 @@ import javax.swing.tree.TreeNode;
  * values.
  * <p>
  * Nevertheless - it is only suitable, if all nodes within the {@link TreeModel}
- * carry the same type of values (like in a {@link ListTreeModel}. This is
+ * carry the same type of values (like in a {@link ListTreeModel}). This is
  * basically no problem, because you can choose {@link Object} as value type -
  * but you might have many type-casts then.
  * 
  * @param <E>
- *           the type of values that <b>ALL</b> nodes with the represented
+ *           the type of values that <b>ALL</b> nodes within the represented
  *           {@link TreeModel} or {@link ListTreeModel} can carry
  */
 public class ListTreeNode<E> implements TypedTreeNode<E>, TypedChildTreeNode<E, E, ListTreeNode<E>>,
@@ -39,18 +39,30 @@ public class ListTreeNode<E> implements TypedTreeNode<E>, TypedChildTreeNode<E, 
    protected E _value;
 
    /**
-    * Creates a new instance with the given value and leaf-setting (see
-    * {@link #isDedicatedLeaf()}).
+    * Creates a new instance with the given value and {@link #isDedicatedLeaf()
+    * dedicated leaf mode} setting.
     * 
     * @param value
     *           the value that this node should carry
     * @param leaf
-    *           if this node is a dedicated leaf or not (see
-    *           {@link #isDedicatedLeaf()})
+    *           if this node is a {@link #isDedicatedLeaf() dedicated leaf} or
+    *           not
     */
    public ListTreeNode(final E value, final boolean leaf)
    {
       this(null, null, leaf, value);
+   }
+
+   /**
+    * Creates a new instance with the given value in {@link #isDedicatedLeaf()
+    * non-dedicated leaf mode}.
+    * 
+    * @param value
+    *           the value that this node should carry
+    */
+   public ListTreeNode(final E value)
+   {
+      this(value, false);
    }
 
    protected ListTreeNode(final ListTreeModel<E> model, final boolean leaf, final E value)
@@ -372,14 +384,19 @@ public class ListTreeNode<E> implements TypedTreeNode<E>, TypedChildTreeNode<E, 
          throw new IllegalStateException("This node is already fully detached!");
       }
 
+      // If there is a parent, remove this node via its child list view - it
+      // will take care of everything
       if (_parent != null)
       {
          _parent._childrenListView.remove(this);
       }
+
+      // We had no parent but a model means, that we were the root node
       else if (_model != null)
       {
-         updateModel(null);
-         _model.fireNodesRemoved(null, 0, Collections.singleton(this));
+         final ListTreeModel<E> model = updateModel(null);
+         model._root = null;
+         model.fireNodesRemoved(null, 0, Collections.singleton(this));
       }
    }
 
@@ -389,8 +406,10 @@ public class ListTreeNode<E> implements TypedTreeNode<E>, TypedChildTreeNode<E, 
       return _value == null ? null : _value.toString();
    }
 
-   protected void updateModel(final ListTreeModel<E> model)
+   protected ListTreeModel<E> updateModel(final ListTreeModel<E> model)
    {
+      final ListTreeModel<E> result = _model;
+
       _model = model;
 
       if (!isLeaf())
@@ -400,6 +419,8 @@ public class ListTreeNode<E> implements TypedTreeNode<E>, TypedChildTreeNode<E, 
             child.updateModel(model);
          }
       }
+
+      return result;
    }
 
    protected class ChildrenListView extends AbstractList<ListTreeNode<E>>

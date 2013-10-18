@@ -5,13 +5,13 @@ package net.sf.javagimmicks.swing.model;
  * {@link TypedParentTreeNode} suitable as any <i>intermediate</i> node within a
  * tree.
  */
-public abstract class AbstractTypedParentChildTreeNode<Value, ParentValue, ParentNode extends TypedParentTreeNode<ParentValue, ? super Value, ? extends TypedChildTreeNode<?, ?, ?>>, ChildValue, ChildNode extends TypedChildTreeNode<? extends ChildValue, Value, ? extends TypedParentTreeNode<?, ?, ?>>>
-      extends AbstractTypedParentTreeNode<Value, ChildValue, ChildNode> implements
-      TypedChildTreeNode<Value, ParentValue, ParentNode>, TypedParentTreeNode<Value, ChildValue, ChildNode>
+public abstract class AbstractTypedParentChildTreeNode<V, PV, P extends TypedParentTreeNode<PV, ? super V, ? extends TypedChildTreeNode<?, ?, ?>>, CV, C extends TypedChildTreeNode<? extends CV, V, ? extends TypedParentTreeNode<?, ?, ?>>>
+      extends AbstractTypedParentTreeNode<V, CV, C> implements
+      TypedChildTreeNode<V, PV, P>, TypedParentTreeNode<V, CV, C>
 {
-   protected final ParentNode _parentNode;
+   protected final P _parentNode;
 
-   protected AbstractTypedParentChildTreeNode(final Value value, final ParentNode parentNode,
+   protected AbstractTypedParentChildTreeNode(final V value, final P parentNode,
          final boolean noChildrenMeansLeaf)
    {
       super(value, noChildrenMeansLeaf);
@@ -19,7 +19,7 @@ public abstract class AbstractTypedParentChildTreeNode<Value, ParentValue, Paren
       _parentNode = parentNode;
    }
 
-   protected AbstractTypedParentChildTreeNode(final Value value, final ParentNode parentNode)
+   protected AbstractTypedParentChildTreeNode(final V value, final P parentNode)
    {
       super(value);
 
@@ -27,13 +27,13 @@ public abstract class AbstractTypedParentChildTreeNode<Value, ParentValue, Paren
    }
 
    @Override
-   public ParentNode getParent()
+   public P getParent()
    {
       return _parentNode;
    }
 
    @Override
-   public ParentValue getParentValue()
+   public PV getParentValue()
    {
       return _parentNode.getValue();
    }

@@ -7,19 +7,19 @@ import java.util.List;
  * A special {@link TypedTreeNode} that serves as a parent for some
  * {@link TypedChildTreeNode}s.
  * 
- * @param <ChildValue>
+ * @param <CV>
  *           the type of values that the child {@link TypedChildTreeNode}s carry
- * @param <ChildNode>
+ * @param <C>
  *           the type of the child {@link TypedChildTreeNode}s
  */
-public interface TypedParentTreeNode<Value, ChildValue, ChildNode extends TypedChildTreeNode<? extends ChildValue, Value, ? extends TypedParentTreeNode<?, ?, ?>>>
-      extends TypedTreeNode<Value>
+public interface TypedParentTreeNode<V, CV, C extends TypedChildTreeNode<? extends CV, V, ? extends TypedParentTreeNode<?, ?, ?>>>
+      extends TypedTreeNode<V>
 {
    @Override
-   public Enumeration<? extends ChildNode> children();
+   public Enumeration<? extends C> children();
 
    @Override
-   public ChildNode getChildAt(int iChildIndex);
+   public C getChildAt(int iChildIndex);
 
    /**
     * Returns the {@link List} of values that the child
@@ -28,5 +28,5 @@ public interface TypedParentTreeNode<Value, ChildValue, ChildNode extends TypedC
     * @return the {@link List} of values that the child
     *         {@link TypedChildTreeNode}s contain
     */
-   public List<ChildValue> getChildValues();
+   public List<CV> getChildValues();
 }
