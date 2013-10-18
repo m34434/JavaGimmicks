@@ -40,13 +40,13 @@ public class ListTreeNode<E> implements TypedTreeNode<E>, TypedChildTreeNode<E, 
 
    /**
     * Creates a new instance with the given value and leaf-setting (see
-    * {@link #setLeaf(boolean)}).
+    * {@link #isDedicatedLeaf()}).
     * 
     * @param value
     *           the value that this node should carry
     * @param leaf
     *           if this node is a dedicated leaf or not (see
-    *           {@link #setLeaf(boolean)})
+    *           {@link #isDedicatedLeaf()})
     */
    public ListTreeNode(final E value, final boolean leaf)
    {
@@ -67,7 +67,7 @@ public class ListTreeNode<E> implements TypedTreeNode<E>, TypedChildTreeNode<E, 
    {
       _model = model;
       _parent = parent;
-      setLeaf(leaf);
+      setDedicatedLeaf(leaf);
       _value = value;
 
       _childrenListView = new ChildrenListView();
@@ -76,8 +76,8 @@ public class ListTreeNode<E> implements TypedTreeNode<E>, TypedChildTreeNode<E, 
 
    /**
     * Adds and returns a new child {@link ListTreeNode} for the given value at
-    * the given position and with the given {@link #setLeaf(boolean) leaf
-    * setting}.
+    * the given position and with the given {@link #isDedicatedLeaf() dedicated
+    * leaf mode} setting.
     * 
     * @param index
     *           the index within the internal child list where to add the new
@@ -85,8 +85,8 @@ public class ListTreeNode<E> implements TypedTreeNode<E>, TypedChildTreeNode<E, 
     * @param value
     *           the value to set for the new child {@link ListTreeNode}
     * @param leaf
-    *           the {@link #setLeaf(boolean) leaf setting} for the new child
-    *           {@link ListTreeNode}
+    *           the {@link #isDedicatedLeaf() dedicated leaf mode} setting for
+    *           the new child {@link ListTreeNode}
     * @return the new child {@link ListTreeNode}
     */
    public ListTreeNode<E> addChildAt(final int index, final E value, final boolean leaf)
@@ -99,7 +99,7 @@ public class ListTreeNode<E> implements TypedTreeNode<E>, TypedChildTreeNode<E, 
 
    /**
     * Adds and returns a new child {@link ListTreeNode} for the given value at
-    * the given position in {@link #setLeaf(boolean) non-leaf} mode.
+    * the given position in {@link #isDedicatedLeaf() non-leaf} mode.
     * 
     * @param index
     *           the index within the internal child list where to add the new
@@ -115,13 +115,13 @@ public class ListTreeNode<E> implements TypedTreeNode<E>, TypedChildTreeNode<E, 
 
    /**
     * Appends and returns a new child {@link ListTreeNode} for the given value
-    * with the given {@link #setLeaf(boolean) leaf setting}.
+    * with the given {@link #isDedicatedLeaf() dedicated leaf mode} setting.
     * 
     * @param value
     *           the value to set for the new child {@link ListTreeNode}
     * @param leaf
-    *           the {@link #setLeaf(boolean) leaf setting} for the new child
-    *           {@link ListTreeNode}
+    *           the {@link #isDedicatedLeaf() dedicated leaf mode} setting for
+    *           the new child {@link ListTreeNode}
     * @return the new child {@link ListTreeNode}
     */
    public ListTreeNode<E> addChild(final E value, final boolean leaf)
@@ -131,7 +131,7 @@ public class ListTreeNode<E> implements TypedTreeNode<E>, TypedChildTreeNode<E, 
 
    /**
     * Appends and returns a new child {@link ListTreeNode} for the given value
-    * with tin {@link #setLeaf(boolean) non-leaf} mode.
+    * in {@link #isDedicatedLeaf() non-dedicated leaf mode}.
     * 
     * @param value
     *           the value to set for the new child {@link ListTreeNode}
@@ -148,7 +148,8 @@ public class ListTreeNode<E> implements TypedTreeNode<E>, TypedChildTreeNode<E, 
     * 
     * @param index
     *           the index of the child {@link ListTreeNode} to remove
-    * @return the removed and {@link #detach() detached} {@link ListTreeNode}
+    * @return the removed and {@link #isDetached() detached}
+    *         {@link ListTreeNode}
     */
    public ListTreeNode<E> removeChildAt(final int index)
    {
@@ -165,9 +166,9 @@ public class ListTreeNode<E> implements TypedTreeNode<E>, TypedChildTreeNode<E, 
     * <li>Upon add operations (including new nodes added via
     * {@link List#set(int, Object) set()})</li>
     * <ul>
-    * <li>Make a consistency check, if the new {@link ListTreeNode} is
-    * {@link #detach() detached} - if not, throw an
-    * {@link IllegalStateException}</li>
+    * <li>Make a consistency check, if the new {@link ListTreeNode} is fully
+    * {@link #isDetached() detached} - if not, throw an
+    * {@link IllegalArgumentException}</li>
     * <li>Attach the new {@link ListTreeNode} - i.e. set it's parent to this
     * {@link ListTreeNode} and apply recursively our internal
     * {@link ListTreeModel} if existing</li>
@@ -181,15 +182,34 @@ public class ListTreeNode<E> implements TypedTreeNode<E>, TypedChildTreeNode<E, 
     * <li>Fire respective {@link TreeModelEvent}s if this instance is internally
     * attached to a {@link ListTreeModel}</li>
     * </ul>
+    * <li>Upon all operations except {@link List#isEmpty() isEmpty()} and
+    * {@link List#size() size()}
+    * <ul>
+    * <li>Throw an {@link IllegalStateException} if the current instance is in
+    * {@link #isDedicatedLeaf() dedicated leaf mode}.
+    * </ul>
     * </ul>
     * 
-    * @return
+    * @return the {@link List} view all child {@link ListTreeNode}s
     */
    public List<ListTreeNode<E>> getChildList()
    {
       return _childrenListView;
    }
 
+   /**
+    * Returns a {@link List} view to the values of the internally managed child
+    * {@link ListTreeNode}s whose operations mostly behave like that of
+    * {@link #getChildList()}.
+    * <p>
+    * The {@link List} view is completely backed - so for example any
+    * {@code add()} operation will actually add a new {@link ListTreeNode} with
+    * the given value to the internal list of {@link ListTreeNode}s, and so on.
+    * The only exception is the {@link List#set(int, Object) set()} operation
+    * which does not remove the existing {@link ListTreeNode} and add a new one
+    * - instead simply the value of the existing {@link ListTreeNode} is
+    * {@link ListTreeNode#setValue(Object) updated}.
+    */
    @Override
    public List<E> getChildValues()
    {
@@ -202,6 +222,13 @@ public class ListTreeNode<E> implements TypedTreeNode<E>, TypedChildTreeNode<E, 
       return _value;
    }
 
+   /**
+    * Updates the internal value of this node - eventually firing a respective
+    * {@link TreeModelEvent} if there is a surrounding {@link ListTreeModel}.
+    * 
+    * @param value
+    *           the new value to apply
+    */
    public void setValue(final E value)
    {
       _value = value;
@@ -212,9 +239,33 @@ public class ListTreeNode<E> implements TypedTreeNode<E>, TypedChildTreeNode<E, 
       }
    }
 
-   public void setLeaf(final boolean leaf)
+   @Override
+   public boolean isLeaf()
    {
-      if (isLeaf() == leaf)
+      return isDedicatedLeaf() || _children.isEmpty();
+   }
+
+   /**
+    * Returns if this instance is a dedicated leaf which means that it is not
+    * allowed to add children (see {@link #getAllowsChildren()}).
+    * 
+    * @return if the instance is a dedicated leaf
+    * @see #getAllowsChildren()
+    */
+   public boolean isDedicatedLeaf()
+   {
+      return _children == null;
+   }
+
+   /**
+    * Set the given dedicated leaf mode on this instance.
+    * 
+    * @param leaf
+    *           if the instance is a dedicated leaf or not
+    */
+   public void setDedicatedLeaf(final boolean leaf)
+   {
+      if (isDedicatedLeaf() == leaf)
       {
          return;
       }
@@ -243,13 +294,13 @@ public class ListTreeNode<E> implements TypedTreeNode<E>, TypedChildTreeNode<E, 
    @Override
    public boolean getAllowsChildren()
    {
-      return !isLeaf();
+      return !isDedicatedLeaf();
    }
 
    @Override
    public ListTreeNode<E> getChildAt(final int childIndex)
    {
-      if (!getAllowsChildren())
+      if (isDedicatedLeaf())
       {
          throw new ArrayIndexOutOfBoundsException("Node allows no children!");
       }
@@ -266,7 +317,7 @@ public class ListTreeNode<E> implements TypedTreeNode<E>, TypedChildTreeNode<E, 
    @Override
    public int getIndex(final TreeNode node)
    {
-      return getAllowsChildren() ? _children.indexOf(node) : -1;
+      return isDedicatedLeaf() ? -1 : _children.indexOf(node);
    }
 
    @Override
@@ -286,18 +337,39 @@ public class ListTreeNode<E> implements TypedTreeNode<E>, TypedChildTreeNode<E, 
       return _parent.getValue();
    }
 
-   @Override
-   public boolean isLeaf()
+   /**
+    * Returns if this instance is fully detached, which means it has no link to
+    * a surrounding {@link ListTreeModel} and also has no parent
+    * {@link ListTreeNode}.
+    * <p>
+    * A fully detached {@link ListTreeNode} can be added as a child to an
+    * existing {@link ListTreeNode} via it's {@link #getChildList() child list
+    * view}
+    * <p>
+    * A node can be fully detached using {@link #detach()}
+    * 
+    * @return if the current instance is fully detached
+    * @see #detach()
+    */
+   public boolean isDetached()
    {
-      return _children == null;
+      return _parent == null && _model == null;
    }
 
-   public void detach()
+   /**
+    * Fully detaches this node, which removes the internal links from and to
+    * it's parent {@link ListTreeNode} (if existing) and removes the link to the
+    * surrounding {@link ListTreeModel} (if existing) eventually firing a
+    * respective {@link TreeModelEvent}.
+    * 
+    * @throws IllegalStateException
+    *            if the node is already fully detached
+    */
+   public void detach() throws IllegalStateException
    {
-      if (_parent == null && _model == null)
+      if (isDetached())
       {
-         throw new IllegalStateException(
-               "This node cannot be detached. It has no parent and is not the root node of a ListTreeModel!");
+         throw new IllegalStateException("This node is already fully detached!");
       }
 
       if (_parent != null)
@@ -463,13 +535,9 @@ public class ListTreeNode<E> implements TypedTreeNode<E>, TypedChildTreeNode<E, 
 
       private void preProcessAdd(final ListTreeNode<E> newChild)
       {
-         if (newChild._model != null)
+         if (!newChild.isDetached())
          {
-            throw new IllegalArgumentException("Cannot add a node which already belongs to a model!");
-         }
-         else if (newChild._parent != null)
-         {
-            throw new IllegalArgumentException("Cannot add a non-detached node!");
+            throw new IllegalArgumentException("Can only add fully deatched nodes!");
          }
 
          newChild._parent = ListTreeNode.this;
@@ -553,6 +621,5 @@ public class ListTreeNode<E> implements TypedTreeNode<E>, TypedChildTreeNode<E, 
       {
          return _childrenListView.size();
       }
-
    }
 }
