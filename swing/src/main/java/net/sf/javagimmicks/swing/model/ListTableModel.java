@@ -30,6 +30,18 @@ import net.sf.javagimmicks.transform.Transformer;
  * columns.
  * <p>
  * Instances have to be created via the static {@link #builder(Class)} method.
+ * <p>
+ * As {@link ListTableModel} takes care about proper firing of
+ * {@link TableModelEvent}s changes to row properties must be watched in some
+ * way. This is done by proxying row beans upon calls to {@link #get(int)} (or
+ * any derived method) which means furhter that the given row type must be an
+ * interface.
+ * <p>
+ * If the row type cannot be an interface or row manipulation via row beans is
+ * not necessary, there is also a non-proxy mode which can be enabled via
+ * {@link Builder#setProxyReadMode(boolean)}. Though in this case, calls to
+ * {@link #get(int)} (or derived methods) will cause an
+ * {@link IllegalStateException}.
  * 
  * @param <E>
  *           the {@link Class row type}
@@ -48,6 +60,14 @@ public class ListTableModel<E> extends AbstractList<E> implements TableModel
 
    private List<String> _columnNames;
 
+   /**
+    * Allows to create {@link ListTableModel} instances via a {@link Builder
+    * builder API}.
+    * 
+    * @param rowType
+    *           {@link Class row type} for the {@link ListTableModel} to build
+    * @return a {@link Builder} for building a {@link ListTableModel} instance
+    */
    public static <E> Builder<E> builder(final Class<E> rowType)
    {
       return new Builder<E>(rowType);
@@ -76,11 +96,22 @@ public class ListTableModel<E> extends AbstractList<E> implements TableModel
       _columnNames = getPropertyNames();
    }
 
+   /**
+    * Returns if row beans returned by read operations are proxied to be able to
+    * report changes as {@link TableModelEvent}.
+    * 
+    * @return if row beans returned by read operations are proxied
+    */
    public boolean isProxyReadMode()
    {
       return _proxyReadMode;
    }
 
+   /**
+    * Returns the {@link Class row type} of this instance.
+    * 
+    * @return the {@link Class row type} of this instance
+    */
    public Class<E> getRowType()
    {
       return _rowType;
@@ -89,18 +120,26 @@ public class ListTableModel<E> extends AbstractList<E> implements TableModel
    @Override
    public void add(final int index, final E element)
    {
-      _rows.add(index, element);
+      _rows.add(index, unwrap(element));
       fireRowAdded(index);
    }
 
    @Override
-   public boolean addAll(final int index, final Collection<? extends E> c)
+   public boolean addAll(int index, final Collection<? extends E> c)
    {
-      final boolean result = _rows.addAll(index, c);
+      if (c.isEmpty())
+      {
+         return false;
+      }
+
+      for (final E element : c)
+      {
+         _rows.add(index++, unwrap(element));
+      }
 
       fireRowsAdded(index, index + c.size() - 1);
 
-      return result;
+      return true;
    }
 
    @Override
@@ -113,9 +152,17 @@ public class ListTableModel<E> extends AbstractList<E> implements TableModel
       fireRowsRemoved(0, size - 1);
    }
 
+   /**
+    * Returns the row bean at the given index.
+    * 
+    * @return the row bean at the given index
+    * @throws IllegalStateException
+    *            if this instance is in {@link #isProxyReadMode() proxy read
+    *            mode}
+    */
    @Override
    @SuppressWarnings("unchecked")
-   public E get(final int index)
+   public E get(final int index) throws IllegalStateException
    {
       if (!_proxyReadMode)
       {
@@ -137,19 +184,17 @@ public class ListTableModel<E> extends AbstractList<E> implements TableModel
       return result;
    }
 
+   /**
+    * Sets the row bean at the given index unpacking any potential proxy
+    * instances created by {@link #get(int)}.
+    * 
+    * @param index
+    *           the row index of the bean to set
+    */
    @Override
-   @SuppressWarnings("unchecked")
    public E set(final int index, E element)
    {
-      if (Proxy.isProxyClass(element.getClass()))
-      {
-         final InvocationHandler handler = Proxy.getInvocationHandler(element);
-
-         if (handler instanceof ListTableModel<?>.RowInvocationHandler)
-         {
-            element = ((RowInvocationHandler) handler)._row;
-         }
-      }
+      element = unwrap(element);
 
       final E result = _rows.set(index, element);
 
@@ -288,6 +333,21 @@ public class ListTableModel<E> extends AbstractList<E> implements TableModel
       {
          l.tableChanged(event);
       }
+   }
+
+   @SuppressWarnings("unchecked")
+   private E unwrap(E element)
+   {
+      if (Proxy.isProxyClass(element.getClass()))
+      {
+         final InvocationHandler handler = Proxy.getInvocationHandler(element);
+
+         if (handler instanceof ListTableModel<?>.RowInvocationHandler)
+         {
+            element = ((RowInvocationHandler) handler)._row;
+         }
+      }
+      return element;
    }
 
    private static Map<Method, Integer> builtSetterIndexMap(
