@@ -26,8 +26,8 @@ import net.sf.javagimmicks.transform.Transformer;
 
 /**
  * A {@link TableModel} implementation that is basically a {@link List} of a
- * given {@link Class row type} and maps (chosen from) it's properties to table
- * columns.
+ * given {@link Class row type} and maps (chosen ones from) it's properties to
+ * table columns.
  * <p>
  * Instances have to be created via the static {@link #builder(Class)} method.
  * <p>
@@ -98,7 +98,7 @@ public class ListTableModel<E> extends AbstractList<E> implements TableModel
 
    /**
     * Returns if row beans returned by read operations are proxied to be able to
-    * report changes as {@link TableModelEvent}.
+    * report changes as {@link TableModelEvent}s.
     * 
     * @return if row beans returned by read operations are proxied
     */
@@ -264,17 +264,40 @@ public class ListTableModel<E> extends AbstractList<E> implements TableModel
       _listeners.remove(l);
    }
 
+   /**
+    * Returns an unmodifiable (capitalized) name-{@link List} of the row type's
+    * properties that are matched to columns within this instance. The order of
+    * names returned matches that of the columns.
+    * 
+    * @return the name-{@link List} of column-mapped properties
+    */
    public List<String> getPropertyNames()
    {
       return Collections.unmodifiableList(TransformerUtils.decorate(_columnProperties,
             new ColumnPropertyNameTransformer()));
    }
 
+   /**
+    * Returns an unmodifiable {@link List} of the names of the columns of this
+    * {@link TableModel} (which are the base for {@link #getColumnName(int)}).
+    * <p>
+    * Note: if not modified via {@link #setColumnNames(List)} the contents of
+    * this {@link List} will match {@link #getPropertyNames()}.
+    * 
+    * @return the {@link List} of all column names
+    */
    public List<String> getColmunNames()
    {
       return Collections.unmodifiableList(_columnNames);
    }
 
+   /**
+    * Provides a new {@link List} of column names (will be used by
+    * {@link #getColumnName(int)}).
+    * 
+    * @param columnNames
+    *           the {@link List} of new column names
+    */
    @SuppressWarnings("unchecked")
    public void setColumnNames(final List<String> columnNames)
    {
@@ -412,6 +435,14 @@ public class ListTableModel<E> extends AbstractList<E> implements TableModel
       }
    }
 
+   /**
+    * A builder implementation for creating {@link ListTableModel} instances.
+    * Instances are created by {@link ListTableModel#builder(Class)}.
+    * 
+    * @param <E>
+    *           the {@link Class row type} for the created
+    *           {@link ListTableModel}
+    */
    public static class Builder<E>
    {
       private final Class<E> _rowClass;
@@ -424,12 +455,23 @@ public class ListTableModel<E> extends AbstractList<E> implements TableModel
       {
          if (rowClass == null)
          {
-            throw new IllegalAccessError("Row type may not be null!");
+            throw new IllegalArgumentException("Row type may not be null!");
          }
          _rowClass = rowClass;
       }
 
-      public Builder<E> addProperties(final Collection<String> properties)
+      /**
+       * Registers the given properties of the internal row type (names must be
+       * capitalized) as mapped columns.
+       * 
+       * @param properties
+       *           the capitalized property names to register as columns
+       * @return the builder itself
+       * @throws IllegalArgumentException
+       *            if one if the properties does not match the bean
+       *            requirements described above
+       */
+      public Builder<E> addProperties(final Collection<String> properties) throws IllegalArgumentException
       {
          _columnProperties.addAll(parseColumns(_rowClass, properties));
 
