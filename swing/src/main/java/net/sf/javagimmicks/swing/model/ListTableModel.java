@@ -398,6 +398,186 @@ public class ListTableModel<E> extends AbstractList<E> implements TableModel
       return result;
    }
 
+   /**
+    * A builder implementation for creating {@link ListTableModel} instances.
+    * Instances are created by {@link ListTableModel#builder(Class)}.
+    * <p>
+    * Note that instances of this class can be used repeatedly to build more
+    * than one {@link ListTableModel} BUT are not thread-safe!
+    * 
+    * @param <E>
+    *           the {@link Class row type} for the created
+    *           {@link ListTableModel}
+    */
+   public static class Builder<E>
+   {
+      private final Class<E> _rowClass;
+      private final List<ColumnProperty> _columnProperties = new ArrayList<ColumnProperty>();
+      private final List<E> _rowData = new ArrayList<E>();
+
+      private boolean _proxyReadMode = true;
+
+      private Builder(final Class<E> rowClass)
+      {
+         if (rowClass == null)
+         {
+            throw new IllegalArgumentException("Row type may not be null!");
+         }
+         _rowClass = rowClass;
+      }
+
+      /**
+       * Registers the given properties of the internal row type - specified via
+       * their capitalized names - as mapped columns.
+       * <p>
+       * Any property will be denied by an {@link IllegalArgumentException} if
+       * it does not meet the following requirements:
+       * <ul>
+       * <li>At has a public (accessible) getter</li>
+       * <li>At has a public (accessible) setter</li>
+       * <li>Non of those declare any unchecked {@link Exception} within their
+       * signature</li>
+       * </ul>
+       * <p>
+       * If no properties are added to this {@link Builder}, upon a call to
+       * {@link #build()} it will make a simple reflective analysis of the row
+       * {@link Class} using {@link BeanUtils#extractPropertyNames(Class)} and
+       * use all found properties instead. Note that this might cause an
+       * {@link IllegalArgumentException} as
+       * {@link BeanUtils#extractPropertyNames(Class)} reflects only getters and
+       * is not so restrictive (e.g. regarding declared {@link Exception}
+       * types).
+       * 
+       * @param properties
+       *           the capitalized property names to register as columns
+       * @return the builder itself
+       * @throws IllegalArgumentException
+       *            if one if the properties does not match the bean
+       *            requirements described above
+       */
+      public Builder<E> addProperties(final Collection<String> properties) throws IllegalArgumentException
+      {
+         _columnProperties.addAll(parseColumns(_rowClass, properties));
+
+         return this;
+      }
+
+      /**
+       * Registers the given properties of the internal row type - specified via
+       * their capitalized names - as mapped columns.
+       * <p>
+       * Any property will be denied by an {@link IllegalArgumentException} if
+       * it does not meet the following requirements:
+       * <ul>
+       * <li>At has a public (accessible) getter</li>
+       * <li>At has a public (accessible) setter</li>
+       * <li>Non of those declare any unchecked {@link Exception} within their
+       * signature</li>
+       * </ul>
+       * <p>
+       * If no properties are added to this {@link Builder}, upon a call to
+       * {@link #build()} it will make a simple reflective analysis of the row
+       * {@link Class} using {@link BeanUtils#extractPropertyNames(Class)} and
+       * use all found properties instead. Note that this might cause an
+       * {@link IllegalArgumentException} as
+       * {@link BeanUtils#extractPropertyNames(Class)} reflects only getters and
+       * is not so restrictive (e.g. regarding declared {@link Exception}
+       * types).
+       * 
+       * @param properties
+       *           the capitalized property names to register as columns
+       * @return the builder itself
+       * @throws IllegalArgumentException
+       *            if one if the properties does not match the bean
+       *            requirements described above
+       */
+      public Builder<E> addProperties(final String... properties)
+      {
+         return addProperties(Arrays.asList(properties));
+      }
+
+      /**
+       * Adds the given row beans to be contained later within the generated
+       * {@link ListTableModel}.
+       * 
+       * @param rows
+       *           the row beans to add
+       * @return the builder itself
+       */
+      public Builder<E> addRows(final Collection<E> rows)
+      {
+         for (final E row : rows)
+         {
+            if (row != null)
+            {
+               _rowData.add(null);
+            }
+         }
+
+         return this;
+      }
+
+      /**
+       * Adds the given row beans to be contained later within the generated
+       * {@link ListTableModel}.
+       * 
+       * @param rows
+       *           the row beans to add
+       * @return the builder itself
+       */
+      public Builder<E> addRows(final E... rows)
+      {
+         return addRows(Arrays.asList(rows));
+      }
+
+      /**
+       * Enables or disables the {@link ListTableModel#isProxyReadMode() proxy
+       * read mode} within the built {@link ListTableModel}.
+       * 
+       * @param mode
+       *           if the mode is enabled or not
+       * @return the builder itself
+       * @see ListTableModel#isProxyReadMode()
+       */
+      public Builder<E> setProxyReadMode(final boolean mode)
+      {
+         _proxyReadMode = mode;
+
+         return this;
+      }
+
+      /**
+       * Builds a new {@link ListTableModel} for the configuration done so far
+       * on this {@link Builder}.
+       * 
+       * @return the built {@link ListTableModel}
+       * @throws IllegalArgumentException
+       *            if
+       *            <ul>
+       *            <li>{@link #setProxyReadMode(boolean) read proxy mode} is
+       *            on, but the given row type is not an interface</li>
+       *            <li>no column were registered an automatic lookup via
+       *            {@link BeanUtils#extractPropertyNames(Class)} returns some
+       *            non-valid properties
+       *            </uL>
+       */
+      public ListTableModel<E> build() throws IllegalArgumentException
+      {
+         if (_columnProperties.isEmpty())
+         {
+            _columnProperties.addAll(parseColumns(_rowClass, BeanUtils.extractPropertyNames(_rowClass)));
+         }
+
+         if (_proxyReadMode && !_rowClass.isInterface())
+         {
+            throw new IllegalArgumentException("Row type must be an interface if proxy read mode is enabled!");
+         }
+
+         return new ListTableModel<E>(_rowClass, new ArrayList<ColumnProperty>(_columnProperties), new ArrayList<E>(
+               _rowData), _proxyReadMode);
+      }
+   }
+
    private class RowInvocationHandler implements InvocationHandler
    {
       private final E _row;
@@ -435,95 +615,6 @@ public class ListTableModel<E> extends AbstractList<E> implements TableModel
       }
    }
 
-   /**
-    * A builder implementation for creating {@link ListTableModel} instances.
-    * Instances are created by {@link ListTableModel#builder(Class)}.
-    * 
-    * @param <E>
-    *           the {@link Class row type} for the created
-    *           {@link ListTableModel}
-    */
-   public static class Builder<E>
-   {
-      private final Class<E> _rowClass;
-      private final List<ColumnProperty> _columnProperties = new ArrayList<ColumnProperty>();
-      private final List<E> _rowData = new ArrayList<E>();
-
-      private boolean _proxyReadMode = true;
-
-      private Builder(final Class<E> rowClass)
-      {
-         if (rowClass == null)
-         {
-            throw new IllegalArgumentException("Row type may not be null!");
-         }
-         _rowClass = rowClass;
-      }
-
-      /**
-       * Registers the given properties of the internal row type (names must be
-       * capitalized) as mapped columns.
-       * 
-       * @param properties
-       *           the capitalized property names to register as columns
-       * @return the builder itself
-       * @throws IllegalArgumentException
-       *            if one if the properties does not match the bean
-       *            requirements described above
-       */
-      public Builder<E> addProperties(final Collection<String> properties) throws IllegalArgumentException
-      {
-         _columnProperties.addAll(parseColumns(_rowClass, properties));
-
-         return this;
-      }
-
-      public Builder<E> addProperties(final String... properties)
-      {
-         return addProperties(Arrays.asList(properties));
-      }
-
-      public Builder<E> addRows(final Collection<E> rows)
-      {
-         for (final E row : rows)
-         {
-            if (row != null)
-            {
-               _rowData.add(null);
-            }
-         }
-
-         return this;
-      }
-
-      public Builder<E> addRows(final E... rows)
-      {
-         return addRows(Arrays.asList(rows));
-      }
-
-      public Builder<E> setProxyReadMode(final boolean mode)
-      {
-         _proxyReadMode = mode;
-
-         return this;
-      }
-
-      public ListTableModel<E> build()
-      {
-         if (_columnProperties.isEmpty())
-         {
-            _columnProperties.addAll(parseColumns(_rowClass, BeanUtils.extractPropertyNames(_rowClass)));
-         }
-
-         if (_proxyReadMode && !_rowClass.isInterface())
-         {
-            throw new IllegalArgumentException("Row type must be an interface if proxy read mode is enabled!");
-         }
-
-         return new ListTableModel<E>(_rowClass, _columnProperties, _rowData, _proxyReadMode);
-      }
-   }
-
    private static class ColumnProperty
    {
       private final String _propertyName;
@@ -538,7 +629,17 @@ public class ListTableModel<E> extends AbstractList<E> implements TableModel
          _propertyName = propertyName;
          try
          {
-            _getter = rowClass.getMethod("get" + propertyName);
+            Method getter = null;
+            try
+            {
+               getter = rowClass.getMethod("get" + propertyName);
+            }
+            catch (final NoSuchMethodException ex)
+            {
+               getter = rowClass.getMethod("is" + propertyName);
+            }
+
+            _getter = getter;
          }
          catch (final Exception ex)
          {
