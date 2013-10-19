@@ -7,6 +7,7 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.Proxy;
 import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -29,28 +30,21 @@ public class ListTableModel<E> extends AbstractList<E> implements TableModel
    private final List<E> _rows;
 
    private final List<ColumnProperty> _columnProperties;
-
    private final Map<Method, Integer> _setterIndex;
-   private List<String> _columnNames;
 
    private final List<TableModelListener> _listeners;
 
-   public ListTableModel(final Class<E> rowType)
+   private final boolean _proxyReadMode;
+
+   private List<String> _columnNames;
+
+   public static <E> Builder<E> build(final Class<E> rowType)
    {
-      this(null, rowType, null);
+      return new Builder<E>(rowType);
    }
 
-   public ListTableModel(final Class<E> rowType, final List<String> propertyOrder)
-   {
-      this(null, rowType, propertyOrder);
-   }
-
-   public ListTableModel(final List<E> rowdata, final Class<E> rowType)
-   {
-      this(rowdata, rowType, null);
-   }
-
-   public ListTableModel(final List<E> rowdata, final Class<E> rowType, List<String> propertyOrder)
+   private ListTableModel(final Class<E> rowType, List<String> propertyOrder, final List<E> rowData,
+         final boolean proxyReadMode)
    {
       if (propertyOrder == null || propertyOrder.isEmpty())
       {
@@ -63,13 +57,21 @@ public class ListTableModel<E> extends AbstractList<E> implements TableModel
       }
 
       _rowType = rowType;
+      _proxyReadMode = proxyReadMode;
 
       _columnProperties = parseColumns(_rowType, propertyOrder);
 
-      _rows = (rowdata != null) ? rowdata : new ArrayList<E>();
+      _rows = (rowData != null) ? rowData : new ArrayList<E>();
       _listeners = new LinkedList<TableModelListener>();
 
-      _setterIndex = builtSetterIndexMap(_columnProperties);
+      if (_proxyReadMode)
+      {
+         _setterIndex = builtSetterIndexMap(_columnProperties);
+      }
+      else
+      {
+         _setterIndex = null;
+      }
 
       _columnNames = getPropertyNames();
    }
@@ -110,8 +112,14 @@ public class ListTableModel<E> extends AbstractList<E> implements TableModel
    @SuppressWarnings("unchecked")
    public E get(final int index)
    {
+      if (!_proxyReadMode)
+      {
+         throw new IllegalStateException(
+               "Not in proxy read mode! You can try to access row bean from your provided source - but mind that updates there will not cause table events!");
+      }
+
       final RowInvocationHandler invocationHandler = new RowInvocationHandler(_rows.get(index));
-      return (E) Proxy.newProxyInstance(getClass().getClassLoader(), new Class[] { _rowType }, invocationHandler);
+      return (E) Proxy.newProxyInstance(_rowType.getClassLoader(), new Class[] { _rowType }, invocationHandler);
    }
 
    @Override
@@ -341,6 +349,62 @@ public class ListTableModel<E> extends AbstractList<E> implements TableModel
          }
 
          return result;
+      }
+   }
+
+   public static class Builder<E>
+   {
+      private final Class<E> _rowClass;
+      private final List<String> _propertyNames = new ArrayList<String>();
+      private final List<E> _rowData = new ArrayList<E>();
+
+      private boolean _proxyReadMode = true;
+
+      private Builder(final Class<E> rowClass)
+      {
+         _rowClass = rowClass;
+      }
+
+      public Builder<E> addProperties(final Collection<String> properties)
+      {
+         _propertyNames.addAll(properties);
+
+         return this;
+      }
+
+      public Builder<E> addProperties(final String... properties)
+      {
+         return addProperties(Arrays.asList(properties));
+      }
+
+      public Builder<E> addRows(final Collection<E> rows)
+      {
+         for (final E row : rows)
+         {
+            if (row != null)
+            {
+               _rowData.add(null);
+            }
+         }
+
+         return this;
+      }
+
+      public Builder<E> addRows(final E... rows)
+      {
+         return addRows(Arrays.asList(rows));
+      }
+
+      public Builder<E> setProxyReadMode(final boolean mode)
+      {
+         _proxyReadMode = mode;
+
+         return this;
+      }
+
+      public ListTableModel<E> build()
+      {
+         return new ListTableModel<E>(_rowClass, _propertyNames, _rowData, _proxyReadMode);
       }
    }
 

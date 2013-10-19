@@ -20,8 +20,8 @@ public class ReflectionFactory<E> implements Factory<E>
     * Configures this {@link ReflectionFactory} to create instances by calling
     * the given {@link Constructor} taking the constructor arguments from the
     * given argument {@link Factory}. The constructor must be public, must
-    * belong to a non-abstract class and may not throw checked {@link Exception}
-    * s.
+    * belong to a non-abstract class and may not throw checked {@link Exception
+    * Exceptions}.
     * 
     * @param constructor
     *           the {@link Constructor} to invoke to create new instances

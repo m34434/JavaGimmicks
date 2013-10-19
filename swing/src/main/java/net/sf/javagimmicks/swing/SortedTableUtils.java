@@ -38,7 +38,7 @@ class SortedTableUtils
 
          _comparator = new BeanPropertyComparator<E>();
 
-         _tableModel = new ListTableModel<E>(_rowData, rowType);
+         _tableModel = ListTableModel.build(rowType).addRows(_rowData).build();
          _rowDataInterface = SortedListUtils.decorate(_tableModel, _comparator);
 
          _resortTableModelListener = new ResortTableModelListener(this);
