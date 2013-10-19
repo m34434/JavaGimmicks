@@ -24,6 +24,16 @@ import net.sf.javagimmicks.beans.BeanUtils;
 import net.sf.javagimmicks.collections.transformer.TransformerUtils;
 import net.sf.javagimmicks.transform.Transformer;
 
+/**
+ * A {@link TableModel} implementation that is basically a {@link List} of a
+ * given {@link Class row type} and maps (chosen from) it's properties to table
+ * columns.
+ * <p>
+ * Instances have to be created via the static {@link #builder(Class)} method.
+ * 
+ * @param <E>
+ *           the {@link Class row type}
+ */
 public class ListTableModel<E> extends AbstractList<E> implements TableModel
 {
    private final Class<E> _rowType;
@@ -38,30 +48,20 @@ public class ListTableModel<E> extends AbstractList<E> implements TableModel
 
    private List<String> _columnNames;
 
-   public static <E> Builder<E> build(final Class<E> rowType)
+   public static <E> Builder<E> builder(final Class<E> rowType)
    {
       return new Builder<E>(rowType);
    }
 
-   private ListTableModel(final Class<E> rowType, List<String> propertyOrder, final List<E> rowData,
+   private ListTableModel(final Class<E> rowType, final List<ColumnProperty> columnProperties, final List<E> rowData,
          final boolean proxyReadMode)
    {
-      if (propertyOrder == null || propertyOrder.isEmpty())
-      {
-         propertyOrder = BeanUtils.extractPropertyNames(rowType);
-      }
-
-      if (rowType == null || !rowType.isInterface())
-      {
-         throw new IllegalArgumentException("Row type must be an interface!");
-      }
-
       _rowType = rowType;
       _proxyReadMode = proxyReadMode;
 
-      _columnProperties = parseColumns(_rowType, propertyOrder);
+      _columnProperties = columnProperties;
 
-      _rows = (rowData != null) ? rowData : new ArrayList<E>();
+      _rows = rowData;
       _listeners = new LinkedList<TableModelListener>();
 
       if (_proxyReadMode)
@@ -74,6 +74,11 @@ public class ListTableModel<E> extends AbstractList<E> implements TableModel
       }
 
       _columnNames = getPropertyNames();
+   }
+
+   public boolean isProxyReadMode()
+   {
+      return _proxyReadMode;
    }
 
    public Class<E> getRowType()
@@ -299,14 +304,9 @@ public class ListTableModel<E> extends AbstractList<E> implements TableModel
       return result;
    }
 
-   private static List<ColumnProperty> parseColumns(final Class<?> rowClass, final List<String> propertyNames)
+   private static List<ColumnProperty> parseColumns(final Class<?> rowClass, final Collection<String> propertyNames)
    {
-      if (propertyNames == null || propertyNames.isEmpty())
-      {
-         throw new IllegalArgumentException("No property order specified!");
-      }
-
-      final ArrayList<ColumnProperty> result = new ArrayList<ListTableModel.ColumnProperty>(propertyNames.size());
+      final ArrayList<ColumnProperty> result = new ArrayList<ColumnProperty>(propertyNames.size());
       for (final String propertyName : propertyNames)
       {
          result.add(new ColumnProperty(rowClass, propertyName));
@@ -355,19 +355,23 @@ public class ListTableModel<E> extends AbstractList<E> implements TableModel
    public static class Builder<E>
    {
       private final Class<E> _rowClass;
-      private final List<String> _propertyNames = new ArrayList<String>();
+      private final List<ColumnProperty> _columnProperties = new ArrayList<ColumnProperty>();
       private final List<E> _rowData = new ArrayList<E>();
 
       private boolean _proxyReadMode = true;
 
       private Builder(final Class<E> rowClass)
       {
+         if (rowClass == null)
+         {
+            throw new IllegalAccessError("Row type may not be null!");
+         }
          _rowClass = rowClass;
       }
 
       public Builder<E> addProperties(final Collection<String> properties)
       {
-         _propertyNames.addAll(properties);
+         _columnProperties.addAll(parseColumns(_rowClass, properties));
 
          return this;
       }
@@ -404,7 +408,17 @@ public class ListTableModel<E> extends AbstractList<E> implements TableModel
 
       public ListTableModel<E> build()
       {
-         return new ListTableModel<E>(_rowClass, _propertyNames, _rowData, _proxyReadMode);
+         if (_columnProperties.isEmpty())
+         {
+            _columnProperties.addAll(parseColumns(_rowClass, BeanUtils.extractPropertyNames(_rowClass)));
+         }
+
+         if (_proxyReadMode && !_rowClass.isInterface())
+         {
+            throw new IllegalArgumentException("Row type must be an interface if proxy read mode is enabled!");
+         }
+
+         return new ListTableModel<E>(_rowClass, _columnProperties, _rowData, _proxyReadMode);
       }
    }
 
