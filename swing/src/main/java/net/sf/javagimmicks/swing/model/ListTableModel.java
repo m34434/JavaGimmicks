@@ -510,7 +510,7 @@ public class ListTableModel<E> extends AbstractList<E> implements TableModel
          {
             if (row != null)
             {
-               _rowData.add(null);
+               _rowData.add(row);
             }
          }
 
