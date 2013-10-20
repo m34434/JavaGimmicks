@@ -10,6 +10,7 @@ import static org.easymock.EasyMock.reset;
 import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -66,11 +67,25 @@ public class ListTableModelTest
       m.addTableModelListener(l);
       final Capture<TableModelEvent> c = new Capture<TableModelEvent>(CaptureType.LAST);
 
+      // Replace an existing row
+      l.tableChanged(and(capture(c), notNull(TableModelEvent.class)));
+      replay(l);
+
+      m.set(1, ROW_C);
+
+      assertEquals(2, m.size());
+      assertEquals("a", m.get(0).getA());
+      assertEquals("c", m.get(1).getA());
+
+      verify(l);
+      verifyTableModelEvent(c.getValue(), 1, 1, TableModelEvent.ALL_COLUMNS, TableModelEvent.UPDATE);
+      reset(l);
+
       // Remove a row
       l.tableChanged(and(capture(c), notNull(TableModelEvent.class)));
       replay(l);
 
-      m.remove(1);
+      assertSame(ROW_C, m.remove(1));
 
       assertEquals(1, m.size());
       assertEquals("a", m.get(0).getA());
@@ -93,7 +108,7 @@ public class ListTableModelTest
       verifyTableModelEvent(c.getValue(), 1, 1, TableModelEvent.ALL_COLUMNS, TableModelEvent.INSERT);
       reset(l);
 
-      // Add multiple rows int the middle
+      // Add multiple rows in the middle
       l.tableChanged(and(capture(c), notNull(TableModelEvent.class)));
       replay(l);
 
@@ -107,6 +122,18 @@ public class ListTableModelTest
 
       verify(l);
       verifyTableModelEvent(c.getValue(), 1, 2, TableModelEvent.ALL_COLUMNS, TableModelEvent.INSERT);
+      reset(l);
+
+      // Clear
+      l.tableChanged(and(capture(c), notNull(TableModelEvent.class)));
+      replay(l);
+
+      m.clear();
+
+      assertEquals(0, m.size());
+
+      verify(l);
+      verifyTableModelEvent(c.getValue(), 0, 3, TableModelEvent.ALL_COLUMNS, TableModelEvent.DELETE);
       reset(l);
    }
 
