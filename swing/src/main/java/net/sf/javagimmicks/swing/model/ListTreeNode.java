@@ -573,9 +573,9 @@ public class ListTreeNode<E> implements TypedTreeNode<E>, TypedChildTreeNode<E, 
 
       private void checkLeaf()
       {
-         if (isLeaf())
+         if (isDedicatedLeaf())
          {
-            throw new IllegalStateException("Node is a leaf!");
+            throw new IllegalStateException("Node is a dedicated leaf!");
          }
       }
    }
