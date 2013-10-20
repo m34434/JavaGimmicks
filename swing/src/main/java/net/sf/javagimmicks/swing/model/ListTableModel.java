@@ -663,6 +663,12 @@ public class ListTableModel<E> extends AbstractList<E> implements TableModel
                   ex);
          }
 
+         if (!Void.TYPE.equals(_setter.getReturnType()) && !Void.class.equals(_setter.getReturnType()))
+         {
+            throw new IllegalArgumentException(String.format(
+                  "Setter for property '%2$s' in row class '%1$s' has a non-void return type", rowClass, propertyName));
+         }
+
          checkMethod(rowClass, _setter);
       }
 

@@ -10,6 +10,7 @@ import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.lang.reflect.Proxy;
 import java.sql.SQLException;
@@ -103,6 +104,60 @@ public class ListTableModelTest
       verifyTableModelEvent(c.getValues().get(1), 0, 0, 1, TableModelEvent.UPDATE);
       verifyTableModelEvent(c.getValues().get(2), 1, 1, 0, TableModelEvent.UPDATE);
       verifyTableModelEvent(c.getValues().get(3), 1, 1, 1, TableModelEvent.UPDATE);
+   }
+
+   @Test
+   public void testExceptionCases()
+   {
+      // Provided a non-interface without disabling read proxy mode
+      try
+      {
+         ListTableModel.builder(RowClass.class).addProperties("A", "B").build();
+         fail("IllegalArgumentException expected!");
+      }
+      catch (final IllegalArgumentException ex)
+      {
+      }
+
+      // Setter has different param-type than return-type of getter
+      try
+      {
+         ListTableModel.builder(RowIF.class).addProperties("WrongSetterParamType").build();
+         fail("IllegalArgumentException expected!");
+      }
+      catch (final IllegalArgumentException ex)
+      {
+      }
+
+      // Setter has a non-void return-type
+      try
+      {
+         ListTableModel.builder(RowIF.class).addProperties("WrongSetterReturnType").build();
+         fail("IllegalArgumentException expected!");
+      }
+      catch (final IllegalArgumentException ex)
+      {
+      }
+
+      // Getter declares unchecked Exceptions
+      try
+      {
+         ListTableModel.builder(RowIF.class).addProperties("GetterWithException").build();
+         fail("IllegalArgumentException expected!");
+      }
+      catch (final IllegalArgumentException ex)
+      {
+      }
+
+      // Getter declares unchecked Exceptions
+      try
+      {
+         ListTableModel.builder(RowIF.class).addProperties("SetterWithException").build();
+         fail("IllegalArgumentException expected!");
+      }
+      catch (final IllegalArgumentException ex)
+      {
+      }
    }
 
    private static void verifyTableModelEvent(final TableModelEvent event, final int firstRow, final int lastRow,
