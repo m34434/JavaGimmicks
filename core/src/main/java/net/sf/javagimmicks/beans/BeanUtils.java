@@ -115,7 +115,7 @@ public class BeanUtils
       final String methodName = m.getName();
 
       return m.getParameterTypes().length == 0 &&
-            Modifier.isPublic(m.getModifiers()) &&
+            (m.getDeclaringClass().isInterface() || Modifier.isPublic(m.getModifiers())) &&
             methodName.length() > 2 &&
             methodName.startsWith("is") &&
             (m.getReturnType().equals(Boolean.TYPE) ||
@@ -137,7 +137,7 @@ public class BeanUtils
       final String methodName = m.getName();
 
       return m.getParameterTypes().length == 0 &&
-            Modifier.isPublic(m.getModifiers()) &&
+            (m.getDeclaringClass().isInterface() || Modifier.isPublic(m.getModifiers())) &&
             methodName.length() > 3 &&
             methodName.startsWith("get") &&
             !m.getReturnType().equals(Void.TYPE) &&

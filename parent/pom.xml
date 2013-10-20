@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>net.sf.javagimmicks</groupId>
@@ -145,6 +146,12 @@
 
 			<!-- External test dependencies -->
 			<dependency>
+				<groupId>org.easymock</groupId>
+				<artifactId>easymock</artifactId>
+				<version>3.2</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
 				<version>4.11</version>
@@ -190,23 +197,28 @@
 								<packages>net.sf.javagimmicks.beans:net.sf.javagimmicks.event:net.sf.javagimmicks.lang:net.sf.javagimmicks.sql:net.sf.javagimmicks.transform:net.sf.javagimmicks.util:net.sf.javagimmicks.xml</packages>
 							</group>
 							<group>
-								<title>Module "collections" - Basic utilities for and around the Java Collection API</title>
+								<title>Module "collections" - Basic utilities for and around the
+									Java Collection API</title>
 								<packages>net.sf.javagimmicks.collections:net.sf.javagimmicks.collections.bidimap:net.sf.javagimmicks.collections.builder:net.sf.javagimmicks.collections.composite:net.sf.javagimmicks.collections.decorators:net.sf.javagimmicks.collections.diff:net.sf.javagimmicks.collections.event:net.sf.javagimmicks.collections.filter:net.sf.javagimmicks.collections.mapping:net.sf.javagimmicks.collections.transformer</packages>
 							</group>
 							<group>
-								<title>Module "concurrent" - Utilities for multi-threaded programming</title>
+								<title>Module "concurrent" - Utilities for multi-threaded
+									programming</title>
 								<packages>net.sf.javagimmicks.concurrent:net.sf.javagimmicks.concurrent.locks</packages>
 							</group>
 							<group>
-								<title>Module "cdi" - CDI utilities (Java API for context and dependency injection)</title>
+								<title>Module "cdi" - CDI utilities (Java API for context and
+									dependency injection)</title>
 								<packages>net.sf.javagimmicks.cdi</packages>
 							</group>
 							<group>
-								<title>Module "cdi-collections" - CDI extensions to the JavaGimmicks collection API</title>
+								<title>Module "cdi-collections" - CDI extensions to the
+									JavaGimmicks collection API</title>
 								<packages>net.sf.javagimmicks.collections.event.cdi</packages>
 							</group>
 							<group>
-								<title>Module "io" - Basic I/O utilities and a diff engine for file system folders</title>
+								<title>Module "io" - Basic I/O utilities and a diff engine for
+									file system folders</title>
 								<packages>net.sf.javagimmicks.io:net.sf.javagimmicks.io.folderdiff</packages>
 							</group>
 							<group>
@@ -230,7 +242,8 @@
 								<packages>net.sf.javagimmicks.cdi.testing</packages>
 							</group>
 							<group>
-								<title>Module "jdbc-testing" - JUnit test helpers for the JDBC-API</title>
+								<title>Module "jdbc-testing" - JUnit test helpers for the
+									JDBC-API</title>
 								<packages>net.sf.javagimmicks.sql.testing</packages>
 							</group>
 							<group>
@@ -299,7 +312,7 @@
 				</plugins>
 			</build>
 		</profile>
-		
+
 		<!-- Set the JavaDoc executable to jdk 1.7 on Max OS X -->
 		<profile>
 			<id>set-javadoc-executable</id>

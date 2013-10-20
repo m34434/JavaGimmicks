@@ -747,7 +747,7 @@ public class ListTableModel<E> extends AbstractList<E> implements TableModel
 
       private void checkMethod(final Class<?> rowClass, final Method method)
       {
-         if (Modifier.isPublic(method.getModifiers()))
+         if (!rowClass.isInterface() && Modifier.isPublic(method.getModifiers()))
          {
             throw new IllegalArgumentException(String.format("Method '%1$s' is not public!", method));
          }
