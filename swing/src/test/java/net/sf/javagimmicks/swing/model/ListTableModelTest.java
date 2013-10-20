@@ -1,6 +1,12 @@
 package net.sf.javagimmicks.swing.model;
 
 import static net.sf.javagimmicks.testing.JUnitListAssert.assertListEquals;
+import static org.easymock.EasyMock.and;
+import static org.easymock.EasyMock.capture;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.notNull;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -8,6 +14,11 @@ import static org.junit.Assert.assertTrue;
 import java.lang.reflect.Proxy;
 import java.sql.SQLException;
 
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+
+import org.easymock.Capture;
+import org.easymock.CaptureType;
 import org.junit.Test;
 
 public class ListTableModelTest
@@ -57,14 +68,50 @@ public class ListTableModelTest
       assertTrue(Proxy.isProxyClass(row0.getClass()));
       assertTrue(Proxy.isProxyClass(row1.getClass()));
 
+      // Create and record a Mock for a TableModelListener
+      final TableModelListener l = createMock(TableModelListener.class);
+      final Capture<TableModelEvent> c = new Capture<TableModelEvent>(CaptureType.ALL);
+      l.tableChanged(and(capture(c), notNull(TableModelEvent.class)));
+      l.tableChanged(and(capture(c), notNull(TableModelEvent.class)));
+      l.tableChanged(and(capture(c), notNull(TableModelEvent.class)));
+      l.tableChanged(and(capture(c), notNull(TableModelEvent.class)));
+      replay(l);
+      m.addTableModelListener(l);
+
+      // Do some changes on the row beans
       row0.setA("aa");
       row0.setB(11);
       row1.setA("bb");
       row1.setB(22);
+
+      // Verify changes on the original beans
       assertEquals("aa", row0Raw.getA());
       assertEquals(11, row0Raw.getB());
       assertEquals("bb", row1Raw.getA());
       assertEquals(22, row1Raw.getB());
+
+      // Verify changes on the table model
+      assertEquals("aa", m.getValueAt(0, 0));
+      assertEquals(11, m.getValueAt(0, 1));
+      assertEquals("bb", m.getValueAt(1, 0));
+      assertEquals(22, m.getValueAt(1, 1));
+
+      // Verify calls to the mocked TableModelListener
+      verify(l);
+      assertEquals(4, c.getValues().size());
+      verifyTableModelEvent(c.getValues().get(0), 0, 0, 0, TableModelEvent.UPDATE);
+      verifyTableModelEvent(c.getValues().get(1), 0, 0, 1, TableModelEvent.UPDATE);
+      verifyTableModelEvent(c.getValues().get(2), 1, 1, 0, TableModelEvent.UPDATE);
+      verifyTableModelEvent(c.getValues().get(3), 1, 1, 1, TableModelEvent.UPDATE);
+   }
+
+   private static void verifyTableModelEvent(final TableModelEvent event, final int firstRow, final int lastRow,
+         final int column, final int type)
+   {
+      assertEquals(firstRow, event.getFirstRow());
+      assertEquals(lastRow, event.getLastRow());
+      assertEquals(column, event.getColumn());
+      assertEquals(type, event.getType());
    }
 
    public static interface RowIF
