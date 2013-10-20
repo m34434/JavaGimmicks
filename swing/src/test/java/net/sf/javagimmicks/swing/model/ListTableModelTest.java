@@ -6,6 +6,7 @@ import static org.easymock.EasyMock.capture;
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.notNull;
 import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.reset;
 import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -14,6 +15,7 @@ import static org.junit.Assert.fail;
 
 import java.lang.reflect.Proxy;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -24,11 +26,16 @@ import org.junit.Test;
 
 public class ListTableModelTest
 {
+   private final RowClass ROW_A = new RowClass("a", 1);
+   private final RowClass ROW_B = new RowClass("b", 2);
+   private final RowClass ROW_C = new RowClass("c", 3);
+   private final RowClass ROW_D = new RowClass("d", 4);
+
    @Test
    public void testBasicReadOperationsStuff()
    {
       final ListTableModel<RowIF> m = ListTableModel.builder(RowIF.class).addProperties("A", "B")
-            .addRows(new RowClass("a", 1), new RowClass("b", 2)).build();
+            .addRows(ROW_A, ROW_B).build();
 
       assertEquals(2, m.size());
 
@@ -49,10 +56,65 @@ public class ListTableModelTest
    }
 
    @Test
+   public void testWriteOperations()
+   {
+      final ListTableModel<RowIF> m = ListTableModel.builder(RowIF.class).addProperties("A", "B")
+            .addRows(ROW_A, ROW_B).build();
+
+      // Create and record a Mock for a TableModelListener
+      final TableModelListener l = createMock(TableModelListener.class);
+      m.addTableModelListener(l);
+      final Capture<TableModelEvent> c = new Capture<TableModelEvent>(CaptureType.LAST);
+
+      // Remove a row
+      l.tableChanged(and(capture(c), notNull(TableModelEvent.class)));
+      replay(l);
+
+      m.remove(1);
+
+      assertEquals(1, m.size());
+      assertEquals("a", m.get(0).getA());
+
+      verify(l);
+      verifyTableModelEvent(c.getValue(), 1, 1, TableModelEvent.ALL_COLUMNS, TableModelEvent.DELETE);
+      reset(l);
+
+      // Add a single row at the end
+      l.tableChanged(and(capture(c), notNull(TableModelEvent.class)));
+      replay(l);
+
+      m.add(ROW_C);
+
+      assertEquals(2, m.size());
+      assertEquals("a", m.get(0).getA());
+      assertEquals("c", m.get(1).getA());
+
+      verify(l);
+      verifyTableModelEvent(c.getValue(), 1, 1, TableModelEvent.ALL_COLUMNS, TableModelEvent.INSERT);
+      reset(l);
+
+      // Add multiple rows int the middle
+      l.tableChanged(and(capture(c), notNull(TableModelEvent.class)));
+      replay(l);
+
+      m.addAll(1, Arrays.asList(ROW_B, ROW_D));
+
+      assertEquals(4, m.size());
+      assertEquals("a", m.get(0).getA());
+      assertEquals("b", m.get(1).getA());
+      assertEquals("d", m.get(2).getA());
+      assertEquals("c", m.get(3).getA());
+
+      verify(l);
+      verifyTableModelEvent(c.getValue(), 1, 2, TableModelEvent.ALL_COLUMNS, TableModelEvent.INSERT);
+      reset(l);
+   }
+
+   @Test
    public void testProxyReadView()
    {
-      final RowClass row0Raw = new RowClass("a", 1);
-      final RowClass row1Raw = new RowClass("b", 2);
+      final RowClass row0Raw = ROW_A;
+      final RowClass row1Raw = ROW_B;
 
       final ListTableModel<RowIF> m = ListTableModel.builder(RowIF.class).addProperties("A", "B")
             .addRows(row0Raw, row1Raw).build();
@@ -71,13 +133,13 @@ public class ListTableModelTest
 
       // Create and record a Mock for a TableModelListener
       final TableModelListener l = createMock(TableModelListener.class);
+      m.addTableModelListener(l);
       final Capture<TableModelEvent> c = new Capture<TableModelEvent>(CaptureType.ALL);
       l.tableChanged(and(capture(c), notNull(TableModelEvent.class)));
       l.tableChanged(and(capture(c), notNull(TableModelEvent.class)));
       l.tableChanged(and(capture(c), notNull(TableModelEvent.class)));
       l.tableChanged(and(capture(c), notNull(TableModelEvent.class)));
       replay(l);
-      m.addTableModelListener(l);
 
       // Do some changes on the row beans
       row0.setA("aa");
@@ -163,10 +225,10 @@ public class ListTableModelTest
    private static void verifyTableModelEvent(final TableModelEvent event, final int firstRow, final int lastRow,
          final int column, final int type)
    {
-      assertEquals(firstRow, event.getFirstRow());
-      assertEquals(lastRow, event.getLastRow());
-      assertEquals(column, event.getColumn());
-      assertEquals(type, event.getType());
+      assertEquals("Unexpected first row", firstRow, event.getFirstRow());
+      assertEquals("Unexpected last row", lastRow, event.getLastRow());
+      assertEquals("Unexpected column", column, event.getColumn());
+      assertEquals("Unexpected type", type, event.getType());
    }
 
    public static interface RowIF

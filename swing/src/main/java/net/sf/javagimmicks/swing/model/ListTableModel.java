@@ -125,19 +125,20 @@ public class ListTableModel<E> extends AbstractList<E> implements TableModel
    }
 
    @Override
-   public boolean addAll(int index, final Collection<? extends E> c)
+   public boolean addAll(final int index, final Collection<? extends E> c)
    {
       if (c.isEmpty())
       {
          return false;
       }
 
+      int addIndex = index;
       for (final E element : c)
       {
-         _rows.add(index++, unwrap(element));
+         _rows.add(addIndex++, unwrap(element));
       }
 
-      fireRowsAdded(index, index + c.size() - 1);
+      fireRowsAdded(index, addIndex - 1);
 
       return true;
    }
