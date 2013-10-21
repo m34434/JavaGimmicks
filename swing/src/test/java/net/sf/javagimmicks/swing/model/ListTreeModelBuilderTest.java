@@ -13,7 +13,7 @@ public class ListTreeModelBuilderTest
 {
    public static void main(final String[] args)
    {
-      final ListTreeModel<String> model = buildSampleModel();
+      final ListTreeModel<String> model = ListTreeNodeTest.buildSampleModel();
 
       final JFrame window = new JFrame("Tree test");
       window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -26,7 +26,7 @@ public class ListTreeModelBuilderTest
    @Test
    public void test()
    {
-      final ListTreeModel<String> m = buildSampleModel();
+      final ListTreeModel<String> m = ListTreeNodeTest.buildSampleModel();
       final ListTreeNode<String> r = m.getRoot();
 
       assertNotNull(r);
@@ -73,27 +73,5 @@ public class ListTreeModelBuilderTest
       l2 = r.getChildAt(3);
       assertEquals("D", l2.getValue());
       assertEquals(0, l2.getChildCount());
-   }
-
-   static ListTreeModel<String> buildSampleModel()
-   {
-      // @formatter:off
-      return new ListTreeModelBuilder<String>(true)
-         .add("Root").children()
-            .add("A").children()
-               .add("1")
-               .add("2")
-               .add("3").parent()
-            .add("B").children()
-               .add("4")
-               .add("5")
-               .add("6").parent()
-            .add("C").children()
-               .add("7")
-               .add("8")
-               .add("9").parent()
-            .add("D")
-         .getModel();
-      // @formatter:on
    }
 }

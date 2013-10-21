@@ -138,6 +138,47 @@ public class ListTableModelTest
    }
 
    @Test
+   public void testSetValueAt()
+   {
+      final ListTableModel<RowIF> m = ListTableModel.builder(RowIF.class).addProperties("A", "B")
+            .addRows(ROW_A, ROW_B).build();
+
+      // Create and record a Mock for a TableModelListener
+      final TableModelListener l = createMock(TableModelListener.class);
+      m.addTableModelListener(l);
+      final Capture<TableModelEvent> c = new Capture<TableModelEvent>(CaptureType.ALL);
+
+      // SetValueAt
+      l.tableChanged(and(capture(c), notNull(TableModelEvent.class)));
+      l.tableChanged(and(capture(c), notNull(TableModelEvent.class)));
+      l.tableChanged(and(capture(c), notNull(TableModelEvent.class)));
+      l.tableChanged(and(capture(c), notNull(TableModelEvent.class)));
+      replay(l);
+
+      m.setValueAt("aa", 0, 0);
+      m.setValueAt(11, 0, 1);
+      m.setValueAt("bb", 1, 0);
+      m.setValueAt(22, 1, 1);
+
+      assertEquals("aa", ROW_A.getA());
+      assertEquals(11, ROW_A.getB());
+      assertEquals("bb", ROW_B.getA());
+      assertEquals(22, ROW_B.getB());
+
+      assertEquals("aa", m.getValueAt(0, 0));
+      assertEquals(11, m.getValueAt(0, 1));
+      assertEquals("bb", m.getValueAt(1, 0));
+      assertEquals(22, m.getValueAt(1, 1));
+
+      verify(l);
+      verifyTableModelEvent(c.getValues().get(0), 0, 0, 0, TableModelEvent.UPDATE);
+      verifyTableModelEvent(c.getValues().get(1), 0, 0, 1, TableModelEvent.UPDATE);
+      verifyTableModelEvent(c.getValues().get(2), 1, 1, 0, TableModelEvent.UPDATE);
+      verifyTableModelEvent(c.getValues().get(3), 1, 1, 1, TableModelEvent.UPDATE);
+      reset(l);
+   }
+
+   @Test
    public void testProxyReadView()
    {
       final RowClass row0Raw = ROW_A;
