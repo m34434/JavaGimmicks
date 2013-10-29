@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -23,7 +24,7 @@ public class BidiMapTest
    @Before
    public void setUp()
    {
-      _bidiMap = new DualBidiMap<Integer, String>(new HashMap<Integer, String>(), new HashMap<String, Integer>());
+      _bidiMap = new DualBidiMap<Integer, String>(new TreeMap<Integer, String>(), new HashMap<String, Integer>());
    }
 
    @Test

@@ -38,13 +38,11 @@ public class DualBidiMap<K, V> extends AbstractMap<K, V> implements BidiMap<K, V
    @Override
    public V put(final K key, final V value)
    {
+      checkKey(key);
       checkValue(value);
 
       final V oldValue = getForwardMap().put(key, value);
-      final K oldKey = getReverseMap().put(value, key);
-
-      getForwardMap().remove(oldKey);
-      getReverseMap().remove(oldValue);
+      postProcessPut(key, value, oldValue);
 
       return oldValue;
    }
@@ -86,6 +84,34 @@ public class DualBidiMap<K, V> extends AbstractMap<K, V> implements BidiMap<K, V
       return _reverseMap;
    }
 
+   protected void postProcessPut(final K key, final V newValue, final V oldValue)
+   {
+      final Map<V, K> reverseMap = getReverseMap();
+
+      // Put the new value to the reverse map
+      final K oldKey = reverseMap.put(newValue, key);
+
+      // Update to forward map might have invalidated a key in the reverse map
+      if (oldValue != null)
+      {
+         reverseMap.remove(oldValue);
+      }
+
+      // Update to reverse map might have invalidated a key in the forward map
+      if (oldKey != null)
+      {
+         getForwardMap().remove(oldKey);
+      }
+   }
+
+   protected static <K extends Object> void checkKey(final K value)
+   {
+      if (value == null)
+      {
+         throw new IllegalArgumentException("Null keys not allowed in BidiMaps!");
+      }
+   }
+
    protected static <V extends Object> void checkValue(final V value)
    {
       if (value == null)
@@ -96,29 +122,36 @@ public class DualBidiMap<K, V> extends AbstractMap<K, V> implements BidiMap<K, V
 
    protected class DualBidiEntry implements Entry<K, V>
    {
-      protected final Entry<K, V> internalEntry;
+      protected final Entry<K, V> _internalEntry;
 
       protected DualBidiEntry(final Entry<K, V> internalEntry)
       {
-         this.internalEntry = internalEntry;
+         this._internalEntry = internalEntry;
       }
 
       @Override
       public K getKey()
       {
-         return internalEntry.getKey();
+         return _internalEntry.getKey();
       }
 
       @Override
       public V getValue()
       {
-         return internalEntry.getValue();
+         return _internalEntry.getValue();
       }
 
       @Override
       public V setValue(final V value)
       {
-         return put(getKey(), value);
+         final V oldValue = _internalEntry.setValue(value);
+
+         // Attention!
+         // This might invalidate the Iterator that created this entry
+         // But there is no workaround possible - it's the bidirectional nature
+         postProcessPut(getKey(), value, oldValue);
+
+         return oldValue;
       }
    }
 
