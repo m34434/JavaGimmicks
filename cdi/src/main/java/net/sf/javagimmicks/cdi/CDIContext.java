@@ -151,8 +151,6 @@ public class CDIContext
    /**
     * Processes non-constructor injections and calls to post-construct methods
     * on a given non-CDI bean.
-    * <p>
-    * <b>Attention:</b> Requires CDI 1.1 or higher
     * 
     * @param nonCdiObject
     *           a given bean that was not instantiated via CDI
@@ -164,12 +162,23 @@ public class CDIContext
    {
       final BeanManager beanManager = getBeanManager();
 
-      // Get all the object we need (Attention: needs CDI 1.1)
+      // Get all the object we need
       final Bean<T> bean = (Bean<T>) beanManager.resolve(beanManager.getBeans(nonCdiObject.getClass()));
       final AnnotatedType<T> annotatedType = (AnnotatedType<T>) beanManager
             .createAnnotatedType(nonCdiObject.getClass());
-      final InjectionTargetFactory<T> injectionTargetFactory = beanManager.getInjectionTargetFactory(annotatedType);
-      final InjectionTarget<T> injectionTarget = injectionTargetFactory.createInjectionTarget(bean);
+
+      InjectionTarget<T> injectionTarget;
+      try
+      {
+         // CDI 1.1
+         final InjectionTargetFactory<T> injectionTargetFactory = beanManager.getInjectionTargetFactory(annotatedType);
+         injectionTarget = injectionTargetFactory.createInjectionTarget(bean);
+      }
+      catch (final IncompatibleClassChangeError e)
+      {
+         // CDI 1.0
+         injectionTarget = beanManager.createInjectionTarget(annotatedType);
+      }
 
       // Perform injections and run @PostConstruct
       injectionTarget.inject(nonCdiObject, beanManager.createCreationalContext(bean));

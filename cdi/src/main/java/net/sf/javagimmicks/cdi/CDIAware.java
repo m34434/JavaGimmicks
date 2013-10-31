@@ -92,8 +92,6 @@ public abstract class CDIAware
    /**
     * Performs non-constructor injections and post-construct callbacks on this
     * bean.
-    * <p>
-    * <b>Attention:</b> Requires CDI 1.1 or higher
     * 
     * @see CDIContext#initBean(Object)
     */
