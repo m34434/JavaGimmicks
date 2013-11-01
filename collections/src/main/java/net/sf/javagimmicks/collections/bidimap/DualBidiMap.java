@@ -157,31 +157,31 @@ public class DualBidiMap<K, V> extends AbstractMap<K, V> implements BidiMap<K, V
 
    protected class DualBidiEntryIterator implements Iterator<Entry<K, V>>
    {
-      protected final Iterator<Entry<K, V>> internalIterator;
+      protected final Iterator<Entry<K, V>> _internalIterator;
       protected Entry<K, V> _lastEntry;
 
       protected DualBidiEntryIterator(final Iterator<Entry<K, V>> internalIterator)
       {
-         this.internalIterator = internalIterator;
+         this._internalIterator = internalIterator;
       }
 
       @Override
       public boolean hasNext()
       {
-         return internalIterator.hasNext();
+         return _internalIterator.hasNext();
       }
 
       @Override
       public Entry<K, V> next()
       {
-         _lastEntry = internalIterator.next();
+         _lastEntry = _internalIterator.next();
          return new DualBidiEntry(_lastEntry);
       }
 
       @Override
       public void remove()
       {
-         internalIterator.remove();
+         _internalIterator.remove();
          _reverseMap.remove(_lastEntry.getValue());
       }
    }
