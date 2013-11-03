@@ -20,6 +20,20 @@
 	<properties>
 		<maven.compiler.source>1.6</maven.compiler.source>
 		<maven.compiler.target>1.6</maven.compiler.target>
+		
+		<version.cdi>0.96-SNAPSHOT</version.cdi>
+		<version.cdi-collections>0.96-SNAPSHOT</version.cdi-collections>
+		<version.cdi-testing>0.96-SNAPSHOT</version.cdi-testing>
+		<version.collections>0.96-SNAPSHOT</version.collections>
+		<version.concurrent>0.96-SNAPSHOT</version.concurrent>
+		<version.core>0.96-SNAPSHOT</version.core>
+		<version.graph>0.96-SNAPSHOT</version.graph>
+		<version.io>0.96-SNAPSHOT</version.io>
+		<version.jdbc-testing>0.96-SNAPSHOT</version.jdbc-testing>
+		<version.jpa-testing>0.96-SNAPSHOT</version.jpa-testing>
+		<version.math>0.96-SNAPSHOT</version.math>
+		<version.swing>0.96-SNAPSHOT</version.swing>
+		<version.testing>0.96-SNAPSHOT</version.testing>
 	</properties>
 
 	<dependencyManagement>
@@ -27,37 +41,37 @@
 			<dependency>
 				<groupId>net.sf.javagimmicks</groupId>
 				<artifactId>gimmicks-cdi</artifactId>
-				<version>${project.version}</version>
+				<version>${version.cdi}</version>
 			</dependency>
 			<dependency>
 				<groupId>net.sf.javagimmicks</groupId>
 				<artifactId>gimmicks-cdi-collections</artifactId>
-				<version>${project.version}</version>
+				<version>${version.cdi-collections}</version>
 			</dependency>
 			<dependency>
 				<groupId>net.sf.javagimmicks</groupId>
 				<artifactId>gimmicks-collections</artifactId>
-				<version>${project.version}</version>
+				<version>${version.collections}</version>
 			</dependency>
 			<dependency>
 				<groupId>net.sf.javagimmicks</groupId>
 				<artifactId>gimmicks-concurrent</artifactId>
-				<version>${project.version}</version>
+				<version>${version.concurrent}</version>
 			</dependency>
 			<dependency>
 				<groupId>net.sf.javagimmicks</groupId>
 				<artifactId>gimmicks-core</artifactId>
-				<version>${project.version}</version>
+				<version>${version.core}</version>
 			</dependency>
 			<dependency>
 				<groupId>net.sf.javagimmicks</groupId>
 				<artifactId>gimmicks-graph</artifactId>
-				<version>${project.version}</version>
+				<version>${version.graph}</version>
 			</dependency>
 			<dependency>
 				<groupId>net.sf.javagimmicks</groupId>
 				<artifactId>gimmicks-io</artifactId>
-				<version>${project.version}</version>
+				<version>${version.io}</version>
 			</dependency>
 			<dependency>
 				<groupId>net.sf.javagimmicks</groupId>
@@ -67,32 +81,32 @@
 			<dependency>
 				<groupId>net.sf.javagimmicks</groupId>
 				<artifactId>gimmicks-swing</artifactId>
-				<version>${project.version}</version>
+				<version>${version.math}</version>
 			</dependency>
 
 			<!-- GimmickUtils test dependencies -->
 			<dependency>
 				<groupId>net.sf.javagimmicks</groupId>
 				<artifactId>gimmicks-cdi-testing</artifactId>
-				<version>${project.version}</version>
+				<version>${version.cdi-testing}</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>net.sf.javagimmicks</groupId>
 				<artifactId>gimmicks-jdbc-testing</artifactId>
-				<version>${project.version}</version>
+				<version>${version.jdbc-testing}</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>net.sf.javagimmicks</groupId>
 				<artifactId>gimmicks-jpa-testing</artifactId>
-				<version>${project.version}</version>
+				<version>${version.jpa-testing}</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>net.sf.javagimmicks</groupId>
 				<artifactId>gimmicks-testing</artifactId>
-				<version>${project.version}</version>
+				<version>${version.testing}</version>
 				<scope>test</scope>
 			</dependency>
 

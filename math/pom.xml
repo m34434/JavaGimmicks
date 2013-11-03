@@ -2,6 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>gimmicks-math</artifactId>
+	<version>${version.math}</version>
 
 	<parent>
 		<groupId>net.sf.javagimmicks</groupId>

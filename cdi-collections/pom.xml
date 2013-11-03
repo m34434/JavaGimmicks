@@ -2,6 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>gimmicks-cdi-collections</artifactId>
+	<version>${version.cdi-collections}</version>
 
 	<parent>
 		<groupId>net.sf.javagimmicks</groupId>
