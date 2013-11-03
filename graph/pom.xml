@@ -2,7 +2,6 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>gimmicks-graph</artifactId>
-	<version>${version.graph}</version>
 
 	<parent>
 		<groupId>net.sf.javagimmicks</groupId>
