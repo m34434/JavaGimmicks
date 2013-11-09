@@ -5,6 +5,7 @@ package net.sf.javagimmicks.collections.diff;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -51,6 +52,11 @@ class DifferenceAlgorithm<T>
    protected void traverseSequences()
    {
       final List<Integer> matches = getLongestCommonSubsequences();
+
+      if (Thread.currentThread().isInterrupted())
+      {
+         return;
+      }
 
       final int lastIndexA = _fromList.size() - 1;
       final int lastIndexB = _toList.size() - 1;
@@ -243,6 +249,8 @@ class DifferenceAlgorithm<T>
     */
    protected List<Integer> getLongestCommonSubsequences()
    {
+      final Thread currentThread = Thread.currentThread();
+
       int startIndexA = 0;
       int endIndexA = _fromList.size() - 1;
 
@@ -254,6 +262,11 @@ class DifferenceAlgorithm<T>
       while (startIndexA <= endIndexA && startIndexB <= endIndexB
             && equals(_fromList.get(startIndexA), _toList.get(startIndexB)))
       {
+         if (currentThread.isInterrupted())
+         {
+            return Collections.emptyList();
+         }
+
          matches.put(startIndexA++, startIndexB++);
       }
 
@@ -282,6 +295,11 @@ class DifferenceAlgorithm<T>
 
       for (int indexB = startIndexB; indexB <= endIndexB; ++indexB)
       {
+         if (currentThread.isInterrupted())
+         {
+            return Collections.emptyList();
+         }
+
          final T key = _toList.get(indexB);
          List<Integer> positions = bMatches.get(key);
 
@@ -299,6 +317,11 @@ class DifferenceAlgorithm<T>
 
       for (int indexA = startIndexA; indexA <= endIndexA; ++indexA)
       {
+         if (currentThread.isInterrupted())
+         {
+            return Collections.emptyList();
+         }
+
          final T key = _fromList.get(indexA); // keygen here.
          final List<Integer> positions = bMatches.get(key);
 
