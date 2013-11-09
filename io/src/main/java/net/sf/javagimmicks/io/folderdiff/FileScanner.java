@@ -5,6 +5,9 @@ import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.javagimmicks.io.FileTraverser;
+import net.sf.javagimmicks.io.FileTraverser.TypeFilter;
+import net.sf.javagimmicks.io.FileTraverser.Visitor;
 import net.sf.javagimmicks.io.FileUtils;
 import net.sf.javagimmicks.io.folderdiff.FileInfo.Origin;
 
@@ -44,37 +47,27 @@ class FileScanner
       {
          final int skipSegments = FileUtils.getPathSegments(_rootFile).size();
 
-         scanInternal(result, _rootFile, skipSegments);
+         final Visitor scanVisitor = new Visitor()
+         {
+            @Override
+            public void visit(final File file)
+            {
+               if (file.isDirectory())
+               {
+                  _builder.fireEvent(new FolderDiffEvent(_builder, file));
+               }
+               result.add(new FileInfo(file, skipSegments, _origin));
+            }
+         };
+
+         final FileTraverser traverser = new FileTraverser(_rootFile);
+         traverser.setFilenameFilter(_filter);
+         traverser.setTypeFilter(TypeFilter.BOTH);
+         traverser.setRecursive(_recursive);
+
+         traverser.run(scanVisitor);
       }
 
       return result;
-   }
-
-   private void scanInternal(final List<FileInfo> result, final File currentDir, final int skipSegments)
-   {
-      _builder.fireEvent(new FolderDiffEvent(_builder, currentDir));
-
-      final File[] children = currentDir.listFiles(_filter);
-
-      for (final File child : children)
-      {
-         if (child.isDirectory())
-         {
-            result.add(new FileInfo(child, skipSegments, _origin));
-
-            if (_recursive)
-            {
-               scanInternal(result, child, skipSegments);
-            }
-         }
-      }
-
-      for (final File childFile : children)
-      {
-         if (!childFile.isDirectory())
-         {
-            result.add(new FileInfo(childFile, skipSegments, _origin));
-         }
-      }
    }
 }
