@@ -64,9 +64,17 @@ public class FileUtils
          cis = new CheckedInputStream(
                new FileInputStream(file), new Adler32());
 
-         final byte[] tempBuf = new byte[128];
+         final byte[] tempBuf = new byte[8192];
 
-         while (cis.read(tempBuf) >= 0);
+         final Thread currentThread = Thread.currentThread();
+
+         while (cis.read(tempBuf) >= 0)
+         {
+            if (currentThread.isInterrupted())
+            {
+               return 0L;
+            }
+         }
 
          return cis.getChecksum().getValue();
       }
@@ -126,7 +134,7 @@ public class FileUtils
       }
 
       final ZipInputStream zis = new ZipInputStream(zipFile);
-      final byte[] buffer = new byte[1024];
+      final byte[] buffer = new byte[8192];
 
       try
       {

@@ -13,6 +13,7 @@ import net.sf.javagimmicks.collections.diff.Difference;
 import net.sf.javagimmicks.collections.diff.DifferenceList;
 import net.sf.javagimmicks.collections.diff.DifferenceUtils;
 import net.sf.javagimmicks.collections.transformer.TransformerUtils;
+import net.sf.javagimmicks.event.EventListener;
 import net.sf.javagimmicks.event.ObservableBase;
 import net.sf.javagimmicks.io.folderdiff.FileInfo.Origin;
 import net.sf.javagimmicks.transform.Transformer;
@@ -395,6 +396,22 @@ public class FolderDiffBuilder extends ObservableBase<FolderDiffEvent>
    public FolderDiffBuilder setCompareSize(final boolean compareSize)
    {
       _comparatorBuilder.setCompareSize(compareSize);
+      return this;
+   }
+
+   /**
+    * Convenience method for {@link #addEventListener(EventListener)} that
+    * additionally return the current {@link FolderDiffBuilder} so that the
+    * method is usable for fluent building.
+    * 
+    * @param listener
+    *           the {@link EventListener} to add
+    * @return the {@link FolderDiffBuilder} itself
+    */
+   public FolderDiffBuilder addListener(final EventListener<FolderDiffEvent> listener)
+   {
+      addEventListener(listener);
+
       return this;
    }
 

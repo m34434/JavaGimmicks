@@ -120,7 +120,36 @@ class FileInfoComparatorBuilder
       @Override
       public int compare(final FileInfo o1, final FileInfo o2)
       {
-         return LONG_COMPARATOR.compare(o1.getChecksum(), o2.getChecksum());
+         final ChecksumGetterThread t1 = new ChecksumGetterThread(o1);
+         final ChecksumGetterThread t2 = new ChecksumGetterThread(o2);
+
+         t1.start();
+         t2.start();
+
+         try
+         {
+            t1.join();
+         }
+         catch (final InterruptedException e)
+         {
+            t1.interrupt();
+            t2.interrupt();
+
+            return 0;
+         }
+
+         try
+         {
+            t2.join();
+         }
+         catch (final InterruptedException e)
+         {
+            t2.interrupt();
+
+            return 0;
+         }
+
+         return LONG_COMPARATOR.compare(t1.getChecksum(), t2.getChecksum());
       }
    };
 
@@ -207,4 +236,26 @@ class FileInfoComparatorBuilder
          return PATH_INFO_COMPARATOR.compare(o1.getPathInfo(), o2.getPathInfo());
       }
    };
+
+   private static class ChecksumGetterThread extends Thread
+   {
+      private final FileInfo _fileInfo;
+      private long _checksum;
+
+      public ChecksumGetterThread(final FileInfo fileInfo)
+      {
+         _fileInfo = fileInfo;
+      }
+
+      @Override
+      public void run()
+      {
+         _checksum = _fileInfo.getChecksum();
+      }
+
+      public long getChecksum()
+      {
+         return _checksum;
+      }
+   }
 }
