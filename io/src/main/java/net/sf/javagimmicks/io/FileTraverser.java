@@ -3,6 +3,10 @@ package net.sf.javagimmicks.io;
 import java.io.File;
 import java.io.FilenameFilter;
 
+/**
+ * A simple visitor-style implementation for traversing {@link File}s within the
+ * file system.
+ */
 public class FileTraverser
 {
    private final File _root;
@@ -11,8 +15,22 @@ public class FileTraverser
    private FilenameFilter _filenameFilter;
    private boolean _recursive = true;
 
+   /**
+    * Creates a new instance for the given root folder.
+    * 
+    * @param root
+    *           the root folder where to start traversing (must be a non-null
+    *           {@link File} pointing to a directory)
+    * @throws IllegalArgumentException
+    *            if the given root is <code>null</code> or not a directory
+    */
    public FileTraverser(final File root)
    {
+      if (root == null)
+      {
+         throw new IllegalArgumentException("Root folder is null!");
+      }
+
       if (!root.isDirectory())
       {
          throw new IllegalArgumentException("Given file is not a directory!");
@@ -21,7 +39,14 @@ public class FileTraverser
       _root = root;
    }
 
-   public void run(final Visitor visitor)
+   /**
+    * Starts a new run using the given {@link FileVisitor} to report visited
+    * {@link File}s.
+    * 
+    * @param visitor
+    *           the {@link FileVisitor} where to report visited {@link File}s
+    */
+   public void run(final FileVisitor visitor)
    {
       if (visitor == null)
       {
@@ -31,11 +56,26 @@ public class FileTraverser
       scan(_root, visitor);
    }
 
+   /**
+    * Returns the current {@link TypeFilter} which determines what types of
+    * {@link File}s should be visited (files and/or folders).
+    * 
+    * @return the current {@link TypeFilter}
+    */
    public TypeFilter getTypeFilter()
    {
       return _typeFilter;
    }
 
+   /**
+    * Sets a new {@link TypeFilter}.
+    * 
+    * @param typeFilter
+    *           the new {@link TypeFilter} to set
+    * @throws IllegalArgumentException
+    *            if the given {@link TypeFilter} is <code>null</code>
+    * @see FileTraverser#getTypeFilter()
+    */
    public void setTypeFilter(final TypeFilter typeFilter)
    {
       if (typeFilter == null)
@@ -46,6 +86,16 @@ public class FileTraverser
       this._typeFilter = typeFilter;
    }
 
+   /**
+    * Returns the current {@link FilenameFilter} which determines what files
+    * and/or folders should be visited.
+    * <p>
+    * <b>Note:</b> folders not included by this {@link FilenameFilter} will be
+    * skipped completely by {@link #run(FileVisitor)} calls (not visited and not
+    * recursed into if {@link #isRecursive()} is set).
+    * 
+    * @return the current {@link FilenameFilter}
+    */
    public FilenameFilter getFilenameFilter()
    {
       return _filenameFilter;
@@ -66,7 +116,7 @@ public class FileTraverser
       this._recursive = recursive;
    }
 
-   private void scan(final File directory, final Visitor visitor)
+   private void scan(final File directory, final FileVisitor visitor)
    {
       final File[] children = directory.listFiles(_filenameFilter);
 
@@ -110,7 +160,7 @@ public class FileTraverser
       }
    }
 
-   public static interface Visitor
+   public static interface FileVisitor
    {
       void visit(File file);
    }

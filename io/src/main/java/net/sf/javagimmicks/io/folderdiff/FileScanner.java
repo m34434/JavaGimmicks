@@ -7,7 +7,7 @@ import java.util.List;
 
 import net.sf.javagimmicks.io.FileTraverser;
 import net.sf.javagimmicks.io.FileTraverser.TypeFilter;
-import net.sf.javagimmicks.io.FileTraverser.Visitor;
+import net.sf.javagimmicks.io.FileTraverser.FileVisitor;
 import net.sf.javagimmicks.io.FileUtils;
 import net.sf.javagimmicks.io.folderdiff.FileInfo.Origin;
 
@@ -47,7 +47,7 @@ class FileScanner
       {
          final int skipSegments = FileUtils.getPathSegments(_rootFile).size();
 
-         final Visitor scanVisitor = new Visitor()
+         final FileVisitor scanVisitor = new FileVisitor()
          {
             @Override
             public void visit(final File file)
