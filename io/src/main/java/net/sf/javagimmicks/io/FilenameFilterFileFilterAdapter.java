@@ -9,7 +9,7 @@ import java.io.FilenameFilter;
  * given {@link FilenameFilter}. The {@link FilenameFilter} is applied to files
  * and/or folder depending on the given {@link Mode}.
  */
-public class FilenameFilterFilterAdapter implements FileFilter
+public class FilenameFilterFileFilterAdapter implements FileFilter
 {
    private final FilenameFilter _filter;
    private final Mode _mode;
@@ -28,7 +28,7 @@ public class FilenameFilterFilterAdapter implements FileFilter
     * @throws IllegalArgumentException
     *            if one of the parameters is <code>null</code>
     */
-   public FilenameFilterFilterAdapter(final FilenameFilter filter, final Mode mode)
+   public FilenameFilterFileFilterAdapter(final FilenameFilter filter, final Mode mode)
    {
       if (filter == null)
       {

@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.javagimmicks.io.FileTraverser;
-import net.sf.javagimmicks.io.FileTraverser.TypeFilter;
 import net.sf.javagimmicks.io.FileTraverser.FileVisitor;
+import net.sf.javagimmicks.io.FileTraverser.TypeFilter;
 import net.sf.javagimmicks.io.FileUtils;
+import net.sf.javagimmicks.io.FilenameFilterFileFilterAdapter;
+import net.sf.javagimmicks.io.FilenameFilterFileFilterAdapter.Mode;
 import net.sf.javagimmicks.io.folderdiff.FileInfo.Origin;
 
 class FileScanner
@@ -61,7 +63,7 @@ class FileScanner
          };
 
          final FileTraverser traverser = new FileTraverser(_rootFile);
-         traverser.setFilenameFilter(_filter);
+         traverser.setFileFilter(new FilenameFilterFileFilterAdapter(_filter, Mode.BOTH));
          traverser.setTypeFilter(TypeFilter.BOTH);
          traverser.setRecursive(_recursive);
 
