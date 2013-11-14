@@ -1,10 +1,12 @@
 package net.sf.javagimmicks.cdi;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 
 import javax.enterprise.inject.Produces;
+import javax.inject.Named;
 
 import net.sf.javagimmicks.cdi.injectable.Coolness;
 import net.sf.javagimmicks.cdi.qualifier.Cool;
@@ -46,6 +48,14 @@ public class InjectionSpecTest
       assertNotNull(cdiGeneratedCoolArrayList);
    }
 
+   @Test
+   public void testCoolString()
+   {
+      final String coolString = InjectionSpec.<String> build().setName("cool").getInstance();
+
+      assertEquals("cool", coolString);
+   }
+
    @Produces
    public static ArrayList<String> produceArrayList()
    {
@@ -57,5 +67,12 @@ public class InjectionSpecTest
    public static ArrayList<String> produceCoolArrayList()
    {
       return new ArrayList<String>();
+   }
+
+   @Produces
+   @Named("cool")
+   public static String produceCoolString()
+   {
+      return "cool";
    }
 }

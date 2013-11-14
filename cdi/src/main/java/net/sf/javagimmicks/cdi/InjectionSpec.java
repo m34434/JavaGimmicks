@@ -269,10 +269,10 @@ public class InjectionSpec<E>
          final Bean<?> bean = beanManager.resolve(beanManager.getBeans(_name));
          if (bean == null)
          {
-            throw new UnsatisfiedResolutionException("Unable to resolve a bean name " + _name);
+            throw new UnsatisfiedResolutionException("Unable to resolve a bean named " + _name);
          }
          final CreationalContext<?> cc = beanManager.createCreationalContext(bean);
-         return (E) beanManager.getReference(bean, bean.getBeanClass(), cc);
+         return (E) beanManager.getReference(bean, Object.class, cc);
       }
       else
       {
