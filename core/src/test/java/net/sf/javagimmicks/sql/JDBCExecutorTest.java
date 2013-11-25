@@ -12,7 +12,6 @@ import java.util.Collections;
 import java.util.List;
 
 import net.sf.javagimmicks.sql.JDBCExecutor.CommandException;
-import net.sf.javagimmicks.sql.JDBCExecutor.PreparedStatementCommand;
 import net.sf.javagimmicks.sql.JDBCExecutor.PreparedStatementQueryCommand;
 import net.sf.javagimmicks.sql.JDBCExecutor.StatementCommand;
 import net.sf.javagimmicks.sql.testing.HsqlDbTestRule;
@@ -37,14 +36,14 @@ public class JDBCExecutorTest
    @Test
    public void createTable() throws Exception
    {
-      _jdbc.withStatementExecute(CREATE_TABLE_FOO);
+      _jdbc.executeStatment(CREATE_TABLE_FOO);
    }
 
    @Test
    public void insertValues() throws Exception
    {
       createTable();
-      _jdbc.withPreparedStatementExecute(InsertFooCommand.SQL, new InsertFooCommand(1, "Foo", 2, "Bar"));
+      _jdbc.executePreparedStatement(InsertFooCommand.SQL, new InsertFooCommand(1, "Foo", 2, "Bar"));
    }
 
    @Test
@@ -52,7 +51,7 @@ public class JDBCExecutorTest
    {
       insertValues();
 
-      final List<FooEntry> entries = _jdbc.withPreparedStatementQueryExecute(ExtractFooEntriesCommand.SQL,
+      final List<FooEntry> entries = _jdbc.executePreparedStatementQuery(ExtractFooEntriesCommand.SQL,
             new ExtractFooEntriesCommand());
 
       assertEquals(2, entries.size());
@@ -62,7 +61,7 @@ public class JDBCExecutorTest
       assertEquals("Bar", entries.get(1).getValue());
    }
 
-   private static final StatementCommand<Void> CREATE_TABLE_FOO = new StatementCommand<Void>() {
+   private static final StatementCommand<Void, Statement> CREATE_TABLE_FOO = new StatementCommand<Void, Statement>() {
       @Override
       public Void perform(final Connection connection, final Statement statement) throws CommandException,
             SQLException
@@ -72,7 +71,7 @@ public class JDBCExecutorTest
       }
    };
 
-   private static class InsertFooCommand implements PreparedStatementCommand<Void, PreparedStatement>
+   private static class InsertFooCommand implements StatementCommand<Void, PreparedStatement>
    {
       public static final String SQL = "INSERT INTO foo VALUES(?, ?)";
 

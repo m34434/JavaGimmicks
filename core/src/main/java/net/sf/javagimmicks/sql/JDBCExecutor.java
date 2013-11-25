@@ -195,7 +195,7 @@ public class JDBCExecutor
     *            if some non-JDBC specific operations failed within command
     *            execution
     */
-   public <R> R withConnectionExecute(final ConnectionCommand<R> command) throws CommandException, SQLException
+   public <R> R execute(final ConnectionCommand<R> command) throws CommandException, SQLException
    {
       Connection connection = _txCachedConnection.get();
       final boolean isTxCached = connection != null;
@@ -238,9 +238,9 @@ public class JDBCExecutor
     *            if some non-JDBC specific operations failed within command
     *            execution
     */
-   public <R> R withStatementExecute(final StatementCommand<R> command) throws CommandException, SQLException
+   public <R> R executeStatment(final StatementCommand<R, Statement> command) throws CommandException, SQLException
    {
-      return withConnectionExecute(new ConnectionCommand<R>()
+      return execute(new ConnectionCommand<R>()
       {
          @Override
          public R perform(final Connection connection) throws CommandException, SQLException
@@ -259,28 +259,27 @@ public class JDBCExecutor
    }
 
    /**
-    * Performs a given {@link PreparedStatementCommand} on an internally managed
+    * Performs a given {@link StatementCommand} on an internally managed
     * {@link PreparedStatement} and {@link Connection}.
     * <p>
     * This will take care to get, prepare and cleanup the {@link Connection}
     * using the internally registered {@link ConnectionProvider} or
     * {@link DataSource}. On this {@link Connection} a single
     * {@link PreparedStatement} will be created using the given SQL
-    * {@link String}, handed to the {@link PreparedStatementCommand} and closed
-    * after execution. The optionally provided {@link PopulateCommand} will be
-    * used to populate parameters to the {@link PreparedStatement} before
-    * handing it to the {@link PreparedStatementCommand}.
+    * {@link String}, handed to the {@link StatementCommand} and closed after
+    * execution. The optionally provided {@link PopulateCommand} will be used to
+    * populate parameters to the {@link PreparedStatement} before handing it to
+    * the {@link StatementCommand}.
     * 
     * @param sql
     *           the SQL command to use for creating the
     *           {@link PreparedStatement}
     * @param command
-    *           the {@link PreparedStatementCommand} to perform
+    *           the {@link StatementCommand} to perform
     * @param populateCommand
     *           the optional {@link PopulateCommand} used to populate parameters
     *           on the create {@link PreparedStatement}
-    * @return an optional result object created by the
-    *         {@link PreparedStatementCommand}
+    * @return an optional result object created by the {@link StatementCommand}
     * @throws SQLException
     *            if some JDBC specific operations failed within command
     *            execution
@@ -288,12 +287,12 @@ public class JDBCExecutor
     *            if some non-JDBC specific operations failed within command
     *            execution
     */
-   public <R> R withPreparedStatementExecute(final String sql,
+   public <R> R executePreparedStatement(final String sql,
          final PopulateCommand<PreparedStatement> populateCommand,
-         final PreparedStatementCommand<R, PreparedStatement> command)
+         final StatementCommand<R, PreparedStatement> command)
          throws CommandException, SQLException
    {
-      return withConnectionExecute(new ConnectionCommand<R>()
+      return execute(new ConnectionCommand<R>()
       {
          @Override
          public R perform(final Connection connection) throws CommandException, SQLException
@@ -317,23 +316,22 @@ public class JDBCExecutor
    }
 
    /**
-    * Performs a given {@link PreparedStatementCommand} on an internally managed
+    * Performs a given {@link StatementCommand} on an internally managed
     * {@link PreparedStatement} and {@link Connection}.
     * <p>
     * This will take care to get, prepare and cleanup the {@link Connection}
     * using the internally registered {@link ConnectionProvider} or
     * {@link DataSource}. On this {@link Connection} a single
     * {@link PreparedStatement} will be created using the given SQL
-    * {@link String}, handed to the {@link PreparedStatementCommand} and closed
-    * after execution.
+    * {@link String}, handed to the {@link StatementCommand} and closed after
+    * execution.
     * 
     * @param sql
     *           the SQL command to use for creating the
     *           {@link PreparedStatement}
     * @param command
-    *           the {@link PreparedStatementCommand} to perform
-    * @return an optional result object created by the
-    *         {@link PreparedStatementCommand}
+    *           the {@link StatementCommand} to perform
+    * @return an optional result object created by the {@link StatementCommand}
     * @throws SQLException
     *            if some JDBC specific operations failed within command
     *            execution
@@ -341,16 +339,16 @@ public class JDBCExecutor
     *            if some non-JDBC specific operations failed within command
     *            execution
     */
-   public <R> R withPreparedStatementExecute(final String sql,
-         final PreparedStatementCommand<R, PreparedStatement> command)
+   public <R> R executePreparedStatement(final String sql,
+         final StatementCommand<R, PreparedStatement> command)
          throws CommandException, SQLException
    {
-      return withPreparedStatementExecute(sql, null, command);
+      return executePreparedStatement(sql, null, command);
    }
 
    /**
     * Convenience method to
-    * {@link #withPreparedStatementExecute(String, PopulateCommand, PreparedStatementCommand)}
+    * {@link #executePreparedStatement(String, PopulateCommand, StatementCommand)}
     * that takes one single {@link PreparedStatementPopulateCommand} for
     * parameter population and command execution.
     * 
@@ -369,11 +367,11 @@ public class JDBCExecutor
     *            if some non-JDBC specific operations failed within command
     *            execution
     */
-   public <R> R withPreparedStatementExecute(final String sql,
+   public <R> R executePreparedStatement(final String sql,
          final PreparedStatementPopulateCommand<R, PreparedStatement> command)
          throws CommandException, SQLException
    {
-      return withPreparedStatementExecute(sql, command, command);
+      return executePreparedStatement(sql, command, command);
    }
 
    /**
@@ -408,12 +406,12 @@ public class JDBCExecutor
     *            if some non-JDBC specific operations failed within command
     *            execution
     */
-   public <R> R withPreparedStatementQueryExecute(final String sql,
+   public <R> R executePreparedStatementQuery(final String sql,
          final PopulateCommand<PreparedStatement> populateCommand,
          final PreparedStatementQueryCommand<R, PreparedStatement> command)
          throws CommandException, SQLException
    {
-      return withPreparedStatementExecute(sql, populateCommand, new PreparedStatementCommand<R, PreparedStatement>()
+      return executePreparedStatement(sql, populateCommand, new StatementCommand<R, PreparedStatement>()
       {
          @Override
          public R perform(final Connection connection, final PreparedStatement statement) throws CommandException,
@@ -460,16 +458,16 @@ public class JDBCExecutor
     *            if some non-JDBC specific operations failed within command
     *            execution
     */
-   public <R> R withPreparedStatementQueryExecute(final String sql,
+   public <R> R executePreparedStatementQuery(final String sql,
          final PreparedStatementQueryCommand<R, PreparedStatement> command)
          throws CommandException, SQLException
    {
-      return withPreparedStatementQueryExecute(sql, null, command);
+      return executePreparedStatementQuery(sql, null, command);
    }
 
    /**
     * Convenience method to
-    * {@link #withPreparedStatementQueryExecute(String, PopulateCommand, PreparedStatementQueryCommand)}
+    * {@link #executePreparedStatementQuery(String, PopulateCommand, PreparedStatementQueryCommand)}
     * that takes one single {@link PreparedStatementPopulateQueryCommand} for
     * parameter population and {@link ResultSet} post-processing.
     * 
@@ -488,47 +486,46 @@ public class JDBCExecutor
     *            if some non-JDBC specific operations failed within command
     *            execution
     */
-   public <R> R withPreparedStatementQueryExecute(final String sql,
+   public <R> R executePreparedStatementQuery(final String sql,
          final PreparedStatementPopulateQueryCommand<R, PreparedStatement> command) throws CommandException,
          SQLException
    {
-      return withPreparedStatementQueryExecute(sql, command, command);
+      return executePreparedStatementQuery(sql, command, command);
    }
 
    /**
-    * Performs a given {@link PreparedStatementCommand} on an internally managed
+    * Performs a given {@link StatementCommand} on an internally managed
     * {@link CallableStatement} and {@link Connection}.
     * <p>
     * This will take care to get, prepare and cleanup the {@link Connection}
     * using the internally registered {@link ConnectionProvider} or
     * {@link DataSource}. On this {@link Connection} a single
     * {@link CallableStatement} will be created using the given SQL call
-    * {@link String}, handed to the {@link PreparedStatementCommand} and closed
-    * after execution. The optionally provided {@link PopulateCommand} will be
-    * used to populate parameters to the {@link CallableStatement} before
-    * handing it to the {@link PreparedStatementCommand}.
+    * {@link String}, handed to the {@link StatementCommand} and closed after
+    * execution. The optionally provided {@link PopulateCommand} will be used to
+    * populate parameters to the {@link CallableStatement} before handing it to
+    * the {@link StatementCommand}.
     * 
     * @param call
     *           the SQL call to use for creating the {@link CallableStatement}
     * @param command
-    *           the {@link PreparedStatementCommand} to perform
+    *           the {@link StatementCommand} to perform
     * @param populateCommand
     *           the optional {@link PopulateCommand} used to populate parameters
     *           on the create {@link CallableStatement}
-    * @return an optional result object created by the
-    *         {@link PreparedStatementCommand}
+    * @return an optional result object created by the {@link StatementCommand}
     * @throws SQLException
     *            if some JDBC specific operations failed within call execution
     * @throws CommandException
     *            if some non-JDBC specific operations failed within call
     *            execution
     */
-   public <R> R withCallableStatementExecute(final String call,
+   public <R> R executeCallableStatement(final String call,
          final PopulateCommand<CallableStatement> populateCommand,
-         final PreparedStatementCommand<R, CallableStatement> command)
+         final StatementCommand<R, CallableStatement> command)
          throws CommandException, SQLException
    {
-      return withConnectionExecute(new ConnectionCommand<R>()
+      return execute(new ConnectionCommand<R>()
       {
          @Override
          public R perform(final Connection connection) throws CommandException, SQLException
@@ -552,22 +549,21 @@ public class JDBCExecutor
    }
 
    /**
-    * Performs a given {@link PreparedStatementCommand} on an internally managed
+    * Performs a given {@link StatementCommand} on an internally managed
     * {@link CallableStatement} and {@link Connection}.
     * <p>
     * This will take care to get, prepare and cleanup the {@link Connection}
     * using the internally registered {@link ConnectionProvider} or
     * {@link DataSource}. On this {@link Connection} a single
     * {@link CallableStatement} will be created using the given SQL call
-    * {@link String}, handed to the {@link PreparedStatementCommand} and closed
-    * after execution.
+    * {@link String}, handed to the {@link StatementCommand} and closed after
+    * execution.
     * 
     * @param call
     *           the SQL call to use for creating the {@link CallableStatement}
     * @param command
-    *           the {@link PreparedStatementCommand} to perform
-    * @return an optional result object created by the
-    *         {@link PreparedStatementCommand}
+    *           the {@link StatementCommand} to perform
+    * @return an optional result object created by the {@link StatementCommand}
     * @throws SQLException
     *            if some JDBC specific operations failed within command
     *            execution
@@ -575,16 +571,16 @@ public class JDBCExecutor
     *            if some non-JDBC specific operations failed within command
     *            execution
     */
-   public <R> R withCallableStatementExecute(final String call,
-         final PreparedStatementCommand<R, CallableStatement> command)
+   public <R> R executeCallableStatement(final String call,
+         final StatementCommand<R, CallableStatement> command)
          throws CommandException, SQLException
    {
-      return withCallableStatementExecute(call, null, command);
+      return executeCallableStatement(call, null, command);
    }
 
    /**
     * Convenience method to
-    * {@link #withCallableStatementExecute(String, PopulateCommand, PreparedStatementCommand)}
+    * {@link #executeCallableStatement(String, PopulateCommand, StatementCommand)}
     * that takes one single {@link PreparedStatementPopulateCommand} for
     * parameter population and command execution.
     * 
@@ -603,11 +599,11 @@ public class JDBCExecutor
     *            if some non-JDBC specific operations failed within command
     *            execution
     */
-   public <R> R withCallableStatementExecute(final String call,
+   public <R> R executeCallableStatement(final String call,
          final PreparedStatementPopulateCommand<R, CallableStatement> command)
          throws CommandException, SQLException
    {
-      return withCallableStatementExecute(call, command, command);
+      return executeCallableStatement(call, command, command);
    }
 
    /**
@@ -642,12 +638,12 @@ public class JDBCExecutor
     *            if some non-JDBC specific operations failed within command
     *            execution
     */
-   public <R> R withCallableStatementQueryExecute(final String sql,
+   public <R> R executeCallableStatementQuery(final String sql,
          final PopulateCommand<CallableStatement> populateCommand,
          final PreparedStatementQueryCommand<R, CallableStatement> command)
          throws CommandException, SQLException
    {
-      return withCallableStatementExecute(sql, populateCommand, new PreparedStatementCommand<R, CallableStatement>()
+      return executeCallableStatement(sql, populateCommand, new StatementCommand<R, CallableStatement>()
       {
          @Override
          public R perform(final Connection connection, final CallableStatement statement) throws CommandException,
@@ -693,16 +689,16 @@ public class JDBCExecutor
     *            if some non-JDBC specific operations failed within command
     *            execution
     */
-   public <R> R withCallableStatementQueryExecute(final String call,
+   public <R> R executeCallableStatementQuery(final String call,
          final PreparedStatementQueryCommand<R, CallableStatement> command)
          throws CommandException, SQLException
    {
-      return withCallableStatementQueryExecute(call, null, command);
+      return executeCallableStatementQuery(call, null, command);
    }
 
    /**
     * Convenience method to
-    * {@link #withCallableStatementQueryExecute(String, PopulateCommand, PreparedStatementQueryCommand)}
+    * {@link #executeCallableStatementQuery(String, PopulateCommand, PreparedStatementQueryCommand)}
     * that takes one single {@link PreparedStatementPopulateQueryCommand} for
     * parameter population and {@link ResultSet} post-processing.
     * 
@@ -720,11 +716,11 @@ public class JDBCExecutor
     *            if some non-JDBC specific operations failed within command
     *            execution
     */
-   public <R> R withCallableStatementQueryExecute(final String call,
+   public <R> R executeCallableStatementQuery(final String call,
          final PreparedStatementPopulateQueryCommand<R, CallableStatement> command) throws CommandException,
          SQLException
    {
-      return withCallableStatementQueryExecute(call, command, command);
+      return executeCallableStatementQuery(call, command, command);
    }
 
    /**
@@ -748,77 +744,45 @@ public class JDBCExecutor
        *            may be thrown if any internal JDBC operations fail
        * @throws CommandException
        *            may be thrown if any internal other operations fail
-       * @see JDBCExecutor#withConnectionExecute(ConnectionCommand)
+       * @see JDBCExecutor#execute(ConnectionCommand)
        */
       R perform(final Connection connection) throws CommandException, SQLException;
    }
 
    /**
     * A callback command interface for performing any JDBC operations on a given
-    * {@link Statement} and it's parent {@link Connection}.
+    * {@link Statement} (or respective extension type) and it's parent
+    * {@link Connection}.
     * 
     * @param <R>
     *           the type of an optional result object that the command can
     *           produce
     */
-   public static interface StatementCommand<R>
+   public static interface StatementCommand<R, S extends Statement>
    {
       /**
-       * Performs any operations on the given {@link Statement} and it's parent
-       * {@link Connection}.
+       * Performs any operations on the given {@link Statement} (or respective
+       * extension type) and it's parent {@link Connection}.
        * 
        * @param connection
        *           the parent {@link Connection} of the given {@link Statement}
        * @param statement
-       *           the {@link Statement} for perform operations on
+       *           the {@link Statement} (or respective extension type) for
+       *           perform operations on
        * @return an optional result object (will be returned by any methods
        *         receiving this as a parameter)
        * @throws SQLException
        *            may be thrown if any internal JDBC operations fail
        * @throws CommandException
        *            may be thrown if any internal other operations fail
-       * @see JDBCExecutor#withStatementExecute(StatementCommand)
-       */
-      R perform(final Connection connection, final Statement statement) throws CommandException, SQLException;
-   }
-
-   /**
-    * A callback command interface for performing any JDBC operations on a given
-    * {@link PreparedStatement} and it's parent {@link Connection}.
-    * 
-    * @param <R>
-    *           the type of an optional result object that the command can
-    *           produce
-    */
-   public static interface PreparedStatementCommand<R, S extends PreparedStatement>
-   {
-      /**
-       * Performs any operations on the given {@link PreparedStatement} and it's
-       * parent {@link Connection}.
-       * 
-       * @param connection
-       *           the parent {@link Connection} of the given
-       *           {@link PreparedStatement}
-       * @param statement
-       *           the {@link PreparedStatement} for perform operations on
-       * @return an optional result object (will be returned by any methods
-       *         receiving this as a parameter)
-       * @throws SQLException
-       *            may be thrown if any internal JDBC operations fail
-       * @throws CommandException
-       *            may be thrown if any internal other operations fail
-       * @see JDBCExecutor#withPreparedStatementExecute(String, PopulateCommand,
-       *      PreparedStatementCommand)
-       * @see JDBCExecutor#withPreparedStatementExecute(String,
-       *      PreparedStatementCommand)
        */
       R perform(final Connection connection, final S statement) throws CommandException, SQLException;
    }
 
    /**
     * A callback command interface for processing JDBC query results on a given
-    * {@link ResultSet}, it's parent {@link PreparedStatement} and that's parent
-    * {@link Connection}.
+    * {@link ResultSet}, it's parent {@link PreparedStatement} (or respective
+    * sub-type) and that's parent {@link Connection}.
     * 
     * @param <R>
     *           the type of an optional result object that the command can
@@ -844,11 +808,11 @@ public class JDBCExecutor
        *            may be thrown if any internal JDBC operations fail
        * @throws CommandException
        *            may be thrown if any internal other operations fail
-       * @see JDBCExecutor#withPreparedStatementQueryExecute(String,
+       * @see JDBCExecutor#executePreparedStatementQuery(String,
        *      PopulateCommand, PreparedStatementQueryCommand)
-       * @see JDBCExecutor#withPreparedStatementQueryExecute(String,
+       * @see JDBCExecutor#executePreparedStatementQuery(String,
        *      PreparedStatementQueryCommand)
-       * @see JDBCExecutor#withPreparedStatementQueryExecute(String,
+       * @see JDBCExecutor#executePreparedStatementQuery(String,
        *      PreparedStatementPopulateQueryCommand)
        */
       R perform(final Connection connection, final S statement, ResultSet resultSet)
@@ -884,11 +848,11 @@ public class JDBCExecutor
    {}
 
    /**
-    * A combined interface for {@link PreparedStatementCommand} and
+    * A combined interface for {@link StatementCommand} and
     * {@link PopulateCommand}
     */
    public static interface PreparedStatementPopulateCommand<R, S extends PreparedStatement> extends
-         PreparedStatementCommand<R, S>,
+         StatementCommand<R, S>,
          PopulateCommand<S>
    {}
 
