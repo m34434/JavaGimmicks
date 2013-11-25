@@ -72,7 +72,7 @@ public class JDBCExecutorTest
       }
    };
 
-   private static class InsertFooCommand implements PreparedStatementCommand<Void>
+   private static class InsertFooCommand implements PreparedStatementCommand<Void, PreparedStatement>
    {
       public static final String SQL = "INSERT INTO foo VALUES(?, ?)";
 
@@ -99,7 +99,8 @@ public class JDBCExecutorTest
       }
    }
 
-   private static class ExtractFooEntriesCommand implements PreparedStatementQueryCommand<List<FooEntry>>
+   private static class ExtractFooEntriesCommand implements
+         PreparedStatementQueryCommand<List<FooEntry>, PreparedStatement>
    {
       public static final String SQL = "SELECT * FROM foo";
 
