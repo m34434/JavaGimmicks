@@ -14,7 +14,7 @@ import java.util.List;
 import net.sf.javagimmicks.sql.JDBCExecutor.CommandException;
 import net.sf.javagimmicks.sql.JDBCExecutor.PreparedStatementQueryCommand;
 import net.sf.javagimmicks.sql.JDBCExecutor.StatementCommand;
-import net.sf.javagimmicks.sql.testing.HsqlDbTestRule;
+import net.sf.javagimmicks.sql.testing.H2DbTestRule;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -23,7 +23,7 @@ import org.junit.Test;
 public class JDBCExecutorTest
 {
    @Rule
-   public HsqlDbTestRule _db = new HsqlDbTestRule();
+   public H2DbTestRule _db = new H2DbTestRule();
 
    private JDBCExecutor _jdbc;
 
