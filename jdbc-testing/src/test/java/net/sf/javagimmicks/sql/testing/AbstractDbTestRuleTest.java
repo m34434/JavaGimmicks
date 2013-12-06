@@ -28,7 +28,7 @@ public abstract class AbstractDbTestRuleTest
       final Statement stmtCreate = connection.createStatement();
       assertNotNull(stmtCreate);
 
-      stmtCreate.execute("CREATE TABLE temp (key INTEGER, value VARCHAR(255))");
+      stmtCreate.execute("CREATE TABLE temp (keyCol INTEGER, valueCol VARCHAR(255))");
       stmtCreate.close();
 
       final Statement stmtInsert = connection.createStatement();

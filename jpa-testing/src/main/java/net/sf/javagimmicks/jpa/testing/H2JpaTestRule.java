@@ -29,7 +29,7 @@ import org.springframework.orm.jpa.vendor.Database;
  * <b>Usage example:</b>
  * 
  * <pre>
- * public class H2JpaTestRule
+ * public class H2JpaTestRuleTest
  * {
  * 
  *    &#064;Rule

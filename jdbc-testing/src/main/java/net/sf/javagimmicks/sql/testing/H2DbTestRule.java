@@ -18,7 +18,7 @@ import org.junit.rules.TestRule;
  * <b>Usage example:</b>
  * 
  * <pre>
- * public class H2DbTestRule
+ * public class H2DbTestRuleTest
  * {
  * 
  *    &#064;Rule
