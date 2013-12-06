@@ -100,7 +100,7 @@ public class DerbyDbTestRule extends AbstractDbTestRule
 
    private static String buildJdbcUrl(final File tempFolder) throws MalformedURLException
    {
-      final String url = "jdbc:derby:" + tempFolder.toURI().toURL().toString().substring(6) + NAME_TEST_DB
+      final String url = "jdbc:derby:" + tempFolder.toURI().toURL().toString().substring(5) + NAME_TEST_DB
             + ";create=true";
       return url;
    }
