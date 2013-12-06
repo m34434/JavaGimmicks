@@ -6,8 +6,8 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-import net.sf.javagimmicks.sql.testing.HsqlDbTestRule;
-import net.sf.javagimmicks.sql.testing.HsqlDbTestRule.DataSourceConfigurator;
+import net.sf.javagimmicks.sql.testing.AbstractDbTestRule;
+import net.sf.javagimmicks.sql.testing.AbstractDbTestRule.DataSourceConfigurator;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.junit.rules.ExternalResource;
@@ -18,8 +18,8 @@ import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 /**
- * A JUnit {@link TestRule} that creates a temporary file-based Hypersonic SQL
- * database (using {@link HsqlDbTestRule}) during test execution and wraps
+ * A JUnit {@link TestRule} that creates a temporary file-based database (using
+ * an {@link AbstractDbTestRule} instance) during test execution and wraps
  * Spring/Hibernate based local JPA container around it.
  * <p>
  * The developer can influence the temporary folder, where the database should
@@ -30,59 +30,17 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
  * There is no need for a {@code persistence.xml} file for test execution,
  * instead a list of package names must be provided that will automatically be
  * scanned for entity classes.
- * <p>
- * <b>Usage example:</b>
- * 
- * <pre>
- * public class HsqlDbTestRuleTest
- * {
- * 
- *    &#064;Rule
- *    public JpaTestRule _jpa = new JpaTestRule(FooEntity.class.getPackage().getName());
- * 
- *    &#064;Test
- *    public void test() throws SQLException
- *    {
- *       final EntityManager em = _jpa.createEntityManager();
- *       Assert.assertNotNull(em);
- * 
- *       em.getTransaction().begin();
- * 
- *       // Do some JPA operations
- * 
- *       em.getTranscation().commit();
- * 
- *       em.close();
- *    }
- * }
- * </pre>
  */
-public class JpaTestRule extends ExternalResource
+public abstract class AbstractJpaTestRule extends ExternalResource
 {
    private final String[] _entityPackages;
    private final EntityManagerFactoryConfigurator _configurator;
 
-   private final HsqlDbTestRule _db;
+   private final AbstractDbTestRule _db;
 
    private LocalContainerEntityManagerFactoryBean _localEmf;
 
-   /**
-    * Creates a new instance using the given
-    * {@link EntityManagerFactoryConfigurator} and {@link File folder} for the
-    * internal database.
-    * 
-    * @param configurator
-    *           a {@link EntityManagerFactoryConfigurator} for performing custom
-    *           configuration logic on the internal {@link BasicDataSource} and
-    *           {@link LocalContainerEntityManagerFactoryBean}
-    * @param dbFolder
-    *           the temporary folder where the database should be set up
-    * @param entityPackages
-    *           a list of names of packages to scan for entity classes
-    * @throws IllegalArgumentException
-    *            if the list of package names is empty
-    */
-   public JpaTestRule(final EntityManagerFactoryConfigurator configurator,
+   protected AbstractJpaTestRule(final EntityManagerFactoryConfigurator configurator,
          final File dbFolder,
          final String... entityPackages)
    {
@@ -93,53 +51,21 @@ public class JpaTestRule extends ExternalResource
 
       _entityPackages = entityPackages;
       _configurator = configurator;
-      _db = new HsqlDbTestRule(configurator, dbFolder);
+      _db = createDb(configurator, dbFolder);
    }
 
-   /**
-    * Creates a new instance using the given {@link File folder} for the
-    * internal database.
-    * 
-    * @param dbFolder
-    *           the temporary folder where the database should be set up
-    * @param entityPackages
-    *           a list of names of packages to scan for entity classes
-    * @throws IllegalArgumentException
-    *            if the list of package names is empty
-    */
-   public JpaTestRule(final File dbFolder, final String... entityPackages)
+   protected AbstractJpaTestRule(final File dbFolder, final String... entityPackages)
    {
       this(null, dbFolder, entityPackages);
    }
 
-   /**
-    * Creates a new instance using the given
-    * {@link EntityManagerFactoryConfigurator} for the internal database.
-    * 
-    * @param configurator
-    *           a {@link EntityManagerFactoryConfigurator} for performing custom
-    *           configuration logic on the internal {@link BasicDataSource} and
-    *           {@link LocalContainerEntityManagerFactoryBean}
-    * @param entityPackages
-    *           a list of names of packages to scan for entity classes
-    * @throws IllegalArgumentException
-    *            if the list of package names is empty
-    */
-   public JpaTestRule(final EntityManagerFactoryConfigurator configurator,
+   protected AbstractJpaTestRule(final EntityManagerFactoryConfigurator configurator,
          final String... entityPackages)
    {
       this(configurator, null, entityPackages);
    }
 
-   /**
-    * Creates a new instance with no special configuration.
-    * 
-    * @param entityPackages
-    *           a list of names of packages to scan for entity classes
-    * @throws IllegalArgumentException
-    *            if the list of package names is empty
-    */
-   public JpaTestRule(final String... entityPackages)
+   protected AbstractJpaTestRule(final String... entityPackages)
    {
       this(null, null, entityPackages);
    }
@@ -212,10 +138,14 @@ public class JpaTestRule extends ExternalResource
       _db.shutdown();
    }
 
+   abstract protected AbstractDbTestRule createDb(DataSourceConfigurator configurator, File dbFolder);
+
+   abstract protected Database getDatabaseType();
+
    protected JpaVendorAdapter createVendorAdapter()
    {
       final HibernateJpaVendorAdapter hibernate = new HibernateJpaVendorAdapter();
-      hibernate.setDatabase(Database.HSQL);
+      hibernate.setDatabase(getDatabaseType());
       hibernate.setGenerateDdl(true);
       hibernate.setShowSql(false);
 

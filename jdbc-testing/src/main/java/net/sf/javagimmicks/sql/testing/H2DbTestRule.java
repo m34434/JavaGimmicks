@@ -7,9 +7,9 @@ import org.apache.commons.dbcp.BasicDataSource;
 import org.junit.rules.TestRule;
 
 /**
- * A JUnit {@link TestRule} that creates a temporary file-based Hypersonic SQL
- * database during test execution and wraps a Commons-DBCP
- * {@link BasicDataSource} around it.
+ * A JUnit {@link TestRule} that creates a temporary file-based H2 database
+ * during test execution and wraps a Commons-DBCP {@link BasicDataSource} around
+ * it.
  * <p>
  * The developer can influence the temporary folder, where the database should
  * be created and/or can provide initial configuration logic for the used
@@ -18,11 +18,11 @@ import org.junit.rules.TestRule;
  * <b>Usage example:</b>
  * 
  * <pre>
- * public class HsqlDbTestRuleTest
+ * public class H2DbTestRule
  * {
  * 
  *    &#064;Rule
- *    public HsqlDbTestRule _db = new HsqlDbTestRule();
+ *    public H2DbTestRule _db = new H2DbTestRule();
  * 
  *    &#064;Test
  *    public void test() throws SQLException
@@ -37,7 +37,7 @@ import org.junit.rules.TestRule;
  * }
  * </pre>
  */
-public class HsqlDbTestRule extends AbstractDbTestRule
+public class H2DbTestRule extends AbstractDbTestRule
 {
    /**
     * Creates a new instance using the given {@link DataSourceConfigurator} and
@@ -49,7 +49,7 @@ public class HsqlDbTestRule extends AbstractDbTestRule
     * @param dbFolder
     *           the temporary folder where the database should be set up
     */
-   public HsqlDbTestRule(final DataSourceConfigurator configurator, final File dbFolder)
+   public H2DbTestRule(final DataSourceConfigurator configurator, final File dbFolder)
    {
       super(configurator, dbFolder);
    }
@@ -62,7 +62,7 @@ public class HsqlDbTestRule extends AbstractDbTestRule
     *           a {@link DataSourceConfigurator} for performing custom
     *           configuration logic on the internal {@link BasicDataSource}
     */
-   public HsqlDbTestRule(final DataSourceConfigurator configurator)
+   public H2DbTestRule(final DataSourceConfigurator configurator)
    {
       super(configurator);
    }
@@ -74,7 +74,7 @@ public class HsqlDbTestRule extends AbstractDbTestRule
     * @param dbFolder
     *           the temporary folder where the database should be set up
     */
-   public HsqlDbTestRule(final File dbFolder)
+   public H2DbTestRule(final File dbFolder)
    {
       super(dbFolder);
    }
@@ -82,7 +82,7 @@ public class HsqlDbTestRule extends AbstractDbTestRule
    /**
     * Creates a new instance with no special configuration.
     */
-   public HsqlDbTestRule()
+   public H2DbTestRule()
    {
       super();
    }
@@ -91,15 +91,15 @@ public class HsqlDbTestRule extends AbstractDbTestRule
    protected void configureDatasource(final BasicDataSource dataSource, final File tempFolder)
          throws MalformedURLException
    {
-      dataSource.setDriverClassName(org.hsqldb.jdbcDriver.class.getName());
+      dataSource.setDriverClassName(org.h2.Driver.class.getName());
       dataSource.setUrl(buildJdbcUrl(tempFolder));
       dataSource.setUsername("sa");
-      dataSource.setPassword("");
+      dataSource.setPassword("sa");
    }
 
    private static String buildJdbcUrl(final File tempFolder) throws MalformedURLException
    {
-      final String url = "jdbc:hsqldb:" + tempFolder.toURI().toURL() + NAME_TEST_DB;
+      final String url = "jdbc:h2:" + tempFolder.toURI().toURL() + NAME_TEST_DB;
       return url;
    }
 }

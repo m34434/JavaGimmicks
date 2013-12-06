@@ -8,18 +8,18 @@ import javax.persistence.EntityManager;
 import net.sf.javagimmicks.jpa.testing.entity.FooEntity;
 
 import org.junit.Assert;
-import org.junit.Rule;
 import org.junit.Test;
 
-public class JpaTestRuleTest
+public abstract class AbstractJpaTestRuleTest
 {
-   @Rule
-   public JpaTestRule _jpa = new JpaTestRule(FooEntity.class.getPackage().getName());
+   abstract protected AbstractJpaTestRule getTestRule();
 
    @Test
    public void testPersistTx()
    {
-      final EntityManager em = _jpa.createEntityManager();
+      final AbstractJpaTestRule jpa = getTestRule();
+
+      final EntityManager em = jpa.createEntityManager();
 
       Assert.assertNotNull(em);
 
@@ -39,9 +39,11 @@ public class JpaTestRuleTest
    @Test
    public void testImplicitMerge()
    {
+      final AbstractJpaTestRule jpa = getTestRule();
+
       testPersistTx();
 
-      EntityManager em = _jpa.createEntityManager();
+      EntityManager em = jpa.createEntityManager();
       em.getTransaction().begin();
 
       FooEntity foo1 = em.find(FooEntity.class, 1);
@@ -52,7 +54,7 @@ public class JpaTestRuleTest
       em.getTransaction().commit();
       em.close();
 
-      em = _jpa.createEntityManager();
+      em = jpa.createEntityManager();
       foo1 = em.find(FooEntity.class, 1);
       Assert.assertNotNull(foo1);
 
@@ -63,9 +65,11 @@ public class JpaTestRuleTest
    @Test
    public void testExplicitMerge()
    {
+      final AbstractJpaTestRule jpa = getTestRule();
+
       testPersistTx();
 
-      EntityManager em = _jpa.createEntityManager();
+      EntityManager em = jpa.createEntityManager();
       em.getTransaction().begin();
 
       em.merge(new FooEntity(1, "bar"));
@@ -73,7 +77,7 @@ public class JpaTestRuleTest
       em.getTransaction().commit();
       em.close();
 
-      em = _jpa.createEntityManager();
+      em = jpa.createEntityManager();
       final FooEntity foo1 = em.find(FooEntity.class, 1);
       Assert.assertNotNull(foo1);
 
@@ -85,9 +89,11 @@ public class JpaTestRuleTest
    @Test
    public void testInserted()
    {
+      final AbstractJpaTestRule jpa = getTestRule();
+
       testPersistTx();
 
-      final EntityManager em = _jpa.createEntityManager();
+      final EntityManager em = jpa.createEntityManager();
 
       final List<FooEntity> foos = em.createQuery("SELECT f from foo f").getResultList();
 
