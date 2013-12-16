@@ -7,7 +7,7 @@ import org.junit.Rule;
 public class H2JpaTestRuleTest extends AbstractJpaTestRuleTest
 {
    @Rule
-   public HsqlJpaTestRule _jpa = new HsqlJpaTestRule(FooEntity.class.getPackage().getName());
+   public H2JpaTestRule _jpa = new H2JpaTestRule(FooEntity.class.getPackage().getName());
 
    @Override
    protected AbstractJpaTestRule getTestRule()
