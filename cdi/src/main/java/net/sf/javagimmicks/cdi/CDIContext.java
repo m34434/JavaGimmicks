@@ -2,12 +2,9 @@ package net.sf.javagimmicks.cdi;
 
 import java.lang.annotation.Annotation;
 
-import javax.enterprise.event.Observes;
 import javax.enterprise.inject.spi.AnnotatedType;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
-import javax.enterprise.inject.spi.BeforeBeanDiscovery;
-import javax.enterprise.inject.spi.BeforeShutdown;
 import javax.enterprise.inject.spi.CDI;
 import javax.enterprise.inject.spi.Extension;
 import javax.enterprise.inject.spi.InjectionTarget;
@@ -187,35 +184,11 @@ public class CDIContext
       return nonCdiObject;
    }
 
-   private static void setCurrentBeanManager(final BeanManager beanManager)
+   static void setCurrentBeanManager(final BeanManager beanManager)
    {
       synchronized (CDIContext.class)
       {
          _currentBeanManager = beanManager;
-      }
-   }
-
-   /**
-    * Not for developer's use - will be internally called by the CDI container.
-    */
-   public static class CDIContextExtension implements Extension
-   {
-      /**
-       * Called upon CDI context startup - additionally injects the
-       * {@link BeanManager}
-       */
-      public void startup(@Observes final BeforeBeanDiscovery event, final BeanManager beanManager)
-      {
-         setCurrentBeanManager(beanManager);
-      }
-
-      /**
-       * Called upon CDI context shutdown - clears the internal
-       * {@link BeanManager}
-       */
-      public void shutdown(@Observes final BeforeShutdown event)
-      {
-         setCurrentBeanManager(null);
       }
    }
 }
