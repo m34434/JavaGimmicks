@@ -1,0 +1,44 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>gimmicks-collections-jdk8</artifactId>
+
+	<parent>
+		<groupId>net.sf.javagimmicks</groupId>
+		<artifactId>gimmicks-parent</artifactId>
+		<version>0.98-SNAPSHOT</version>
+		<relativePath>../parent/pom.xml</relativePath>
+	</parent>
+
+	<name>JavaGimmicks - Collections (JDK 8)</name>
+	<description>Several utilities for and around the Java Collection API (JDK 8 extended version)</description>
+	<url>http://jgutils.sourceforge.net</url>
+	
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>net.sf.javagimmicks</groupId>
+			<artifactId>gimmicks-core-jdk8</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.javagimmicks</groupId>
+			<artifactId>gimmicks-testing</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>net.sf.javagimmicks</groupId>
+					<artifactId>gimmicks-core</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+	</dependencies>
+</project>

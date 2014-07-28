@@ -21,8 +21,10 @@
 		<module>cdi-collections</module>
 		<module>cdi-testing</module>
 		<module>collections</module>
+		<module>collections-jdk8</module>
 		<module>concurrent</module>
 		<module>core</module>
+		<module>core-jdk8</module>
 		<module>graph</module>
 		<module>io</module>
 		<module>jdbc-testing</module>

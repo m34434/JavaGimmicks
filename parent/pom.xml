@@ -41,12 +41,22 @@
 			</dependency>
 			<dependency>
 				<groupId>net.sf.javagimmicks</groupId>
+				<artifactId>gimmicks-collections-jdk8</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.sf.javagimmicks</groupId>
 				<artifactId>gimmicks-concurrent</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>net.sf.javagimmicks</groupId>
 				<artifactId>gimmicks-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.sf.javagimmicks</groupId>
+				<artifactId>gimmicks-core-jdk8</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns2:root xmlns:ns2="urn:ns2" xmlns:ns1copy="urn:ns1">
+	<child comment="No namespace">SomeText</child>
+	<ns2:child comment="With namepsace 1!"/>
+	<ns2:child comment="With namepsace 2!"/>
+	<child ns2:comment="Comment with namespace 1!">SomeText</child>
+	<child>
+		<withSubChild/>
+	</child>
+</ns2:root>

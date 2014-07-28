@@ -6,7 +6,7 @@ package net.sf.javagimmicks.lang;
  * which is commonly known as "lazy loading" pattern.
  * 
  * @param <E>
- *           the type of object the container can carries
+ *           the type of object the container can carry
  */
 public class CreateOnDemandObjectContainer<E> extends AbstractCreateOnDemandObjectContainer<E>
 {
