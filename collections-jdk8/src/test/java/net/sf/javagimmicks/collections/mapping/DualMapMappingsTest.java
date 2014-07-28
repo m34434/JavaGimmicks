@@ -26,49 +26,49 @@ public class DualMapMappingsTest
       .add(1)
       .add(2)
       .add(3)
-      .add(4).toCollection();
+      .add(4).get();
 
    private static final TreeSet<Integer> refSetB = CollectionBuilder.<Integer>createTreeSet()
       .add(2)
-      .add(4).toCollection();
+      .add(4).get();
    
    private static final TreeSet<Integer> refSetC = CollectionBuilder.<Integer>createTreeSet()
       .add(3)
-      .add(4).toCollection();
+      .add(4).get();
    
    private static final TreeSet<Integer> refSetD = CollectionBuilder.<Integer>createTreeSet()
-      .add(4).toCollection();
+      .add(4).get();
    
    private static final HashMap<String, Set<Integer>> refMapLeft = MapBuilder.<String, Set<Integer>>createHashMap()
       .put("A", refSetA)
       .put("B", refSetB)
       .put("C", refSetC)
       .put("D", refSetD)
-      .toMap();
+      .get();
 
    private static final HashSet<String> refSet1 = CollectionBuilder.<String>createHashSet()
-      .add("A").toCollection();
+      .add("A").get();
    
    private static final HashSet<String> refSet2 = CollectionBuilder.<String>createHashSet()
       .add("A")
-      .add("B").toCollection();
+      .add("B").get();
    
    private static final HashSet<String> refSet3 = CollectionBuilder.<String>createHashSet()
       .add("A")
-      .add("C").toCollection();
+      .add("C").get();
    
    private static final HashSet<String> refSet4 = CollectionBuilder.<String>createHashSet()
       .add("A")
       .add("B")
       .add("C")
-      .add("D").toCollection();
+      .add("D").get();
    
    private static final HashMap<Integer, Set<String>> refMapRight = MapBuilder.<Integer, Set<String>>createHashMap()
       .put(1, refSet1)
       .put(2, refSet2)
       .put(3, refSet3)
       .put(4, refSet4)
-      .toMap();
+      .get();
 
    private Mappings<String, Integer> createMappings()
    {

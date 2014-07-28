@@ -36,7 +36,7 @@ public class DualMapValueMappingsTest
       
       mappings.putAllForLeftKey("A", MapBuilder.create(new HashMap<Integer, String>())
          .put(2, "A2")
-         .put(3, "A3").toMap());
+         .put(3, "A3").get());
       assertEquals(3, mappings.size());
       assertEquals("A2", mappings.get("A", 2));
       assertEquals("A3", mappings.get("A", 3));
@@ -50,7 +50,7 @@ public class DualMapValueMappingsTest
             .put("A", "A4")
             .put("B", "B4")
             .put("C", "C4")
-            .put("D", "D4").toMap());
+            .put("D", "D4").get());
       assertEquals(7, mappings.size());
       assertEquals("A4", mappings.get("A", 4));
       assertEquals("B4", mappings.get("B", 4));
@@ -70,60 +70,60 @@ public class DualMapValueMappingsTest
       inverseMappings.put(1, "A", "A1");
       inverseMappings.putAllForLeftKey(2, MapBuilder.create(new HashMap<String, String>())
             .put("A", "A2")
-            .put("B", "B2").toMap());
+            .put("B", "B2").get());
       inverseMappings.putAllForRightKey("C", MapBuilder.create(new HashMap<Integer, String>())
             .put(3, "C3")
-            .put(4, "C4").toMap());
+            .put(4, "C4").get());
       
       // Build left reference map
       TreeMap<Integer, String> mapA = MapBuilder.create(new TreeMap<Integer, String>())
          .put(1, "A1")
          .put(2, "A2")
          .put(3, "A3")
-         .put(4, "A4").toMap();
+         .put(4, "A4").get();
       
       TreeMap<Integer, String> mapB = MapBuilder.create(new TreeMap<Integer, String>())
          .put(2, "B2")
-         .put(4, "B4").toMap();
+         .put(4, "B4").get();
       
       TreeMap<Integer, String> mapC = MapBuilder.create(new TreeMap<Integer, String>())
          .put(3, "C3")
-         .put(4, "C4").toMap();
+         .put(4, "C4").get();
       
       TreeMap<Integer, String> mapD = MapBuilder.create(new TreeMap<Integer, String>())
-         .put(4, "D4").toMap();
+         .put(4, "D4").get();
       
       HashMap<String, Map<Integer, String>> leftReferenceMap = MapBuilder.create(new HashMap<String, Map<Integer, String>>())
          .put("A", mapA)
          .put("B", mapB)
          .put("C", mapC)
          .put("D", mapD)
-         .toMap();
+         .get();
 
       // Build right reference map
       HashMap<String, String> map1 = MapBuilder.create(new HashMap<String, String>())
-         .put("A", "A1").toMap();
+         .put("A", "A1").get();
       
       HashMap<String, String> map2 = MapBuilder.create(new HashMap<String, String>())
          .put("A", "A2")
-         .put("B", "B2").toMap();
+         .put("B", "B2").get();
       
       HashMap<String, String> map3 = MapBuilder.create(new HashMap<String, String>())
          .put("A", "A3")
-         .put("C", "C3").toMap();
+         .put("C", "C3").get();
    
       HashMap<String, String> map4 = MapBuilder.create(new HashMap<String, String>())
          .put("A", "A4")
          .put("B", "B4")
          .put("C", "C4")
-         .put("D", "D4").toMap();
+         .put("D", "D4").get();
       
       HashMap<Integer, Map<String, String>> rightReferenceMap = MapBuilder.create(new HashMap<Integer, Map<String, String>>())
          .put(1, map1)
          .put(2, map2)
          .put(3, map3)
          .put(4, map4)
-         .toMap();
+         .get();
       
       assertEquals(leftReferenceMap, mappings.getLeftView());
       assertEquals(rightReferenceMap, mappings.getRightView());

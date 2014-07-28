@@ -22,7 +22,7 @@ import java.util.function.Function;
 
 import net.sf.javagimmicks.collections.Ring;
 import net.sf.javagimmicks.collections.RingCursor;
-import net.sf.javagimmicks.transform.BidiTransformer;
+import net.sf.javagimmicks.transform.BidiFunction;
 
 /**
  * This class is the central entry point to the JavaGimmicks transforming

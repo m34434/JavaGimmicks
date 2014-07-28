@@ -47,21 +47,21 @@ public class Transformers
    }
 
    /**
-    * Creates a new {@link BidiTransformer} out of two given {@link Transformer}
-    * s - one for each direction.
+    * Creates a new {@link BidiFunction} out of two given {@link Function}s -
+    * one for each direction.
     * 
     * @param forwardTransformer
-    *           the forward {@link Transformer}
+    *           the forward {@link Function}
     * @param backTransformer
-    *           the backward {@link Transformer}
-    * @return a resulting {@link BidiTransformer} combined from the two given
-    *         {@link Transformer}s
+    *           the backward {@link Function}
+    * @return a resulting {@link BidiFunction} combined from the two given
+    *         {@link Function}s
     */
-   public static <F, T> BidiTransformer<F, T> bidiTransformerFromTransformers(
+   public static <F, T> BidiFunction<F, T> bidiTransformerFromTransformers(
          final Function<F, T> forwardTransformer,
          final Function<T, F> backTransformer)
    {
-      return new DualTransformerBidiTransformer<F, T>(forwardTransformer, backTransformer);
+      return new DualFunctionBidiFunction<F, T>(forwardTransformer, backTransformer);
    }
 
    /**
@@ -122,7 +122,7 @@ public class Transformers
     *            if the given object is not a {@link BidiTransforming} instance
     * @see #isBidiTransforming(Object)
     */
-   public static BidiTransformer<?, ?> getBidiTransformer(final Object transforming)
+   public static BidiFunction<?, ?> getBidiTransformer(final Object transforming)
    {
       if (!isBidiTransforming(transforming))
       {

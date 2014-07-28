@@ -3,8 +3,8 @@ package net.sf.javagimmicks.collections.transformer;
 import java.util.AbstractSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.function.Function;
 
-import net.sf.javagimmicks.transform.Transformer;
 import net.sf.javagimmicks.transform.Transforming;
 
 class TransformingSet<F, T>
@@ -12,19 +12,19 @@ class TransformingSet<F, T>
    implements Transforming<F, T>
 {
    protected final Set<F> _internalSet;
-   private final Transformer<F, T> _transformer;
+   private final Function<F, T> _transformer;
    
    /**
     * @deprecated Use TranformerUtils.decorate() instead
     */
    @Deprecated
-   public TransformingSet(Set<F> set, Transformer<F, T> transformer)
+   public TransformingSet(Set<F> set, Function<F, T> transformer)
    {
       _internalSet = set;
       _transformer = transformer;
    }
 
-   public Transformer<F, T> getTransformer()
+   public Function<F, T> getTransformer()
    {
       return _transformer;
    }

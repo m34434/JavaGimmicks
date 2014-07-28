@@ -4,15 +4,14 @@ import static net.sf.javagimmicks.testing.JUnitListAssert.assertListEquals;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
-
-import net.sf.javagimmicks.lang.Filter;
+import java.util.function.Predicate;
 
 import org.junit.Test;
 
 public class FilterListTest
 {
-   private static final Filter<Integer> evenFilter = new EvenFilter();
-   private static final Filter<Integer> oddFilter = new OddFilter();
+   private static final Predicate<Integer> evenFilter = new EvenFilter();
+   private static final Predicate<Integer> oddFilter = new OddFilter();
 
    @Test
    public void test()
@@ -85,17 +84,17 @@ public class FilterListTest
       assertEquals(evenList, evenList2);
    }
 
-   private static final class EvenFilter implements Filter<Integer>
+   private static final class EvenFilter implements Predicate<Integer>
    {
-      public boolean accepts(Integer element)
+      public boolean test(Integer element)
       {
          return element != null && element % 2 == 0;
       }
    }
 
-   private static final class OddFilter implements Filter<Integer>
+   private static final class OddFilter implements Predicate<Integer>
    {
-      public boolean accepts(Integer element)
+      public boolean test(Integer element)
       {
          return element != null && element % 2 == 1;
       }

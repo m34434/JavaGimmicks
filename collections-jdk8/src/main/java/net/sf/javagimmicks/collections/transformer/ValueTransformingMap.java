@@ -4,8 +4,10 @@ import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 
-import net.sf.javagimmicks.transform.Transformer;
+import javax.xml.transform.Transformer;
+
 import net.sf.javagimmicks.transform.Transforming;
 
 class ValueTransformingMap<K, VF, VT>
@@ -13,19 +15,19 @@ class ValueTransformingMap<K, VF, VT>
    implements Transforming<VF, VT>
 {
    protected final Map<K, VF> _internalMap;
-   private final Transformer<VF, VT> _transformer;
+   private final Function<VF, VT> _transformer;
    
    /**
     * @deprecated Use TranformerUtils.decorateValueBased() instead
     */
    @Deprecated
-   public ValueTransformingMap(Map<K, VF> map, Transformer<VF, VT> valueTransformer)
+   public ValueTransformingMap(Map<K, VF> map, Function<VF, VT> valueTransformer)
    {
       _internalMap = map;
       _transformer = valueTransformer;
    }
    
-   public Transformer<VF, VT> getTransformer()
+   public Function<VF, VT> getTransformer()
    {
       return _transformer;
    }
@@ -94,22 +96,22 @@ class ValueTransformingMap<K, VF, VT>
    
    protected VT transform(VF element)
    {
-      return getTransformer().transform(element);
+      return getTransformer().apply(element);
    }
    
    protected static class ValueTransformingEntry<K, VF, VT>
       implements Entry<K, VT>, Transforming<VF, VT>
    {
-      protected final Transformer<VF, VT> _transformer;
+      protected final Function<VF, VT> _transformer;
       protected final Entry<K, VF> _internalEntry;
       
-      public ValueTransformingEntry(Entry<K, VF> entry, Transformer<VF, VT> transformer)
+      public ValueTransformingEntry(Entry<K, VF> entry, Function<VF, VT> transformer)
       {
          _transformer = transformer;
          _internalEntry = entry;
       }
       
-      public Transformer<VF, VT> getTransformer()
+      public Function<VF, VT> getTransformer()
       {
          return _transformer;
       }
@@ -121,7 +123,7 @@ class ValueTransformingMap<K, VF, VT>
 
       public VT getValue()
       {
-         return getTransformer().transform(_internalEntry.getValue());
+         return getTransformer().apply(_internalEntry.getValue());
       }
 
       public VT setValue(VT value)
@@ -131,16 +133,16 @@ class ValueTransformingMap<K, VF, VT>
    }
    
    protected static class ValueTransformingEntryTransformer<K, VF, VT>
-      implements Transformer<Entry<K, VF>, Entry<K, VT>>
+      implements Function<Entry<K, VF>, Entry<K, VT>>
    {
-      protected final Transformer<VF, VT> _transformer;
+      protected final Function<VF, VT> _transformer;
       
-      public ValueTransformingEntryTransformer(Transformer<VF, VT> transformer)
+      public ValueTransformingEntryTransformer(Function<VF, VT> transformer)
       {
          _transformer = transformer;
       }
 
-      public Entry<K, VT> transform(Entry<K, VF> source)
+      public Entry<K, VT> apply(Entry<K, VF> source)
       {
          return new ValueTransformingEntry<K, VF, VT>(source, _transformer);
       }

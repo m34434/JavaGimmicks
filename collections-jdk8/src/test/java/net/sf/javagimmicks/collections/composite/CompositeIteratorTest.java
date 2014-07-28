@@ -26,8 +26,8 @@ public class CompositeIteratorTest
    @Before
    public void setup()
    {
-      collection1 = ListBuilder.<String> createArrayList().addAll("a", "b").toCollection();
-      collection2 = ListBuilder.<String> createArrayList().addAll("c", "d").toCollection();
+      collection1 = ListBuilder.<String> createArrayList().addAll("a", "b").get();
+      collection2 = ListBuilder.<String> createArrayList().addAll("c", "d").get();
 
       it1 = collection1.iterator();
       it2 = collection2.iterator();

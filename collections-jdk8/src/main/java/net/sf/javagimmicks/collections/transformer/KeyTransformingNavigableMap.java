@@ -2,8 +2,7 @@ package net.sf.javagimmicks.collections.transformer;
 
 import java.util.NavigableMap;
 import java.util.NavigableSet;
-
-import net.sf.javagimmicks.transform.Transformer;
+import java.util.function.Function;
 
 class KeyTransformingNavigableMap<KF, KT, V>
       extends KeyTransformingSortedMap<KF, KT, V>
@@ -13,7 +12,7 @@ class KeyTransformingNavigableMap<KF, KT, V>
     * @deprecated Use TranformerUtils.decorateKeyBased() instead
     */
    @Deprecated
-   public KeyTransformingNavigableMap(final NavigableMap<KF, V> map, final Transformer<KF, KT> transformer)
+   public KeyTransformingNavigableMap(final NavigableMap<KF, V> map, final Function<KF, KT> transformer)
    {
       super(map, transformer);
    }

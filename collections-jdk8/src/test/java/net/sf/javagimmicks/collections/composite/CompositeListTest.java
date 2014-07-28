@@ -33,9 +33,9 @@ public class CompositeListTest
    @SuppressWarnings("unchecked")
    public void prepare()
    {
-      _l1 = ListBuilder.create(new ArrayList<String>()).addAll("A", "B", "C").toList();
+      _l1 = ListBuilder.create(new ArrayList<String>()).addAll("A", "B", "C").get();
       _l2 = new ArrayList<String>();
-      _l3 = ListBuilder.create(new LinkedList<String>()).addAll("D", "E", "F").toList();
+      _l3 = ListBuilder.create(new LinkedList<String>()).addAll("D", "E", "F").get();
       _l4 = Collections.emptyList();
       _l5 = Collections.singletonList("G");
       
@@ -43,7 +43,6 @@ public class CompositeListTest
    }
    
    @Test
-   @SuppressWarnings("unchecked")
    public void testEquality()
    {
       List<String> reference = buildReference(_l1, _l2, _l3, _l4, _l5);
@@ -55,7 +54,6 @@ public class CompositeListTest
    }
    
    @Test
-   @SuppressWarnings("unchecked")
    public void testEqualityReverse()
    {
       // This will especially test, if the internal ListIterator works right in the reverse way
@@ -303,6 +301,7 @@ public class CompositeListTest
       assertEquals(4, it.nextIndex());
    }
    
+   @SafeVarargs
    private static <E> List<E> buildReference(List<? extends E>... lists)
    {
       final ArrayList<E> result = new ArrayList<E>();

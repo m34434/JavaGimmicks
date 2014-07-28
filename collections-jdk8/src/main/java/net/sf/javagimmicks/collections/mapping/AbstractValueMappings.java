@@ -9,7 +9,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import net.sf.javagimmicks.collections.transformer.TransformerUtils;
-import net.sf.javagimmicks.transform.Transformer;
 
 /**
  * An abstract implementation of {@link ValueMappings} that provides default
@@ -102,7 +101,7 @@ public abstract class AbstractValueMappings<L, R, E> implements ValueMappings<L,
    @Override
    public Collection<E> getValues()
    {
-      return TransformerUtils.decorate(getMappingSet(), VALUE_TRANSFORMER);
+      return TransformerUtils.decorate(getMappingSet(), source -> source.getValue());
    }
 
    @Override
@@ -331,13 +330,4 @@ public abstract class AbstractValueMappings<L, R, E> implements ValueMappings<L,
          return _partner.removeLeftKey(right);
       }
    }
-
-   protected final Transformer<Mapping<L, R, E>, E> VALUE_TRANSFORMER = new Transformer<Mapping<L, R, E>, E>()
-   {
-      @Override
-      public E transform(final Mapping<L, R, E> source)
-      {
-         return source.getValue();
-      }
-   };
 }

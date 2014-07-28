@@ -2,8 +2,7 @@ package net.sf.javagimmicks.collections.transformer;
 
 import java.util.Comparator;
 import java.util.SortedMap;
-
-import net.sf.javagimmicks.transform.Transformer;
+import java.util.function.Function;
 
 class KeyTransformingSortedMap<KF, KT, V> extends KeyTransformingMap<KF, KT, V> implements SortedMap<KT, V>
 {
@@ -11,7 +10,7 @@ class KeyTransformingSortedMap<KF, KT, V> extends KeyTransformingMap<KF, KT, V> 
     * @deprecated Use TranformerUtils.decorateKeyBased() instead
     */
    @Deprecated
-   public KeyTransformingSortedMap(SortedMap<KF, V> map, Transformer<KF, KT> transformer)
+   public KeyTransformingSortedMap(SortedMap<KF, V> map, Function<KF, KT> transformer)
    {
       super(map, transformer);
    }

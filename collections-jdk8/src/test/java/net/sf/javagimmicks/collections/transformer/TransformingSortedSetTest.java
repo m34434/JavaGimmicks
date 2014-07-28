@@ -107,7 +107,7 @@ public class TransformingSortedSetTest extends AbstractTransformingCollectionTes
       }
       
       String toElementString = BASE_DATA.get(baseSortedSet.size() - 2);
-      Integer toElementInteger = getTransformer().transform(toElementString);
+      Integer toElementInteger = getTransformer().apply(toElementString);
       
       SortedSet<String> base = baseSortedSet.headSet(toElementString);
       SortedSet<Integer> transformed = testPair.getTransformed().headSet(toElementInteger);

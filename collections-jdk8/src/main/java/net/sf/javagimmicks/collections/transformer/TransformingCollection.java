@@ -3,8 +3,8 @@ package net.sf.javagimmicks.collections.transformer;
 import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.function.Function;
 
-import net.sf.javagimmicks.transform.Transformer;
 import net.sf.javagimmicks.transform.Transforming;
 
 class TransformingCollection<F, T>
@@ -12,19 +12,19 @@ class TransformingCollection<F, T>
 	implements Transforming<F, T>
 {
    protected final Collection<F> _internalCollection;
-   private final Transformer<F, T> _transformer;
+   private final Function<F, T> _transformer;
    
    /**
     * @deprecated Use TranformerUtils.decorate() instead
     */
    @Deprecated
-   public TransformingCollection(Collection<F> collection, Transformer<F, T> transformer)
+   public TransformingCollection(Collection<F> collection, Function<F, T> transformer)
    {
       _internalCollection = collection;
       _transformer = transformer;
    }
    
-   public Transformer<F, T> getTransformer()
+   public Function<F, T> getTransformer()
 	{
 		return _transformer;
 	}

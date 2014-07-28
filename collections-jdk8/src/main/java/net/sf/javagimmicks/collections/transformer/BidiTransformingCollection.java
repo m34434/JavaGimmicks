@@ -2,7 +2,7 @@ package net.sf.javagimmicks.collections.transformer;
 
 import java.util.Collection;
 
-import net.sf.javagimmicks.transform.BidiTransformer;
+import net.sf.javagimmicks.transform.BidiFunction;
 import net.sf.javagimmicks.transform.BidiTransforming;
 
 class BidiTransformingCollection<F, T>
@@ -13,14 +13,14 @@ class BidiTransformingCollection<F, T>
     * @deprecated Use TranformerUtils.decorate() instead
     */
    @Deprecated
-   public BidiTransformingCollection(Collection<F> collection, BidiTransformer<F, T> transformer)
+   public BidiTransformingCollection(Collection<F> collection, BidiFunction<F, T> transformer)
    {
       super(collection, transformer);
    }
 
-   public BidiTransformer<F, T> getBidiTransformer()
+   public BidiFunction<F, T> getBidiTransformer()
    {
-      return (BidiTransformer<F, T>)getTransformer();
+      return (BidiFunction<F, T>)getTransformer();
    }
 
    @Override

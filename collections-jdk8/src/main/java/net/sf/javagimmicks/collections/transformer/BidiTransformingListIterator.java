@@ -2,7 +2,7 @@ package net.sf.javagimmicks.collections.transformer;
 
 import java.util.ListIterator;
 
-import net.sf.javagimmicks.transform.BidiTransformer;
+import net.sf.javagimmicks.transform.BidiFunction;
 import net.sf.javagimmicks.transform.BidiTransforming;
 
 class BidiTransformingListIterator<F, T>
@@ -14,14 +14,14 @@ class BidiTransformingListIterator<F, T>
     */
    @Deprecated
    public BidiTransformingListIterator(ListIterator<F> iterator,
-         BidiTransformer<F, T> transformer)
+         BidiFunction<F, T> transformer)
    {
       super(iterator, transformer);
    }
 
-   public BidiTransformer<F, T> getBidiTransformer()
+   public BidiFunction<F, T> getBidiTransformer()
    {
-      return (BidiTransformer<F, T>)getTransformer();
+      return (BidiFunction<F, T>)getTransformer();
    }
 
    @Override

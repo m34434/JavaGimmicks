@@ -2,8 +2,7 @@ package net.sf.javagimmicks.collections.transformer;
 
 import java.util.Comparator;
 import java.util.SortedMap;
-
-import net.sf.javagimmicks.transform.Transformer;
+import java.util.function.Function;
 
 class ValueTransformingSortedMap<K, VF, VT> extends ValueTransformingMap<K, VF, VT> implements SortedMap<K, VT>
 {
@@ -11,7 +10,7 @@ class ValueTransformingSortedMap<K, VF, VT> extends ValueTransformingMap<K, VF, 
     * @deprecated Use TranformerUtils.decorateValueBased() instead
     */
    @Deprecated
-   public ValueTransformingSortedMap(SortedMap<K, VF> map, Transformer<VF, VT> valueTransformer)
+   public ValueTransformingSortedMap(SortedMap<K, VF> map, Function<VF, VT> valueTransformer)
    {
       super(map, valueTransformer);
    }

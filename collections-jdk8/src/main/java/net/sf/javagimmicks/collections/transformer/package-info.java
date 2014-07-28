@@ -28,7 +28,7 @@
  * instances, you need to provide to them the transformation rules.
  * You can do so by writing a class that implements the
  * {@link net.sf.javagimmicks.transform.Transformer} or
- * {@link net.sf.javagimmicks.transform.BidiTransformer} interface
+ * {@link net.sf.javagimmicks.transform.BidiFunction} interface
  * which are both contained in this API.
  * <p>
  * When providing a {@link net.sf.javagimmicks.transform.Transformer},
@@ -40,7 +40,7 @@
  * (neither on the {@link java.util.List} nor on any of its
  * {@link java.util.ListIterator}s. For more details, see below.
  * <p>
- * When providing a {@link net.sf.javagimmicks.transform.BidiTransformer},
+ * When providing a {@link net.sf.javagimmicks.transform.BidiFunction},
  * all operations will be available and some operations will even be faster.
  * 
  * <h2>Decorator methods in {@link net.sf.javagimmicks.collections.transformer.TransformerUtils}</h2>
@@ -49,7 +49,7 @@
  * for {@link java.util.Map}s) which can be used to create transformed instances
  * of a number of (generic) base classes by providing an instance of this
  * base class and one of {@link net.sf.javagimmicks.transform.Transformer} or
- * {@link net.sf.javagimmicks.transform.BidiTransformer}.
+ * {@link net.sf.javagimmicks.transform.BidiFunction}.
  * <p>
  * The resulting instance will implement the same interface (but
  * eventually with different type parameters) and additionally
@@ -68,7 +68,7 @@
  *       <tr>
  *          <th>Operation</th>
  *          <th>Transformer</th>
- *          <th>BidiTransformer</th>
+ *          <th>BidiFunction</th>
  *       </tr>
  *    </thead>
  *    <tbody>
@@ -94,7 +94,7 @@
  *       <tr>
  *          <th>Operation</th>
  *          <th>Transformer</th>
- *          <th>BidiTransformer</th>
+ *          <th>BidiFunction</th>
  *       </tr>
  *    </thead>
  *    <tbody>
@@ -158,7 +158,7 @@
  *       <tr>
  *          <th>Operation</th>
  *          <th>Transformer</th>
- *          <th>BidiTransformer</th>
+ *          <th>BidiFunction</th>
  *       </tr>
  *    </thead>
  *    <tbody>
@@ -229,7 +229,7 @@
  *       <tr>
  *          <th>Operation</th>
  *          <th>Transformer</th>
- *          <th>BidiTransformer</th>
+ *          <th>BidiFunction</th>
  *       </tr>
  *    </thead>
  *    <tbody>
@@ -277,7 +277,7 @@
  *       <tr>
  *          <th>Operation</th>
  *          <th>Transformer</th>
- *          <th>BidiTransformer</th>
+ *          <th>BidiFunction</th>
  *       </tr>
  *    </thead>
  *    <tbody>
@@ -350,7 +350,7 @@
  *       <tr>
  *          <th>Operation</th>
  *          <th>Transformer</th>
- *          <th>BidiTransformer</th>
+ *          <th>BidiFunction</th>
  *       </tr>
  *    </thead>
  *    <tbody>
@@ -394,7 +394,7 @@
  *       <tr>
  *          <th>Operation</th>
  *          <th>Transformer</th>
- *          <th>BidiTransformer</th>
+ *          <th>BidiFunction</th>
  *       </tr>
  *    </thead>
  *    <tbody>
@@ -451,7 +451,7 @@
  *       <tr>
  *          <th>Operation</th>
  *          <th>Transformer</th>
- *          <th>BidiTransformer</th>
+ *          <th>BidiFunction</th>
  *       </tr>
  *    </thead>
  *    <tbody>
@@ -532,7 +532,7 @@
  *       <tr>
  *          <th>Operation</th>
  *          <th>Transformer</th>
- *          <th>BidiTransformer</th>
+ *          <th>BidiFunction</th>
  *       </tr>
  *    </thead>
  *    <tbody>
@@ -580,7 +580,7 @@
  *       <tr>
  *          <th>Operation</th>
  *          <th>Transformer</th>
- *          <th>BidiTransformer</th>
+ *          <th>BidiFunction</th>
  *       </tr>
  *    </thead>
  *    <tbody>
@@ -685,7 +685,7 @@
  *       <tr>
  *          <th>Operation</th>
  *          <th>Transformer</th>
- *          <th>BidiTransformer</th>
+ *          <th>BidiFunction</th>
  *       </tr>
  *    </thead>
  *    <tbody>
@@ -763,7 +763,7 @@
  *       <tr>
  *          <th>Operation</th>
  *          <th>Transformer</th>
- *          <th>BidiTransformer</th>
+ *          <th>BidiFunction</th>
  *       </tr>
  *    </thead>
  *    <tbody>
@@ -805,7 +805,7 @@
  *       <tr>
  *          <th>Operation</th>
  *          <th>Transformer</th>
- *          <th>BidiTransformer</th>
+ *          <th>BidiFunction</th>
  *       </tr>
  *    </thead>
  *    <tbody>
@@ -895,7 +895,7 @@
  * <a name="mapKeyValue"/>
  * <h3>Operations on a key- and value-based transformed {@link java.util.Map}</h3>
  * <p>
- * <b>Note:</b> When using a combination of one Transformer and one BidiTransformer
+ * <b>Note:</b> When using a combination of one Transformer and one BidiFunction
  * for keys and values allows you can fall back to the supported operation list
  * for the part that only has a Transformer.
  * <p>
@@ -911,7 +911,7 @@
  *       <tr>
  *          <th>Operation</th>
  *          <th>Key- and Value-Transformer</th>
- *          <th>Key- and Value-BidiTransformer</th>
+ *          <th>Key- and Value-BidiFunction</th>
  *       </tr>
  *    </thead>
  *    <tbody>
@@ -990,7 +990,7 @@
  * <p><b>Note:</b> the sorting order of a transformed {@link java.util.SortedMap}
  * remains that from the wrapped one
  * <p>
- * <b>Note:</b> When using a combination of one Transformer and one BidiTransformer
+ * <b>Note:</b> When using a combination of one Transformer and one BidiFunction
  * for keys and values allows you can fall back to the supported operation list
  * for the part that only has a Transformer.
  * <p>
@@ -1006,7 +1006,7 @@
  *       <tr>
  *          <th>Operation</th>
  *          <th>Key- and Value-Transformer</th>
- *          <th>Key- and Value-BidiTransformer</th>
+ *          <th>Key- and Value-BidiFunction</th>
  *       </tr>
  *    </thead>
  *    <tbody>
@@ -1050,7 +1050,7 @@
  * <p><b>Note:</b> the sorting order of a transformed {@link java.util.NavigableMap}
  * remains that from the wrapped one
  * <p>
- * <b>Note:</b> When using a combination of one Transformer and one BidiTransformer
+ * <b>Note:</b> When using a combination of one Transformer and one BidiFunction
  * for keys and values allows you can fall back to the supported operation list
  * for the part that only has a Transformer.
  * <p>
@@ -1066,7 +1066,7 @@
  *       <tr>
  *          <th>Operation</th>
  *          <th>Key- and Value-Transformer</th>
- *          <th>Key- and Value-BidiTransformer</th>
+ *          <th>Key- and Value-BidiFunction</th>
  *       </tr>
  *    </thead>
  *    <tbody>
@@ -1171,7 +1171,7 @@
  *       <tr>
  *          <th>Operation</th>
  *          <th>Transformer</th>
- *          <th>BidiTransformer</th>
+ *          <th>BidiFunction</th>
  *       </tr>
  *    </thead>
  *    <tbody>
@@ -1236,7 +1236,7 @@
  *       <tr>
  *          <th>Operation</th>
  *          <th>Transformer</th>
- *          <th>BidiTransformer</th>
+ *          <th>BidiFunction</th>
  *       </tr>
  *    </thead>
  *    <tbody>

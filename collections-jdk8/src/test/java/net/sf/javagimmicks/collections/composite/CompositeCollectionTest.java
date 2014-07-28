@@ -30,10 +30,10 @@ public class CompositeCollectionTest
    @SuppressWarnings("unchecked")
    public void prepare()
    {
-      _c1 = CollectionBuilder.create(new HashSet<String>()).add("A").add("B").toCollection();
+      _c1 = CollectionBuilder.create(new HashSet<String>()).add("A").add("B").get();
       _c2 = Collections.emptySet();
       _c3 = new ArrayList<String>();
-      _c4 = ListBuilder.create(new LinkedList<String>()).add("C").add("D").add("E").toList();
+      _c4 = ListBuilder.create(new LinkedList<String>()).add("C").add("D").add("E").get();
       _c5 = Collections.emptyList();
       _c6 = Collections.singleton("F");
       _c7 = Collections.singletonList("G");
@@ -42,7 +42,6 @@ public class CompositeCollectionTest
    }
 
    @Test
-   @SuppressWarnings("unchecked")
    public void testEquality()
    {
       Collection<String> reference = buildReference(_c1, _c2, _c3, _c4, _c5, _c6, _c7);
@@ -161,6 +160,7 @@ public class CompositeCollectionTest
       assertTrue(_composite.contains("Z"));
    }
 
+   @SafeVarargs
    private static <E> Collection<E> buildReference(Collection<? extends E>... collections)
    {
       final ArrayList<E> result = new ArrayList<E>();

@@ -9,34 +9,32 @@ import static org.junit.Assert.fail;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.Map.Entry;
+import java.util.function.Function;
 
-import net.sf.javagimmicks.transform.AbstractBidiTransformer;
-import net.sf.javagimmicks.transform.BidiTransformer;
-import net.sf.javagimmicks.transform.Transformer;
-import net.sf.javagimmicks.transform.Transformers;
+import net.sf.javagimmicks.transform.BidiFunction;
 
 import org.junit.Before;
 import org.junit.Test;
 
 public class TransformingMapTest
 {  
-   protected BidiTransformer<String, Integer> _keyTransformer;
-   protected BidiTransformer<Integer, String> _valueTransformer;
+   protected BidiFunction<String, Integer> _keyTransformer;
+   protected BidiFunction<Integer, String> _valueTransformer;
    
    @Before
    public void setUp()
    {
-      _keyTransformer = new AbstractBidiTransformer<String, Integer>()
+      _keyTransformer = new BidiFunction<String, Integer>()
       {
          public String applyReverse(Integer source)
          {
             return String.valueOf(source.intValue());
          }
 
-         public Integer transform(String source)
+         public Integer apply(String source)
          {
             return Integer.parseInt(source);
          }
@@ -48,15 +46,15 @@ public class TransformingMapTest
    @Test
    public void testTransformer()
    {
-      BidiTransformer<Integer, String> invertedTransformer = _keyTransformer.invert();
+      BidiFunction<Integer, String> invertedTransformer = _keyTransformer.invert();
       
       String s1 = "1";
-      assertEquals(s1, _keyTransformer.applyReverse(_keyTransformer.transform(s1)));
-      assertEquals(s1, invertedTransformer.transform(invertedTransformer.applyReverse(s1)));
+      assertEquals(s1, _keyTransformer.applyReverse(_keyTransformer.apply(s1)));
+      assertEquals(s1, invertedTransformer.apply(invertedTransformer.applyReverse(s1)));
       
       int i1 = 1;
-      assertEquals(i1, _keyTransformer.transform(_keyTransformer.applyReverse(i1)).intValue());
-      assertEquals(i1, invertedTransformer.applyReverse(invertedTransformer.transform(i1)).intValue());
+      assertEquals(i1, _keyTransformer.apply(_keyTransformer.applyReverse(i1)).intValue());
+      assertEquals(i1, invertedTransformer.applyReverse(invertedTransformer.apply(i1)).intValue());
    }
    
    @Test
@@ -217,7 +215,7 @@ public class TransformingMapTest
       assertFalse(transformed.containsKey(3));
       assertFalse(transformed.containsValue(30));
       
-      Transformer<Integer, Integer> valueTransformer = Transformers.identityTransformer();
+      Function<Integer, Integer> valueTransformer = Function.identity();
       testEntrySets(base.entrySet(), transformed.entrySet(), _keyTransformer, valueTransformer);
    }
    
@@ -244,7 +242,7 @@ public class TransformingMapTest
       assertFalse(transformed.containsKey("3"));
       assertFalse(transformed.containsValue("30"));
       
-      Transformer<String, String> keyTransformer = Transformers.identityTransformer();
+      Function<String, String> keyTransformer = Function.identity();
       testEntrySets(base.entrySet(), transformed.entrySet(), keyTransformer, _valueTransformer);
    }
    
@@ -278,17 +276,17 @@ public class TransformingMapTest
       testEntrySets(base.entrySet(), transformed.entrySet(), _keyTransformer, _valueTransformer);
    }
    
-   protected Transformer<String, Integer> getKeyTransformer()
+   protected Function<String, Integer> getKeyTransformer()
    {
       return _keyTransformer;
    }
    
-   protected Transformer<Integer, String> getValueTransformer()
+   protected Function<Integer, String> getValueTransformer()
    {
       return _valueTransformer;
    }
    
-   protected static <KF, KT, VF, VT> void testEntrySets(Set<Entry<KF, VF>> setF, Set<Entry<KT, VT>> setT, Transformer<KF, KT> keyTransformer, Transformer<VF, VT> valueTransformer)
+   protected static <KF, KT, VF, VT> void testEntrySets(Set<Entry<KF, VF>> setF, Set<Entry<KT, VT>> setT, Function<KF, KT> keyTransformer, Function<VF, VT> valueTransformer)
    {
       Iterator<Entry<KF, VF>> iterF = setF.iterator();
       Iterator<Entry<KT, VT>> iterT = setT.iterator();
@@ -300,8 +298,8 @@ public class TransformingMapTest
          Entry<KF, VF> entryF = iterF.next();
          Entry<KT, VT> entryT = iterT.next();
          
-         assertEquals(keyTransformer.transform(entryF.getKey()), entryT.getKey());
-         assertEquals(valueTransformer.transform(entryF.getValue()), entryT.getValue());
+         assertEquals(keyTransformer.apply(entryF.getKey()), entryT.getKey());
+         assertEquals(valueTransformer.apply(entryF.getValue()), entryT.getValue());
       }
    }
    

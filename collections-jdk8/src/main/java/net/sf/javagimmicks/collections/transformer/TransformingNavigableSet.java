@@ -2,8 +2,7 @@ package net.sf.javagimmicks.collections.transformer;
 
 import java.util.Iterator;
 import java.util.NavigableSet;
-
-import net.sf.javagimmicks.transform.Transformer;
+import java.util.function.Function;
 
 class TransformingNavigableSet<F, T>
    extends TransformingSortedSet<F, T>
@@ -13,7 +12,7 @@ class TransformingNavigableSet<F, T>
     * @deprecated Use TranformerUtils.decorate() instead
     */
    @Deprecated
-   public TransformingNavigableSet(NavigableSet<F> set, Transformer<F, T> transformer)
+   public TransformingNavigableSet(NavigableSet<F> set, Function<F, T> transformer)
    {
       super(set, transformer);
    }

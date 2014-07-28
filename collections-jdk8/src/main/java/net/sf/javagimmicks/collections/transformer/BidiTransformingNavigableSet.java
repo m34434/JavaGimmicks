@@ -3,17 +3,17 @@ package net.sf.javagimmicks.collections.transformer;
 import java.util.Iterator;
 import java.util.NavigableSet;
 
-import net.sf.javagimmicks.transform.BidiTransformer;
+import net.sf.javagimmicks.transform.BidiFunction;
 
 class BidiTransformingNavigableSet<F, T>
-   extends BidiTransformingSortedSet<F, T>
-   implements NavigableSet<T>
+      extends BidiTransformingSortedSet<F, T>
+      implements NavigableSet<T>
 {
    /**
     * @deprecated Use TranformerUtils.decorate() instead
     */
    @Deprecated
-   public BidiTransformingNavigableSet(NavigableSet<F> set, BidiTransformer<F, T> transformer)
+   public BidiTransformingNavigableSet(NavigableSet<F> set, BidiFunction<F, T> transformer)
    {
       super(set, transformer);
    }
@@ -27,15 +27,15 @@ class BidiTransformingNavigableSet<F, T>
    public Iterator<T> descendingIterator()
    {
       return TransformerUtils.decorate(
-         getNavigableSet().descendingIterator(),
-         getTransformer());
+            getNavigableSet().descendingIterator(),
+            getTransformer());
    }
 
    public NavigableSet<T> descendingSet()
    {
       return TransformerUtils.decorate(
-         getNavigableSet().descendingSet(),
-         getBidiTransformer());
+            getNavigableSet().descendingSet(),
+            getBidiTransformer());
    }
 
    public T floor(T e)
@@ -47,8 +47,8 @@ class BidiTransformingNavigableSet<F, T>
    public NavigableSet<T> headSet(T toElement, boolean inclusive)
    {
       return TransformerUtils.decorate(
-         getNavigableSet().headSet(transformBack(toElement), inclusive),
-         getBidiTransformer());
+            getNavigableSet().headSet(transformBack(toElement), inclusive),
+            getBidiTransformer());
    }
 
    public T higher(T e)
@@ -79,21 +79,21 @@ class BidiTransformingNavigableSet<F, T>
          T toElement, boolean toInclusive)
    {
       return TransformerUtils.decorate(
-         getNavigableSet().subSet(
-               transformBack(fromElement), fromInclusive,
-               transformBack(toElement), toInclusive),
-         getBidiTransformer());
+            getNavigableSet().subSet(
+                  transformBack(fromElement), fromInclusive,
+                  transformBack(toElement), toInclusive),
+            getBidiTransformer());
    }
 
    public NavigableSet<T> tailSet(T fromElement, boolean inclusive)
    {
       return TransformerUtils.decorate(
-         getNavigableSet().tailSet(transformBack(fromElement), inclusive),
-         getBidiTransformer());
+            getNavigableSet().tailSet(transformBack(fromElement), inclusive),
+            getBidiTransformer());
    }
 
    protected NavigableSet<F> getNavigableSet()
    {
-      return (NavigableSet<F>)_internalSet;
+      return (NavigableSet<F>) _internalSet;
    }
 }

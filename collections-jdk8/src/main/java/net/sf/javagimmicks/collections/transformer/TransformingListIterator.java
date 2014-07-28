@@ -1,8 +1,7 @@
 package net.sf.javagimmicks.collections.transformer;
 
 import java.util.ListIterator;
-
-import net.sf.javagimmicks.transform.Transformer;
+import java.util.function.Function;
 
 class TransformingListIterator<F, T>
    extends TransformingIterator<F, T>
@@ -12,7 +11,7 @@ class TransformingListIterator<F, T>
     * @deprecated Use TranformerUtils.decorate() instead
     */
    @Deprecated
-   public TransformingListIterator(ListIterator<F> iterator, Transformer<F, T> transformer)
+   public TransformingListIterator(ListIterator<F> iterator, Function<F, T> transformer)
    {
       super(iterator, transformer);
    }

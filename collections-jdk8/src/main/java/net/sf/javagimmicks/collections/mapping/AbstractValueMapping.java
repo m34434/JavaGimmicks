@@ -1,9 +1,9 @@
 package net.sf.javagimmicks.collections.mapping;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import net.sf.javagimmicks.collections.mapping.ValueMappings.Mapping;
-import net.sf.javagimmicks.lang.LangUtils;
 
 /**
  * An abstract implementation of {@link Mapping} that provides a default
@@ -65,7 +65,7 @@ public abstract class AbstractValueMapping<L, R, E> implements Mapping<L, R, E>,
       final Mapping<?, ?, ?> other = (Mapping<?, ?, ?>) obj;
 
       return getLeftKey().equals(other.getLeftKey()) && getRightKey().equals(other.getRightKey())
-            && LangUtils.equalsNullSafe(getValue(), other.getValue());
+            && Objects.equals(getValue(), other.getValue());
    }
 
    @Override

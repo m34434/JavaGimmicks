@@ -3,7 +3,7 @@ package net.sf.javagimmicks.collections.transformer;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
 
-import net.sf.javagimmicks.transform.BidiTransformer;
+import net.sf.javagimmicks.transform.BidiFunction;
 
 class ValueBidiTransformingNavigableMap<K, VF, VT>
    extends ValueBidiTransformingSortedMap<K, VF, VT>
@@ -13,7 +13,7 @@ class ValueBidiTransformingNavigableMap<K, VF, VT>
     * @deprecated Use TranformerUtils.decorateValueBased() instead
     */
    @Deprecated
-   public ValueBidiTransformingNavigableMap(NavigableMap<K, VF> map, BidiTransformer<VF, VT> valueTransformer)
+   public ValueBidiTransformingNavigableMap(NavigableMap<K, VF> map, BidiFunction<VF, VT> valueTransformer)
    {
       super(map, valueTransformer);
    }

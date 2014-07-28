@@ -2,8 +2,7 @@ package net.sf.javagimmicks.collections.transformer;
 
 import java.util.NavigableMap;
 import java.util.NavigableSet;
-
-import net.sf.javagimmicks.transform.Transformer;
+import java.util.function.Function;
 
 class ValueTransformingNavigableMap<K, VF, VT>
    extends ValueTransformingSortedMap<K, VF, VT>
@@ -13,7 +12,7 @@ class ValueTransformingNavigableMap<K, VF, VT>
     * @deprecated Use TranformerUtils.decorateValueBased() instead
     */
    @Deprecated
-   public ValueTransformingNavigableMap(NavigableMap<K, VF> map, Transformer<VF, VT> valueTransformer)
+   public ValueTransformingNavigableMap(NavigableMap<K, VF> map, Function<VF, VT> valueTransformer)
    {
       super(map, valueTransformer);
    }

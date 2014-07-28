@@ -4,8 +4,8 @@ import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 
-import net.sf.javagimmicks.transform.Transformer;
 import net.sf.javagimmicks.transform.Transforming;
 
 class KeyTransformingMap<KF, KT, V>
@@ -13,19 +13,19 @@ class KeyTransformingMap<KF, KT, V>
    implements Transforming<KF, KT>
 {
    protected final Map<KF, V> _internalMap;
-   protected final Transformer<KF, KT> _transformer;
+   protected final Function<KF, KT> _transformer;
    
    /**
     * @deprecated Use TranformerUtils.decorateKeyBased() instead
     */
    @Deprecated
-   public KeyTransformingMap(Map<KF, V> map, Transformer<KF, KT> transformer)
+   public KeyTransformingMap(Map<KF, V> map, Function<KF, KT> transformer)
    {
       _internalMap = map;
       _transformer = transformer;
    }
    
-   public Transformer<KF, KT> getTransformer()
+   public Function<KF, KT> getTransformer()
    {
       return _transformer;
    }
@@ -78,29 +78,29 @@ class KeyTransformingMap<KF, KT, V>
    
    protected KT transform(KF element)
    {
-      return getTransformer().transform(element);
+      return getTransformer().apply(element);
    }
    
    protected static class KeyTransformingEntry<KF, KT, V>
       implements Entry<KT, V>, Transforming<KF, KT>
    {
       protected final Entry<KF, V> _internalEntry;
-      protected final Transformer<KF, KT> _transformer;
+      protected final Function<KF, KT> _transformer;
       
-      public KeyTransformingEntry(Entry<KF, V> entry, Transformer<KF, KT> transformer)
+      public KeyTransformingEntry(Entry<KF, V> entry, Function<KF, KT> transformer)
       {
          _internalEntry = entry;
          _transformer = transformer;
       }
 
-      public Transformer<KF, KT> getTransformer()
+      public Function<KF, KT> getTransformer()
       {
          return _transformer;
       }
 
       public KT getKey()
       {
-         return _transformer.transform(_internalEntry.getKey());
+         return _transformer.apply(_internalEntry.getKey());
       }
 
       public V getValue()
@@ -115,16 +115,16 @@ class KeyTransformingMap<KF, KT, V>
    }
    
    protected static class KeyTransformingEntryTransformer<KF, KT, V>
-      implements Transformer<Entry<KF, V>, Entry<KT, V>>
+      implements Function<Entry<KF, V>, Entry<KT, V>>
    {
-      protected final Transformer<KF, KT> _transformer;
+      protected final Function<KF, KT> _transformer;
       
-      public KeyTransformingEntryTransformer(Transformer<KF, KT> transformer)
+      public KeyTransformingEntryTransformer(Function<KF, KT> transformer)
       {
          _transformer = transformer;
       }
 
-      public Entry<KT, V> transform(Entry<KF, V> source)
+      public Entry<KT, V> apply(Entry<KF, V> source)
       {
          return new KeyTransformingEntry<KF, KT, V>(source, _transformer);
       }

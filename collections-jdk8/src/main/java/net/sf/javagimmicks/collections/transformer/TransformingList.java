@@ -4,8 +4,8 @@ import java.util.AbstractList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.function.Function;
 
-import net.sf.javagimmicks.transform.Transformer;
 import net.sf.javagimmicks.transform.Transforming;
 
 class TransformingList<F, T>
@@ -13,19 +13,19 @@ class TransformingList<F, T>
 	implements Transforming<F, T>
 {
    protected final List<F> _internalList;
-   private final Transformer<F, T> _transformer;
+   private final Function<F, T> _transformer;
    
    /**
     * @deprecated Use TranformerUtils.decorate() instead
     */
    @Deprecated
-   public TransformingList(List<F> list, Transformer<F, T> transformer)
+   public TransformingList(List<F> list, Function<F, T> transformer)
    {
       _internalList = list;
       _transformer = transformer;
    }
    
-   public Transformer<F, T> getTransformer()
+   public Function<F, T> getTransformer()
 	{
 		return _transformer;
 	}
@@ -74,6 +74,6 @@ class TransformingList<F, T>
 
    protected T transform(F element)
    {
-      return getTransformer().transform(element);
+      return getTransformer().apply(element);
    }
 }

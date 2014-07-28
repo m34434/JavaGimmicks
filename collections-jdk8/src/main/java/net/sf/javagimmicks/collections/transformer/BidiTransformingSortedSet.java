@@ -3,7 +3,7 @@ package net.sf.javagimmicks.collections.transformer;
 import java.util.Comparator;
 import java.util.SortedSet;
 
-import net.sf.javagimmicks.transform.BidiTransformer;
+import net.sf.javagimmicks.transform.BidiFunction;
 import net.sf.javagimmicks.util.ComparableComparator;
 
 class BidiTransformingSortedSet<F, T> extends BidiTransformingSet<F, T> implements SortedSet<T>
@@ -12,7 +12,7 @@ class BidiTransformingSortedSet<F, T> extends BidiTransformingSet<F, T> implemen
     * @deprecated Use TranformerUtils.decorate() instead
     */
    @Deprecated
-   public BidiTransformingSortedSet(SortedSet<F> set, BidiTransformer<F, T> transformer)
+   public BidiTransformingSortedSet(SortedSet<F> set, BidiFunction<F, T> transformer)
    {
       super(set, transformer);
    }
@@ -54,7 +54,7 @@ class BidiTransformingSortedSet<F, T> extends BidiTransformingSet<F, T> implemen
          getSortedSet().subSet(
             transformBack(fromElement),
             transformBack(toElement)),
-         getBidiTransformer());
+            getBidiTransformer());
    }
 
    public SortedSet<T> tailSet(T fromElement)
@@ -71,6 +71,6 @@ class BidiTransformingSortedSet<F, T> extends BidiTransformingSet<F, T> implemen
    
    protected T transform(F element)
    {
-      return getTransformer().transform(element);
+      return getTransformer().apply(element);
    }
 }

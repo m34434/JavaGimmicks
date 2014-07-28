@@ -1,20 +1,20 @@
 package net.sf.javagimmicks.transform;
 
 /**
- * An interface for objects that carry a {@link BidiTransformer} for internally
+ * An interface for objects that carry a {@link BidiFunction} for internally
  * transforming objects.
  * 
  * @param <F>
- *           the source object type of the contained {@link BidiTransformer}
+ *           the source object type of the contained {@link BidiFunction}
  * @param <T>
- *           the target object type of the contained {@link BidiTransformer}
+ *           the target object type of the contained {@link BidiFunction}
  */
 public interface BidiTransforming<F, T> extends Transforming<F, T>
 {
    /**
-    * Returns the internal {@link BidiTransformer}
+    * Returns the internal {@link BidiFunction}
     * 
-    * @return the internal {@link BidiTransformer}
+    * @return the internal {@link BidiFunction}
     */
-   public BidiTransformer<F, T> getBidiTransformer();
+   public BidiFunction<F, T> getBidiTransformer();
 }
