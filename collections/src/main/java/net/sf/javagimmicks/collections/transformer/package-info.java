@@ -61,9 +61,9 @@
  * no data itself. Any changes on it will affect the internal one and
  * vice versa.
  * 
- * <a name="iterator"/>
+ * <a name="iterator"></a>
  * <h3>Operations on a transformed {@link java.util.Iterator}</h3>
- * <table border="2">
+ * <table border="2" summary="Operations on a transformed Iterator">
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
@@ -87,9 +87,9 @@
  *    </tbody>
  * </table>
  * 
- * <a name="collection"/>
+ * <a name="collection"></a>
  * <h3>Operations on a transformed {@link java.util.Collection}</h3>
- * <table border="2">
+ * <table border="2" summary="Operations on a transformed Collection">
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
@@ -151,9 +151,9 @@
  *    </tbody>
  * </table>
  * 
- * <a name="set"/>
+ * <a name="set"></a>
  * <h3>Operations on a transformed {@link java.util.Set}</h3>
- * <table border="2">
+ * <table border="2" summary="Operations on a transformed Set">
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
@@ -220,11 +220,11 @@
  *    </tbody>
  * </table>
  * 
- * <a name="sortedset"/>
+ * <a name="sortedset"></a>
  * <h3>Operations on a transformed {@link java.util.SortedSet}</h3>
  * <p><b>Note:</b> the sorting order of a transformed {@link java.util.SortedSet}
  * remains that from the wrapped one
- * <table border="2">
+ * <table border="2" summary="Operations on a transformed SortedSet">
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
@@ -268,11 +268,11 @@
  *    </tbody>
  * </table>
  * 
- * <a name="navigableset"/>
+ * <a name="navigableset"></a>
  * <h3>Operations on a transformed {@link java.util.NavigableSet}</h3>
  * <p><b>Note:</b> the sorting order of a transformed {@link java.util.NavigableSet}
  * remains that from the wrapped one
- * <table border="2">
+ * <table border="2" summary="Operations on a transformed NavigableSet">
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
@@ -343,9 +343,9 @@
  *    </tbody>
  * </table>
  * 
- * <a name="listiterator"/>
+ * <a name="listiterator"></a>
  * <h3>Operations on a transformed {@link java.util.ListIterator}</h3>
- * <table border="2">
+ * <table border="2" summary="Operations on a transformed ListIterator">
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
@@ -387,9 +387,9 @@
  *    </tbody>
  * </table>
  * 
- * <a name="list"/>
+ * <a name="list"></a>
  * <h3>Operations on a transformed {@link java.util.List}</h3>
- * <table border="2">
+ * <table border="2" summary="Operations on a transformed List">
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
@@ -444,9 +444,9 @@
  *    </tbody>
  * </table>
  * 
- * <a name="mapKey"/>
+ * <a name="mapKey"></a>
  * <h3>Operations on a key-based transformed {@link java.util.Map}</h3>
- * <table border="2">
+ * <table border="2" summary="Operations on a key-based transformed Map">
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
@@ -523,11 +523,11 @@
  *    </tbody>
  * </table>
  * 
- * <a name="sortedMapKey"/>
+ * <a name="sortedMapKey"></a>
  * <h3>Operations on a key-based transformed {@link java.util.SortedMap}</h3>
  * <p><b>Note:</b> the sorting order of a transformed {@link java.util.SortedMap}
  * remains that from the wrapped one
- * <table border="2">
+ * <table border="2" summary="Operations on a key-based transformed SortedMap">
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
@@ -571,11 +571,11 @@
  *    </tbody>
  * </table>
  * 
- * <a name="navigableMapKey"/>
+ * <a name="navigableMapKey"></a>
  * <h3>Operations on a key-based transformed {@link java.util.NavigableMap}</h3>
  * <p><b>Note:</b> the sorting order of a transformed {@link java.util.NavigableMap}
  * remains that from the wrapped one
- * <table border="2">
+ * <table border="2" summary="Operations on a key-based transformed NavigableMap">
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
@@ -678,9 +678,9 @@
  *    </tbody>
  * </table>
  * 
- * <a name="mapValue"/>
+ * <a name="mapValue"></a>
  * <h3>Operations on a value-based transformed {@link java.util.Map}</h3>
- * <table border="2">
+ * <table border="2" summary="Operations on a value-based transformed Map">
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
@@ -756,9 +756,9 @@
  *    </tbody>
  * </table>
  * 
- * <a name="sortedMapValue"/>
+ * <a name="sortedMapValue"></a>
  * <h3>Operations on a value-based transformed {@link java.util.SortedMap}</h3>
- * <table border="2">
+ * <table border="2" summary="Operations on a value-based transformed SortedMap">
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
@@ -798,9 +798,9 @@
  *    </tbody>
  * </table>
  * 
- * <a name="navigableMapValue"/>
+ * <a name="navigableMapValue"></a>
  * <h3>Operations on a value-based transformed {@link java.util.NavigableMap}</h3>
- * <table border="2">
+ * <table border="2" summary="Operations on a value-based transformed NavigableMap">
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
@@ -892,7 +892,7 @@
  *    </tbody>
  * </table>
  * 
- * <a name="mapKeyValue"/>
+ * <a name="mapKeyValue"></a>
  * <h3>Operations on a key- and value-based transformed {@link java.util.Map}</h3>
  * <p>
  * <b>Note:</b> When using a combination of one Transformer and one BidiTransformer
@@ -906,7 +906,7 @@
  * Vice-versa example a key-<b>bidi</b>-transformed and value-transformed {@link java.util.Map}
  * supports the same operations than a <a href="#mapValue">purely value-transformed</a>
  * {@link java.util.Map}.
- * <table border="2">
+ * <table border="2" summary="Operations on a key- and value-based transformed Map">
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
@@ -985,7 +985,7 @@
  *    </tbody>
  * </table>
  * 
- * <a name="sortedMapKeyValue"/>
+ * <a name="sortedMapKeyValue"></a>
  * <h3>Operations on a key- and value-based transformed {@link java.util.SortedMap}</h3>
  * <p><b>Note:</b> the sorting order of a transformed {@link java.util.SortedMap}
  * remains that from the wrapped one
@@ -1001,7 +1001,7 @@
  * Vice-versa example a key-<b>bidi</b>-transformed and value-transformed {@link java.util.SortedMap}
  * supports the same operations than a <a href="#sortedMapValue">purely value-transformed</a>
  * {@link java.util.SortedMap}.
- * <table border="2">
+ * <table border="2" summary="Operations on a key- and value-based transformed SortedMap">
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
@@ -1045,7 +1045,7 @@
  *    </tbody>
  * </table>
  * 
- * <a name="navigableMapKeyValue"/>
+ * <a name="navigableMapKeyValue"></a>
  * <h3>Operations on a key- and value-based transformed {@link java.util.NavigableMap}</h3>
  * <p><b>Note:</b> the sorting order of a transformed {@link java.util.NavigableMap}
  * remains that from the wrapped one
@@ -1061,7 +1061,7 @@
  * Vice-versa example a key-<b>bidi</b>-transformed and value-transformed {@link java.util.NavigableMap}
  * supports the same operations than a <a href="#navigableMapValue">purely value-transformed</a>
  * {@link java.util.NavigableMap}.
- * <table border="2">
+ * <table border="2" summary="Operations on a key- and value-based transformed NavigableMap">
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
@@ -1164,9 +1164,9 @@
  *    </tbody>
  * </table>
  * 
- * <a name="ringCursor"/>
+ * <a name="ringCursor"></a>
  * <h3>Operations on a transformed {@link net.sf.javagimmicks.collections.RingCursor}</h3>
- * <table border="2">
+ * <table border="2" summary="Operations on a transformed RingCursor">
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
@@ -1229,9 +1229,9 @@
  *    </tbody>
  * </table>
  * 
- * <a name="ring"/>
+ * <a name="ring"></a>
  * <h3>Operations on a transformed {@link net.sf.javagimmicks.collections.Ring}</h3>
- * <table border="2">
+ * <table border="2" summary="Operations on a transformed Ring">
  *    <thead>
  *       <tr>
  *          <th>Operation</th>

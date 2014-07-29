@@ -1,6 +1,5 @@
 package net.sf.javagimmicks.transform;
 
-
 /**
  * A basic helper for dealing with {@link Transformer}s, {@link BidiTransformer}
  * s and {@link Transforming} and {@link BidiTransforming} instances.
@@ -14,6 +13,8 @@ public class Transformers
     * Creates a new pseudo-{@link Transformer} that always returns the original
     * value.
     * 
+    * @param <E>
+    *           the type of elements the {@link Transformer} should handle
     * @return a new pseudo-{@link Transformer} that always returns the original
     *         value
     */
@@ -26,6 +27,8 @@ public class Transformers
     * Creates a new pseudo-{@link BidiTransformer} that always returns the
     * original value.
     * 
+    * @param <E>
+    *           the type of elements the {@link BidiTransformer} should handle
     * @return a new pseudo-{@link BidiTransformer} that always returns the
     *         original value
     */
@@ -60,6 +63,10 @@ public class Transformers
     * 
     * @param transformer
     *           the {@link BidiTransformer} to invert
+    * @param <F>
+    *           the "from" or source type
+    * @param <T>
+    *           the "to" or target type
     * @return a inverted version of the given {@link BidiTransformer}
     */
    public static <F, T> BidiTransformer<T, F> invert(final BidiTransformer<F, T> transformer)
@@ -94,6 +101,10 @@ public class Transformers
     *           the forward {@link Transformer}
     * @param backTransformer
     *           the backward {@link Transformer}
+    * @param <F>
+    *           the "from" or source type
+    * @param <T>
+    *           the "to" or target type
     * @return a resulting {@link BidiTransformer} combined from the two given
     *         {@link Transformer}s
     */

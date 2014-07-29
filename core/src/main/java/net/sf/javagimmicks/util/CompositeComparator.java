@@ -11,6 +11,7 @@ import java.util.List;
  * objects.
  * 
  * @param <E>
+ *           the type of objects to compare
  */
 public class CompositeComparator<E> implements Comparator<E>
 {
@@ -33,7 +34,7 @@ public class CompositeComparator<E> implements Comparator<E>
     * @param comparators
     *           the delegate {@link Comparator}s to use internally
     */
-   public CompositeComparator(final Comparator<E>... comparators)
+   public CompositeComparator(@SuppressWarnings("unchecked") final Comparator<E>... comparators)
    {
       this(Arrays.asList(comparators));
    }

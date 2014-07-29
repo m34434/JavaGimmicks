@@ -33,14 +33,17 @@ public class WeldJUnit4TestRunner extends BlockJUnit4ClassRunner
    private final ThreadLocal<WeldContainer> _weldContainer = new ThreadLocal<WeldContainer>();
 
    /**
-    * Creates a WeldJUnit4TestRunner to run {@code klass}
+    * Creates a WeldJUnit4TestRunner to run {@code clazz}
+    * 
+    * @param clazz
+    *           the test class to run
     * 
     * @throws InitializationError
     *            if the test class is malformed.
     */
-   public WeldJUnit4TestRunner(final Class<?> klass) throws InitializationError
+   public WeldJUnit4TestRunner(final Class<?> clazz) throws InitializationError
    {
-      super(klass);
+      super(clazz);
    }
 
    @Override

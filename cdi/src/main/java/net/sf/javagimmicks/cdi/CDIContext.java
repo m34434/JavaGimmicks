@@ -55,7 +55,7 @@ public class CDIContext
     * {@link #JNDI_FULL_EE}</li>
     * <li>Try to lookup the {@link BeanManager} in JNDI with name
     * {@link #JNDI_SERVLET}</li>
-    * <ol>
+    * </ol>
     * 
     * @return the current CDI {@link BeanManager} instance
     * @throws IllegalStateException
@@ -111,9 +111,11 @@ public class CDIContext
     * within the CDI context.
     * 
     * @param beanType
-    *           the type of the bean to lookup
+    *           the {@link Class} of the bean to lookup
     * @param bindings
     *           the {@link Qualifier} annotations of the bean
+    * @param <E>
+    *           the type of the bean to lookup
     * @return the resulting CDI bean
     */
    public static <E> E lookup(final Class<E> beanType, final Annotation... bindings)
@@ -125,6 +127,8 @@ public class CDIContext
     * Looks up a bean of the given type within the CDI context.
     * 
     * @param beanType
+    *           the {@link Class} of the bean to lookup
+    * @param <E>
     *           the type of the bean to lookup
     * @return the resulting CDI bean
     */
@@ -138,6 +142,8 @@ public class CDIContext
     * 
     * @param name
     *           the name of the {@link Named} bean
+    * @param <E>
+    *           the type of the bean to lookup
     * @return the resulting CDI bean
     */
    public static <E> E lookup(final String name)
@@ -151,6 +157,8 @@ public class CDIContext
     * 
     * @param nonCdiObject
     *           a given bean that was not instantiated via CDI
+    * @param <T>
+    *           the type of the bean to initialize
     * @return the bean itself after injections and post-constructs were
     *         performed
     */

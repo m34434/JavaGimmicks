@@ -187,6 +187,8 @@ public class JDBCExecutor
     * 
     * @param command
     *           the {@link ConnectionCommand} to perform
+    * @param <R>
+    *           the result type of the operation
     * @return an optional result object created by the {@link ConnectionCommand}
     * @throws SQLException
     *            if some JDBC specific operations failed within command
@@ -230,6 +232,8 @@ public class JDBCExecutor
     * 
     * @param command
     *           the {@link StatementCommand} to perform
+    * @param <R>
+    *           the result type of the operation
     * @return an optional result object created by the {@link StatementCommand}
     * @throws SQLException
     *            if some JDBC specific operations failed within command
@@ -279,6 +283,8 @@ public class JDBCExecutor
     * @param populateCommand
     *           the optional {@link PopulateCommand} used to populate parameters
     *           on the create {@link PreparedStatement}
+    * @param <R>
+    *           the result type of the operation
     * @return an optional result object created by the {@link StatementCommand}
     * @throws SQLException
     *            if some JDBC specific operations failed within command
@@ -331,6 +337,8 @@ public class JDBCExecutor
     *           {@link PreparedStatement}
     * @param command
     *           the {@link StatementCommand} to perform
+    * @param <R>
+    *           the result type of the operation
     * @return an optional result object created by the {@link StatementCommand}
     * @throws SQLException
     *            if some JDBC specific operations failed within command
@@ -358,6 +366,8 @@ public class JDBCExecutor
     * @param command
     *           the {@link PreparedStatementPopulateCommand} to use for
     *           parameter population and command performance
+    * @param <R>
+    *           the result type of the operation
     * @return an optional result object created by the
     *         {@link PreparedStatementPopulateCommand}
     * @throws SQLException
@@ -397,6 +407,8 @@ public class JDBCExecutor
     * @param populateCommand
     *           the optional {@link PopulateCommand} used to populate parameters
     *           on the create {@link PreparedStatement}
+    * @param <R>
+    *           the result type of the operation
     * @return an optional result object created by the
     *         {@link PreparedStatementQueryCommand}
     * @throws SQLException
@@ -449,6 +461,8 @@ public class JDBCExecutor
     *           {@link PreparedStatement}
     * @param command
     *           the {@link PreparedStatementQueryCommand} for post-processing
+    * @param <R>
+    *           the result type of the operation
     * @return an optional result object created by the
     *         {@link PreparedStatementQueryCommand}
     * @throws SQLException
@@ -477,6 +491,8 @@ public class JDBCExecutor
     * @param command
     *           the {@link PreparedStatementPopulateQueryCommand} to use for
     *           parameter population and {@link ResultSet} post-processing
+    * @param <R>
+    *           the result type of the operation
     * @return an optional result object created by the
     *         {@link PreparedStatementPopulateCommand}
     * @throws SQLException
@@ -513,6 +529,8 @@ public class JDBCExecutor
     * @param populateCommand
     *           the optional {@link PopulateCommand} used to populate parameters
     *           on the create {@link CallableStatement}
+    * @param <R>
+    *           the result type of the operation
     * @return an optional result object created by the {@link StatementCommand}
     * @throws SQLException
     *            if some JDBC specific operations failed within call execution
@@ -563,6 +581,8 @@ public class JDBCExecutor
     *           the SQL call to use for creating the {@link CallableStatement}
     * @param command
     *           the {@link StatementCommand} to perform
+    * @param <R>
+    *           the result type of the operation
     * @return an optional result object created by the {@link StatementCommand}
     * @throws SQLException
     *            if some JDBC specific operations failed within command
@@ -590,6 +610,8 @@ public class JDBCExecutor
     * @param command
     *           the {@link PreparedStatementPopulateCommand} to use for
     *           parameter population and command performance
+    * @param <R>
+    *           the result type of the operation
     * @return an optional result object created by the
     *         {@link PreparedStatementPopulateCommand}
     * @throws SQLException
@@ -629,6 +651,8 @@ public class JDBCExecutor
     * @param populateCommand
     *           the optional {@link PopulateCommand} used to populate parameters
     *           on the create {@link CallableStatement}
+    * @param <R>
+    *           the result type of the operation
     * @return an optional result object created by the
     *         {@link PreparedStatementQueryCommand}
     * @throws SQLException
@@ -680,6 +704,8 @@ public class JDBCExecutor
     *           the SQL call to use for creating the {@link CallableStatement}
     * @param command
     *           the {@link PreparedStatementQueryCommand} for post-processing
+    * @param <R>
+    *           the result type of the operation
     * @return an optional result object created by the
     *         {@link PreparedStatementQueryCommand}
     * @throws SQLException
@@ -707,6 +733,8 @@ public class JDBCExecutor
     * @param command
     *           the {@link PreparedStatementPopulateQueryCommand} to use for
     *           parameter population and {@link ResultSet} post-processing
+    * @param <R>
+    *           the result type of the operation
     * @return an optional result object created by the
     *         {@link PreparedStatementPopulateCommand}
     * @throws SQLException

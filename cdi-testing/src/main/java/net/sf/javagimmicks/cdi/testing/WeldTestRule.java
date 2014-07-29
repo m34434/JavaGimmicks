@@ -62,6 +62,8 @@ public class WeldTestRule extends ExternalResource
     * {@link Qualifier} annotations.
     * 
     * @param clazz
+    *           the {@link Class} of the bean to lookup
+    * @param <E>
     *           the type of the bean to lookup
     * @param annotations
     *           the {@link Qualifier} annotations the bean should have
@@ -80,6 +82,8 @@ public class WeldTestRule extends ExternalResource
     * Looks up a CDI bean in the CDI context with the given type. and
     * 
     * @param clazz
+    *           the {@link Class} of the bean to lookup
+    * @param <E>
     *           the type of the bean to lookup
     * @return the resulting bean
     * @throws RuntimeException
@@ -97,6 +101,8 @@ public class WeldTestRule extends ExternalResource
     * 
     * @param annotations
     *           the {@link Qualifier} annotations the bean should have
+    * @param <E>
+    *           the type of the bean to lookup
     * @return the resulting bean
     * @throws RuntimeException
     *            if the lookup fails or is ambiguous or an annotation is
@@ -118,6 +124,8 @@ public class WeldTestRule extends ExternalResource
     *           instance
     * @param annotations
     *           the {@link Qualifier} annotations the bean should have
+    * @param <E>
+    *           the type of the bean to lookup
     * @return the resulting bean
     * @throws RuntimeException
     *            if the lookup fails or is ambiguous or an annotation is
