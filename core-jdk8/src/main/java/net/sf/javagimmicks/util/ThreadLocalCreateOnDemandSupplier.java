@@ -10,7 +10,7 @@ import java.util.function.Supplier;
  * @param <E>
  *           the type of object the container can carries
  */
-public class ThreadLocalCreateOnDemandObjectSupplier<E> extends AbstractCreateOnDemandSupplier<E>
+public class ThreadLocalCreateOnDemandSupplier<E> extends AbstractCreateOnDemandSupplier<E>
 {
    private final ThreadLocal<E> _instances = new ThreadLocal<E>();
 
@@ -20,7 +20,7 @@ public class ThreadLocalCreateOnDemandObjectSupplier<E> extends AbstractCreateOn
     * @param supplier
     *           the {@link Supplier} to use for creating the instances
     */
-   public ThreadLocalCreateOnDemandObjectSupplier(final Supplier<E> supplier)
+   public ThreadLocalCreateOnDemandSupplier(final Supplier<E> supplier)
    {
       super(supplier);
    }

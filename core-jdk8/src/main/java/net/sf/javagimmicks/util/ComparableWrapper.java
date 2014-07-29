@@ -17,11 +17,12 @@ import java.util.Comparator;
  * one which additionally extends {@link Comparable}. See the following example:
  * 
  * <pre>
- * public interface StringWrapper
- * {
- *    String get();
- * }
+ * // This is a non-comparable type
+ * &#064;FunctionalInterface
+ * public interface StringWrapper extends java.util.function.Supplier&lt;String&gt;
+ * {}
  * 
+ * // This is an extension which additionally extends Comparable
  * public interface StringWrapperComparable extends StringWrapper, Comparable&lt;StringWrapperComparable&gt;
  * {}
  * </pre>
@@ -33,9 +34,9 @@ import java.util.Comparator;
  * final ComparableWrapper&lt;StringWrapper, StringWrapperComparable&gt; wrapper =
  *       ComparableWrapper.create(StringWrapper.class, StringWrapperComparable.class, COMPARATOR);
  * 
- * final StringWrapperComparable w1 = wrapper.wrap(new StringWrapperImpl(&quot;1&quot;));
- * final StringWrapperComparable w2 = wrapper.wrap(new StringWrapperImpl(&quot;2&quot;));
- * final StringWrapperComparable w3 = wrapper.wrap(new StringWrapperImpl(&quot;3&quot;));
+ * final StringWrapperComparable w1 = wrapper.wrap(() -&gt; &quot;1&quot;);
+ * final StringWrapperComparable w2 = wrapper.wrap(() -&gt; &quot;2&quot;);
+ * final StringWrapperComparable w3 = wrapper.wrap(() -&gt; &quot;3&quot;);
  * </pre>
  * 
  * <p>
@@ -48,9 +49,9 @@ import java.util.Comparator;
  * final ComparableWrapper&lt;StringWrapper, StringWrapper&gt; wrapper =
  *       ComparableWrapper.create(StringWrapper.class, COMPARATOR);
  * 
- * final StringWrapper w1 = wrapper.wrap(new StringWrapperImpl(&quot;1&quot;));
- * final StringWrapper w2 = wrapper.wrap(new StringWrapperImpl(&quot;2&quot;));
- * final StringWrapper w3 = wrapper.wrap(new StringWrapperImpl(&quot;3&quot;));
+ * final StringWrapper w1 = wrapper.wrap(() -&gt; &quot;1&quot;);
+ * final StringWrapper w2 = wrapper.wrap(() -&gt; &quot;2&quot;);
+ * final StringWrapper w3 = wrapper.wrap(() -&gt; &quot;3&quot;);
  * 
  * assertTrue(((Comparable&lt;StringWrapper&gt;) w1).compareTo(w2) &lt; 0);
  * </pre>

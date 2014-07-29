@@ -1,5 +1,6 @@
 package net.sf.javagimmicks.util;
 
+import java.util.Objects;
 import java.util.function.Supplier;
 
 /**
@@ -25,5 +26,11 @@ public class ConstantSupplier<E> implements Supplier<E>
    public E get()
    {
       return _value;
+   }
+
+   @Override
+   public String toString()
+   {
+      return Objects.toString(get());
    }
 }

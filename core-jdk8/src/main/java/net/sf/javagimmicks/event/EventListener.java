@@ -7,6 +7,7 @@ package net.sf.javagimmicks.event;
  * @param <Evt>
  *           the {@link Event} type to be observed
  */
+@FunctionalInterface
 public interface EventListener<Evt extends Event<Evt>>
 {
    /**
