@@ -10,9 +10,9 @@
  * around any number of the same type (using a kind of <i>decorator</i>
  * pattern)
  * <p>
- * <a name="enumeration">
+ * <a name="enumeration"></a>
  * <h3>Operations on a composite {@link java.util.Enumeration}</h3>
- * <table border="2">
+ * <table border="2" summary="Operations on a composite Enumeration">
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
@@ -31,9 +31,9 @@
  *    </tbody>
  * </table>
  * 
- * <a name="iterator"/>
+ * <a name="iterator"></a>
  * <h3>Operations on a composite {@link java.util.Iterator}</h3>
- * <table border="2">
+ * <table border="2" summary="Operations on a composite Iterator">
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
@@ -56,9 +56,9 @@
  *    </tbody>
  * </table>
  * 
- * <a name="collection"/>
+ * <a name="collection"></a>
  * <h3>Operations on a composite {@link java.util.Collection}</h3>
- * <table border="2">
+ * <table border="2" summary="Operations on a composite Collection">
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
@@ -117,9 +117,9 @@
  *    </tbody>
  * </table>
  * 
- * <a name="listiterator"/>
+ * <a name="listiterator"></a>
  * <h3>Operations on a transformed {@link java.util.ListIterator}</h3>
- * <table border="2">
+ * <table border="2" summary="Operations on a transformed ListIterator">
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
@@ -158,9 +158,9 @@
  *    </tbody>
  * </table>
  * 
- * <a name="list"/>
+ * <a name="list"></a>
  * <h3>Operations on a composite {@link java.util.List}</h3>
- * <table border="2">
+ * <table border="2" summary="Operations on a composite List">
  *    <thead>
  *       <tr>
  *          <th>Operation</th>

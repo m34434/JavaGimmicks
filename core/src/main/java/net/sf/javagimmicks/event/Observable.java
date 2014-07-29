@@ -14,6 +14,8 @@ public interface Observable<Evt extends Event<Evt>>
     * 
     * @param listener
     *           the {@link EventListener} (or sub-type) to add
+    * @param <L>
+    *           the type of {@link EventListener} to add
     */
    <L extends EventListener<Evt>> void addEventListener(L listener);
 
@@ -23,6 +25,8 @@ public interface Observable<Evt extends Event<Evt>>
     * 
     * @param listener
     *           the {@link EventListener} (or sub-type) to remove
+    * @param <L>
+    *           the type of {@link EventListener} to add
     */
    <L extends EventListener<Evt>> void removeEventListener(L listener);
 }

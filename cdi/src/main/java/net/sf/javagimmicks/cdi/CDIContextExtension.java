@@ -14,6 +14,12 @@ public class CDIContextExtension implements Extension
    /**
     * Called upon CDI context startup - additionally injects the
     * {@link BeanManager}
+    * 
+    * @param beanManager
+    *           the injected CDI {@link BeanManager} - will be remembered within
+    *           the {@link CDIContext}
+    * @param event
+    *           the observed CDI event
     */
    public static void startup(@Observes final BeforeBeanDiscovery event, final BeanManager beanManager)
    {
@@ -22,6 +28,9 @@ public class CDIContextExtension implements Extension
 
    /**
     * Called upon CDI context shutdown - clears the internal {@link BeanManager}
+    * 
+    * @param event
+    *           the observed CDI event
     */
    public static void shutdown(@Observes final BeforeShutdown event)
    {

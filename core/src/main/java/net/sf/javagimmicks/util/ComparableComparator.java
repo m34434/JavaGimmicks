@@ -38,6 +38,9 @@ public final class ComparableComparator<T extends Comparable<? super T>> impleme
    /**
     * Returns the singleton {@link Comparable} instance.
     * 
+    * @param <T>
+    *           the type of objects to compare
+    * 
     * @return the singleton {@link Comparable} instance
     */
    public static final <T extends Comparable<? super T>> ComparableComparator<T> getInstance()
@@ -46,8 +49,8 @@ public final class ComparableComparator<T extends Comparable<? super T>> impleme
    }
 
    @Override
-   public int compare(final T oObject1, final T oObject2)
+   public int compare(final T o1, final T o2)
    {
-      return oObject1.compareTo(oObject2);
+      return o1.compareTo(o2);
    }
 }

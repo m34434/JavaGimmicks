@@ -40,6 +40,8 @@ public abstract class CDIAware
     * 
     * @param name
     *           the name of the {@link Named} bean
+    * @param <E>
+    *           the type of the bean to lookup
     * @return the resulting CDI bean
     * @see CDIContext#lookup(String)
     */
@@ -53,6 +55,8 @@ public abstract class CDIAware
     * within the CDI context.
     * 
     * @param clazz
+    *           the {@link Class} of the bean to lookup
+    * @param <E>
     *           the type of the bean to lookup
     * @param annotations
     *           the {@link Qualifier} annotations of the bean
@@ -68,6 +72,8 @@ public abstract class CDIAware
     * Looks up a bean of the given type within the CDI context.
     * 
     * @param clazz
+    *           the {@link Class} of the bean to lookup
+    * @param <E>
     *           the type of the bean to lookup
     * @return the resulting CDI bean
     * @see CDIContext#lookup(Class)
@@ -81,6 +87,8 @@ public abstract class CDIAware
     * Creates a new {@link InjectionSpec.Builder} for building a CDI lookup via
     * fluent API.
     * 
+    * @param <E>
+    *           the type of the bean to lookup
     * @return the resulting {@link InjectionSpec.Builder}
     * @see InjectionSpec#build()
     */

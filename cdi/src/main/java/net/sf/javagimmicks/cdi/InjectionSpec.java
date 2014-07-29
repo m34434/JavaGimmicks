@@ -39,6 +39,8 @@ public class InjectionSpec<E>
     * 
     * @param beanManager
     *           the {@link BeanManager} to use for bean lookup
+    * @param <E>
+    *           the type of the bean to lookup
     * @return a respective {@link Builder} to specify the injection
     *         configuration
     * @see Builder
@@ -52,6 +54,8 @@ public class InjectionSpec<E>
     * Convenience method for {@link #build(BeanManager)} that will use the
     * {@link BeanManager} from {@link CDIContext#getBeanManager()}.
     * 
+    * @param <E>
+    *           the type of the bean to lookup
     * @return a respective {@link Builder} to specify the injection
     *         configuration
     * @see Builder
@@ -477,6 +481,9 @@ public class InjectionSpec<E>
        * ).
        * 
        * @param annotationType
+       *           the {@link Class} of {@link Qualifier} {@link Annotation} to
+       *           add for lookup usage
+       * @param <A>
        *           the type of {@link Qualifier} {@link Annotation} to add for
        *           lookup usage
        * @return an {@link AnnotationBuilder} allowing to specify
@@ -550,6 +557,7 @@ public class InjectionSpec<E>
        * Finishes the building process and looks up a respective bean instance
        * with in the internal {@link BeanManager}
        * 
+       * @return the looked-up instance
        * @throws IllegalStateException
        *            if no or insufficient specifications information were
        *            provided so far on this builder

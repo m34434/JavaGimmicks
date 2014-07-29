@@ -58,6 +58,9 @@ public class AnnotationLiteralHelper
     * member values
     * 
     * @param annotationType
+    *           the {@link Class} of the {@link Annotation} type to create a
+    *           literal for
+    * @param <A>
     *           the {@link Annotation} type to create a literal for
     * @throws IllegalArgumentException
     *            if there is no value specified for at least one member
@@ -73,6 +76,9 @@ public class AnnotationLiteralHelper
     * {@link Annotation} type that allows passing member values in a fluent way.
     * 
     * @param annotationType
+    *           the {@link Class} of the {@link Annotation} type to create a
+    *           literal for
+    * @param <A>
     *           the {@link Annotation} type to create a literal for
     * @return a {@link Builder} for creating {@link Annotation} instances
     */

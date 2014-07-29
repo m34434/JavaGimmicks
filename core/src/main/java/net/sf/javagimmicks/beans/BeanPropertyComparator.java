@@ -149,6 +149,9 @@ public class BeanPropertyComparator<T> implements Comparator<T>, Serializable
 
    /**
     * Sets the {@link List} of the names of the properties used for comparing.
+    * 
+    * @param beanProperties
+    *           the names of the properties to be used for comparing
     */
    public void setBeanPropertyNames(final List<String> beanProperties)
    {
