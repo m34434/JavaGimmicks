@@ -47,29 +47,6 @@ public class EventSortedMapTest
       _map = null;
    }
 
-   @SuppressWarnings({ "rawtypes", "unchecked" })
-   private void verifyEvent(final Type type, final String key, final String value)
-   {
-      final ArgumentCaptor<SortedMapEvent> arg = ArgumentCaptor.forClass(
-            SortedMapEvent.class);
-      Mockito.verify(_listener, Mockito.atLeastOnce()).eventOccured(arg.capture());
-      assertEquals(type, arg.getValue().getType());
-      assertEquals(key, arg.getValue().getKey());
-      assertEquals(value, arg.getValue().getValue());
-      assertNull(arg.getValue().getNewValue());
-   }
-
-   @SuppressWarnings({ "rawtypes", "unchecked" })
-   private void verifyEvent(final Type type, final String key, final String oldValue, final String newValue)
-   {
-      final ArgumentCaptor<SortedMapEvent> arg = ArgumentCaptor.forClass(SortedMapEvent.class);
-      Mockito.verify(_listener, Mockito.atLeastOnce()).eventOccured(arg.capture());
-      assertEquals(type, arg.getValue().getType());
-      assertEquals(key, arg.getValue().getKey());
-      assertEquals(oldValue, arg.getValue().getValue());
-      assertEquals(newValue, arg.getValue().getNewValue());
-   }
-
    @Test
    public void testBasicMapStuff()
    {
@@ -247,4 +224,28 @@ public class EventSortedMapTest
 
       Mockito.verifyNoMoreInteractions(_listener);
    }
+
+   @SuppressWarnings({ "rawtypes", "unchecked" })
+   private void verifyEvent(final Type type, final String key, final String value)
+   {
+      final ArgumentCaptor<SortedMapEvent> arg = ArgumentCaptor.forClass(
+            SortedMapEvent.class);
+      Mockito.verify(_listener, Mockito.atLeastOnce()).eventOccured(arg.capture());
+      assertEquals(type, arg.getValue().getType());
+      assertEquals(key, arg.getValue().getKey());
+      assertEquals(value, arg.getValue().getValue());
+      assertNull(arg.getValue().getNewValue());
+   }
+
+   @SuppressWarnings({ "rawtypes", "unchecked" })
+   private void verifyEvent(final Type type, final String key, final String oldValue, final String newValue)
+   {
+      final ArgumentCaptor<SortedMapEvent> arg = ArgumentCaptor.forClass(SortedMapEvent.class);
+      Mockito.verify(_listener, Mockito.atLeastOnce()).eventOccured(arg.capture());
+      assertEquals(type, arg.getValue().getType());
+      assertEquals(key, arg.getValue().getKey());
+      assertEquals(oldValue, arg.getValue().getValue());
+      assertEquals(newValue, arg.getValue().getNewValue());
+   }
+
 }

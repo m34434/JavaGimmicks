@@ -2,26 +2,27 @@ package net.sf.javagimmicks.collections.event;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Map;
 import java.util.TreeMap;
 
 import net.sf.javagimmicks.collections.event.MapEvent.Type;
-import net.sf.javagimmicks.event.testing.EventCollector;
-import net.sf.javagimmicks.event.testing.EventCollector.Validator;
+import net.sf.javagimmicks.event.EventListener;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
 
 public class EventMapTest
 {
    private Map<String, String> _map;
    private ObservableEventMap<String, String> _eventMap;
-   private EventCollector<MapEvent<String, String>> _listener;
+   private EventListener<MapEvent<String, String>> _listener;
 
+   @SuppressWarnings("unchecked")
    @Before
    public void setup()
    {
@@ -30,7 +31,7 @@ public class EventMapTest
       _eventMap = new ObservableEventMap<String, String>(_map);
 
       // Create mock listener and register it
-      _listener = new EventCollector<MapEvent<String, String>>(MapEvent.class, _eventMap);
+      _listener = Mockito.mock(EventListener.class);
       _eventMap.addEventListener(_listener);
    }
 
@@ -52,67 +53,60 @@ public class EventMapTest
       // Do basic operations
       assertNull(_eventMap.put("1", "A"));
       assertEquals(_eventMap, _map);
+      verifyEvent(Type.ADDED, "1", "A");
 
       assertNull(_eventMap.put("2", "B"));
       assertEquals(_eventMap, _map);
+      verifyEvent(Type.ADDED, "2", "B");
 
       assertNull(_eventMap.put("3", "C"));
       assertEquals(_eventMap, _map);
+      verifyEvent(Type.ADDED, "3", "C");
 
       assertEquals("A", _eventMap.entrySet().iterator().next().setValue("B"));
       assertEquals(_eventMap, _map);
+      verifyEvent(Type.UPDATED, "1", "A", "B");
 
       assertEquals("B", _eventMap.put("2", "A"));
       assertEquals(_eventMap, _map);
+      verifyEvent(Type.UPDATED, "2", "B", "A");
 
       assertTrue(_eventMap.keySet().remove("1"));
       assertEquals(_eventMap, _map);
+      verifyEvent(Type.REMOVED, "1", "B");
 
       assertEquals("A", _eventMap.remove("2"));
       assertEquals(_eventMap, _map);
+      verifyEvent(Type.REMOVED, "2", "A");
 
       assertTrue(_eventMap.values().remove("C"));
       assertEquals(_eventMap, _map);
+      verifyEvent(Type.REMOVED, "3", "C");
 
-      // Validate events
-      _listener.assertEventOccured(new MapEventValidator(Type.ADDED, "1", "A"));
-      _listener.assertEventOccured(new MapEventValidator(Type.ADDED, "2", "B"));
-      _listener.assertEventOccured(new MapEventValidator(Type.ADDED, "3", "C"));
-      _listener.assertEventOccured(new MapEventValidator(Type.UPDATED, "1", "A", "B"));
-      _listener.assertEventOccured(new MapEventValidator(Type.UPDATED, "2", "B", "A"));
-      _listener.assertEventOccured(new MapEventValidator(Type.REMOVED, "1", "B"));
-      _listener.assertEventOccured(new MapEventValidator(Type.REMOVED, "2", "A"));
-      _listener.assertEventOccured(new MapEventValidator(Type.REMOVED, "3", "C"));
-      _listener.assertEmpty();
+      Mockito.verifyNoMoreInteractions(_listener);
    }
 
-   private static class MapEventValidator implements Validator<MapEvent<String, String>>
+   @SuppressWarnings({ "rawtypes", "unchecked" })
+   private void verifyEvent(final Type type, final String key, final String value)
    {
-      private final Type _type;
-      private final String _key;
-      private final String _value;
-      private final String _newValue;
-
-      public MapEventValidator(final Type type, final String key, final String value, final String newValue)
-      {
-         this._type = type;
-         this._key = key;
-         this._value = value;
-         this._newValue = newValue;
-      }
-
-      public MapEventValidator(final Type type, final String key, final String value)
-      {
-         this(type, key, value, null);
-      }
-
-      @Override
-      public void validate(final MapEvent<String, String> event)
-      {
-         assertSame("Type does not match", _type, event.getType());
-         assertEquals("Key does not match", _key, event.getKey());
-         assertEquals("Value does not match", _value, event.getValue());
-         assertEquals("New value does not match", _newValue, event.getNewValue());
-      }
+      final ArgumentCaptor<MapEvent> arg = ArgumentCaptor.forClass(
+            MapEvent.class);
+      Mockito.verify(_listener, Mockito.atLeastOnce()).eventOccured(arg.capture());
+      assertEquals(type, arg.getValue().getType());
+      assertEquals(key, arg.getValue().getKey());
+      assertEquals(value, arg.getValue().getValue());
+      assertNull(arg.getValue().getNewValue());
    }
+
+   @SuppressWarnings({ "rawtypes", "unchecked" })
+   private void verifyEvent(final Type type, final String key, final String oldValue, final String newValue)
+   {
+      final ArgumentCaptor<MapEvent> arg = ArgumentCaptor.forClass(MapEvent.class);
+      Mockito.verify(_listener, Mockito.atLeastOnce()).eventOccured(arg.capture());
+      assertEquals(type, arg.getValue().getType());
+      assertEquals(key, arg.getValue().getKey());
+      assertEquals(oldValue, arg.getValue().getValue());
+      assertEquals(newValue, arg.getValue().getNewValue());
+   }
+
 }
