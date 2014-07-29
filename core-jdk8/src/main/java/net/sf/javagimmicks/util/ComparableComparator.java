@@ -38,6 +38,9 @@ public final class ComparableComparator<T extends Comparable<? super T>> impleme
    /**
     * Returns the singleton {@link Comparable} instance.
     * 
+    * @param <T>
+    *           the type of objects to compare
+    * 
     * @return the singleton {@link Comparable} instance
     */
    public static final <T extends Comparable<? super T>> ComparableComparator<T> getInstance()

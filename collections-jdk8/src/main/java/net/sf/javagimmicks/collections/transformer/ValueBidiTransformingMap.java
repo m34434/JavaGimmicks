@@ -6,7 +6,6 @@ import java.util.Set;
 
 import net.sf.javagimmicks.transform.BidiFunction;
 import net.sf.javagimmicks.transform.BidiTransforming;
-import net.sf.javagimmicks.transform.Transformers;
 
 class ValueBidiTransformingMap<K, VF, VT>
    extends ValueTransformingMap<K, VF, VT>
@@ -97,11 +96,6 @@ class ValueBidiTransformingMap<K, VF, VT>
       public Entry<K, VF> applyReverse(Entry<K, VT> source)
       {
          return new ValueBidiTransformingEntry<K, VT, VF>(source, getTransformer().invert());
-      }
-
-      public BidiFunction<Entry<K, VT>, Entry<K, VF>> invert()
-      {
-         return Transformers.invert(this);
       }
 
       protected BidiFunction<VF, VT> getTransformer()

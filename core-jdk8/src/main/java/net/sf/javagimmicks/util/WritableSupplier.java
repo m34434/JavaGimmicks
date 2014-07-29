@@ -1,10 +1,10 @@
-package net.sf.javagimmicks.lang;
+package net.sf.javagimmicks.util;
 
 import java.util.function.Supplier;
 
 /**
- * This interface extends {@link ObjectContainer} by providing additional
- * methods that allow write access to the contained object.
+ * This interface extends {@link Supplier} by providing additional methods that
+ * allow write access to the contained object.
  * 
  * @param <E>
  *           the type of object the container can carry

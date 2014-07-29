@@ -11,6 +11,7 @@ import java.util.List;
  * objects.
  * 
  * @param <E>
+ *           the type of objects to compare
  */
 public class CompositeComparator<E> implements Comparator<E>
 {

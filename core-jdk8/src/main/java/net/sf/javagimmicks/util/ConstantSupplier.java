@@ -1,10 +1,10 @@
-package net.sf.javagimmicks.lang;
+package net.sf.javagimmicks.util;
 
 import java.util.function.Supplier;
 
 /**
  * An implementation of {@link Supplier} which holds a constant object of the
- * required type and returns it upon every call to {@link #create()}
+ * required type and returns it upon every call to {@link #get()}
  */
 public class ConstantSupplier<E> implements Supplier<E>
 {

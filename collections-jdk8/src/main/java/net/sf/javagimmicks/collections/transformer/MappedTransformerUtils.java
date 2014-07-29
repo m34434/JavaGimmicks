@@ -7,7 +7,6 @@ import javax.xml.transform.Transformer;
 
 import net.sf.javagimmicks.collections.bidimap.BidiMap;
 import net.sf.javagimmicks.transform.BidiFunction;
-import net.sf.javagimmicks.transform.Transformers;
 
 /**
  * Provides features to build {@link Transformer}s based on {@link Map}s and
@@ -79,12 +78,6 @@ public class MappedTransformerUtils
       protected BidiMapBidiFunction(final BidiMap<F, T> map)
       {
          super(map);
-      }
-
-      @Override
-      public BidiFunction<T, F> invert()
-      {
-         return Transformers.invert(this);
       }
 
       @Override

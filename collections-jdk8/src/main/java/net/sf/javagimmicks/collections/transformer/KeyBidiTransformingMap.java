@@ -5,7 +5,6 @@ import java.util.Set;
 
 import net.sf.javagimmicks.transform.BidiFunction;
 import net.sf.javagimmicks.transform.BidiTransforming;
-import net.sf.javagimmicks.transform.Transformers;
 
 class KeyBidiTransformingMap<KF, KT, V>
    extends KeyTransformingMap<KF, KT, V>
@@ -120,11 +119,6 @@ class KeyBidiTransformingMap<KF, KT, V>
          super(transformer);
       }
    
-      public BidiFunction<Entry<KT, V>, Entry<KF, V>> invert()
-      {
-         return Transformers.invert(this);
-      }
-
       public Entry<KF, V> applyReverse(Entry<KT, V> source)
       {
          return new KeyBidiTransformingEntry<KT, KF, V>(source, getTransformer().invert());
