@@ -15,5 +15,6 @@
 <mapAttribute key="org.eclipse.debug.core.environmentVariables">
 <mapEntry key="JAVA_HOME" value="/Library/Java/Home"/>
 </mapAttribute>
-<stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${workspace_loc:/gimmicks}"/>
+<booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
+<stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${workspace_loc:/JavaGimmicks}"/>
 </launchConfiguration>
