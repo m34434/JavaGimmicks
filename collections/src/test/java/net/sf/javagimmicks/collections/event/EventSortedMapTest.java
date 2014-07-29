@@ -2,26 +2,27 @@ package net.sf.javagimmicks.collections.event;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import java.util.SortedMap;
 import java.util.TreeMap;
 
 import net.sf.javagimmicks.collections.event.SortedMapEvent.Type;
-import net.sf.javagimmicks.event.testing.EventCollector;
-import net.sf.javagimmicks.event.testing.EventCollector.Validator;
+import net.sf.javagimmicks.event.EventListener;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
 
 public class EventSortedMapTest
 {
    private SortedMap<String, String> _map;
    private ObservableEventSortedMap<String, String> _eventMap;
-   private EventCollector<SortedMapEvent<String, String>> _listener;
+   private EventListener<SortedMapEvent<String, String>> _listener;
 
+   @SuppressWarnings("unchecked")
    @Before
    public void setup()
    {
@@ -30,7 +31,7 @@ public class EventSortedMapTest
       _eventMap = new ObservableEventSortedMap<String, String>(_map);
 
       // Create mock listener and register it
-      _listener = new EventCollector<SortedMapEvent<String, String>>(SortedMapEvent.class, _eventMap);
+      _listener = Mockito.mock(EventListener.class);
       _eventMap.addEventListener(_listener);
    }
 
@@ -46,46 +47,69 @@ public class EventSortedMapTest
       _map = null;
    }
 
+   @SuppressWarnings({ "rawtypes", "unchecked" })
+   private void verifyEvent(final Type type, final String key, final String value)
+   {
+      final ArgumentCaptor<SortedMapEvent> arg = ArgumentCaptor.forClass(
+            SortedMapEvent.class);
+      Mockito.verify(_listener, Mockito.atLeastOnce()).eventOccured(arg.capture());
+      assertEquals(type, arg.getValue().getType());
+      assertEquals(key, arg.getValue().getKey());
+      assertEquals(value, arg.getValue().getValue());
+      assertNull(arg.getValue().getNewValue());
+   }
+
+   @SuppressWarnings({ "rawtypes", "unchecked" })
+   private void verifyEvent(final Type type, final String key, final String oldValue, final String newValue)
+   {
+      final ArgumentCaptor<SortedMapEvent> arg = ArgumentCaptor.forClass(SortedMapEvent.class);
+      Mockito.verify(_listener, Mockito.atLeastOnce()).eventOccured(arg.capture());
+      assertEquals(type, arg.getValue().getType());
+      assertEquals(key, arg.getValue().getKey());
+      assertEquals(oldValue, arg.getValue().getValue());
+      assertEquals(newValue, arg.getValue().getNewValue());
+   }
+
    @Test
    public void testBasicMapStuff()
    {
       // Do basic operations
       assertNull(_eventMap.put("1", "A"));
       assertEquals(_eventMap, _map);
+      verifyEvent(Type.ADDED, "1", "A");
 
       assertNull(_eventMap.put("2", "B"));
       assertEquals(_eventMap, _map);
+      verifyEvent(Type.ADDED, "2", "B");
 
       assertNull(_eventMap.put("3", "C"));
       assertEquals(_eventMap, _map);
+      verifyEvent(Type.ADDED, "3", "C");
 
       assertEquals("A", _eventMap.entrySet().iterator().next().setValue("B"));
       assertEquals(_eventMap, _map);
+      verifyEvent(Type.UPDATED, "1", "A", "B");
 
       assertEquals("B", _eventMap.put("2", "A"));
       assertEquals(_eventMap, _map);
+      verifyEvent(Type.UPDATED, "2", "B", "A");
 
       assertTrue(_eventMap.keySet().remove("1"));
       assertEquals(_eventMap, _map);
+      verifyEvent(Type.REMOVED, "1", "B");
 
       assertEquals("A", _eventMap.remove("2"));
       assertEquals(_eventMap, _map);
+      verifyEvent(Type.REMOVED, "2", "A");
 
       assertTrue(_eventMap.values().remove("C"));
       assertEquals(_eventMap, _map);
+      verifyEvent(Type.REMOVED, "3", "C");
 
-      // Validate events
-      _listener.assertEventOccured(new MapEventValidator(Type.ADDED, "1", "A"));
-      _listener.assertEventOccured(new MapEventValidator(Type.ADDED, "2", "B"));
-      _listener.assertEventOccured(new MapEventValidator(Type.ADDED, "3", "C"));
-      _listener.assertEventOccured(new MapEventValidator(Type.UPDATED, "1", "A", "B"));
-      _listener.assertEventOccured(new MapEventValidator(Type.UPDATED, "2", "B", "A"));
-      _listener.assertEventOccured(new MapEventValidator(Type.REMOVED, "1", "B"));
-      _listener.assertEventOccured(new MapEventValidator(Type.REMOVED, "2", "A"));
-      _listener.assertEventOccured(new MapEventValidator(Type.REMOVED, "3", "C"));
-      _listener.assertEmpty();
+      Mockito.verifyNoMoreInteractions(_listener);
    }
 
+   @SuppressWarnings("unchecked")
    @Test
    public void testBasicSortedMapStuff()
    {
@@ -97,7 +121,7 @@ public class EventSortedMapTest
       assertEquals("c", _eventMap.firstKey());
       assertEquals("i", _eventMap.lastKey());
 
-      _listener.clear();
+      Mockito.reset(_listener);
 
       testHeadMap();
       testTailMap();
@@ -115,33 +139,33 @@ public class EventSortedMapTest
 
       assertNull(headEventMap.put("a", "1"));
       assertEquals(headMap, headEventMap);
+      verifyEvent(Type.ADDED, "a", "1");
 
       assertEquals("3", headEventMap.put("c", "3c"));
       assertEquals(headMap, headEventMap);
       assertEquals("3c", headEventMap.get("c"));
+      verifyEvent(Type.UPDATED, "c", "3", "3c");
 
       assertEquals("1", headEventMap.entrySet().iterator().next().setValue("1a"));
       assertEquals(headMap, headEventMap);
       assertEquals("1a", headEventMap.get("a"));
+      verifyEvent(Type.UPDATED, "a", "1", "1a");
 
       assertEquals("3c", headEventMap.put("c", "3"));
       assertEquals(headMap, headEventMap);
       assertEquals("3", headEventMap.get("c"));
+      verifyEvent(Type.UPDATED, "c", "3c", "3");
 
       assertEquals("1a", headEventMap.put("a", "1"));
       assertEquals(headMap, headEventMap);
       assertEquals("1", headEventMap.get("a"));
+      verifyEvent(Type.UPDATED, "a", "1a", "1");
 
       headEventMap.remove(headEventMap.firstKey());
       assertEquals(headMap, headEventMap);
+      verifyEvent(Type.REMOVED, "a", "1");
 
-      _listener.assertEventOccured(new MapEventValidator(Type.ADDED, "a", "1"));
-      _listener.assertEventOccured(new MapEventValidator(Type.UPDATED, "c", "3", "3c"));
-      _listener.assertEventOccured(new MapEventValidator(Type.UPDATED, "a", "1", "1a"));
-      _listener.assertEventOccured(new MapEventValidator(Type.UPDATED, "c", "3c", "3"));
-      _listener.assertEventOccured(new MapEventValidator(Type.UPDATED, "a", "1a", "1"));
-      _listener.assertEventOccured(new MapEventValidator(Type.REMOVED, "a", "1"));
-      _listener.assertEmpty();
+      Mockito.verifyNoMoreInteractions(_listener);
    }
 
    private void testTailMap()
@@ -155,33 +179,33 @@ public class EventSortedMapTest
 
       assertNull(tailEventMap.put("k", "1"));
       assertEquals(tailMap, tailEventMap);
+      verifyEvent(Type.ADDED, "k", "1");
 
       assertEquals("7", tailEventMap.put("g", "7g"));
       assertEquals(tailMap, tailEventMap);
       assertEquals("7g", tailEventMap.get("g"));
+      verifyEvent(Type.UPDATED, "g", "7", "7g");
 
       assertEquals("5", tailEventMap.entrySet().iterator().next().setValue("5e"));
       assertEquals(tailMap, tailEventMap);
       assertEquals("5e", tailEventMap.get("e"));
+      verifyEvent(Type.UPDATED, "e", "5", "5e");
 
       assertEquals("7g", tailEventMap.put("g", "7"));
       assertEquals(tailMap, tailEventMap);
       assertEquals("7", tailEventMap.get("g"));
+      verifyEvent(Type.UPDATED, "g", "7g", "7");
 
       assertEquals("5e", tailEventMap.put("e", "5"));
       assertEquals(tailMap, tailEventMap);
       assertEquals("5", tailEventMap.get("e"));
+      verifyEvent(Type.UPDATED, "e", "5e", "5");
 
       tailEventMap.remove(tailEventMap.lastKey());
       assertEquals(tailMap, tailEventMap);
+      verifyEvent(Type.REMOVED, "k", "1");
 
-      _listener.assertEventOccured(new MapEventValidator(Type.ADDED, "k", "1"));
-      _listener.assertEventOccured(new MapEventValidator(Type.UPDATED, "g", "7", "7g"));
-      _listener.assertEventOccured(new MapEventValidator(Type.UPDATED, "e", "5", "5e"));
-      _listener.assertEventOccured(new MapEventValidator(Type.UPDATED, "g", "7g", "7"));
-      _listener.assertEventOccured(new MapEventValidator(Type.UPDATED, "e", "5e", "5"));
-      _listener.assertEventOccured(new MapEventValidator(Type.REMOVED, "k", "1"));
-      _listener.assertEmpty();
+      Mockito.verifyNoMoreInteractions(_listener);
    }
 
    private void testSublMap()
@@ -195,62 +219,32 @@ public class EventSortedMapTest
 
       assertNull(subEventMap.put("d", "4"));
       assertEquals(subMap, subEventMap);
+      verifyEvent(Type.ADDED, "d", "4");
 
       assertEquals("7", subEventMap.put("g", "7g"));
       assertEquals(subMap, subEventMap);
       assertEquals("7g", subEventMap.get("g"));
+      verifyEvent(Type.UPDATED, "g", "7", "7g");
 
       assertEquals("4", subEventMap.entrySet().iterator().next().setValue("4d"));
       assertEquals(subMap, subEventMap);
       assertEquals("4d", subEventMap.get("d"));
+      verifyEvent(Type.UPDATED, "d", "4", "4d");
 
       assertEquals("7g", subEventMap.put("g", "7"));
       assertEquals(subMap, subEventMap);
       assertEquals("7", subEventMap.get("g"));
+      verifyEvent(Type.UPDATED, "g", "7g", "7");
 
       assertEquals("4d", subEventMap.put("d", "4"));
       assertEquals(subMap, subEventMap);
       assertEquals("5", subEventMap.get("e"));
+      verifyEvent(Type.UPDATED, "d", "4d", "4");
 
       subEventMap.remove(subEventMap.firstKey());
       assertEquals(subMap, subEventMap);
+      verifyEvent(Type.REMOVED, "d", "4");
 
-      _listener.assertEventOccured(new MapEventValidator(Type.ADDED, "d", "4"));
-      _listener.assertEventOccured(new MapEventValidator(Type.UPDATED, "g", "7", "7g"));
-      _listener.assertEventOccured(new MapEventValidator(Type.UPDATED, "d", "4", "4d"));
-      _listener.assertEventOccured(new MapEventValidator(Type.UPDATED, "g", "7g", "7"));
-      _listener.assertEventOccured(new MapEventValidator(Type.UPDATED, "d", "4d", "4"));
-      _listener.assertEventOccured(new MapEventValidator(Type.REMOVED, "d", "4"));
-      _listener.assertEmpty();
-   }
-
-   private static class MapEventValidator implements Validator<SortedMapEvent<String, String>>
-   {
-      private final Type _type;
-      private final String _key;
-      private final String _value;
-      private final String _newValue;
-
-      public MapEventValidator(final Type type, final String key, final String value, final String newValue)
-      {
-         this._type = type;
-         this._key = key;
-         this._value = value;
-         this._newValue = newValue;
-      }
-
-      public MapEventValidator(final Type type, final String key, final String value)
-      {
-         this(type, key, value, null);
-      }
-
-      @Override
-      public void validate(final SortedMapEvent<String, String> event)
-      {
-         assertSame("Type does not match", _type, event.getType());
-         assertEquals("Key does not match", _key, event.getKey());
-         assertEquals("Value does not match", _value, event.getValue());
-         assertEquals("New value does not match", _newValue, event.getNewValue());
-      }
+      Mockito.verifyNoMoreInteractions(_listener);
    }
 }
