@@ -62,6 +62,26 @@ public interface Difference<T>
    {
       return DifferenceUtils.getInvertedDifference(this);
    }
+   
+   /**
+    * Applies the difference information contained in a given {@link Difference}
+    * object to a target {@link List}. The means: remove there all elements
+    * denoted by the "delete" information of the {@link Difference} object at
+    * the right position and add all elements from the "add" {@link List} at the
+    * same position.
+    * 
+    * @param <T>
+    *           the element type of the {@link Difference} object and target
+    *           {@link List}
+    * @param d
+    *           the {@link Difference} object to apply
+    * @param targetList
+    *           the {@link List} where to apply the changes
+    */
+   default void applyTo(List<T> list)
+   {
+      DifferenceUtils.applyDifference(this, list);
+   }
 
    /**
     * Encapsulates a range (of type <i>delete</i> or <i>add</i>) that a

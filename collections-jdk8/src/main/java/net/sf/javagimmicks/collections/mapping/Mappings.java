@@ -87,7 +87,17 @@ public interface Mappings<L, R> extends Iterable<Mapping<L, R>>
     *           a {@link Collection} of left keys to add for the given right key
     * @return if the {@link Mappings} was changed during this operation
     */
-   boolean putAllForRightKey(R right, Collection<? extends L> c);
+   default boolean putAllForRightKey(final R right, final Collection<? extends L> c)
+   {
+      boolean result = false;
+
+      for (final L left : c)
+      {
+         result |= put(left, right);
+      }
+
+      return result;
+   }
 
    /**
     * Bulk-adds a bunch of right keys for a single given left key.
@@ -98,7 +108,17 @@ public interface Mappings<L, R> extends Iterable<Mapping<L, R>>
     *           a {@link Collection} of right keys to add for the given left key
     * @return if the {@link Mappings} was changed during this operation
     */
-   boolean putAllForLeftKey(L left, Collection<? extends R> c);
+   default boolean putAllForLeftKey(final L left, final Collection<? extends R> c)
+   {
+      boolean result = false;
+
+      for (final R right : c)
+      {
+         result |= put(left, right);
+      }
+
+      return result;
+   }
 
    /**
     * Removes a given mapping specified by left and right key from this
@@ -110,7 +130,12 @@ public interface Mappings<L, R> extends Iterable<Mapping<L, R>>
     *           the right key of the mapping to remove
     * @return if the {@link Mappings} was changed during this operation
     */
-   boolean remove(L left, R right);
+   default boolean remove(final L left, final R right)
+   {
+      final Set<R> mappedValuesLeft = getAllForLeftKey(left);
+
+      return mappedValuesLeft != null ? mappedValuesLeft.remove(right) : false;
+   }
 
    /**
     * Completely removes a given right key together with all it's mappings from
@@ -121,7 +146,10 @@ public interface Mappings<L, R> extends Iterable<Mapping<L, R>>
     * @return the {@link Set} of left keys that were associated with the given
     *         right key
     */
-   Set<L> removeRightKey(R right);
+   default Set<L> removeRightKey(final R right)
+   {
+      return getRightView().remove(right);
+   }
 
    /**
     * Completely removes a given left key together with all it's mappings from
@@ -132,12 +160,19 @@ public interface Mappings<L, R> extends Iterable<Mapping<L, R>>
     * @return the {@link Set} of right keys that were associated with the given
     *         left key
     */
-   Set<R> removeLeftKey(L left);
+   default Set<R> removeLeftKey(final L left)
+   {
+      return getLeftView().remove(left);
+   }
 
    /**
     * Removes all mappings from this instance
     */
-   void clear();
+   default void clear()
+   {
+      // Each view works bi-directional, so clearing one clear also the other
+      getLeftView().clear();
+   }
 
    /**
     * Checks if a given mapping specified by left and right key is contained in
@@ -149,7 +184,11 @@ public interface Mappings<L, R> extends Iterable<Mapping<L, R>>
     *           the right key of the mapping to remove
     * @return if the specified mapping is contained in the current instance
     */
-   boolean contains(L left, R right);
+   default boolean contains(final L left, final R right)
+   {
+      final Set<R> rightSet = getAllForLeftKey(left);
+      return rightSet != null && rightSet.contains(right);
+   }
 
    /**
     * Check if any mappings are contained in this instance for a given left key.
@@ -158,7 +197,10 @@ public interface Mappings<L, R> extends Iterable<Mapping<L, R>>
     *           the left key to check for any existing mappings
     * @return if there is at least one mapping contained for the given left key
     */
-   boolean containsLeftKey(L left);
+   default boolean containsLeftKey(final L left)
+   {
+      return getLeftView().containsKey(left);
+   }
 
    /**
     * Check if any mappings are contained in this instance for a given right
@@ -168,14 +210,20 @@ public interface Mappings<L, R> extends Iterable<Mapping<L, R>>
     *           the right key to check for any existing mappings
     * @return if there is at least one mapping contained for the given right key
     */
-   boolean containsRightKey(R right);
+   default boolean containsRightKey(final R right)
+   {
+      return getRightView().containsKey(right);
+   }
 
    /**
     * Returns the number of mappings contained within the current instance.
     * 
     * @return the number of mappings contained within the current instance
     */
-   int size();
+   default int size()
+   {
+      return getMappingSet().size();
+   }
 
    /**
     * Checks if the current instance contains no mappings.
@@ -218,7 +266,10 @@ public interface Mappings<L, R> extends Iterable<Mapping<L, R>>
     *           the right key to get all mapped left keys for
     * @return the {@link Set} of left keys mapped to the given right key
     */
-   Set<L> getAllForRightKey(R right);
+   default Set<L> getAllForRightKey(final R right)
+   {
+      return getRightView().get(right);
+   }
 
    /**
     * Returns all right keys that are mapped to a given left key as a
@@ -228,7 +279,10 @@ public interface Mappings<L, R> extends Iterable<Mapping<L, R>>
     *           the left key to get all mapped right keys for
     * @return the {@link Set} of right keys mapped to the given left key
     */
-   Set<R> getAllForLeftKey(L left);
+   default Set<R> getAllForLeftKey(final L left)
+   {
+      return getLeftView().get(left);
+   }
 
    /**
     * Returns an inverted view of this instance (left and right keys are
@@ -244,7 +298,10 @@ public interface Mappings<L, R> extends Iterable<Mapping<L, R>>
     * @see #getMappingSet()
     */
    @Override
-   Iterator<Mapping<L, R>> iterator();
+   default Iterator<Mapping<L, R>> iterator()
+   {
+      return getMappingSet().iterator();
+   }
 
    /**
     * Represents a single left-to-right mapping contained within a
@@ -277,6 +334,28 @@ public interface Mappings<L, R> extends Iterable<Mapping<L, R>>
        * 
        * @return an inverted view of this instance
        */
-      Mapping<R, L> invert();
+      default Mapping<R, L> invert()
+      {
+         return new Mapping<R, L>()
+         {
+            @Override
+            public Mapping<L, R> invert()
+            {
+               return Mapping.this;
+            }
+
+            @Override
+            public R getLeftKey()
+            {
+               return Mapping.this.getRightKey();
+            }
+
+            @Override
+            public L getRightKey()
+            {
+               return Mapping.this.getLeftKey();
+            }
+         };
+      }
    }
 }

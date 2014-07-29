@@ -2,7 +2,6 @@ package net.sf.javagimmicks.collections.mapping;
 
 import java.io.Serializable;
 import java.util.AbstractSet;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -33,110 +32,15 @@ public abstract class AbstractMappings<L, R> implements Mappings<L, R>, Serializ
    }
 
    @Override
-   public Iterator<Mapping<L, R>> iterator()
-   {
-      return getMappingSet().iterator();
-   }
-
-   @Override
    public Mappings<R, L> invert()
    {
       return new InverseMappings<L, R>(this);
    }
 
    @Override
-   public Set<R> getAllForLeftKey(final L left)
-   {
-      return getLeftView().get(left);
-   }
-
-   @Override
-   public Set<L> getAllForRightKey(final R right)
-   {
-      return getRightView().get(right);
-   }
-
-   @Override
    public boolean put(final L left, final R right)
    {
       throw new UnsupportedOperationException();
-   }
-
-   @Override
-   public boolean putAllForRightKey(final R right, final Collection<? extends L> c)
-   {
-      boolean result = false;
-
-      for (final L left : c)
-      {
-         result |= put(left, right);
-      }
-
-      return result;
-   }
-
-   @Override
-   public boolean putAllForLeftKey(final L left, final Collection<? extends R> c)
-   {
-      boolean result = false;
-
-      for (final R right : c)
-      {
-         result |= put(left, right);
-      }
-
-      return result;
-   }
-
-   @Override
-   public boolean remove(final L left, final R right)
-   {
-      final Set<R> mappedValuesLeft = getAllForLeftKey(left);
-
-      return mappedValuesLeft != null ? mappedValuesLeft.remove(right) : false;
-   }
-
-   @Override
-   public boolean containsLeftKey(final L left)
-   {
-      return getLeftView().containsKey(left);
-   }
-
-   @Override
-   public boolean containsRightKey(final R right)
-   {
-      return getRightView().containsKey(right);
-   }
-
-   @Override
-   public boolean contains(final L left, final R right)
-   {
-      final Set<R> rightSet = getAllForLeftKey(left);
-      return rightSet != null && rightSet.contains(right);
-   }
-
-   @Override
-   public Set<R> removeLeftKey(final L left)
-   {
-      return getLeftView().remove(left);
-   }
-
-   @Override
-   public Set<L> removeRightKey(final R right)
-   {
-      return getRightView().remove(right);
-   }
-
-   @Override
-   public void clear()
-   {
-      getLeftView().clear();
-   }
-
-   @Override
-   public int size()
-   {
-      return getMappingSet().size();
    }
 
    @Override

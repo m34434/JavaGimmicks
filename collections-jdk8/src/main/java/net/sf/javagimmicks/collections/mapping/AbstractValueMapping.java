@@ -15,19 +15,13 @@ public abstract class AbstractValueMapping<L, R, E> implements Mapping<L, R, E>,
 
    protected AbstractValueMapping()
    {}
-
+   
    @Override
    public Mapping<R, L, E> invert()
    {
       return new AbstractValueMapping<R, L, E>()
       {
-         private static final long serialVersionUID = -2436668735196156472L;
-
-         @Override
-         public Mapping<L, R, E> invert()
-         {
-            return AbstractValueMapping.this;
-         }
+         private static final long serialVersionUID = 3460811385187106748L;
 
          @Override
          public R getLeftKey()
@@ -40,11 +34,17 @@ public abstract class AbstractValueMapping<L, R, E> implements Mapping<L, R, E>,
          {
             return AbstractValueMapping.this.getLeftKey();
          }
+         
+         public Mapping<L, R, E> invert()
+         {
+            return AbstractValueMapping.this;
+         }
 
          @Override
          public E getValue()
          {
-            return AbstractValueMapping.this.getValue();
+            // TODO Auto-generated method stub
+            return null;
          }
       };
    }

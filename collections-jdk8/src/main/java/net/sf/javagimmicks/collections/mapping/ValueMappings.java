@@ -4,8 +4,10 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import net.sf.javagimmicks.collections.mapping.ValueMappings.Mapping;
+import net.sf.javagimmicks.collections.transformer.TransformerUtils;
 
 /**
  * Represents a n:m relation between two sets of elements where each mapping can
@@ -97,7 +99,13 @@ public interface ValueMappings<L, R, E> extends Iterable<Mapping<L, R, E>>
     *           right key as well as the values to associate with the respective
     *           new mappings
     */
-   void putAllForRightKey(R right, Map<? extends L, ? extends E> map);
+   default void putAllForRightKey(final R right, final Map<? extends L, ? extends E> c)
+   {
+      for (final Entry<? extends L, ? extends E> left : c.entrySet())
+      {
+         put(left.getKey(), right, left.getValue());
+      }
+   }
 
    /**
     * Bulk-adds a bunch of right key-value associations for a single given left
@@ -110,7 +118,13 @@ public interface ValueMappings<L, R, E> extends Iterable<Mapping<L, R, E>>
     *           left key as well as the values to associate with the respective
     *           new mappings
     */
-   void putAllForLeftKey(L left, Map<? extends R, ? extends E> map);
+   default void putAllForLeftKey(final L left, final Map<? extends R, ? extends E> c)
+   {
+      for (final Entry<? extends R, ? extends E> right : c.entrySet())
+      {
+         put(left, right.getKey(), right.getValue());
+      }
+   }
 
    /**
     * Removes a given mapping specified by left and right key from this
@@ -123,7 +137,12 @@ public interface ValueMappings<L, R, E> extends Iterable<Mapping<L, R, E>>
     * @return the value that was associated with the removed mapping or
     *         {@code null} if no such mapping was contained
     */
-   E remove(L left, R right);
+   default E remove(final L left, final R right)
+   {
+      final Map<R, E> mappedValuesLeft = getAllForLeftKey(left);
+
+      return mappedValuesLeft != null ? mappedValuesLeft.remove(right) : null;
+   }
 
    /**
     * Completely removes a given right key together with all it's mappings from
@@ -134,7 +153,10 @@ public interface ValueMappings<L, R, E> extends Iterable<Mapping<L, R, E>>
     * @return the {@link Map} containing the left keys that were mapped to the
     *         given right key as well as the associated values
     */
-   Map<L, E> removeRightKey(R right);
+   default Map<L, E> removeRightKey(final R right)
+   {
+      return getRightView().remove(right);
+   }
 
    /**
     * Completely removes a given left key together with all it's mappings from
@@ -145,12 +167,18 @@ public interface ValueMappings<L, R, E> extends Iterable<Mapping<L, R, E>>
     * @return the {@link Map} containing the right keys that were mapped to with
     *         the given left key as well as the associated values
     */
-   Map<R, E> removeLeftKey(L left);
+   default Map<R, E> removeLeftKey(final L left)
+   {
+      return getLeftView().remove(left);
+   }
 
    /**
     * Removes all mappings from this instance
     */
-   void clear();
+   default void clear()
+   {
+      getLeftView().clear();
+   }
 
    /**
     * Checks if a given mapping specified by left and right key is contained in
@@ -162,7 +190,11 @@ public interface ValueMappings<L, R, E> extends Iterable<Mapping<L, R, E>>
     *           the right key of the mapping to remove
     * @return if the specified mapping is contained in the current instance
     */
-   boolean containsMapping(L left, R right);
+   default boolean containsMapping(final L left, final R right)
+   {
+      final Map<R, E> rightInnerMap = getAllForLeftKey(left);
+      return rightInnerMap != null && rightInnerMap.containsKey(right);
+   }
 
    /**
     * Check if any mappings are contained in this instance for a given left key.
@@ -171,7 +203,10 @@ public interface ValueMappings<L, R, E> extends Iterable<Mapping<L, R, E>>
     *           the left key to check for any existing mappings
     * @return if there is at least one mapping contained for the given left key
     */
-   boolean containsLeftKey(L left);
+   default boolean containsLeftKey(final L left)
+   {
+      return getLeftView().containsKey(left);
+   }
 
    /**
     * Check if any mappings are contained in this instance for a given right
@@ -181,14 +216,20 @@ public interface ValueMappings<L, R, E> extends Iterable<Mapping<L, R, E>>
     *           the right key to check for any existing mappings
     * @return if there is at least one mapping contained for the given right key
     */
-   boolean containsRightKey(R right);
+   default boolean containsRightKey(final R right)
+   {
+      return getRightView().containsKey(right);
+   }
 
    /**
     * Returns the number of mappings contained within the current instance.
     * 
     * @return the number of mappings contained within the current instance
     */
-   int size();
+   default int size()
+   {
+      return getMappingSet().size();
+   }
 
    /**
     * Checks if the current instance contains no mappings.
@@ -208,7 +249,12 @@ public interface ValueMappings<L, R, E> extends Iterable<Mapping<L, R, E>>
     * @return the associated value or {@code null} if no such mapping was
     *         contained
     */
-   E get(L left, R right);
+   default E get(final L left, final R right)
+   {
+      final Map<R, E> rightInnerMap = getAllForLeftKey(left);
+
+      return rightInnerMap != null ? rightInnerMap.get(right) : null;
+   }
 
    /**
     * Returns all mappings contained within this instance as a {@link Set} of
@@ -224,7 +270,10 @@ public interface ValueMappings<L, R, E> extends Iterable<Mapping<L, R, E>>
     * 
     * @return a {@link Collection} of the values of all mappings
     */
-   Collection<E> getValues();
+   default Collection<E> getValues()
+   {
+      return TransformerUtils.decorate(getMappingSet(), source -> source.getValue());
+   }
 
    /**
     * Return the "left view" of this instance - that is a {@link Map} that
@@ -260,7 +309,10 @@ public interface ValueMappings<L, R, E> extends Iterable<Mapping<L, R, E>>
     *           the right key to get all mapped left keys for
     * @return the {@link Map} of left keys mapped to the given right key
     */
-   Map<L, E> getAllForRightKey(R right);
+   default Map<L, E> getAllForRightKey(final R right)
+   {
+      return getRightView().get(right);
+   }
 
    /**
     * Returns a {@link Map} of all right keys that are mapped to a given left
@@ -270,7 +322,10 @@ public interface ValueMappings<L, R, E> extends Iterable<Mapping<L, R, E>>
     *           the left key to get all mapped right keys for
     * @return the {@link Map} of right keys mapped to the given left key
     */
-   Map<R, E> getAllForLeftKey(L left);
+   default Map<R, E> getAllForLeftKey(final L left)
+   {
+      return getLeftView().get(left);
+   }
 
    /**
     * Returns an inverted view of this instance (left and right keys are
@@ -286,7 +341,10 @@ public interface ValueMappings<L, R, E> extends Iterable<Mapping<L, R, E>>
     * @see #getMappingSet()
     */
    @Override
-   Iterator<Mapping<L, R, E>> iterator();
+   default Iterator<Mapping<L, R, E>> iterator()
+   {
+      return getMappingSet().iterator();
+   }
 
    /**
     * Represents a single left-to-right mapping contained within a
@@ -328,6 +386,34 @@ public interface ValueMappings<L, R, E> extends Iterable<Mapping<L, R, E>>
        * 
        * @return an inverted view of this instance
        */
-      Mapping<R, L, E> invert();
+      default Mapping<R, L, E> invert()
+      {
+         return new Mapping<R, L, E>()
+         {
+            @Override
+            public Mapping<L, R, E> invert()
+            {
+               return Mapping.this;
+            }
+
+            @Override
+            public R getLeftKey()
+            {
+               return Mapping.this.getRightKey();
+            }
+
+            @Override
+            public L getRightKey()
+            {
+               return Mapping.this.getLeftKey();
+            }
+
+            @Override
+            public E getValue()
+            {
+               return Mapping.this.getValue();
+            }
+         };
+      }
    }
 }

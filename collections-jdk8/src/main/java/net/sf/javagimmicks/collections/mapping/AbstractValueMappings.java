@@ -2,13 +2,10 @@ package net.sf.javagimmicks.collections.mapping;
 
 import java.io.Serializable;
 import java.util.AbstractSet;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
-import net.sf.javagimmicks.collections.transformer.TransformerUtils;
 
 /**
  * An abstract implementation of {@link ValueMappings} that provides default
@@ -35,116 +32,15 @@ public abstract class AbstractValueMappings<L, R, E> implements ValueMappings<L,
    }
 
    @Override
-   public Iterator<Mapping<L, R, E>> iterator()
-   {
-      return getMappingSet().iterator();
-   }
-
-   @Override
    public ValueMappings<R, L, E> invert()
    {
       return new InverseMappings<L, R, E>(this);
    }
 
    @Override
-   public Map<R, E> getAllForLeftKey(final L left)
-   {
-      return getLeftView().get(left);
-   }
-
-   @Override
-   public Map<L, E> getAllForRightKey(final R right)
-   {
-      return getRightView().get(right);
-   }
-
-   @Override
    public E put(final L left, final R right, final E value)
    {
       throw new UnsupportedOperationException();
-   }
-
-   @Override
-   public void putAllForRightKey(final R right, final Map<? extends L, ? extends E> c)
-   {
-      for (final Entry<? extends L, ? extends E> left : c.entrySet())
-      {
-         put(left.getKey(), right, left.getValue());
-      }
-   }
-
-   @Override
-   public void putAllForLeftKey(final L left, final Map<? extends R, ? extends E> c)
-   {
-      for (final Entry<? extends R, ? extends E> right : c.entrySet())
-      {
-         put(left, right.getKey(), right.getValue());
-      }
-   }
-
-   @Override
-   public E get(final L left, final R right)
-   {
-      final Map<R, E> rightInnerMap = getAllForLeftKey(left);
-
-      return rightInnerMap != null ? rightInnerMap.get(right) : null;
-   }
-
-   @Override
-   public E remove(final L left, final R right)
-   {
-      final Map<R, E> mappedValuesLeft = getAllForLeftKey(left);
-
-      return mappedValuesLeft != null ? mappedValuesLeft.remove(right) : null;
-   }
-
-   @Override
-   public Collection<E> getValues()
-   {
-      return TransformerUtils.decorate(getMappingSet(), source -> source.getValue());
-   }
-
-   @Override
-   public boolean containsLeftKey(final L left)
-   {
-      return getLeftView().containsKey(left);
-   }
-
-   @Override
-   public boolean containsRightKey(final R right)
-   {
-      return getRightView().containsKey(right);
-   }
-
-   @Override
-   public boolean containsMapping(final L left, final R right)
-   {
-      final Map<R, E> rightInnerMap = getAllForLeftKey(left);
-      return rightInnerMap != null && rightInnerMap.containsKey(right);
-   }
-
-   @Override
-   public Map<R, E> removeLeftKey(final L left)
-   {
-      return getLeftView().remove(left);
-   }
-
-   @Override
-   public Map<L, E> removeRightKey(final R right)
-   {
-      return getRightView().remove(right);
-   }
-
-   @Override
-   public void clear()
-   {
-      getLeftView().clear();
-   }
-
-   @Override
-   public int size()
-   {
-      return getMappingSet().size();
    }
 
    @Override

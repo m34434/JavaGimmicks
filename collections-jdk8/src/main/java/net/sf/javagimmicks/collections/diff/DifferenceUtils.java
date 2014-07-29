@@ -128,7 +128,7 @@ public class DifferenceUtils
     * @return an inverted version of the provided {@link Difference} object
     *         using the original one in background
     */
-   public static <T> Difference<T> getInvertedDifference(final Difference<T> difference)
+   static <T> Difference<T> getInvertedDifference(final Difference<T> difference)
    {
       return new InvertedDifference<T>(difference);
    }
@@ -144,27 +144,12 @@ public class DifferenceUtils
     * @return an inverted version of the provided {@link DifferenceList} object
     *         using the original one in background
     */
-   public static <T> DifferenceList<T> getInvertedDifferenceList(final DifferenceList<T> differenceList)
+   static <T> DifferenceList<T> getInvertedDifferenceList(final DifferenceList<T> differenceList)
    {
       return new InvertedDifferenceList<T>(differenceList);
    }
 
-   /**
-    * Applies the difference information contained in a given {@link Difference}
-    * object to a target {@link List}. The means: remove there all elements
-    * denoted by the "delete" information of the {@link Difference} object at
-    * the right position and add all elements from the "add" {@link List} at the
-    * same position.
-    * 
-    * @param <T>
-    *           the element type of the {@link Difference} object and target
-    *           {@link List}
-    * @param d
-    *           the {@link Difference} object to apply
-    * @param targetList
-    *           the {@link List} where to apply the changes
-    */
-   public static <T> void applyDifference(final Difference<T> d, final List<T> targetList)
+   static <T> void applyDifference(final Difference<T> d, final List<T> targetList)
    {
       final Range<T> deleteRange = d.deleteRange();
       final Range<T> addRange = d.addRange();
@@ -206,7 +191,7 @@ public class DifferenceUtils
     * @param targetList
     *           the {@link List} where to apply the changes
     */
-   public static <T> void applyDifferenceList(final DifferenceList<T> diffList, final List<T> targetList)
+   static <T> void applyDifferenceList(final DifferenceList<T> diffList, final List<T> targetList)
    {
       // ATTENTION: In any case, apply in reverse order; otherwise would cause
       // data corruption
@@ -217,7 +202,7 @@ public class DifferenceUtils
       }
    }
 
-   public static String toString(final Difference<?> d)
+   static String toString(final Difference<?> d)
    {
       final Range<?> deleteRange = d.deleteRange();
       final Range<?> addRange = d.addRange();
@@ -237,11 +222,11 @@ public class DifferenceUtils
             .toString();
    }
 
-   protected static class InvertedDifference<T> implements Difference<T>
+   private static class InvertedDifference<T> implements Difference<T>
    {
       protected final Difference<T> _original;
 
-      protected InvertedDifference(final Difference<T> original)
+      public InvertedDifference(final Difference<T> original)
       {
          _original = original;
       }
@@ -271,11 +256,11 @@ public class DifferenceUtils
       }
    }
 
-   protected static class InvertedDifferenceList<T> extends AbstractList<Difference<T>> implements DifferenceList<T>
+   private static class InvertedDifferenceList<T> extends AbstractList<Difference<T>> implements DifferenceList<T>
    {
       protected final DifferenceList<T> _original;
 
-      protected InvertedDifferenceList(final DifferenceList<T> original)
+      public InvertedDifferenceList(final DifferenceList<T> original)
       {
          _original = original;
       }

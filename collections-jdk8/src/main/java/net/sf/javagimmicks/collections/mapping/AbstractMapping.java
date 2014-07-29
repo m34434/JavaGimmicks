@@ -20,13 +20,7 @@ public abstract class AbstractMapping<L, R> implements Mapping<L, R>, Serializab
    {
       return new AbstractMapping<R, L>()
       {
-         private static final long serialVersionUID = 1277735552925631376L;
-
-         @Override
-         public Mapping<L, R> invert()
-         {
-            return AbstractMapping.this;
-         }
+         private static final long serialVersionUID = 3524909799166270575L;
 
          @Override
          public R getLeftKey()
@@ -41,7 +35,7 @@ public abstract class AbstractMapping<L, R> implements Mapping<L, R>, Serializab
          }
       };
    }
-
+   
    @Override
    public boolean equals(final Object obj)
    {

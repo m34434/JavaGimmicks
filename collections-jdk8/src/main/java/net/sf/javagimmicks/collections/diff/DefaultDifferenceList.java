@@ -26,7 +26,7 @@ public class DefaultDifferenceList<T> extends AbstractUnmodifiableListDecorator<
    }
 
    @Override
-   public List<Difference<T>> getDecorated()
+   protected List<Difference<T>> getDecorated()
    {
       return super.getDecorated();
    }
