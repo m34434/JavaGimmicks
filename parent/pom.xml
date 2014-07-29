@@ -361,6 +361,7 @@
 							<artifactId>maven-javadoc-plugin</artifactId>
 							<configuration>
 								<javadocExecutable>/Library/Java/JavaVirtualMachines/jdk1.8.0_05.jdk/Contents/Home/bin/javadoc</javadocExecutable>
+								<additionalparam>-Xdoclint:none</additionalparam>
 							</configuration>
 						</plugin>
 					</plugins>
