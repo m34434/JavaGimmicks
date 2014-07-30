@@ -1,5 +1,8 @@
 package net.sf.javagimmicks.collections8.filter;
 
+import static net.sf.javagimmicks.collections8.Collections.crossProductForEach;
+import static net.sf.javagimmicks.collections8.Lists.forEachWithIndex;
+
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
 import java.util.AbstractList;
@@ -89,13 +92,7 @@ public class FilterList<E> extends AbstractEventList<E>
    {
       final FilteredList result = new FilteredList(filter);
 
-      for (final ListIterator<E> iterElements = getDecorated().listIterator(); iterElements.hasNext();)
-      {
-         if (filter.test(iterElements.next()))
-         {
-            result._realIndeces.add(iterElements.previousIndex());
-         }
-      }
+      forEachWithIndex(getDecorated(), filter, (i, e) -> result._realIndeces.add(i));
 
       _filteredLists.add(new WeakReference<FilteredList>(result));
 
@@ -140,22 +137,14 @@ public class FilterList<E> extends AbstractEventList<E>
    @Override
    protected void fireElementsAdded(final int index, final Collection<? extends E> elements)
    {
-      for (final FilteredList filteredList : getAliveFilterLists())
-      {
-         for (final E element : elements)
-         {
-            doAdd(filteredList, index, filteredList._filter.test(element));
-         }
-      }
+      crossProductForEach(getAliveFilterLists(), elements,
+            (filteredList, element) -> doAdd(filteredList, index, filteredList._filter.test(element)));
    }
 
    @Override
    protected void fireElementRemoved(final int index, final E element)
    {
-      for (final FilteredList filteredList : getAliveFilterLists())
-      {
-         doRemove(filteredList, index);
-      }
+      getAliveFilterLists().forEach(filteredList -> doRemove(filteredList, index));
    }
 
    @Override
