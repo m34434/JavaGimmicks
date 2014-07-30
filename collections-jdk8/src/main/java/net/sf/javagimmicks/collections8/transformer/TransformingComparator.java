@@ -8,11 +8,7 @@ class TransformingComparator<F, T> implements Comparator<T>
    protected final Comparator<? super F> _internalComparator;
    private final Function<T, F> _transformer;
    
-   /**
-    * @deprecated Use TranformerUtils.decorate() instead
-    */
-   @Deprecated
-   public TransformingComparator(Comparator<? super F> comparator, Function<T, F> transformer)
+   TransformingComparator(Comparator<? super F> comparator, Function<T, F> transformer)
    {
       _internalComparator = comparator;
       _transformer = transformer;

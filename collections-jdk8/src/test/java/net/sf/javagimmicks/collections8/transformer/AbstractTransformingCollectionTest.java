@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Function;
 
-import net.sf.javagimmicks.transform.BidiFunction;
+import net.sf.javagimmicks.transform8.BidiFunction;
 
 import org.junit.Before;
 import org.junit.Test;

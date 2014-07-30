@@ -3,17 +3,13 @@ package net.sf.javagimmicks.collections8.transformer;
 import java.util.Iterator;
 import java.util.NavigableSet;
 
-import net.sf.javagimmicks.transform.BidiFunction;
+import net.sf.javagimmicks.transform8.BidiFunction;
 
 class BidiTransformingNavigableSet<F, T>
       extends BidiTransformingSortedSet<F, T>
       implements NavigableSet<T>
 {
-   /**
-    * @deprecated Use TranformerUtils.decorate() instead
-    */
-   @Deprecated
-   public BidiTransformingNavigableSet(NavigableSet<F> set, BidiFunction<F, T> transformer)
+   BidiTransformingNavigableSet(NavigableSet<F> set, BidiFunction<F, T> transformer)
    {
       super(set, transformer);
    }

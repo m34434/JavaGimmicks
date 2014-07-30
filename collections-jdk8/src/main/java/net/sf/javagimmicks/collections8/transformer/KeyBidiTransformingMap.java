@@ -3,18 +3,14 @@ package net.sf.javagimmicks.collections8.transformer;
 import java.util.Map;
 import java.util.Set;
 
-import net.sf.javagimmicks.transform.BidiFunction;
-import net.sf.javagimmicks.transform.BidiTransforming;
+import net.sf.javagimmicks.transform8.BidiFunction;
+import net.sf.javagimmicks.transform8.BidiTransforming;
 
 class KeyBidiTransformingMap<KF, KT, V>
    extends KeyTransformingMap<KF, KT, V>
    implements BidiTransforming<KF, KT>
 {
-   /**
-    * @deprecated Use TranformerUtils.decorateKeyBased() instead
-    */
-   @Deprecated
-   public KeyBidiTransformingMap(Map<KF, V> map, BidiFunction<KF, KT> transformer)
+   KeyBidiTransformingMap(Map<KF, V> map, BidiFunction<KF, KT> transformer)
    {
       super(map, transformer);
    }

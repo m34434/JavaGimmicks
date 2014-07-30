@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.function.Function;
 
-import net.sf.javagimmicks.transform.Transforming;
+import net.sf.javagimmicks.transform8.Transforming;
 
 class TransformingCollection<F, T>
 	extends AbstractCollection<T>
@@ -14,11 +14,7 @@ class TransformingCollection<F, T>
    protected final Collection<F> _internalCollection;
    private final Function<F, T> _transformer;
    
-   /**
-    * @deprecated Use TranformerUtils.decorate() instead
-    */
-   @Deprecated
-   public TransformingCollection(Collection<F> collection, Function<F, T> transformer)
+   TransformingCollection(Collection<F> collection, Function<F, T> transformer)
    {
       _internalCollection = collection;
       _transformer = transformer;

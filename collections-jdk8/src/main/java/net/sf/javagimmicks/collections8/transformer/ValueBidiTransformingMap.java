@@ -4,18 +4,14 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import net.sf.javagimmicks.transform.BidiFunction;
-import net.sf.javagimmicks.transform.BidiTransforming;
+import net.sf.javagimmicks.transform8.BidiFunction;
+import net.sf.javagimmicks.transform8.BidiTransforming;
 
 class ValueBidiTransformingMap<K, VF, VT>
    extends ValueTransformingMap<K, VF, VT>
    implements BidiTransforming<VF, VT>
 {
-   /**
-    * @deprecated Use TranformerUtils.decorateValueBased() instead
-    */
-   @Deprecated
-   public ValueBidiTransformingMap(Map<K, VF> map, BidiFunction<VF, VT> valueTransformer)
+   ValueBidiTransformingMap(Map<K, VF> map, BidiFunction<VF, VT> valueTransformer)
    {
       super(map, valueTransformer);
    }

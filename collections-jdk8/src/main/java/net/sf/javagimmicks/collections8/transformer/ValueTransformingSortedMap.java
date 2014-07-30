@@ -6,11 +6,7 @@ import java.util.function.Function;
 
 class ValueTransformingSortedMap<K, VF, VT> extends ValueTransformingMap<K, VF, VT> implements SortedMap<K, VT>
 {
-   /**
-    * @deprecated Use TranformerUtils.decorateValueBased() instead
-    */
-   @Deprecated
-   public ValueTransformingSortedMap(SortedMap<K, VF> map, Function<VF, VT> valueTransformer)
+   ValueTransformingSortedMap(SortedMap<K, VF> map, Function<VF, VT> valueTransformer)
    {
       super(map, valueTransformer);
    }

@@ -6,11 +6,7 @@ import java.util.function.Function;
 
 class TransformingSortedSet<F, T> extends TransformingSet<F, T> implements SortedSet<T>
 {
-   /**
-    * @deprecated Use TranformerUtils.decorate() instead
-    */
-   @Deprecated
-   public TransformingSortedSet(SortedSet<F> set, Function<F, T> transformer)
+   TransformingSortedSet(SortedSet<F> set, Function<F, T> transformer)
    {
       super(set, transformer);
    }

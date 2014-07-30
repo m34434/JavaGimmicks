@@ -1,4 +1,4 @@
-package net.sf.javagimmicks.transform;
+package net.sf.javagimmicks.transform8;
 
 import java.util.function.Function;
 

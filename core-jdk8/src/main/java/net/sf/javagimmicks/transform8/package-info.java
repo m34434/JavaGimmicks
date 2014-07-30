@@ -4,14 +4,14 @@
  * <p>
  * It leverages Java 8's {@link java.util.function.Function} interface
  * which can transform one type of objects into other ones (of same or different
- * type) and an extension interface {@link net.sf.javagimmicks.transform.BidiFunction}
+ * type) and an extension interface {@link net.sf.javagimmicks.transform8.BidiFunction}
  * which can additionally do an opposite transformation.
  * <p>
- * The two interfaces {@link net.sf.javagimmicks.transform.Transforming} and
- * {@link net.sf.javagimmicks.transform.BidiTransforming} act as a sort of marker
+ * The two interfaces {@link net.sf.javagimmicks.transform8.Transforming} and
+ * {@link net.sf.javagimmicks.transform8.BidiTransforming} act as a sort of marker
  * interfaces for objects that can carry a {@link java.util.function.Function}
- * or {@link net.sf.javagimmicks.transform.BidiFunction}.
+ * or {@link net.sf.javagimmicks.transform8.BidiFunction}.
  * 
  * @author Michael Scholz
  */
-package net.sf.javagimmicks.transform;
+package net.sf.javagimmicks.transform8;

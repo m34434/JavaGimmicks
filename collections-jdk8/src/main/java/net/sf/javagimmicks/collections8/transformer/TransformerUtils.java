@@ -21,9 +21,10 @@ import java.util.function.Function;
 
 
 
+
 import net.sf.javagimmicks.collections8.Ring;
 import net.sf.javagimmicks.collections8.RingCursor;
-import net.sf.javagimmicks.transform.BidiFunction;
+import net.sf.javagimmicks.transform8.BidiFunction;
 
 /**
  * This class is the central entry point to the JavaGimmicks transforming
@@ -36,7 +37,6 @@ import net.sf.javagimmicks.transform.BidiFunction;
  * @see net.sf.javagimmicks.collections8.transformer
  * @author Michael Scholz
  */
-@SuppressWarnings("deprecation")
 public class TransformerUtils
 {
    private TransformerUtils()

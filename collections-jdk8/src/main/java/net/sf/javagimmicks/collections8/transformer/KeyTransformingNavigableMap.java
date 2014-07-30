@@ -8,11 +8,7 @@ class KeyTransformingNavigableMap<KF, KT, V>
       extends KeyTransformingSortedMap<KF, KT, V>
       implements NavigableMap<KT, V>
 {
-   /**
-    * @deprecated Use TranformerUtils.decorateKeyBased() instead
-    */
-   @Deprecated
-   public KeyTransformingNavigableMap(final NavigableMap<KF, V> map, final Function<KF, KT> transformer)
+   KeyTransformingNavigableMap(final NavigableMap<KF, V> map, final Function<KF, KT> transformer)
    {
       super(map, transformer);
    }

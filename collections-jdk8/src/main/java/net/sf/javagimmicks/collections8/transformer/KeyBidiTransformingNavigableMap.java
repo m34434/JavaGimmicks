@@ -3,17 +3,13 @@ package net.sf.javagimmicks.collections8.transformer;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
 
-import net.sf.javagimmicks.transform.BidiFunction;
+import net.sf.javagimmicks.transform8.BidiFunction;
 
 class KeyBidiTransformingNavigableMap<KF, KT, V>
    extends KeyBidiTransformingSortedMap<KF, KT, V>
    implements NavigableMap<KT, V>
 {
-   /**
-    * @deprecated Use TranformerUtils.decorateKeyBased() instead
-    */
-   @Deprecated
-   public KeyBidiTransformingNavigableMap(NavigableMap<KF, V> map, BidiFunction<KF, KT> transformer)
+   KeyBidiTransformingNavigableMap(NavigableMap<KF, V> map, BidiFunction<KF, KT> transformer)
    {
       super(map, transformer);
    }

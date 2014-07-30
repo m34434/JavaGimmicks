@@ -8,11 +8,7 @@ class TransformingNavigableSet<F, T>
    extends TransformingSortedSet<F, T>
    implements NavigableSet<T>
 {
-   /**
-    * @deprecated Use TranformerUtils.decorate() instead
-    */
-   @Deprecated
-   public TransformingNavigableSet(NavigableSet<F> set, Function<F, T> transformer)
+   TransformingNavigableSet(NavigableSet<F> set, Function<F, T> transformer)
    {
       super(set, transformer);
    }

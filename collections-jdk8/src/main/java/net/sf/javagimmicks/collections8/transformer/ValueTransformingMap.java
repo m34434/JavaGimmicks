@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 
-import net.sf.javagimmicks.transform.Transforming;
+import net.sf.javagimmicks.transform8.Transforming;
 
 class ValueTransformingMap<K, VF, VT>
    extends AbstractMap<K, VT>
@@ -15,11 +15,7 @@ class ValueTransformingMap<K, VF, VT>
    protected final Map<K, VF> _internalMap;
    private final Function<VF, VT> _transformer;
    
-   /**
-    * @deprecated Use TranformerUtils.decorateValueBased() instead
-    */
-   @Deprecated
-   public ValueTransformingMap(Map<K, VF> map, Function<VF, VT> valueTransformer)
+   ValueTransformingMap(Map<K, VF> map, Function<VF, VT> valueTransformer)
    {
       _internalMap = map;
       _transformer = valueTransformer;

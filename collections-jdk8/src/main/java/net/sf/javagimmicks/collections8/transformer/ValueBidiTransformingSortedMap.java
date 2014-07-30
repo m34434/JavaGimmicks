@@ -4,15 +4,11 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.SortedMap;
 
-import net.sf.javagimmicks.transform.BidiFunction;
+import net.sf.javagimmicks.transform8.BidiFunction;
 
 class ValueBidiTransformingSortedMap<K, VF, VT> extends ValueBidiTransformingMap<K, VF, VT> implements SortedMap<K, VT>
 {
-   /**
-    * @deprecated Use TranformerUtils.decorateValueBased() instead
-    */
-   @Deprecated
-   public ValueBidiTransformingSortedMap(final Map<K, VF> map, final BidiFunction<VF, VT> valueTransformer)
+   ValueBidiTransformingSortedMap(final Map<K, VF> map, final BidiFunction<VF, VT> valueTransformer)
    {
       super(map, valueTransformer);
    }

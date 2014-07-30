@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.function.Function;
 
-import net.sf.javagimmicks.transform.Transforming;
+import net.sf.javagimmicks.transform8.Transforming;
 
 class TransformingList<F, T>
 	extends AbstractList<T>
@@ -15,11 +15,7 @@ class TransformingList<F, T>
    protected final List<F> _internalList;
    private final Function<F, T> _transformer;
    
-   /**
-    * @deprecated Use TranformerUtils.decorate() instead
-    */
-   @Deprecated
-   public TransformingList(List<F> list, Function<F, T> transformer)
+   TransformingList(List<F> list, Function<F, T> transformer)
    {
       _internalList = list;
       _transformer = transformer;

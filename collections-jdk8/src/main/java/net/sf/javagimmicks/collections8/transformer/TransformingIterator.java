@@ -3,18 +3,14 @@ package net.sf.javagimmicks.collections8.transformer;
 import java.util.Iterator;
 import java.util.function.Function;
 
-import net.sf.javagimmicks.transform.Transforming;
+import net.sf.javagimmicks.transform8.Transforming;
 
 class TransformingIterator<F, T> implements Iterator<T>, Transforming<F, T>
 {
    protected final Iterator<F> _internalIterator;
    private final Function<F, T> _transformer;
 
-   /**
-    * @deprecated Use TranformerUtils.decorate() instead
-    */
-   @Deprecated
-   public TransformingIterator(Iterator<F> iterator, Function<F, T> transformer)
+   TransformingIterator(Iterator<F> iterator, Function<F, T> transformer)
    {
       _internalIterator = iterator;
       _transformer = transformer;

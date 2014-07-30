@@ -7,11 +7,7 @@ class TransformingListIterator<F, T>
    extends TransformingIterator<F, T>
    implements ListIterator<T>
 {
-   /**
-    * @deprecated Use TranformerUtils.decorate() instead
-    */
-   @Deprecated
-   public TransformingListIterator(ListIterator<F> iterator, Function<F, T> transformer)
+   TransformingListIterator(ListIterator<F> iterator, Function<F, T> transformer)
    {
       super(iterator, transformer);
    }

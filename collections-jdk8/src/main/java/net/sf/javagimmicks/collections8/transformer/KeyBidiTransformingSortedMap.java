@@ -3,16 +3,12 @@ package net.sf.javagimmicks.collections8.transformer;
 import java.util.Comparator;
 import java.util.SortedMap;
 
-import net.sf.javagimmicks.transform.BidiFunction;
+import net.sf.javagimmicks.transform8.BidiFunction;
 import net.sf.javagimmicks.util.ComparableComparator;
 
 class KeyBidiTransformingSortedMap<KF, KT, V> extends KeyBidiTransformingMap<KF, KT, V> implements SortedMap<KT, V>
 {
-   /**
-    * @deprecated Use TranformerUtils.decorateKeyBased() instead
-    */
-   @Deprecated
-   public KeyBidiTransformingSortedMap(SortedMap<KF, V> map, BidiFunction<KF, KT> transformer)
+   KeyBidiTransformingSortedMap(SortedMap<KF, V> map, BidiFunction<KF, KT> transformer)
    {
       super(map, transformer);
    }

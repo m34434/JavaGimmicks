@@ -6,11 +6,7 @@ import java.util.function.Function;
 
 class KeyTransformingSortedMap<KF, KT, V> extends KeyTransformingMap<KF, KT, V> implements SortedMap<KT, V>
 {
-   /**
-    * @deprecated Use TranformerUtils.decorateKeyBased() instead
-    */
-   @Deprecated
-   public KeyTransformingSortedMap(SortedMap<KF, V> map, Function<KF, KT> transformer)
+   KeyTransformingSortedMap(SortedMap<KF, V> map, Function<KF, KT> transformer)
    {
       super(map, transformer);
    }

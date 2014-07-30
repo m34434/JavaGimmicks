@@ -28,7 +28,7 @@
  * instances, you need to provide to them the transformation rules.
  * You can do so by writing a class that implements the
  * {@link net.sf.javagimmicks.transform.Transformer} or
- * {@link net.sf.javagimmicks.transform.BidiFunction} interface
+ * {@link net.sf.javagimmicks.transform8.BidiFunction} interface
  * which are both contained in this API.
  * <p>
  * When providing a {@link net.sf.javagimmicks.transform.Transformer},
@@ -40,7 +40,7 @@
  * (neither on the {@link java.util.List} nor on any of its
  * {@link java.util.ListIterator}s. For more details, see below.
  * <p>
- * When providing a {@link net.sf.javagimmicks.transform.BidiFunction},
+ * When providing a {@link net.sf.javagimmicks.transform8.BidiFunction},
  * all operations will be available and some operations will even be faster.
  * 
  * <h2>Decorator methods in {@link net.sf.javagimmicks.collections8.transformer.TransformerUtils}</h2>
@@ -49,12 +49,12 @@
  * for {@link java.util.Map}s) which can be used to create transformed instances
  * of a number of (generic) base classes by providing an instance of this
  * base class and one of {@link net.sf.javagimmicks.transform.Transformer} or
- * {@link net.sf.javagimmicks.transform.BidiFunction}.
+ * {@link net.sf.javagimmicks.transform8.BidiFunction}.
  * <p>
  * The resulting instance will implement the same interface (but
  * eventually with different type parameters) and additionally
- * {@link net.sf.javagimmicks.transform.Transforming} or
- * {@link net.sf.javagimmicks.transform.BidiTransforming}
+ * {@link net.sf.javagimmicks.transform8.Transforming} or
+ * {@link net.sf.javagimmicks.transform8.BidiTransforming}
  * (both depending on the provided transformation rule instance).
  * Furthermore, this instance
  * is completely backed on the the provided one and will contain

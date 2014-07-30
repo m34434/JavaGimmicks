@@ -6,7 +6,7 @@ package net.sf.javagimmicks.collections8.transformer;
 import java.util.function.Function;
 
 import net.sf.javagimmicks.collections8.RingCursor;
-import net.sf.javagimmicks.transform.Transforming;
+import net.sf.javagimmicks.transform8.Transforming;
 
 class TransformingRingCursor<F, T>
    implements Transforming<F, T>, RingCursor<T>
@@ -14,11 +14,7 @@ class TransformingRingCursor<F, T>
    protected final RingCursor<F> _internalRingCursor;
    private final Function<F, T> _transformer;
    
-   /**
-    * @deprecated Use TranformerUtils.decorate() instead
-    */
-   @Deprecated
-   public TransformingRingCursor(RingCursor<F> ringCursor, Function<F, T> transformer)
+   TransformingRingCursor(RingCursor<F> ringCursor, Function<F, T> transformer)
    {
       _internalRingCursor = ringCursor;
       _transformer = transformer;

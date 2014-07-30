@@ -1,18 +1,14 @@
 package net.sf.javagimmicks.collections8.transformer;
 
 import net.sf.javagimmicks.collections8.RingCursor;
-import net.sf.javagimmicks.transform.BidiFunction;
-import net.sf.javagimmicks.transform.BidiTransforming;
+import net.sf.javagimmicks.transform8.BidiFunction;
+import net.sf.javagimmicks.transform8.BidiTransforming;
 
 class BidiTransformingRingCursor<F, T>
    extends TransformingRingCursor<F, T>
    implements BidiTransforming<F, T>
 {
-   /**
-    * @deprecated Use TranformerUtils.decorate() instead
-    */
-   @Deprecated
-   public BidiTransformingRingCursor(RingCursor<F> ringCursor, BidiFunction<F, T> transformer)
+   BidiTransformingRingCursor(RingCursor<F> ringCursor, BidiFunction<F, T> transformer)
    {
       super(ringCursor, transformer);
    }

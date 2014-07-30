@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.function.Function;
 
-import net.sf.javagimmicks.transform.Transforming;
+import net.sf.javagimmicks.transform8.Transforming;
 
 class TransformingSet<F, T>
    extends AbstractSet<T>
@@ -14,11 +14,7 @@ class TransformingSet<F, T>
    protected final Set<F> _internalSet;
    private final Function<F, T> _transformer;
    
-   /**
-    * @deprecated Use TranformerUtils.decorate() instead
-    */
-   @Deprecated
-   public TransformingSet(Set<F> set, Function<F, T> transformer)
+   TransformingSet(Set<F> set, Function<F, T> transformer)
    {
       _internalSet = set;
       _transformer = transformer;

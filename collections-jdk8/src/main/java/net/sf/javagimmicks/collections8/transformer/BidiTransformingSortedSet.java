@@ -3,16 +3,12 @@ package net.sf.javagimmicks.collections8.transformer;
 import java.util.Comparator;
 import java.util.SortedSet;
 
-import net.sf.javagimmicks.transform.BidiFunction;
+import net.sf.javagimmicks.transform8.BidiFunction;
 import net.sf.javagimmicks.util.ComparableComparator;
 
 class BidiTransformingSortedSet<F, T> extends BidiTransformingSet<F, T> implements SortedSet<T>
 {
-   /**
-    * @deprecated Use TranformerUtils.decorate() instead
-    */
-   @Deprecated
-   public BidiTransformingSortedSet(SortedSet<F> set, BidiFunction<F, T> transformer)
+   BidiTransformingSortedSet(SortedSet<F> set, BidiFunction<F, T> transformer)
    {
       super(set, transformer);
    }

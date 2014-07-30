@@ -6,7 +6,7 @@ import java.util.function.Function;
 import javax.xml.transform.Transformer;
 
 import net.sf.javagimmicks.collections.bidimap.BidiMap;
-import net.sf.javagimmicks.transform.BidiFunction;
+import net.sf.javagimmicks.transform8.BidiFunction;
 
 /**
  * Provides features to build {@link Transformer}s based on {@link Map}s and

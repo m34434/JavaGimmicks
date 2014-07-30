@@ -2,18 +2,14 @@ package net.sf.javagimmicks.collections8.transformer;
 
 import java.util.Set;
 
-import net.sf.javagimmicks.transform.BidiFunction;
-import net.sf.javagimmicks.transform.BidiTransforming;
+import net.sf.javagimmicks.transform8.BidiFunction;
+import net.sf.javagimmicks.transform8.BidiTransforming;
 
 class BidiTransformingSet<F, T>
    extends TransformingSet<F, T>
    implements BidiTransforming<F, T>
 {
-   /**
-    * @deprecated Use TranformerUtils.decorate() instead
-    */
-   @Deprecated
-   public BidiTransformingSet(Set<F> set, BidiFunction<F, T> transformer)
+   BidiTransformingSet(Set<F> set, BidiFunction<F, T> transformer)
    {
       super(set, transformer);
    }

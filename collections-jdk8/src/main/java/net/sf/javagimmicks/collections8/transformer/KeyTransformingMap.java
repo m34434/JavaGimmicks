@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 
-import net.sf.javagimmicks.transform.Transforming;
+import net.sf.javagimmicks.transform8.Transforming;
 
 class KeyTransformingMap<KF, KT, V>
    extends AbstractMap<KT, V>
@@ -15,11 +15,7 @@ class KeyTransformingMap<KF, KT, V>
    protected final Map<KF, V> _internalMap;
    protected final Function<KF, KT> _transformer;
    
-   /**
-    * @deprecated Use TranformerUtils.decorateKeyBased() instead
-    */
-   @Deprecated
-   public KeyTransformingMap(Map<KF, V> map, Function<KF, KT> transformer)
+   KeyTransformingMap(Map<KF, V> map, Function<KF, KT> transformer)
    {
       _internalMap = map;
       _transformer = transformer;

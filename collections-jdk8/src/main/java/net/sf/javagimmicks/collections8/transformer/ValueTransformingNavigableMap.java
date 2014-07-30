@@ -8,11 +8,7 @@ class ValueTransformingNavigableMap<K, VF, VT>
    extends ValueTransformingSortedMap<K, VF, VT>
    implements NavigableMap<K, VT>
 {
-   /**
-    * @deprecated Use TranformerUtils.decorateValueBased() instead
-    */
-   @Deprecated
-   public ValueTransformingNavigableMap(NavigableMap<K, VF> map, Function<VF, VT> valueTransformer)
+   ValueTransformingNavigableMap(NavigableMap<K, VF> map, Function<VF, VT> valueTransformer)
    {
       super(map, valueTransformer);
    }

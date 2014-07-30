@@ -15,7 +15,7 @@ import java.util.TreeMap;
 import java.util.function.Function;
 
 import net.sf.javagimmicks.collections8.transformer.TransformerUtils;
-import net.sf.javagimmicks.transform.BidiFunction;
+import net.sf.javagimmicks.transform8.BidiFunction;
 
 import org.junit.Before;
 import org.junit.Test;
