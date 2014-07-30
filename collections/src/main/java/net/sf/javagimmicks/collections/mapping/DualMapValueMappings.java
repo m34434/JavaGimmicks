@@ -17,6 +17,13 @@ import net.sf.javagimmicks.collections.event.AbstractEventMap;
  * An implementation of {@link ValueMappings} that internally uses two
  * synchronously updated {@link Map}s (one for the left view and one for the
  * right view).
+ * 
+ * @param <L>
+ *           the type of the left keys
+ * @param <R>
+ *           the type of the right keys
+ * @param <E>
+ *           the type of the values
  */
 public class DualMapValueMappings<L, R, E> extends AbstractValueMappings<L, R, E>
 {
@@ -27,6 +34,12 @@ public class DualMapValueMappings<L, R, E> extends AbstractValueMappings<L, R, E
     * {@link HashMap} for the right view - so left keys and right keys should
     * implement {@link Object#hashCode()}.
     * 
+    * @param <L>
+    *           the type of the left keys
+    * @param <R>
+    *           the type of the right keys
+    * @param <E>
+    *           the type of the values
     * @return the new instance
     */
    public static <L, R, E> DualMapValueMappings<L, R, E> createHashHashInstance()
@@ -39,6 +52,12 @@ public class DualMapValueMappings<L, R, E> extends AbstractValueMappings<L, R, E
     * {@link TreeMap} for the right view - so left keys should implement
     * {@link Object#hashCode()} and right keys should be {@link Comparable}.
     * 
+    * @param <L>
+    *           the type of the left keys
+    * @param <R>
+    *           the type of the right keys
+    * @param <E>
+    *           the type of the values
     * @return the new instance
     */
    public static <L, R, E> DualMapValueMappings<L, R, E> createHashTreeInstance()
@@ -52,6 +71,12 @@ public class DualMapValueMappings<L, R, E> extends AbstractValueMappings<L, R, E
     * {@link Comparable} and right keys should implement
     * {@link Object#hashCode()}.
     * 
+    * @param <L>
+    *           the type of the left keys
+    * @param <R>
+    *           the type of the right keys
+    * @param <E>
+    *           the type of the values
     * @return the new instance
     */
    public static <L, R, E> DualMapValueMappings<L, R, E> createTreeHashInstance()

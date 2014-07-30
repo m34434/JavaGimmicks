@@ -26,6 +26,12 @@ public class MapBuilder<K, V, T extends Map<K, V>> implements Supplier<T>
     * 
     * @param internalMap
     *           the {@link Map} to wrap a new {@link MapBuilder} around
+    * @param <K>
+    *           the type of keys the resulting {@link Map} will use
+    * @param <V>
+    *           the type of values the resulting {@link Map} will use
+    * @param <T>
+    *           the type of the produced {@link Map}
     * @return the resulting {@link MapBuilder}
     */
    public static <K, V, T extends Map<K, V>> MapBuilder<K, V, T> create(final T internalMap)
@@ -36,6 +42,10 @@ public class MapBuilder<K, V, T extends Map<K, V>> implements Supplier<T>
    /**
     * Creates a new {@link MapBuilder} for building a new {@link HashMap}
     * 
+    * @param <K>
+    *           the type of keys the resulting {@link HashMap} will use
+    * @param <V>
+    *           the type of values the resulting {@link HashMap} will use
     * @return the resulting {@link MapBuilder}
     */
    public static <K, V> MapBuilder<K, V, HashMap<K, V>> createHashMap()
@@ -46,6 +56,10 @@ public class MapBuilder<K, V, T extends Map<K, V>> implements Supplier<T>
    /**
     * Creates a new {@link MapBuilder} for building a new {@link TreeMap}
     * 
+    * @param <K>
+    *           the type of keys the resulting {@link TreeMap} will use
+    * @param <V>
+    *           the type of values the resulting {@link TreeMap} will use
     * @return the resulting {@link MapBuilder}
     */
    public static <K, V> MapBuilder<K, V, TreeMap<K, V>> createTreeMap()
@@ -59,7 +73,10 @@ public class MapBuilder<K, V, T extends Map<K, V>> implements Supplier<T>
     * 
     * @param comparator
     *           the {@link Comparator} for the {@link TreeMap} to create
-    * 
+    * @param <K>
+    *           the type of keys the resulting {@link TreeMap} will use
+    * @param <V>
+    *           the type of values the resulting {@link TreeMap} will use
     * @return the resulting {@link MapBuilder}
     */
    public static <K, V> MapBuilder<K, V, TreeMap<K, V>> createTreeMap(final Comparator<? super K> comparator)
@@ -142,6 +159,7 @@ public class MapBuilder<K, V, T extends Map<K, V>> implements Supplier<T>
     * 
     * @return the underlying {@link Map}
     */
+   @Override
    public T get()
    {
       return _internalMap;

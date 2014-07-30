@@ -13,7 +13,7 @@ import java.util.Iterator;
  * <b>Important note:</b> This also contains an abstract implementation of
  * {@link RingCursor} that can (and should) be used by any {@link Ring}
  * implementations based on {@link AbstractRing}. It extends the existing
- * capabilities of {@link AbstractRingCursor} by some issues like concurrent
+ * capabilities of {@link RingCursor} by some issues like concurrent
  * modification handling.
  */
 public abstract class AbstractRing<E> extends AbstractCollection<E> implements Ring<E>

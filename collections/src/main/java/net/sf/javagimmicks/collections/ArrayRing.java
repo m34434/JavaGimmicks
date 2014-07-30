@@ -24,6 +24,10 @@ public class ArrayRing<E> extends AbstractRing<E>
     * Constructs a new instance with a {@link ArrayList} in the background that
     * has the given initial capacity.
     * 
+    * @param initialCapacity
+    *           the initial capacity that should be reserved on the internal
+    *           {@link ArrayList}
+    * 
     * @see ArrayList#ArrayList(int)
     */
    public ArrayRing(final int initialCapacity)

@@ -23,6 +23,10 @@ public class ListBuilder<E, T extends List<E>> extends CollectionBuilder<E, T> i
     * 
     * @param internalList
     *           the {@link List} to wrap a new {@link ListBuilder} around
+    * @param <E>
+    *           the type of elements the resulting {@link List} can carry
+    * @param <T>
+    *           the type of the produced {@link List}
     * @return the resulting {@link ListBuilder}
     */
    public static <E, T extends List<E>> ListBuilder<E, T> create(final T internalList)
@@ -33,6 +37,8 @@ public class ListBuilder<E, T extends List<E>> extends CollectionBuilder<E, T> i
    /**
     * Creates a new {@link ListBuilder} for building a new {@link ArrayList}
     * 
+    * @param <E>
+    *           the type of elements the resulting {@link ArrayList} can carry
     * @return the resulting {@link ListBuilder}
     */
    public static <E> ListBuilder<E, ArrayList<E>> createArrayList()
@@ -46,6 +52,8 @@ public class ListBuilder<E, T extends List<E>> extends CollectionBuilder<E, T> i
     * 
     * @param initialCapcity
     *           the initial capacity to use for the wrapped {@link ArrayList}
+    * @param <E>
+    *           the type of elements the resulting {@link ArrayList} can carry
     * @return the resulting {@link ListBuilder}
     */
    public static <E> ListBuilder<E, ArrayList<E>> createArrayList(final int initialCapcity)
@@ -56,6 +64,8 @@ public class ListBuilder<E, T extends List<E>> extends CollectionBuilder<E, T> i
    /**
     * Creates a new {@link ListBuilder} for building a new {@link LinkedList}
     * 
+    * @param <E>
+    *           the type of elements the resulting {@link LinkedList} can carry
     * @return the resulting {@link ListBuilder}
     */
    public static <E> ListBuilder<E, LinkedList<E>> createLinkedList()

@@ -27,6 +27,10 @@ public class CollectionBuilder<E, T extends Collection<E>> implements Supplier<T
     * @param internalCollection
     *           the {@link Collection} to wrap a new {@link CollectionBuilder}
     *           around
+    * @param <E>
+    *           the type of elements the resulting {@link Collection} can carry
+    * @param <T>
+    *           the type of the produced {@link Collection}
     * @return the resulting {@link CollectionBuilder}
     */
    public static <E, T extends Collection<E>> CollectionBuilder<E, T> create(final T internalCollection)
@@ -37,6 +41,8 @@ public class CollectionBuilder<E, T extends Collection<E>> implements Supplier<T
    /**
     * Creates a new {@link CollectionBuilder} for building a new {@link HashSet}
     * 
+    * @param <E>
+    *           the type of elements the resulting {@link HashSet} can carry
     * @return the resulting {@link CollectionBuilder}
     */
    public static <E> CollectionBuilder<E, HashSet<E>> createHashSet()
@@ -46,6 +52,9 @@ public class CollectionBuilder<E, T extends Collection<E>> implements Supplier<T
 
    /**
     * Creates a new {@link CollectionBuilder} for building a new {@link TreeSet}
+    * 
+    * @param <E>
+    *           the type of elements the resulting {@link TreeSet} can carry
     * 
     * @return the resulting {@link CollectionBuilder}
     */
@@ -60,6 +69,8 @@ public class CollectionBuilder<E, T extends Collection<E>> implements Supplier<T
     * 
     * @param comparator
     *           the {@link Comparator} to use in the underlying {@link TreeSet}
+    * @param <E>
+    *           the type of elements the resulting {@link TreeSet} can carry
     * @return the resulting {@link CollectionBuilder}
     */
    public static <E> CollectionBuilder<E, TreeSet<E>> createTreeSet(final Comparator<? super E> comparator)
@@ -219,6 +230,7 @@ public class CollectionBuilder<E, T extends Collection<E>> implements Supplier<T
     * 
     * @return the underlying {@link Collection}
     */
+   @Override
    public T get()
    {
       return _internalCollection;

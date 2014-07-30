@@ -28,6 +28,10 @@ public class DualMapMappings<L, R> extends AbstractMappings<L, R>
     * {@link HashMap} for the right view - so left keys and right keys should
     * implement {@link Object#hashCode()}.
     * 
+    * @param <L>
+    *           the type of left keys
+    * @param <R>
+    *           the type of right keys
     * @return the new instance
     */
    public static <L, R> DualMapMappings<L, R> createHashHashInstance()
@@ -40,6 +44,10 @@ public class DualMapMappings<L, R> extends AbstractMappings<L, R>
     * {@link TreeMap} for the right view - so left keys should implement
     * {@link Object#hashCode()} and right keys should be {@link Comparable}.
     * 
+    * @param <L>
+    *           the type of left keys
+    * @param <R>
+    *           the type of right keys
     * @return the new instance
     */
    public static <L, R> DualMapMappings<L, R> createHashTreeInstance()
@@ -53,6 +61,10 @@ public class DualMapMappings<L, R> extends AbstractMappings<L, R>
     * {@link Comparable} and right keys should implement
     * {@link Object#hashCode()}.
     * 
+    * @param <L>
+    *           the type of left keys
+    * @param <R>
+    *           the type of right keys
     * @return the new instance
     */
    public static <L, R> DualMapMappings<L, R> createTreeHashInstance()
@@ -65,6 +77,10 @@ public class DualMapMappings<L, R> extends AbstractMappings<L, R>
     * {@link TreeMap} for the right view - so left keys and right keys should be
     * {@link Comparable}.
     * 
+    * @param <L>
+    *           the type of left keys
+    * @param <R>
+    *           the type of right keys
     * @return the new instance
     */
    public static <L, R> DualMapMappings<L, R> createTreeTreeInstance()

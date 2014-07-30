@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import java.util.Map.Entry;
 
 import net.sf.javagimmicks.collections8.mapping.ValueMappings.Mapping;
 import net.sf.javagimmicks.collections8.transformer.TransformerUtils;
@@ -99,12 +98,9 @@ public interface ValueMappings<L, R, E> extends Iterable<Mapping<L, R, E>>
     *           right key as well as the values to associate with the respective
     *           new mappings
     */
-   default void putAllForRightKey(final R right, final Map<? extends L, ? extends E> c)
+   default void putAllForRightKey(final R right, final Map<? extends L, ? extends E> map)
    {
-      for (final Entry<? extends L, ? extends E> left : c.entrySet())
-      {
-         put(left.getKey(), right, left.getValue());
-      }
+      map.entrySet().forEach(leftEntry -> put(leftEntry.getKey(), right, leftEntry.getValue()));
    }
 
    /**
@@ -118,12 +114,9 @@ public interface ValueMappings<L, R, E> extends Iterable<Mapping<L, R, E>>
     *           left key as well as the values to associate with the respective
     *           new mappings
     */
-   default void putAllForLeftKey(final L left, final Map<? extends R, ? extends E> c)
+   default void putAllForLeftKey(final L left, final Map<? extends R, ? extends E> map)
    {
-      for (final Entry<? extends R, ? extends E> right : c.entrySet())
-      {
-         put(left, right.getKey(), right.getValue());
-      }
+      map.entrySet().forEach(rightEntry -> put(left, rightEntry.getKey(), rightEntry.getValue()));
    }
 
    /**

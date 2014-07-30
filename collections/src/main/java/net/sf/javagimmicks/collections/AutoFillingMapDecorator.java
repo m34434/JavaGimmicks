@@ -14,6 +14,11 @@ import net.sf.javagimmicks.util.Factory;
  * <p>
  * Default values for auto-filling have to be provided/generated via a given
  * {@link Factory}.
+ * 
+ * @param <K>
+ *           the type of keys
+ * @param <V>
+ *           the type of values
  */
 public class AutoFillingMapDecorator<K, V> extends AbstractMapDecorator<K, V>
 {
@@ -27,6 +32,10 @@ public class AutoFillingMapDecorator<K, V> extends AbstractMapDecorator<K, V>
     *           the {@link Map} to wrap
     * @param valueFactory
     *           the {@link Factory} to use for generating default values
+    * @param <K>
+    *           the type of the keys
+    * @param <V>
+    *           the type of the values
     * @return the resulting wrapped {@link Map}
     */
    public static <K, V> Map<K, V> decorate(final Map<K, V> decorated, final Factory<V> valueFactory)
