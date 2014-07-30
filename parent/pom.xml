@@ -198,6 +198,9 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>3.1</version>
+					<configuration>
+						<fork>true</fork>
+					</configuration>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -343,13 +346,36 @@
 			</build>
 		</profile>
 
-		<!-- Set the JavaDoc executable to jdk 1.7 on Max OS X -->
+		<!-- Custom JavaDoc executable -->
 		<profile>
 			<id>set-javadoc-executable</id>
 			<activation>
-				<os>
-					<name>Mac OS X</name>
-				</os>
+				<property>
+					<name>maven.custom.javadoc</name>
+				</property>
+			</activation>
+			<build>
+				<pluginManagement>
+					<plugins>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-javadoc-plugin</artifactId>
+							<configuration>
+								<javadocExecutable>${maven.custom.javadoc}</javadocExecutable>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+			</build>
+		</profile>
+
+		<!-- Custom Javac executable -->
+		<profile>
+			<id>set-javac-executable</id>
+			<activation>
+				<property>
+					<name>maven.custom.javac</name>
+				</property>
 			</activation>
 			<build>
 				<pluginManagement>
@@ -358,16 +384,7 @@
 							<groupId>org.apache.maven.plugins</groupId>
 							<artifactId>maven-compiler-plugin</artifactId>
 							<configuration>
-								<fork>true</fork>
-								<executable>/Library/Java/JavaVirtualMachines/jdk1.8.0_05.jdk/Contents/Home/bin/javac</executable>
-							</configuration>
-						</plugin>
-						<plugin>
-							<groupId>org.apache.maven.plugins</groupId>
-							<artifactId>maven-javadoc-plugin</artifactId>
-							<configuration>
-								<javadocExecutable>/Library/Java/JavaVirtualMachines/jdk1.8.0_05.jdk/Contents/Home/bin/javadoc</javadocExecutable>
-								<additionalparam>-Xdoclint:none</additionalparam>
+								<executable>${maven.custom.javac}</executable>
 							</configuration>
 						</plugin>
 					</plugins>
