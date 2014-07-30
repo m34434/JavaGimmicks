@@ -26,6 +26,11 @@ public class MappedTransformerUtils
     * 
     * @param map
     *           the {@link Map} to wrap into a {@link Transformer}
+    * @param <F>
+    *           the "from" or source type
+    * @param <T>
+    *           the "to" or target type
+    * 
     * @return the resulting {@link Transformer}
     */
    public static <F, T> Transformer<F, T> asTransformer(final Map<F, T> map)
@@ -43,6 +48,10 @@ public class MappedTransformerUtils
     * 
     * @param bidiMap
     *           the {@link BidiMap} to wrap into a {@link BidiTransformer}
+    * @param <F>
+    *           the "from" or source type
+    * @param <T>
+    *           the "to" or target type
     * @return the resulting {@link BidiTransformer}
     */
    public static <F, T> BidiTransformer<F, T> asBidiTransformer(final BidiMap<F, T> bidiMap)

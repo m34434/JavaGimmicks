@@ -21,11 +21,6 @@ import java.util.TreeSet;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-
-
-
-
-
 import net.sf.javagimmicks.collections8.Ring;
 import net.sf.javagimmicks.collections8.RingCursor;
 import net.sf.javagimmicks.transform8.BidiFunction;
@@ -47,13 +42,17 @@ public class TransformerUtils
    {}
 
    /**
-    * Wraps a new transforming {@link Consumer} using the given
-    * {@link Function} around a given {@link Consumer}.
+    * Wraps a new transforming {@link Consumer} using the given {@link Function}
+    * around a given {@link Consumer}.
     * 
     * @param consumer
     *           the {@link Consumer} to wrap around
     * @param transformer
     *           the {@link Function} to use for wrapping
+    * @param <F>
+    *           the "from" or source type
+    * @param <T>
+    *           the "to" or target type
     * @return the transforming wrapped {@link Consumer}
     */
    public static <F, T> Consumer<F> decorate(final Consumer<? super T> consumer,
@@ -70,6 +69,10 @@ public class TransformerUtils
     *           the {@link Comparator} to wrap around
     * @param transformer
     *           the {@link Function} to use for wrapping
+    * @param <F>
+    *           the "from" or source type
+    * @param <T>
+    *           the "to" or target type
     * @return the transforming wrapped {@link Comparator}
     */
    public static <F, T> Comparator<? super T> decorate(final Comparator<? super F> comparator,
@@ -79,8 +82,8 @@ public class TransformerUtils
    }
 
    /**
-    * Wraps a new transforming {@link Iterator} using the given
-    * {@link Function} around a given {@link Iterator}.
+    * Wraps a new transforming {@link Iterator} using the given {@link Function}
+    * around a given {@link Iterator}.
     * <p>
     * For a list of available operations see <a
     * href="package-summary.html#iterator">package description</a>.
@@ -89,13 +92,17 @@ public class TransformerUtils
     *           the {@link Iterator} to wrap around
     * @param transformer
     *           the {@link Function} to use for wrapping
+    * @param <F>
+    *           the "from" or source type
+    * @param <T>
+    *           the "to" or target type
     * @return the transforming wrapped {@link Iterator}
     */
    public static <F, T> Iterator<T> decorate(final Iterator<F> iterator, final Function<F, T> transformer)
    {
       return new TransformingIterator<F, T>(iterator, transformer);
    }
-   
+
    /**
     * Wraps a new transforming {@link Spliterator} using the given
     * {@link Function} around a given {@link Spliterator}.
@@ -103,10 +110,14 @@ public class TransformerUtils
     * For a list of available operations see <a
     * href="package-summary.html#spliterator">package description</a>.
     * 
-    * @param iterator
+    * @param spliterator
     *           the {@link Spliterator} to wrap around
     * @param transformer
     *           the {@link Function} to use for wrapping
+    * @param <F>
+    *           the "from" or source type
+    * @param <T>
+    *           the "to" or target type
     * @return the transforming wrapped {@link Spliterator}
     */
    public static <F, T> Spliterator<T> decorate(final Spliterator<F> spliterator, final Function<F, T> transformer)
@@ -125,6 +136,10 @@ public class TransformerUtils
     *           the {@link ListIterator} to wrap around
     * @param transformer
     *           the {@link Function} to use for wrapping
+    * @param <F>
+    *           the "from" or source type
+    * @param <T>
+    *           the "to" or target type
     * @return the transforming wrapped {@link ListIterator}
     */
    public static <F, T> ListIterator<T> decorate(final ListIterator<F> iterator, final Function<F, T> transformer)
@@ -143,6 +158,10 @@ public class TransformerUtils
     *           the {@link ListIterator} to wrap around
     * @param transformer
     *           the {@link BidiFunction} to use for wrapping
+    * @param <F>
+    *           the "from" or source type
+    * @param <T>
+    *           the "to" or target type
     * @return the transforming wrapped {@link ListIterator}
     */
    public static <F, T> ListIterator<T> decorate(final ListIterator<F> iterator, final BidiFunction<F, T> transformer)
@@ -161,6 +180,10 @@ public class TransformerUtils
     *           the {@link Collection} to wrap around
     * @param transformer
     *           the {@link Function} to use for wrapping
+    * @param <F>
+    *           the "from" or source type
+    * @param <T>
+    *           the "to" or target type
     * @return the transforming wrapped {@link Collection}
     */
    public static <F, T> Collection<T> decorate(final Collection<F> collection, final Function<F, T> transformer)
@@ -179,6 +202,10 @@ public class TransformerUtils
     *           the {@link Collection} to wrap around
     * @param transformer
     *           the {@link BidiFunction} to use for wrapping
+    * @param <F>
+    *           the "from" or source type
+    * @param <T>
+    *           the "to" or target type
     * @return the transforming wrapped {@link Collection}
     */
    public static <F, T> Collection<T> decorate(final Collection<F> collection, final BidiFunction<F, T> transformer)
@@ -197,6 +224,10 @@ public class TransformerUtils
     *           the {@link Set} to wrap around
     * @param transformer
     *           the {@link Function} to use for wrapping
+    * @param <F>
+    *           the "from" or source type
+    * @param <T>
+    *           the "to" or target type
     * @return the transforming wrapped {@link Set}
     */
    public static <F, T> Set<T> decorate(final Set<F> set, final Function<F, T> transformer)
@@ -205,8 +236,8 @@ public class TransformerUtils
    }
 
    /**
-    * Wraps a new transforming {@link Set} using the given
-    * {@link BidiFunction} around a given {@link Set}.
+    * Wraps a new transforming {@link Set} using the given {@link BidiFunction}
+    * around a given {@link Set}.
     * <p>
     * For a list of available operations see <a
     * href="package-summary.html#set">package description</a>.
@@ -215,6 +246,10 @@ public class TransformerUtils
     *           the {@link Set} to wrap around
     * @param transformer
     *           the {@link BidiFunction} to use for wrapping
+    * @param <F>
+    *           the "from" or source type
+    * @param <T>
+    *           the "to" or target type
     * @return the transforming wrapped {@link Set}
     */
    public static <F, T> Set<T> decorate(final Set<F> set, final BidiFunction<F, T> transformer)
@@ -233,6 +268,10 @@ public class TransformerUtils
     *           the {@link SortedSet} to wrap around
     * @param transformer
     *           the {@link Function} to use for wrapping
+    * @param <F>
+    *           the "from" or source type
+    * @param <T>
+    *           the "to" or target type
     * @return the transforming wrapped {@link SortedSet}
     */
    public static <F, T> SortedSet<T> decorate(final SortedSet<F> set, final Function<F, T> transformer)
@@ -251,6 +290,10 @@ public class TransformerUtils
     *           the {@link SortedSet} to wrap around
     * @param transformer
     *           the {@link BidiFunction} to use for wrapping
+    * @param <F>
+    *           the "from" or source type
+    * @param <T>
+    *           the "to" or target type
     * @return the transforming wrapped {@link SortedSet}
     */
    public static <F, T> SortedSet<T> decorate(final SortedSet<F> set, final BidiFunction<F, T> transformer)
@@ -269,6 +312,10 @@ public class TransformerUtils
     *           the {@link NavigableSet} to wrap around
     * @param transformer
     *           the {@link Function} to use for wrapping
+    * @param <F>
+    *           the "from" or source type
+    * @param <T>
+    *           the "to" or target type
     * @return the transforming wrapped {@link NavigableSet}
     */
    public static <F, T> NavigableSet<T> decorate(final NavigableSet<F> set, final Function<F, T> transformer)
@@ -287,6 +334,10 @@ public class TransformerUtils
     *           the {@link NavigableSet} to wrap around
     * @param transformer
     *           the {@link BidiFunction} to use for wrapping
+    * @param <F>
+    *           the "from" or source type
+    * @param <T>
+    *           the "to" or target type
     * @return the transforming wrapped {@link NavigableSet}
     */
    public static <F, T> NavigableSet<T> decorate(final NavigableSet<F> set, final BidiFunction<F, T> transformer)
@@ -305,6 +356,10 @@ public class TransformerUtils
     *           the {@link List} to wrap around
     * @param transformer
     *           the {@link Function} to use for wrapping
+    * @param <F>
+    *           the "from" or source type
+    * @param <T>
+    *           the "to" or target type
     * @return the transforming wrapped {@link List}
     */
    public static <F, T> List<T> decorate(final List<F> list, final Function<F, T> transformer)
@@ -313,8 +368,8 @@ public class TransformerUtils
    }
 
    /**
-    * Wraps a new transforming {@link List} using the given
-    * {@link BidiFunction} around a given {@link List}.
+    * Wraps a new transforming {@link List} using the given {@link BidiFunction}
+    * around a given {@link List}.
     * <p>
     * For a list of available operations see <a
     * href="package-summary.html#list">package description</a>.
@@ -323,6 +378,10 @@ public class TransformerUtils
     *           the {@link List} to wrap around
     * @param transformer
     *           the {@link BidiFunction} to use for wrapping
+    * @param <F>
+    *           the "from" or source type
+    * @param <T>
+    *           the "to" or target type
     * @return the transforming wrapped {@link List}
     */
    public static <F, T> List<T> decorate(final List<F> list, final BidiFunction<F, T> transformer)
@@ -331,8 +390,8 @@ public class TransformerUtils
    }
 
    /**
-    * Wraps a new key-transforming {@link Map} using the given
-    * {@link Function} around a given {@link Map}.
+    * Wraps a new key-transforming {@link Map} using the given {@link Function}
+    * around a given {@link Map}.
     * <p>
     * For a list of available operations see <a
     * href="package-summary.html#mapKey">package description</a>.
@@ -341,6 +400,12 @@ public class TransformerUtils
     *           the {@link Map} to wrap around
     * @param transformer
     *           the {@link Function} to use for wrapping
+    * @param <KF>
+    *           the "from" or source key type
+    * @param <KT>
+    *           the "to" or target key type
+    * @param <V>
+    *           the type of the values
     * @return the key-transforming wrapped {@link Map}
     */
    public static <KF, KT, V> Map<KT, V> decorateKeyBased(final Map<KF, V> map, final Function<KF, KT> transformer)
@@ -359,6 +424,12 @@ public class TransformerUtils
     *           the {@link Map} to wrap around
     * @param transformer
     *           the {@link BidiFunction} to use for wrapping
+    * @param <KF>
+    *           the "from" or source key type
+    * @param <KT>
+    *           the "to" or target key type
+    * @param <V>
+    *           the type of the values
     * @return the key-transforming wrapped {@link Map}
     */
    public static <KF, KT, V> Map<KT, V> decorateKeyBased(final Map<KF, V> map,
@@ -378,6 +449,12 @@ public class TransformerUtils
     *           the {@link SortedMap} to wrap around
     * @param transformer
     *           the {@link Function} to use for wrapping
+    * @param <KF>
+    *           the "from" or source key type
+    * @param <KT>
+    *           the "to" or target key type
+    * @param <V>
+    *           the type of the values
     * @return the key-transforming wrapped {@link SortedMap}
     */
    public static <KF, KT, V> SortedMap<KT, V> decorateKeyBased(final SortedMap<KF, V> map,
@@ -397,6 +474,12 @@ public class TransformerUtils
     *           the {@link SortedMap} to wrap around
     * @param transformer
     *           the {@link BidiFunction} to use for wrapping
+    * @param <KF>
+    *           the "from" or source key type
+    * @param <KT>
+    *           the "to" or target key type
+    * @param <V>
+    *           the type of the values
     * @return the key-transforming wrapped {@link SortedMap}
     */
    public static <KF, KT, V> SortedMap<KT, V> decorateKeyBased(final SortedMap<KF, V> map,
@@ -416,6 +499,12 @@ public class TransformerUtils
     *           the {@link NavigableMap} to wrap around
     * @param transformer
     *           the {@link Function} to use for wrapping
+    * @param <KF>
+    *           the "from" or source key type
+    * @param <KT>
+    *           the "to" or target key type
+    * @param <V>
+    *           the type of the values
     * @return the key-transforming wrapped {@link NavigableMap}
     */
    public static <KF, KT, V> NavigableMap<KT, V> decorateKeyBased(final NavigableMap<KF, V> map,
@@ -435,6 +524,12 @@ public class TransformerUtils
     *           the {@link NavigableMap} to wrap around
     * @param transformer
     *           the {@link BidiFunction} to use for wrapping
+    * @param <KF>
+    *           the "from" or source key type
+    * @param <KT>
+    *           the "to" or target key type
+    * @param <V>
+    *           the type of the values
     * @return the key-transforming wrapped {@link NavigableMap}
     */
    public static <KF, KT, V> NavigableMap<KT, V> decorateKeyBased(final NavigableMap<KF, V> map,
@@ -454,6 +549,12 @@ public class TransformerUtils
     *           the {@link Map} to wrap around
     * @param transformer
     *           the {@link Function} to use for wrapping
+    * @param <K>
+    *           the type of the keys
+    * @param <VF>
+    *           the "from" or source type of the values
+    * @param <VT>
+    *           the "to" or target type of the values
     * @return the value-transforming wrapped {@link Map}
     */
    public static <K, VF, VT> Map<K, VT> decorateValueBased(final Map<K, VF> map,
@@ -473,6 +574,12 @@ public class TransformerUtils
     *           the {@link Map} to wrap around
     * @param transformer
     *           the {@link BidiFunction} to use for wrapping
+    * @param <K>
+    *           the type of the keys
+    * @param <VF>
+    *           the "from" or source type of the values
+    * @param <VT>
+    *           the "to" or target type of the values
     * @return the value-transforming wrapped {@link Map}
     */
    public static <K, VF, VT> Map<K, VT> decorateValueBased(final Map<K, VF> map,
@@ -492,6 +599,12 @@ public class TransformerUtils
     *           the {@link SortedMap} to wrap around
     * @param transformer
     *           the {@link Function} to use for wrapping
+    * @param <K>
+    *           the type of the keys
+    * @param <VF>
+    *           the "from" or source type of the values
+    * @param <VT>
+    *           the "to" or target type of the values
     * @return the value-transforming wrapped {@link SortedMap}
     */
    public static <K, VF, VT> SortedMap<K, VT> decorateValueBased(final SortedMap<K, VF> map,
@@ -511,6 +624,12 @@ public class TransformerUtils
     *           the {@link SortedMap} to wrap around
     * @param transformer
     *           the {@link BidiFunction} to use for wrapping
+    * @param <K>
+    *           the type of the keys
+    * @param <VF>
+    *           the "from" or source type of the values
+    * @param <VT>
+    *           the "to" or target type of the values
     * @return the value-transforming wrapped {@link SortedMap}
     */
    public static <K, VF, VT> SortedMap<K, VT> decorateValueBased(final SortedMap<K, VF> map,
@@ -530,6 +649,12 @@ public class TransformerUtils
     *           the {@link NavigableMap} to wrap around
     * @param transformer
     *           the {@link Function} to use for wrapping
+    * @param <K>
+    *           the type of the keys
+    * @param <VF>
+    *           the "from" or source type of the values
+    * @param <VT>
+    *           the "to" or target type of the values
     * @return the value-transforming wrapped {@link NavigableMap}
     */
    public static <K, VF, VT> NavigableMap<K, VT> decorateValueBased(final NavigableMap<K, VF> map,
@@ -549,6 +674,12 @@ public class TransformerUtils
     *           the {@link NavigableMap} to wrap around
     * @param transformer
     *           the {@link BidiFunction} to use for wrapping
+    * @param <K>
+    *           the type of the keys
+    * @param <VF>
+    *           the "from" or source type of the values
+    * @param <VT>
+    *           the "to" or target type of the values
     * @return the value-transforming wrapped {@link NavigableMap}
     */
    public static <K, VF, VT> NavigableMap<K, VT> decorateValueBased(final NavigableMap<K, VF> map,
@@ -559,8 +690,7 @@ public class TransformerUtils
 
    /**
     * Wraps a new key- and value-transforming {@link Map} using the given key-
-    * {@link Function} and value-{@link Function} around a given
-    * {@link Map}.
+    * {@link Function} and value-{@link Function} around a given {@link Map}.
     * <p>
     * For a list of available operations see <a
     * href="package-summary.html#mapKeyValue">package description</a>.
@@ -571,6 +701,14 @@ public class TransformerUtils
     *           the key-{@link Function} to used for wrapping
     * @param valueFunction
     *           the key-{@link Function} to used for wrapping
+    * @param <KF>
+    *           the "from" or source key type
+    * @param <KT>
+    *           the "to" or target key type
+    * @param <VF>
+    *           the "from" or source type of the values
+    * @param <VT>
+    *           the "to" or target type of the values
     * @return the key-and value-transforming wrapped {@link Map}
     */
    public static <KF, KT, VF, VT> Map<KT, VT> decorate(final Map<KF, VF> map, final Function<KF, KT> keyFunction,
@@ -582,8 +720,8 @@ public class TransformerUtils
 
    /**
     * Wraps a new key- and value-transforming {@link Map} using the given key-
-    * {@link BidiFunction} and value-{@link Function} around a given
-    * {@link Map}.
+    * {@link BidiFunction} and value-{@link Function} around a given {@link Map}
+    * .
     * <p>
     * For a list of available operations see <a
     * href="package-summary.html#mapKeyValue">package description</a>.
@@ -594,6 +732,14 @@ public class TransformerUtils
     *           the key-{@link BidiFunction} to used for wrapping
     * @param valueFunction
     *           the key-{@link Function} to used for wrapping
+    * @param <KF>
+    *           the "from" or source key type
+    * @param <KT>
+    *           the "to" or target key type
+    * @param <VF>
+    *           the "from" or source type of the values
+    * @param <VT>
+    *           the "to" or target type of the values
     * @return the key-and value-transforming wrapped {@link Map}
     */
    public static <KF, KT, VF, VT> Map<KT, VT> decorate(final Map<KF, VF> map,
@@ -605,8 +751,8 @@ public class TransformerUtils
 
    /**
     * Wraps a new key- and value-transforming {@link Map} using the given key-
-    * {@link Function} and value-{@link BidiFunction} around a given
-    * {@link Map}.
+    * {@link Function} and value-{@link BidiFunction} around a given {@link Map}
+    * .
     * <p>
     * For a list of available operations see <a
     * href="package-summary.html#mapKeyValue">package description</a>.
@@ -617,6 +763,14 @@ public class TransformerUtils
     *           the key-{@link Function} to used for wrapping
     * @param valueFunction
     *           the key-{@link BidiFunction} to used for wrapping
+    * @param <KF>
+    *           the "from" or source key type
+    * @param <KT>
+    *           the "to" or target key type
+    * @param <VF>
+    *           the "from" or source type of the values
+    * @param <VT>
+    *           the "to" or target type of the values
     * @return the key-and value-transforming wrapped {@link Map}
     */
    public static <KF, KT, VF, VT> Map<KT, VT> decorate(final Map<KF, VF> map, final Function<KF, KT> keyFunction,
@@ -640,6 +794,14 @@ public class TransformerUtils
     *           the key-{@link BidiFunction} to used for wrapping
     * @param valueFunction
     *           the key-{@link BidiFunction} to used for wrapping
+    * @param <KF>
+    *           the "from" or source key type
+    * @param <KT>
+    *           the "to" or target key type
+    * @param <VF>
+    *           the "from" or source type of the values
+    * @param <VT>
+    *           the "to" or target type of the values
     * @return the key-and value-transforming wrapped {@link Map}
     */
    public static <KF, KT, VF, VT> Map<KT, VT> decorate(final Map<KF, VF> map,
@@ -663,6 +825,14 @@ public class TransformerUtils
     *           the key-{@link Function} to used for wrapping
     * @param valueFunction
     *           the key-{@link Function} to used for wrapping
+    * @param <KF>
+    *           the "from" or source key type
+    * @param <KT>
+    *           the "to" or target key type
+    * @param <VF>
+    *           the "from" or source type of the values
+    * @param <VT>
+    *           the "to" or target type of the values
     * @return the key-and value-transforming wrapped {@link SortedMap}
     */
    public static <KF, KT, VF, VT> SortedMap<KT, VT> decorate(final SortedMap<KF, VF> map,
@@ -686,6 +856,14 @@ public class TransformerUtils
     *           the key-{@link BidiFunction} to used for wrapping
     * @param valueFunction
     *           the key-{@link Function} to used for wrapping
+    * @param <KF>
+    *           the "from" or source key type
+    * @param <KT>
+    *           the "to" or target key type
+    * @param <VF>
+    *           the "from" or source type of the values
+    * @param <VT>
+    *           the "to" or target type of the values
     * @return the key-and value-transforming wrapped {@link SortedMap}
     */
    public static <KF, KT, VF, VT> SortedMap<KT, VT> decorate(final SortedMap<KF, VF> map,
@@ -709,6 +887,14 @@ public class TransformerUtils
     *           the key-{@link Function} to used for wrapping
     * @param valueFunction
     *           the key-{@link BidiFunction} to used for wrapping
+    * @param <KF>
+    *           the "from" or source key type
+    * @param <KT>
+    *           the "to" or target key type
+    * @param <VF>
+    *           the "from" or source type of the values
+    * @param <VT>
+    *           the "to" or target type of the values
     * @return the key-and value-transforming wrapped {@link SortedMap}
     */
    public static <KF, KT, VF, VT> SortedMap<KT, VT> decorate(final SortedMap<KF, VF> map,
@@ -720,8 +906,8 @@ public class TransformerUtils
 
    /**
     * Wraps a new key- and value-transforming {@link SortedMap} using the given
-    * key-{@link BidiFunction} and value-{@link BidiFunction} around a
-    * given {@link SortedMap}.
+    * key-{@link BidiFunction} and value-{@link BidiFunction} around a given
+    * {@link SortedMap}.
     * <p>
     * For a list of available operations see <a
     * href="package-summary.html#mapKeyValue">package description</a>.
@@ -732,6 +918,14 @@ public class TransformerUtils
     *           the key-{@link BidiFunction} to used for wrapping
     * @param valueFunction
     *           the key-{@link BidiFunction} to used for wrapping
+    * @param <KF>
+    *           the "from" or source key type
+    * @param <KT>
+    *           the "to" or target key type
+    * @param <VF>
+    *           the "from" or source type of the values
+    * @param <VT>
+    *           the "to" or target type of the values
     * @return the key-and value-transforming wrapped {@link SortedMap}
     */
    public static <KF, KT, VF, VT> SortedMap<KT, VT> decorate(final SortedMap<KF, VF> map,
@@ -755,6 +949,14 @@ public class TransformerUtils
     *           the key-{@link Function} to used for wrapping
     * @param valueFunction
     *           the key-{@link Function} to used for wrapping
+    * @param <KF>
+    *           the "from" or source key type
+    * @param <KT>
+    *           the "to" or target key type
+    * @param <VF>
+    *           the "from" or source type of the values
+    * @param <VT>
+    *           the "to" or target type of the values
     * @return the key-and value-transforming wrapped {@link NavigableMap}
     */
    public static <KF, KT, VF, VT> NavigableMap<KT, VT> decorate(final NavigableMap<KF, VF> map,
@@ -766,8 +968,8 @@ public class TransformerUtils
 
    /**
     * Wraps a new key- and value-transforming {@link NavigableMap} using the
-    * given key-{@link BidiFunction} and value-{@link Function} around a
-    * given {@link NavigableMap}.
+    * given key-{@link BidiFunction} and value-{@link Function} around a given
+    * {@link NavigableMap}.
     * <p>
     * For a list of available operations see <a
     * href="package-summary.html#mapKeyValue">package description</a>.
@@ -778,6 +980,14 @@ public class TransformerUtils
     *           the key-{@link BidiFunction} to used for wrapping
     * @param valueFunction
     *           the key-{@link Function} to used for wrapping
+    * @param <KF>
+    *           the "from" or source key type
+    * @param <KT>
+    *           the "to" or target key type
+    * @param <VF>
+    *           the "from" or source type of the values
+    * @param <VT>
+    *           the "to" or target type of the values
     * @return the key-and value-transforming wrapped {@link NavigableMap}
     */
    public static <KF, KT, VF, VT> NavigableMap<KT, VT> decorate(final NavigableMap<KF, VF> map,
@@ -789,8 +999,8 @@ public class TransformerUtils
 
    /**
     * Wraps a new key- and value-transforming {@link NavigableMap} using the
-    * given key-{@link Function} and value-{@link BidiFunction} around a
-    * given {@link NavigableMap}.
+    * given key-{@link Function} and value-{@link BidiFunction} around a given
+    * {@link NavigableMap}.
     * <p>
     * For a list of available operations see <a
     * href="package-summary.html#mapKeyValue">package description</a>.
@@ -801,6 +1011,14 @@ public class TransformerUtils
     *           the key-{@link Function} to used for wrapping
     * @param valueFunction
     *           the key-{@link BidiFunction} to used for wrapping
+    * @param <KF>
+    *           the "from" or source key type
+    * @param <KT>
+    *           the "to" or target key type
+    * @param <VF>
+    *           the "from" or source type of the values
+    * @param <VT>
+    *           the "to" or target type of the values
     * @return the key-and value-transforming wrapped {@link NavigableMap}
     */
    public static <KF, KT, VF, VT> NavigableMap<KT, VT> decorate(final NavigableMap<KF, VF> map,
@@ -812,8 +1030,8 @@ public class TransformerUtils
 
    /**
     * Wraps a new key- and value-transforming {@link NavigableMap} using the
-    * given key-{@link BidiFunction} and value-{@link BidiFunction} around
-    * a given {@link NavigableMap}.
+    * given key-{@link BidiFunction} and value-{@link BidiFunction} around a
+    * given {@link NavigableMap}.
     * <p>
     * For a list of available operations see <a
     * href="package-summary.html#mapKeyValue">package description</a>.
@@ -824,6 +1042,14 @@ public class TransformerUtils
     *           the key-{@link BidiFunction} to used for wrapping
     * @param valueFunction
     *           the key-{@link BidiFunction} to used for wrapping
+    * @param <KF>
+    *           the "from" or source key type
+    * @param <KT>
+    *           the "to" or target key type
+    * @param <VF>
+    *           the "from" or source type of the values
+    * @param <VT>
+    *           the "to" or target type of the values
     * @return the key-and value-transforming wrapped {@link NavigableMap}
     */
    public static <KF, KT, VF, VT> NavigableMap<KT, VT> decorate(final NavigableMap<KF, VF> map,
@@ -844,6 +1070,10 @@ public class TransformerUtils
     *           the {@link RingCursor} to wrap around
     * @param transformer
     *           the {@link Function} to use for wrapping
+    * @param <F>
+    *           the "from" or source type
+    * @param <T>
+    *           the "to" or target type
     * @return the transforming wrapped {@link RingCursor}
     */
    public static <F, T> RingCursor<T> decorate(final RingCursor<F> ringCursor, final Function<F, T> transformer)
@@ -862,6 +1092,10 @@ public class TransformerUtils
     *           the {@link RingCursor} to wrap around
     * @param transformer
     *           the {@link BidiFunction} to use for wrapping
+    * @param <F>
+    *           the "from" or source type
+    * @param <T>
+    *           the "to" or target type
     * @return the transforming wrapped {@link RingCursor}
     */
    public static <F, T> RingCursor<T> decorate(final RingCursor<F> ringCursor, final BidiFunction<F, T> transformer)
@@ -880,6 +1114,10 @@ public class TransformerUtils
     *           the {@link Ring} to wrap around
     * @param transformer
     *           the {@link Function} to use for wrapping
+    * @param <F>
+    *           the "from" or source type
+    * @param <T>
+    *           the "to" or target type
     * @return the transforming wrapped {@link Ring}
     */
    public static <F, T> Ring<T> decorate(final Ring<F> ring, final Function<F, T> transformer)
@@ -888,8 +1126,8 @@ public class TransformerUtils
    }
 
    /**
-    * Wraps a new transforming {@link Ring} using the given
-    * {@link BidiFunction} around a given {@link Ring}.
+    * Wraps a new transforming {@link Ring} using the given {@link BidiFunction}
+    * around a given {@link Ring}.
     * <p>
     * For a list of available operations see <a
     * href="package-summary.html#ring">package description</a>.
@@ -898,6 +1136,10 @@ public class TransformerUtils
     *           the {@link Ring} to wrap around
     * @param transformer
     *           the {@link BidiFunction} to use for wrapping
+    * @param <F>
+    *           the "from" or source type
+    * @param <T>
+    *           the "to" or target type
     * @return the transforming wrapped {@link Ring}
     */
    public static <F, T> Ring<T> decorate(final Ring<F> ring, final BidiFunction<F, T> transformer)
@@ -918,11 +1160,15 @@ public class TransformerUtils
     *           should be stored
     * @param transformer
     *           the {@link Function} used for transforming
+    * @param <F>
+    *           the "from" or source type
+    * @param <T>
+    *           the "to" or target type
     */
    public static <F, T> void transform(final Collection<F> fromCollection, final Collection<T> toCollection,
          final Function<F, T> transformer)
    {
-      toCollection.addAll(decorate(fromCollection, transformer));
+      fromCollection.stream().map(transformer).forEach(item -> toCollection.add(item));
    }
 
    /**
@@ -934,6 +1180,10 @@ public class TransformerUtils
     *           bulk-transformed
     * @param transformer
     *           the {@link Function} used for transforming
+    * @param <F>
+    *           the "from" or source type
+    * @param <T>
+    *           the "to" or target type
     * @return the {@link ArrayList} containing the transformed elements
     */
    public static <F, T> ArrayList<T> tronsformToArrayList(final Collection<F> fromCollection,
@@ -951,6 +1201,10 @@ public class TransformerUtils
     *           bulk-transformed
     * @param transformer
     *           the {@link Function} used for transforming
+    * @param <F>
+    *           the "from" or source type
+    * @param <T>
+    *           the "to" or target type
     * @return the {@link LinkedList} containing the transformed elements
     */
    public static <F, T> LinkedList<T> transformToLinkedList(final Collection<F> fromCollection,
@@ -968,6 +1222,10 @@ public class TransformerUtils
     *           bulk-transformed
     * @param transformer
     *           the {@link Function} used for transforming
+    * @param <F>
+    *           the "from" or source type
+    * @param <T>
+    *           the "to" or target type
     * @return the {@link HashSet} containing the transformed elements
     */
    public static <F, T> HashSet<T> transformToHashSet(final Collection<F> fromCollection,
@@ -985,6 +1243,10 @@ public class TransformerUtils
     *           bulk-transformed
     * @param transformer
     *           the {@link Function} used for transforming
+    * @param <F>
+    *           the "from" or source type
+    * @param <T>
+    *           the "to" or target type
     * @return the {@link TreeSet} containing the transformed elements
     */
    public static <F, T> TreeSet<T> transformToTreeSet(final Collection<F> fromCollection,
@@ -994,15 +1256,20 @@ public class TransformerUtils
    }
 
    /**
-    * Bulk-key-transforms a given {@link Map} using the given
-    * {@link Function} and stores all transformed elements in a target
-    * {@link Map}.
+    * Bulk-key-transforms a given {@link Map} using the given {@link Function}
+    * and stores all transformed elements in a target {@link Map}.
     * 
     * @param fromMap
     *           the source {@link Map} whose elements should be bulk-transformed
     * @param toMap
     *           the target {@link Map} where the transformed elements should be
     *           stored
+    * @param <KF>
+    *           the "from" or source key type
+    * @param <KT>
+    *           the "to" or target key type
+    * @param <V>
+    *           the type of the values
     * @param transformer
     *           the {@link Function} used for transforming
     */
@@ -1013,13 +1280,19 @@ public class TransformerUtils
    }
 
    /**
-    * Bulk-key-transforms a given {@link Map} using the given
-    * {@link Function} into a new {@link HashMap} and returns it.
+    * Bulk-key-transforms a given {@link Map} using the given {@link Function}
+    * into a new {@link HashMap} and returns it.
     * 
     * @param fromMap
     *           the source {@link Map} whose elements should be bulk-transformed
     * @param transformer
     *           the {@link Function} used for transforming
+    * @param <KF>
+    *           the "from" or source key type
+    * @param <KT>
+    *           the "to" or target key type
+    * @param <V>
+    *           the type of the values
     * @return the {@link HashMap} containing the transformed elements
     */
    public static <KF, KT, V> HashMap<KT, V> transformKeysToHashMap(final Map<KF, V> fromMap,
@@ -1029,13 +1302,19 @@ public class TransformerUtils
    }
 
    /**
-    * Bulk-key-transforms a given {@link Map} using the given
-    * {@link Function} into a new {@link TreeMap} and returns it.
+    * Bulk-key-transforms a given {@link Map} using the given {@link Function}
+    * into a new {@link TreeMap} and returns it.
     * 
     * @param fromMap
     *           the source {@link Map} whose elements should be bulk-transformed
     * @param transformer
     *           the {@link Function} used for transforming
+    * @param <KF>
+    *           the "from" or source key type
+    * @param <KT>
+    *           the "to" or target key type
+    * @param <V>
+    *           the type of the values
     * @return the {@link TreeMap} containing the transformed elements
     */
    public static <KF, KT, V> TreeMap<KT, V> transformKeysToTreeMap(final Map<KF, V> fromMap,
@@ -1045,9 +1324,8 @@ public class TransformerUtils
    }
 
    /**
-    * Bulk-key-transforms a given {@link Map} using the given
-    * {@link Function} and stores all transformed elements in a target
-    * {@link Map}.
+    * Bulk-key-transforms a given {@link Map} using the given {@link Function}
+    * and stores all transformed elements in a target {@link Map}.
     * 
     * @param fromMap
     *           the source {@link Map} whose elements should be bulk-transformed
@@ -1056,6 +1334,12 @@ public class TransformerUtils
     *           stored
     * @param transformer
     *           the {@link Function} used for transforming
+    * @param <K>
+    *           the type of the keys
+    * @param <VF>
+    *           the "from" or source type of the values
+    * @param <VT>
+    *           the "to" or target type of the values
     */
    public static <K, VF, VT> void transformValues(final Map<K, VF> fromMap, final Map<K, VT> toMap,
          final Function<VF, VT> transformer)
@@ -1064,14 +1348,20 @@ public class TransformerUtils
    }
 
    /**
-    * Bulk-key-transforms a given {@link Map} using the given
-    * {@link Function} into a new {@link HashMap} and returns it.
+    * Bulk-key-transforms a given {@link Map} using the given {@link Function}
+    * into a new {@link HashMap} and returns it.
     * 
     * @param fromMap
     *           the source {@link Map} whose elements should be bulk-transformed
     * @param transformer
     *           the {@link Function} used for transforming
     * @return the {@link HashMap} containing the transformed elements
+    * @param <K>
+    *           the type of the keys
+    * @param <VF>
+    *           the "from" or source type of the values
+    * @param <VT>
+    *           the "to" or target type of the values
     */
    public static <K, VF, VT> HashMap<K, VT> transformValuesToHashMap(final Map<K, VF> fromMap,
          final Function<VF, VT> transformer)
@@ -1080,13 +1370,19 @@ public class TransformerUtils
    }
 
    /**
-    * Bulk-key-transforms a given {@link Map} using the given
-    * {@link Function} into a new {@link TreeMap} and returns it.
+    * Bulk-key-transforms a given {@link Map} using the given {@link Function}
+    * into a new {@link TreeMap} and returns it.
     * 
     * @param fromMap
     *           the source {@link Map} whose elements should be bulk-transformed
     * @param transformer
     *           the {@link Function} used for transforming
+    * @param <K>
+    *           the type of the keys
+    * @param <VF>
+    *           the "from" or source type of the values
+    * @param <VT>
+    *           the "to" or target type of the values
     * @return the {@link TreeMap} containing the transformed elements
     */
    public static <K, VF, VT> TreeMap<K, VT> transformValuesToTreeMap(final Map<K, VF> fromMap,

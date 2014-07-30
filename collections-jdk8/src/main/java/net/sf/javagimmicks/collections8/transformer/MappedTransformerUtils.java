@@ -3,13 +3,11 @@ package net.sf.javagimmicks.collections8.transformer;
 import java.util.Map;
 import java.util.function.Function;
 
-import javax.xml.transform.Transformer;
-
 import net.sf.javagimmicks.collections.bidimap.BidiMap;
 import net.sf.javagimmicks.transform8.BidiFunction;
 
 /**
- * Provides features to build {@link Transformer}s based on {@link Map}s and
+ * Provides features to build {@link Function}s based on {@link Map}s and
  * {@link BidiFunction}s based on {@link BidiMap}s.
  */
 public class MappedTransformerUtils
@@ -18,25 +16,29 @@ public class MappedTransformerUtils
    {}
 
    /**
-    * Creates a new {@link Transformer} based on a given {@link Map} which
+    * Creates a new {@link Function} based on a given {@link Map} which
     * transforms values by looking them up in the given {@link Map}.
     * <p>
-    * <b>Attention:</b> the resulting {@link Transformer} will throw an
+    * <b>Attention:</b> the resulting {@link Function} will throw an
     * {@link IllegalArgumentException} if it should transform a value the has no
     * corresponding key within the given {@link Map}.
     * 
     * @param map
-    *           the {@link Map} to wrap into a {@link Transformer}
-    * @return the resulting {@link Transformer}
+    *           the {@link Map} to wrap into a {@link Function}
+    * @param <F>
+    *           the "from" or source type
+    * @param <T>
+    *           the "to" or target type
+    * @return the resulting {@link Function}
     */
-   public static <F, T> Function<F, T> asTransformer(final Map<F, T> map)
+   public static <F, T> Function<F, T> asFunction(final Map<F, T> map)
    {
       return new MapFunction<F, T>(map);
    }
 
    /**
-    * Creates a new {@link BidiFunction} based on a given {@link BidiMap}
-    * which transforms values by looking them up in the given {@link BidiMap}.
+    * Creates a new {@link BidiFunction} based on a given {@link BidiMap} which
+    * transforms values by looking them up in the given {@link BidiMap}.
     * <p>
     * <b>Attention:</b> the resulting {@link BidiFunction} will throw an
     * {@link IllegalArgumentException} if it should transform a value the has no
@@ -44,6 +46,10 @@ public class MappedTransformerUtils
     * 
     * @param bidiMap
     *           the {@link BidiMap} to wrap into a {@link BidiFunction}
+    * @param <F>
+    *           the "from" or source type
+    * @param <T>
+    *           the "to" or target type
     * @return the resulting {@link BidiFunction}
     */
    public static <F, T> BidiFunction<F, T> asBidiFunction(final BidiMap<F, T> bidiMap)
