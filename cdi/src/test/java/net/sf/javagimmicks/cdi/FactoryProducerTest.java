@@ -8,7 +8,7 @@ import javax.inject.Inject;
 
 import net.sf.javagimmicks.cdi.injectable.NiceClass;
 import net.sf.javagimmicks.cdi.testing.WeldJUnit4TestRunner;
-import net.sf.javagimmicks.lang.Factory;
+import net.sf.javagimmicks.util.Factory;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

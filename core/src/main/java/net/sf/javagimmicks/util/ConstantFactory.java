@@ -1,4 +1,4 @@
-package net.sf.javagimmicks.lang;
+package net.sf.javagimmicks.util;
 
 /**
  * An implementation of {@link Factory} which holds a constant object of the

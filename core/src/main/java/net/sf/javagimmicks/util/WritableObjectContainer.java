@@ -1,4 +1,4 @@
-package net.sf.javagimmicks.lang;
+package net.sf.javagimmicks.util;
 
 /**
  * This interface extends {@link ObjectContainer} by providing additional

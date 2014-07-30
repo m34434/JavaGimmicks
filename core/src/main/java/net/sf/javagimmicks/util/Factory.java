@@ -1,4 +1,4 @@
-package net.sf.javagimmicks.lang;
+package net.sf.javagimmicks.util;
 
 /**
  * This is a simple interface for factory classes - classes the generate

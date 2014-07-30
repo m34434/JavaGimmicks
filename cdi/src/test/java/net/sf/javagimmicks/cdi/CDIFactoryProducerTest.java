@@ -11,7 +11,7 @@ import net.sf.javagimmicks.cdi.injectable.Coolness;
 import net.sf.javagimmicks.cdi.injectable.FunnyClass;
 import net.sf.javagimmicks.cdi.qualifier.Cool;
 import net.sf.javagimmicks.cdi.testing.WeldJUnit4TestRunner;
-import net.sf.javagimmicks.lang.Factory;
+import net.sf.javagimmicks.util.Factory;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

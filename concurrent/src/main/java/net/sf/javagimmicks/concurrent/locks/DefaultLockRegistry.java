@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.TreeMap;
 
-import net.sf.javagimmicks.lang.Factory;
+import net.sf.javagimmicks.util.Factory;
 
 class DefaultLockRegistry<K> implements LockRegistry<K>, Serializable
 {
