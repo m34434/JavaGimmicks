@@ -4,8 +4,8 @@ import java.lang.annotation.Annotation;
 
 import javax.inject.Qualifier;
 
-import net.sf.javagimmicks.lang.ConstantFactory;
-import net.sf.javagimmicks.lang.Factory;
+import net.sf.javagimmicks.util.ConstantFactory;
+import net.sf.javagimmicks.util.Factory;
 
 /**
  * A {@link Factory} implementation that creates new instances via CDI lookup

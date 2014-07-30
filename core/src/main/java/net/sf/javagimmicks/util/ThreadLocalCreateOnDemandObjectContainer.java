@@ -1,4 +1,4 @@
-package net.sf.javagimmicks.lang;
+package net.sf.javagimmicks.util;
 
 /**
  * An implementation of {@link ObjectContainer} that creates an own instance per

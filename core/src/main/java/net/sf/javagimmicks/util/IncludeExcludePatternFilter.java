@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import net.sf.javagimmicks.lang.Filter;
-
 /**
  * A {@link Filter} for {@link CharSequence}s that internally uses any number of
  * include and exclude regular expression {@link Pattern}s for filtering.

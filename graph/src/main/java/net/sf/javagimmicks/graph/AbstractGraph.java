@@ -7,9 +7,9 @@ import java.util.Set;
 
 import net.sf.javagimmicks.collections.AbstractMap2;
 import net.sf.javagimmicks.collections.transformer.TransformerUtils;
-import net.sf.javagimmicks.lang.Factory;
 import net.sf.javagimmicks.lang.LangUtils;
 import net.sf.javagimmicks.transform.Transformer;
+import net.sf.javagimmicks.util.Factory;
 
 /**
  * An abstract {@link Graph} implementation taking care about many basic

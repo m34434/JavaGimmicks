@@ -5,9 +5,9 @@ import static org.junit.Assert.assertSame;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
-import net.sf.javagimmicks.lang.Factory;
-import net.sf.javagimmicks.lang.PrototypeFactory;
 import net.sf.javagimmicks.testing.MultiThreadedTestHelper;
+import net.sf.javagimmicks.util.Factory;
+import net.sf.javagimmicks.util.PrototypeFactory;
 
 import org.junit.After;
 import org.junit.Before;

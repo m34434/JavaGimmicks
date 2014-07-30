@@ -3,7 +3,7 @@ package net.sf.javagimmicks.collections;
 import java.util.Map;
 
 import net.sf.javagimmicks.collections.decorators.AbstractMapDecorator;
-import net.sf.javagimmicks.lang.Factory;
+import net.sf.javagimmicks.util.Factory;
 
 /**
  * A special {@link Map} decorator that wraps a given {@link Map} and there

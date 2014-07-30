@@ -2,7 +2,7 @@ package net.sf.javagimmicks.cdi;
 
 import javax.enterprise.inject.spi.InjectionPoint;
 
-import net.sf.javagimmicks.lang.Factory;
+import net.sf.javagimmicks.util.Factory;
 
 /**
  * A base class for writing CDI producers based on a given {@link Factory} and

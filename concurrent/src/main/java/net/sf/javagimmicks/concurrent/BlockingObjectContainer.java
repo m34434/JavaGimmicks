@@ -5,7 +5,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import net.sf.javagimmicks.lang.WritableObjectContainer;
+import net.sf.javagimmicks.util.WritableObjectContainer;
 
 /**
  * This class serves as a container that allows (de-)registration of objects of

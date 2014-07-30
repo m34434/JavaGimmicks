@@ -1,4 +1,4 @@
-package net.sf.javagimmicks.lang;
+package net.sf.javagimmicks.util;
 
 abstract class AbstractCreateOnDemandObjectContainer<E> implements ObjectContainer<E>
 {

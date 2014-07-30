@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import net.sf.javagimmicks.lang.WritableObjectContainer;
+import net.sf.javagimmicks.util.WritableObjectContainer;
 
 /**
  * This class serves as a registry that allows (de-)registration of objects
