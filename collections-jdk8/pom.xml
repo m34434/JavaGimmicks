@@ -25,6 +25,16 @@
 			<groupId>net.sf.javagimmicks</groupId>
 			<artifactId>gimmicks-core-jdk8</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>net.sf.javagimmicks</groupId>
+			<artifactId>gimmicks-collections</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>net.sf.javagimmicks</groupId>
+					<artifactId>gimmicks-core</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 
 		<dependency>
 			<groupId>net.sf.javagimmicks</groupId>
