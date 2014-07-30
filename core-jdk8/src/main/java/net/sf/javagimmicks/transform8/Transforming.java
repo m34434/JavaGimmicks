@@ -33,7 +33,7 @@ public interface Transforming<F, T>
     *            if the given object is not a {@link Transforming} instance
     * @see #isTransforming(Object)
     */
-   public static Function<?, ?> getTransformer(final Object transforming)
+   public static Function<?, ?> getTransformerFunction(final Object transforming)
    {
       if (!isTransforming(transforming))
       {

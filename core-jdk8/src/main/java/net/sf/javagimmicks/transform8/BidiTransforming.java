@@ -44,7 +44,7 @@ public interface BidiTransforming<F, T> extends Transforming<F, T>
     *            if the given object is not a {@link BidiTransforming} instance
     * @see #isBidiTransforming(Object)
     */
-   public static BidiFunction<?, ?> getBidiTransformer(final Object transforming)
+   public static BidiFunction<?, ?> getTransformerBidiFunction(final Object transforming)
    {
       if (!isBidiTransforming(transforming))
       {
