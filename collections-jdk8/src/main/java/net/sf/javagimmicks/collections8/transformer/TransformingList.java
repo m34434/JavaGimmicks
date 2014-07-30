@@ -4,6 +4,7 @@ import java.util.AbstractList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Spliterator;
 import java.util.function.Function;
 
 import net.sf.javagimmicks.transform8.Transforming;
@@ -49,7 +50,13 @@ class TransformingList<F, T>
    {
       return TransformerUtils.decorate(_internalList.iterator(), getTransformerFunction());
    }
-    
+   
+   @Override
+   public Spliterator<T> spliterator()
+   {
+      return TransformerUtils.decorate(_internalList.spliterator(), getTransformerFunction());
+   }
+
    @Override
    public ListIterator<T> listIterator()
    {

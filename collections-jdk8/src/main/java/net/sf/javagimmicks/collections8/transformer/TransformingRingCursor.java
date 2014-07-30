@@ -3,6 +3,8 @@
  */
 package net.sf.javagimmicks.collections8.transformer;
 
+import java.util.Iterator;
+import java.util.Spliterator;
 import java.util.function.Function;
 
 import net.sf.javagimmicks.collections8.RingCursor;
@@ -65,4 +67,13 @@ class TransformingRingCursor<F, T>
       return TransformerUtils.decorate(_internalRingCursor.cursor(), getTransformerFunction());
    }
 
+   public Iterator<T> iterator()
+   {
+      return TransformerUtils.decorate(_internalRingCursor.iterator(), getTransformerFunction());
+   }
+
+   public Spliterator<T> spliterator()
+   {
+      return TransformerUtils.decorate(_internalRingCursor.spliterator(), getTransformerFunction());
+   }
 }

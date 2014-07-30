@@ -15,9 +15,13 @@ import java.util.NavigableSet;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
+import java.util.Spliterator;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.function.Consumer;
 import java.util.function.Function;
+
+
 
 
 
@@ -41,6 +45,22 @@ public class TransformerUtils
 {
    private TransformerUtils()
    {}
+
+   /**
+    * Wraps a new transforming {@link Consumer} using the given
+    * {@link Function} around a given {@link Consumer}.
+    * 
+    * @param consumer
+    *           the {@link Consumer} to wrap around
+    * @param transformer
+    *           the {@link Function} to use for wrapping
+    * @return the transforming wrapped {@link Consumer}
+    */
+   public static <F, T> Consumer<F> decorate(final Consumer<? super T> consumer,
+         final Function<F, T> transformer)
+   {
+      return new TransformingConsumer<F, T>(consumer, transformer);
+   }
 
    /**
     * Wraps a new transforming {@link Comparator} using the given
@@ -74,6 +94,24 @@ public class TransformerUtils
    public static <F, T> Iterator<T> decorate(final Iterator<F> iterator, final Function<F, T> transformer)
    {
       return new TransformingIterator<F, T>(iterator, transformer);
+   }
+   
+   /**
+    * Wraps a new transforming {@link Spliterator} using the given
+    * {@link Function} around a given {@link Spliterator}.
+    * <p>
+    * For a list of available operations see <a
+    * href="package-summary.html#spliterator">package description</a>.
+    * 
+    * @param iterator
+    *           the {@link Spliterator} to wrap around
+    * @param transformer
+    *           the {@link Function} to use for wrapping
+    * @return the transforming wrapped {@link Spliterator}
+    */
+   public static <F, T> Spliterator<T> decorate(final Spliterator<F> spliterator, final Function<F, T> transformer)
+   {
+      return new TransformingSpliterator<F, T>(spliterator, transformer);
    }
 
    /**

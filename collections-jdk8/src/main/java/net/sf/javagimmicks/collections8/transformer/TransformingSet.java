@@ -3,6 +3,7 @@ package net.sf.javagimmicks.collections8.transformer;
 import java.util.AbstractSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.Spliterator;
 import java.util.function.Function;
 
 import net.sf.javagimmicks.transform8.Transforming;
@@ -29,6 +30,12 @@ class TransformingSet<F, T>
    public Iterator<T> iterator()
    {
       return TransformerUtils.decorate(_internalSet.iterator(), getTransformerFunction());
+   }
+
+   @Override
+   public Spliterator<T> spliterator()
+   {
+      return TransformerUtils.decorate(_internalSet.spliterator(), getTransformerFunction());
    }
 
    @Override
