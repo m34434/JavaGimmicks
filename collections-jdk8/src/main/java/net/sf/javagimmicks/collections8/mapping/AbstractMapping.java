@@ -33,6 +33,12 @@ public abstract class AbstractMapping<L, R> implements Mapping<L, R>, Serializab
          {
             return AbstractMapping.this.getLeftKey();
          }
+
+         @Override
+         public Mapping<L, R> invert()
+         {
+            return AbstractMapping.this;
+         }
       };
    }
    
