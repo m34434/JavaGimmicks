@@ -20,7 +20,7 @@ class KeyBidiTransformingNavigableMap<KF, KT, V>
       
       return ceilingEntry == null ? null : new KeyBidiTransformingEntry<KF, KT, V>(
          ceilingEntry,
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
 
    public KT ceilingKey(KT key)
@@ -34,14 +34,14 @@ class KeyBidiTransformingNavigableMap<KF, KT, V>
    {
       return TransformerUtils.decorate(
          getNavigableMap().descendingKeySet(),
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
 
    public NavigableMap<KT, V> descendingMap()
    {
       return TransformerUtils.decorateKeyBased(
          getNavigableMap().descendingMap(),
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
 
    public Entry<KT, V> firstEntry()
@@ -50,7 +50,7 @@ class KeyBidiTransformingNavigableMap<KF, KT, V>
       
       return firstEntry == null ? null : new KeyBidiTransformingEntry<KF, KT, V>(
          firstEntry,
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
 
    public Entry<KT, V> floorEntry(KT key)
@@ -59,7 +59,7 @@ class KeyBidiTransformingNavigableMap<KF, KT, V>
       
       return floorEntry == null ? null : new KeyBidiTransformingEntry<KF, KT, V>(
          floorEntry,
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
 
    public KT floorKey(KT key)
@@ -73,7 +73,7 @@ class KeyBidiTransformingNavigableMap<KF, KT, V>
    {
       return TransformerUtils.decorateKeyBased(
          getNavigableMap().headMap(transformBack(toKey), inclusive),
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
 
    public Entry<KT, V> higherEntry(KT key)
@@ -82,7 +82,7 @@ class KeyBidiTransformingNavigableMap<KF, KT, V>
       
       return higherEntry == null ? null : new KeyBidiTransformingEntry<KF, KT, V>(
          higherEntry,
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
 
    public KT higherKey(KT key)
@@ -98,7 +98,7 @@ class KeyBidiTransformingNavigableMap<KF, KT, V>
       
       return lastEntry == null ? null : new KeyBidiTransformingEntry<KF, KT, V>(
          lastEntry,
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
 
    public Entry<KT, V> lowerEntry(KT key)
@@ -107,7 +107,7 @@ class KeyBidiTransformingNavigableMap<KF, KT, V>
       
       return lowerEntry == null ? null : new KeyBidiTransformingEntry<KF, KT, V>(
          lowerEntry,
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
 
    public KT lowerKey(KT key)
@@ -121,7 +121,7 @@ class KeyBidiTransformingNavigableMap<KF, KT, V>
    {
       return TransformerUtils.decorate(
          getNavigableMap().navigableKeySet(),
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
 
    public Entry<KT, V> pollFirstEntry()
@@ -130,7 +130,7 @@ class KeyBidiTransformingNavigableMap<KF, KT, V>
       
       return firstEntry == null ? null : new KeyBidiTransformingEntry<KF, KT, V>(
          firstEntry,
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
 
    public Entry<KT, V> pollLastEntry()
@@ -139,7 +139,7 @@ class KeyBidiTransformingNavigableMap<KF, KT, V>
       
       return lastEntry == null ? null : new KeyBidiTransformingEntry<KF, KT, V>(
          lastEntry,
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
 
    public NavigableMap<KT, V> subMap(KT fromKey, boolean fromInclusive,
@@ -151,14 +151,14 @@ class KeyBidiTransformingNavigableMap<KF, KT, V>
             fromInclusive,
             transformBack(toKey),
             toInclusive),
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
 
    public NavigableMap<KT, V> tailMap(KT fromKey, boolean inclusive)
    {
       return TransformerUtils.decorateKeyBased(
          getNavigableMap().tailMap(transformBack(fromKey), inclusive),
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
    
    protected NavigableMap<KF, V> getNavigableMap()

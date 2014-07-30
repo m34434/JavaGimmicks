@@ -48,7 +48,7 @@ class TransformingSortedSet<F, T> extends TransformingSet<F, T> implements Sorte
    
    protected T transform(F element)
    {
-      return getTransformer().apply(element);
+      return getTransformerFunction().apply(element);
    }
    
 }

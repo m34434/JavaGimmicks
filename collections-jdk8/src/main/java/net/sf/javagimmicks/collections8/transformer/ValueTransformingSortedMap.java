@@ -25,7 +25,7 @@ class ValueTransformingSortedMap<K, VF, VT> extends ValueTransformingMap<K, VF, 
    {
       return TransformerUtils.decorateValueBased(
          getSortedMap().headMap(toKey),
-         getTransformer());
+         getTransformerFunction());
    }
 
    public K lastKey()
@@ -37,14 +37,14 @@ class ValueTransformingSortedMap<K, VF, VT> extends ValueTransformingMap<K, VF, 
    {
       return TransformerUtils.decorateValueBased(
          getSortedMap().subMap(fromKey, toKey),
-         getTransformer());
+         getTransformerFunction());
    }
 
    public SortedMap<K, VT> tailMap(K fromKey)
    {
       return TransformerUtils.decorateValueBased(
          getSortedMap().tailMap(fromKey),
-         getTransformer());
+         getTransformerFunction());
    }
 
    protected SortedMap<K, VF> getSortedMap()

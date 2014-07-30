@@ -21,7 +21,7 @@ class TransformingList<F, T>
       _transformer = transformer;
    }
    
-   public Function<F, T> getTransformer()
+   public Function<F, T> getTransformerFunction()
 	{
 		return _transformer;
 	}
@@ -47,19 +47,19 @@ class TransformingList<F, T>
    @Override
    public Iterator<T> iterator()
    {
-      return TransformerUtils.decorate(_internalList.iterator(), getTransformer());
+      return TransformerUtils.decorate(_internalList.iterator(), getTransformerFunction());
    }
     
    @Override
    public ListIterator<T> listIterator()
    {
-      return TransformerUtils.decorate(_internalList.listIterator(), getTransformer());
+      return TransformerUtils.decorate(_internalList.listIterator(), getTransformerFunction());
    }
     
    @Override
    public ListIterator<T> listIterator(int index)
    {
-      return TransformerUtils.decorate(_internalList.listIterator(index), getTransformer());
+      return TransformerUtils.decorate(_internalList.listIterator(index), getTransformerFunction());
    }
    
    @Override
@@ -70,6 +70,6 @@ class TransformingList<F, T>
 
    protected T transform(F element)
    {
-      return getTransformer().apply(element);
+      return getTransformerFunction().apply(element);
    }
 }

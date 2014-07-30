@@ -21,7 +21,7 @@ class ValueTransformingMap<K, VF, VT>
       _transformer = valueTransformer;
    }
    
-   public Function<VF, VT> getTransformer()
+   public Function<VF, VT> getTransformerFunction()
    {
       return _transformer;
    }
@@ -40,7 +40,7 @@ class ValueTransformingMap<K, VF, VT>
    {
       return TransformerUtils.decorate(
          _internalMap.entrySet(),
-         new ValueTransformingEntryTransformer<K, VF, VT>(getTransformer()));
+         new ValueTransformingEntryTransformer<K, VF, VT>(getTransformerFunction()));
    }
    
    public VT get(Object key)
@@ -85,12 +85,12 @@ class ValueTransformingMap<K, VF, VT>
    {
       return TransformerUtils.decorate(
          _internalMap.values(),
-         getTransformer());
+         getTransformerFunction());
    }
    
    protected VT transform(VF element)
    {
-      return getTransformer().apply(element);
+      return getTransformerFunction().apply(element);
    }
    
    protected static class ValueTransformingEntry<K, VF, VT>
@@ -105,7 +105,7 @@ class ValueTransformingMap<K, VF, VT>
          _internalEntry = entry;
       }
       
-      public Function<VF, VT> getTransformer()
+      public Function<VF, VT> getTransformerFunction()
       {
          return _transformer;
       }
@@ -117,7 +117,7 @@ class ValueTransformingMap<K, VF, VT>
 
       public VT getValue()
       {
-         return getTransformer().apply(_internalEntry.getValue());
+         return getTransformerFunction().apply(_internalEntry.getValue());
       }
 
       public VT setValue(VT value)

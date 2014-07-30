@@ -24,7 +24,7 @@ class BidiTransformingSortedSet<F, T> extends BidiTransformingSet<F, T> implemen
       
       return TransformerUtils.decorate(
          baseComparator,
-         getBidiTransformer().invert());
+         getTransformerBidiFunction().invert());
    }
    
    public T first()
@@ -36,7 +36,7 @@ class BidiTransformingSortedSet<F, T> extends BidiTransformingSet<F, T> implemen
    {
       return TransformerUtils.decorate(
          getSortedSet().headSet(transformBack(toElement)),
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
    
    public T last()
@@ -50,14 +50,14 @@ class BidiTransformingSortedSet<F, T> extends BidiTransformingSet<F, T> implemen
          getSortedSet().subSet(
             transformBack(fromElement),
             transformBack(toElement)),
-            getBidiTransformer());
+            getTransformerBidiFunction());
    }
 
    public SortedSet<T> tailSet(T fromElement)
    {
       return TransformerUtils.decorate(
          getSortedSet().tailSet(transformBack(fromElement)),
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
 
    protected SortedSet<F> getSortedSet()
@@ -67,6 +67,6 @@ class BidiTransformingSortedSet<F, T> extends BidiTransformingSet<F, T> implemen
    
    protected T transform(F element)
    {
-      return getTransformer().apply(element);
+      return getTransformerFunction().apply(element);
    }
 }

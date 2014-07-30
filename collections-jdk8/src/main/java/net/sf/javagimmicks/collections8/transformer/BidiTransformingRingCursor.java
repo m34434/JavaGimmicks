@@ -13,20 +13,20 @@ class BidiTransformingRingCursor<F, T>
       super(ringCursor, transformer);
    }
    
-   public BidiFunction<F, T> getBidiTransformer()
+   public BidiFunction<F, T> getTransformerBidiFunction()
    {
-      return (BidiFunction<F, T>)getTransformer();
+      return (BidiFunction<F, T>)getTransformerFunction();
    }
 
    @Override
    public void insertAfter(T value)
    {
-      _internalRingCursor.insertAfter(getBidiTransformer().applyReverse(value));
+      _internalRingCursor.insertAfter(getTransformerBidiFunction().applyReverse(value));
    }
 
    @Override
    public void insertBefore(T value)
    {
-      _internalRingCursor.insertBefore(getBidiTransformer().applyReverse(value));
+      _internalRingCursor.insertBefore(getTransformerBidiFunction().applyReverse(value));
    }
 }

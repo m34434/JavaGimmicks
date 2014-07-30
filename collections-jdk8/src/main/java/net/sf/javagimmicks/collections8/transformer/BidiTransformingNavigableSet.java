@@ -24,14 +24,14 @@ class BidiTransformingNavigableSet<F, T>
    {
       return TransformerUtils.decorate(
             getNavigableSet().descendingIterator(),
-            getTransformer());
+            getTransformerFunction());
    }
 
    public NavigableSet<T> descendingSet()
    {
       return TransformerUtils.decorate(
             getNavigableSet().descendingSet(),
-            getBidiTransformer());
+            getTransformerBidiFunction());
    }
 
    public T floor(T e)
@@ -44,7 +44,7 @@ class BidiTransformingNavigableSet<F, T>
    {
       return TransformerUtils.decorate(
             getNavigableSet().headSet(transformBack(toElement), inclusive),
-            getBidiTransformer());
+            getTransformerBidiFunction());
    }
 
    public T higher(T e)
@@ -78,14 +78,14 @@ class BidiTransformingNavigableSet<F, T>
             getNavigableSet().subSet(
                   transformBack(fromElement), fromInclusive,
                   transformBack(toElement), toInclusive),
-            getBidiTransformer());
+            getTransformerBidiFunction());
    }
 
    public NavigableSet<T> tailSet(T fromElement, boolean inclusive)
    {
       return TransformerUtils.decorate(
             getNavigableSet().tailSet(transformBack(fromElement), inclusive),
-            getBidiTransformer());
+            getTransformerBidiFunction());
    }
 
    protected NavigableSet<F> getNavigableSet()

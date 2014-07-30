@@ -20,14 +20,14 @@ class TransformingRing<F, T>
       _tansformer = tansformer;
    }
    
-   public Function<F, T> getTransformer()
+   public Function<F, T> getTransformerFunction()
    {
       return _tansformer;
    }
 
    public RingCursor<T> cursor()
    {
-      return TransformerUtils.decorate(_internalRing.cursor(), getTransformer());
+      return TransformerUtils.decorate(_internalRing.cursor(), getTransformerFunction());
    }
 
    @Override

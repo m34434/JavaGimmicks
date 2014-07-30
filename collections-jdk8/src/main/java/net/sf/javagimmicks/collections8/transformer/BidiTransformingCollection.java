@@ -14,9 +14,9 @@ class BidiTransformingCollection<F, T>
       super(collection, transformer);
    }
 
-   public BidiFunction<F, T> getBidiTransformer()
+   public BidiFunction<F, T> getTransformerBidiFunction()
    {
-      return (BidiFunction<F, T>)getTransformer();
+      return (BidiFunction<F, T>)getTransformerFunction();
    }
 
    @Override
@@ -27,7 +27,7 @@ class BidiTransformingCollection<F, T>
    
    protected F transformBack(T element)
    {
-      return getBidiTransformer().applyReverse(element);
+      return getTransformerBidiFunction().applyReverse(element);
    }
    
 }

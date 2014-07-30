@@ -30,7 +30,7 @@ class ValueBidiTransformingSortedMap<K, VF, VT> extends ValueBidiTransformingMap
    {
       return TransformerUtils.decorateValueBased(
             getSortedMap().headMap(toKey),
-            getBidiTransformer());
+            getTransformerBidiFunction());
    }
 
    @Override
@@ -44,7 +44,7 @@ class ValueBidiTransformingSortedMap<K, VF, VT> extends ValueBidiTransformingMap
    {
       return TransformerUtils.decorateValueBased(
             getSortedMap().subMap(fromKey, toKey),
-            getBidiTransformer());
+            getTransformerBidiFunction());
    }
 
    @Override
@@ -52,7 +52,7 @@ class ValueBidiTransformingSortedMap<K, VF, VT> extends ValueBidiTransformingMap
    {
       return TransformerUtils.decorateValueBased(
             getSortedMap().tailMap(fromKey),
-            getBidiTransformer());
+            getTransformerBidiFunction());
    }
 
    protected SortedMap<K, VF> getSortedMap()

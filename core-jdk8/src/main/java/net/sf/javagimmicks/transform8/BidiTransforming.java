@@ -18,7 +18,7 @@ public interface BidiTransforming<F, T> extends Transforming<F, T>
     * 
     * @return the internal {@link BidiFunction}
     */
-   public BidiFunction<F, T> getBidiTransformer();
+   public BidiFunction<F, T> getTransformerBidiFunction();
 
    /**
     * Checks if a given object is bidi-transforming (if it is an instance of
@@ -51,6 +51,6 @@ public interface BidiTransforming<F, T> extends Transforming<F, T>
          throw new IllegalArgumentException("Object is not bidi-transforming!");
       }
 
-      return ((BidiTransforming<?, ?>) transforming).getBidiTransformer();
+      return ((BidiTransforming<?, ?>) transforming).getTransformerBidiFunction();
    }
 }

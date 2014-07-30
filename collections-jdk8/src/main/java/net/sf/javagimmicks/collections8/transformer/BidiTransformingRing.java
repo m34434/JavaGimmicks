@@ -14,14 +14,14 @@ class BidiTransformingRing<F, T>
       super(ring, tansformer);
    }
    
-   public BidiFunction<F, T> getBidiTransformer()
+   public BidiFunction<F, T> getTransformerBidiFunction()
    {
-      return (BidiFunction<F, T>)getTransformer();
+      return (BidiFunction<F, T>)getTransformerFunction();
    }
 
    @Override
    public RingCursor<T> cursor()
    {
-      return TransformerUtils.decorate(_internalRing.cursor(), getBidiTransformer());
+      return TransformerUtils.decorate(_internalRing.cursor(), getTransformerBidiFunction());
    }
 }

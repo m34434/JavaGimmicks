@@ -20,7 +20,7 @@ public interface Transforming<F, T>
     * 
     * @return the internal {@link Function}
     */
-   public Function<F, T> getTransformer();
+   public Function<F, T> getTransformerFunction();
 
    /**
     * Returns the {@link Transformer} of a given object if it is
@@ -40,7 +40,7 @@ public interface Transforming<F, T>
          throw new IllegalArgumentException("Object is not transforming!");
       }
    
-      return ((Transforming<?, ?>) transforming).getTransformer();
+      return ((Transforming<?, ?>) transforming).getTransformerFunction();
    }
 
    /**

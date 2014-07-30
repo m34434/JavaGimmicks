@@ -15,9 +15,9 @@ class BidiTransformingList<F, T>
       super(list, transformer);
    }
 
-   public BidiFunction<F, T> getBidiTransformer()
+   public BidiFunction<F, T> getTransformerBidiFunction()
    {
-      return (BidiFunction<F, T>)getTransformer();
+      return (BidiFunction<F, T>)getTransformerFunction();
    }
 
    @Override
@@ -35,17 +35,17 @@ class BidiTransformingList<F, T>
    @Override
    public ListIterator<T> listIterator()
    {
-      return TransformerUtils.decorate(_internalList.listIterator(), getBidiTransformer());
+      return TransformerUtils.decorate(_internalList.listIterator(), getTransformerBidiFunction());
    }
     
    @Override
    public ListIterator<T> listIterator(int index)
    {
-      return TransformerUtils.decorate(_internalList.listIterator(index), getBidiTransformer());
+      return TransformerUtils.decorate(_internalList.listIterator(index), getTransformerBidiFunction());
    }
 
    protected F transformBack(T element)
    {
-      return getBidiTransformer().applyReverse(element);
+      return getTransformerBidiFunction().applyReverse(element);
    }
 }

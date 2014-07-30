@@ -21,7 +21,7 @@ class KeyTransformingMap<KF, KT, V>
       _transformer = transformer;
    }
    
-   public Function<KF, KT> getTransformer()
+   public Function<KF, KT> getTransformerFunction()
    {
       return _transformer;
    }
@@ -43,7 +43,7 @@ class KeyTransformingMap<KF, KT, V>
    {
       return TransformerUtils.decorate(
          _internalMap.entrySet(),
-         new KeyTransformingEntryTransformer<KF, KT, V>(getTransformer()));
+         new KeyTransformingEntryTransformer<KF, KT, V>(getTransformerFunction()));
    }
    
    @Override
@@ -57,7 +57,7 @@ class KeyTransformingMap<KF, KT, V>
    {
       return TransformerUtils.decorate(
          _internalMap.keySet(),
-         getTransformer());
+         getTransformerFunction());
    }
 
    @Override
@@ -74,7 +74,7 @@ class KeyTransformingMap<KF, KT, V>
    
    protected KT transform(KF element)
    {
-      return getTransformer().apply(element);
+      return getTransformerFunction().apply(element);
    }
    
    protected static class KeyTransformingEntry<KF, KT, V>
@@ -89,7 +89,7 @@ class KeyTransformingMap<KF, KT, V>
          _transformer = transformer;
       }
 
-      public Function<KF, KT> getTransformer()
+      public Function<KF, KT> getTransformerFunction()
       {
          return _transformer;
       }

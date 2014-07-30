@@ -20,12 +20,12 @@ class TransformingNavigableSet<F, T>
 
    public Iterator<T> descendingIterator()
    {
-      return TransformerUtils.decorate(getNavigableSet().descendingIterator(), getTransformer());
+      return TransformerUtils.decorate(getNavigableSet().descendingIterator(), getTransformerFunction());
    }
 
    public NavigableSet<T> descendingSet()
    {
-      return TransformerUtils.decorate(getNavigableSet().descendingSet(), getTransformer());
+      return TransformerUtils.decorate(getNavigableSet().descendingSet(), getTransformerFunction());
    }
 
    public T floor(T e)

@@ -16,7 +16,7 @@ class TransformingIterator<F, T> implements Iterator<T>, Transforming<F, T>
       _transformer = transformer;
    }
    
-   public Function<F, T> getTransformer()
+   public Function<F, T> getTransformerFunction()
    {
       return _transformer;
    }
@@ -38,6 +38,6 @@ class TransformingIterator<F, T> implements Iterator<T>, Transforming<F, T>
    
    protected T transform(F element)
    {
-       return getTransformer().apply(element);
+       return getTransformerFunction().apply(element);
    }
 }

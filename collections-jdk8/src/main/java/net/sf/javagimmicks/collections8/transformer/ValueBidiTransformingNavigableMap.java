@@ -20,7 +20,7 @@ class ValueBidiTransformingNavigableMap<K, VF, VT>
       
       return ceilingEntry == null ? null : new ValueBidiTransformingEntry<K, VF, VT>(
          ceilingEntry,
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
 
    public K ceilingKey(K key)
@@ -37,7 +37,7 @@ class ValueBidiTransformingNavigableMap<K, VF, VT>
    {
       return TransformerUtils.decorateValueBased(
          getNavigableMap().descendingMap(),
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
 
    public Entry<K, VT> firstEntry()
@@ -46,7 +46,7 @@ class ValueBidiTransformingNavigableMap<K, VF, VT>
       
       return firstEntry == null ? null : new ValueBidiTransformingEntry<K, VF, VT>(
          firstEntry,
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
 
    public Entry<K, VT> floorEntry(K key)
@@ -55,7 +55,7 @@ class ValueBidiTransformingNavigableMap<K, VF, VT>
       
       return floorEntry == null ? null : new ValueBidiTransformingEntry<K, VF, VT>(
          floorEntry,
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
 
    public K floorKey(K key)
@@ -67,7 +67,7 @@ class ValueBidiTransformingNavigableMap<K, VF, VT>
    {
       return TransformerUtils.decorateValueBased( 
          getNavigableMap().headMap(toKey, inclusive),
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
 
    public Entry<K, VT> higherEntry(K key)
@@ -76,7 +76,7 @@ class ValueBidiTransformingNavigableMap<K, VF, VT>
       
       return higherEntry == null ? null : new ValueBidiTransformingEntry<K, VF, VT>(
          higherEntry,
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
 
    public K higherKey(K key)
@@ -90,7 +90,7 @@ class ValueBidiTransformingNavigableMap<K, VF, VT>
       
       return lastEntry == null ? null : new ValueBidiTransformingEntry<K, VF, VT>(
          lastEntry,
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
 
    public Entry<K, VT> lowerEntry(K key)
@@ -99,7 +99,7 @@ class ValueBidiTransformingNavigableMap<K, VF, VT>
       
       return lowerEntry == null ? null : new ValueBidiTransformingEntry<K, VF, VT>(
          lowerEntry,
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
 
    public K lowerKey(K key)
@@ -118,7 +118,7 @@ class ValueBidiTransformingNavigableMap<K, VF, VT>
       
       return firstEntry == null ? null : new ValueBidiTransformingEntry<K, VF, VT>(
          firstEntry,
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
 
    public Entry<K, VT> pollLastEntry()
@@ -127,7 +127,7 @@ class ValueBidiTransformingNavigableMap<K, VF, VT>
       
       return lastEntry == null ? null : new ValueBidiTransformingEntry<K, VF, VT>(
          lastEntry,
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
 
    public NavigableMap<K, VT> subMap(K fromKey, boolean fromInclusive, K toKey,
@@ -135,14 +135,14 @@ class ValueBidiTransformingNavigableMap<K, VF, VT>
    {
       return TransformerUtils.decorateValueBased( 
          getNavigableMap().subMap(fromKey, fromInclusive, toKey, toInclusive),
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
 
    public NavigableMap<K, VT> tailMap(K fromKey, boolean inclusive)
    {
       return TransformerUtils.decorateValueBased( 
          getNavigableMap().tailMap(fromKey, inclusive),
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
 
    protected NavigableMap<K, VF> getNavigableMap()

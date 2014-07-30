@@ -15,7 +15,7 @@ class KeyBidiTransformingMap<KF, KT, V>
       super(map, transformer);
    }
    
-   public BidiFunction<KF, KT> getBidiTransformer()
+   public BidiFunction<KF, KT> getTransformerBidiFunction()
    {
       return (BidiFunction<KF, KT>)_transformer;
    }
@@ -26,7 +26,7 @@ class KeyBidiTransformingMap<KF, KT, V>
       return TransformerUtils.decorate(
          _internalMap.entrySet(),
          new KeyBidiTransformingEntryBidiFunction<KF, KT, V>(
-               getBidiTransformer()));
+               getTransformerBidiFunction()));
    }
 
    @Override
@@ -34,7 +34,7 @@ class KeyBidiTransformingMap<KF, KT, V>
    {
       return TransformerUtils.decorate(
          _internalMap.keySet(),
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
    
    @Override
@@ -87,7 +87,7 @@ class KeyBidiTransformingMap<KF, KT, V>
    
    protected KF transformBack(KT element)
    {
-      return getBidiTransformer().applyReverse(element);
+      return getTransformerBidiFunction().applyReverse(element);
    }
    
    protected static class KeyBidiTransformingEntry<KF, KT, V>
@@ -100,9 +100,9 @@ class KeyBidiTransformingMap<KF, KT, V>
          super(entry, transformer);
       }
 
-      public BidiFunction<KF, KT> getBidiTransformer()
+      public BidiFunction<KF, KT> getTransformerBidiFunction()
       {
-         return (BidiFunction<KF, KT>)getTransformer();
+         return (BidiFunction<KF, KT>)getTransformerFunction();
       }
    }
 

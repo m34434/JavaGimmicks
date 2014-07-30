@@ -20,7 +20,7 @@ class TransformingRingCursor<F, T>
       _transformer = transformer;
    }
    
-   public Function<F, T> getTransformer()
+   public Function<F, T> getTransformerFunction()
    {
       return _transformer;
    }
@@ -32,7 +32,7 @@ class TransformingRingCursor<F, T>
 
    public T get()
    {
-      return getTransformer().apply(_internalRingCursor.get());
+      return getTransformerFunction().apply(_internalRingCursor.get());
    }
 
    public void insertAfter(T value)
@@ -47,22 +47,22 @@ class TransformingRingCursor<F, T>
 
    public T next()
    {
-      return getTransformer().apply(_internalRingCursor.next());
+      return getTransformerFunction().apply(_internalRingCursor.next());
    }
 
    public T previous()
    {
-      return getTransformer().apply(_internalRingCursor.previous());
+      return getTransformerFunction().apply(_internalRingCursor.previous());
    }
 
    public T remove()
    {
-      return getTransformer().apply(_internalRingCursor.remove());
+      return getTransformerFunction().apply(_internalRingCursor.remove());
    }
 
    public RingCursor<T> cursor()
    {
-      return TransformerUtils.decorate(_internalRingCursor.cursor(), getTransformer());
+      return TransformerUtils.decorate(_internalRingCursor.cursor(), getTransformerFunction());
    }
 
 }

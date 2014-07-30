@@ -20,7 +20,7 @@ class TransformingCollection<F, T>
       _transformer = transformer;
    }
    
-   public Function<F, T> getTransformer()
+   public Function<F, T> getTransformerFunction()
 	{
 		return _transformer;
 	}
@@ -28,7 +28,7 @@ class TransformingCollection<F, T>
    @Override
    public Iterator<T> iterator()
    {
-      return TransformerUtils.decorate(_internalCollection.iterator(), getTransformer());
+      return TransformerUtils.decorate(_internalCollection.iterator(), getTransformerFunction());
    }
 
    @Override
