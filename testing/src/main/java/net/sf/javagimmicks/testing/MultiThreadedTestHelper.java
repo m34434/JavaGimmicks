@@ -16,8 +16,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-import net.sf.javagimmicks.lang.CallableRunnableAdapter;
-import net.sf.javagimmicks.lang.Factory;
+import net.sf.javagimmicks.util.CallableRunnableAdapter;
+import net.sf.javagimmicks.util.Factory;
 
 /**
  * This class helps to execute multi-threaded unit tests in a manner of

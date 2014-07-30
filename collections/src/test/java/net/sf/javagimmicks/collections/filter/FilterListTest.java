@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
-import net.sf.javagimmicks.lang.Filter;
+import net.sf.javagimmicks.util.Filter;
 
 import org.junit.Test;
 

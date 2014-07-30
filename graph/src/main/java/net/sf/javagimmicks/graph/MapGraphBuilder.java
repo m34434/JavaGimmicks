@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import net.sf.javagimmicks.lang.Factory;
+import net.sf.javagimmicks.util.Factory;
 
 /**
  * A builder for creating {@link MapGraph} instances using a fluent API.

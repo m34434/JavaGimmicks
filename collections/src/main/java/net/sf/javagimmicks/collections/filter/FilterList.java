@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import net.sf.javagimmicks.collections.event.AbstractEventList;
-import net.sf.javagimmicks.lang.Filter;
+import net.sf.javagimmicks.util.Filter;
 
 /**
  * A decorating implementation of {@link List} that allows to create filtered

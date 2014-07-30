@@ -3,7 +3,7 @@ package net.sf.javagimmicks.concurrent.locks;
 import java.util.HashMap;
 import java.util.TreeMap;
 
-import net.sf.javagimmicks.lang.Factory;
+import net.sf.javagimmicks.util.Factory;
 
 /**
  * Serves as central {@link Factory} for {@link MultiLockProvider} instances.
