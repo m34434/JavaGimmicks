@@ -391,6 +391,29 @@
 				</pluginManagement>
 			</build>
 		</profile>
+
+		<!-- Custom Java executable -->
+		<profile>
+			<id>set-java-executable</id>
+			<activation>
+				<property>
+					<name>maven.custom.java</name>
+				</property>
+			</activation>
+			<build>
+				<pluginManagement>
+					<plugins>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-surefire-plugin</artifactId>
+							<configuration>
+								<jvm>${maven.custom.java}</jvm>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+			</build>
+		</profile>
 	</profiles>
 
 	<licenses>
