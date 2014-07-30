@@ -66,6 +66,8 @@ public class ListTableModel<E> extends AbstractList<E> implements TableModel
     * 
     * @param rowType
     *           {@link Class row type} for the {@link ListTableModel} to build
+    * @param <E>
+    *           the {@link Class row type}
     * @return a {@link Builder} for building a {@link ListTableModel} instance
     */
    public static <E> Builder<E> builder(final Class<E> rowType)

@@ -176,7 +176,7 @@ public class ListTreeNode<E> implements TypedTreeNode<E>, TypedChildTreeNode<E, 
     * This means the following:
     * <ul>
     * <li>Upon add operations (including new nodes added via
-    * {@link List#set(int, Object) set()})</li>
+    * {@link List#set(int, Object) set()})
     * <ul>
     * <li>Make a consistency check, if the new {@link ListTreeNode} is fully
     * {@link #isDetached() detached} - if not, throw an
@@ -187,19 +187,22 @@ public class ListTreeNode<E> implements TypedTreeNode<E>, TypedChildTreeNode<E, 
     * <li>Fire respective {@link TreeModelEvent}s if this instance is internally
     * attached to a {@link ListTreeModel}</li>
     * </ul>
+    * </li>
     * <li>Upon remove operations (including old nodes removed via
-    * {@link List#set(int, Object) set()})</li>
+    * {@link List#set(int, Object) set()})
     * <ul>
     * <li>{@link #detach() Detach} the removed {@link ListTreeNode}</li>
     * <li>Fire respective {@link TreeModelEvent}s if this instance is internally
     * attached to a {@link ListTreeModel}</li>
     * </ul>
+    * </li>
     * <li>Upon all operations except {@link List#isEmpty() isEmpty()} and
     * {@link List#size() size()}
     * <ul>
     * <li>Throw an {@link IllegalStateException} if the current instance is in
-    * {@link #isDedicatedLeaf() dedicated leaf mode}.
+    * {@link #isDedicatedLeaf() dedicated leaf mode}.</li>
     * </ul>
+    * </li>
     * </ul>
     * 
     * @return the {@link List} view all child {@link ListTreeNode}s

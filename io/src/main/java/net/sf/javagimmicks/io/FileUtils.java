@@ -110,8 +110,8 @@ public class FileUtils
     *           the target {@link File folder} where to unzip the files
     * @throws IOException
     *            if any internal file operation fails
-    * @throws {@link IllegalArgumentException} the given target {@link File
-    *         folder} is not a directory
+    * @throws IllegalArgumentException
+    *            if the given target {@link File folder} is not a directory
     */
    public static void unzip(final InputStream zipFile, final File targetFolder) throws IOException,
          IllegalArgumentException
@@ -189,9 +189,9 @@ public class FileUtils
     *           the target {@link File folder} where to unzip the files
     * @throws IOException
     *            if any internal file operation fails
-    * @throws {@link IllegalArgumentException} if the given ZIP {@link File} is
-    *         not valid or the given target {@link File folder} is not a
-    *         directory
+    * @throws IllegalArgumentException
+    *            if the given ZIP {@link File} is not valid or the given target
+    *            {@link File folder} is not a directory
     */
    public static void unzip(final File zipFile, final File targetFolder) throws IOException, IllegalArgumentException
    {
