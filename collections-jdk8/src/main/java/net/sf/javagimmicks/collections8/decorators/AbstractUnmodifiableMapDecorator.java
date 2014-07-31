@@ -3,6 +3,7 @@ package net.sf.javagimmicks.collections8.decorators;
 import java.io.Serializable;
 import java.util.AbstractMap;
 import java.util.Map;
+import java.util.function.BiConsumer;
 
 /**
  * A basic class for unmodifiable {@link Map} decorators that simply forwards
@@ -53,6 +54,18 @@ public abstract class AbstractUnmodifiableMapDecorator<K, V> extends AbstractMap
    public String toString()
    {
       return getDecorated().toString();
+   }
+
+   @Override
+   public V getOrDefault(final Object key, final V defaultValue)
+   {
+      return getDecorated().getOrDefault(key, defaultValue);
+   }
+
+   @Override
+   public void forEach(final BiConsumer<? super K, ? super V> action)
+   {
+      getDecorated().forEach(action);
    }
 
    protected Map<K, V> getDecorated()

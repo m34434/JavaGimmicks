@@ -3,6 +3,9 @@ package net.sf.javagimmicks.collections8.decorators;
 import java.io.Serializable;
 import java.util.AbstractCollection;
 import java.util.Collection;
+import java.util.Spliterator;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 /**
  * A basic class for unmodifiable {@link Collection} decorators that simply
@@ -59,6 +62,30 @@ public abstract class AbstractUnmodifiableCollectionDecorator<E> extends Abstrac
    public String toString()
    {
       return getDecorated().toString();
+   }
+
+   @Override
+   public void forEach(final Consumer<? super E> action)
+   {
+      getDecorated().forEach(action);
+   }
+
+   @Override
+   public Spliterator<E> spliterator()
+   {
+      return getDecorated().spliterator();
+   }
+
+   @Override
+   public Stream<E> stream()
+   {
+      return getDecorated().stream();
+   }
+
+   @Override
+   public Stream<E> parallelStream()
+   {
+      return getDecorated().parallelStream();
    }
 
    protected Collection<E> getDecorated()

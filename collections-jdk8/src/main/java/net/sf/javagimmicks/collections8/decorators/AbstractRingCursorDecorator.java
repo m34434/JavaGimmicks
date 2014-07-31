@@ -3,6 +3,8 @@ package net.sf.javagimmicks.collections8.decorators;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Spliterator;
+import java.util.function.Consumer;
 
 import net.sf.javagimmicks.collections8.RingCursor;
 
@@ -111,6 +113,30 @@ public abstract class AbstractRingCursorDecorator<E> implements RingCursor<E>
    public Iterator<E> iterator()
    {
       return getDecorated().iterator();
+   }
+
+   @Override
+   public void forEach(final Consumer<? super E> action)
+   {
+      getDecorated().forEach(action);
+   }
+
+   @Override
+   public Spliterator<E> spliterator()
+   {
+      return getDecorated().spliterator();
+   }
+
+   @Override
+   public void insertAfter(final Iterable<? extends E> collection)
+   {
+      getDecorated().insertAfter(collection);
+   }
+
+   @Override
+   public void insertBefore(final Iterable<? extends E> collection)
+   {
+      getDecorated().insertBefore(collection);
    }
 
    protected RingCursor<E> getDecorated()

@@ -2,6 +2,9 @@ package net.sf.javagimmicks.collections8.decorators;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Spliterator;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 import net.sf.javagimmicks.collections8.AbstractRing;
 import net.sf.javagimmicks.collections8.Ring;
@@ -61,6 +64,30 @@ public abstract class AbstractUnmodifiableRingDecorator<E> extends AbstractRing<
    public String toString()
    {
       return getDecorated().toString();
+   }
+
+   @Override
+   public void forEach(final Consumer<? super E> action)
+   {
+      getDecorated().forEach(action);
+   }
+
+   @Override
+   public Spliterator<E> spliterator()
+   {
+      return getDecorated().spliterator();
+   }
+
+   @Override
+   public Stream<E> stream()
+   {
+      return getDecorated().stream();
+   }
+
+   @Override
+   public Stream<E> parallelStream()
+   {
+      return getDecorated().parallelStream();
    }
 
    protected Ring<E> getDecorated()
