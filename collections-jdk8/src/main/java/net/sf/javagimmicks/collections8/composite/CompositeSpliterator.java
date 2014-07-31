@@ -17,13 +17,11 @@ import java.util.stream.IntStream;
 class CompositeSpliterator<E> implements Spliterator<E>
 {
    protected final LinkedList<Spliterator<E>> _spliterators;
-   protected final int _characteristics;
+   protected Integer _characteristics;
 
    CompositeSpliterator(final LinkedList<Spliterator<E>> spliterators)
    {
       _spliterators = new LinkedList<>(spliterators);
-
-      _characteristics = calculateCharacteristics();
    }
 
    static <E, C extends Collection<E>> CompositeSpliterator<E> fromCollectionList(final List<C> collections)
@@ -56,16 +54,25 @@ class CompositeSpliterator<E> implements Spliterator<E>
    public Spliterator<E> trySplit()
    {
       final Spliterator<E> firstSpliterator = _spliterators.getFirst();
+      final int firstSpliteratorCharacteristics = firstSpliterator.characteristics();
 
       // If the first Spliterator can split, return the result
       final Spliterator<E> splitTry = firstSpliterator.trySplit();
       if (splitTry != null)
       {
+         // Re-check if characteristics have changed - if yes, we have to
+         // re-calculate
+         if (firstSpliteratorCharacteristics != firstSpliterator.characteristics())
+         {
+            _characteristics = null;
+         }
          return splitTry;
       }
 
-      // If it cannot split, return the WHOLE Spliterator, but remove it from
-      // the current one
+      // If it cannot split
+      // - enforce re-calc of characteristics
+      // - return the WHOLE Spliterator, but remove it from the current one
+      _characteristics = null;
       return _spliterators.removeFirst();
    }
 
@@ -83,6 +90,11 @@ class CompositeSpliterator<E> implements Spliterator<E>
    @Override
    public int characteristics()
    {
+      if (_characteristics == null)
+      {
+         _characteristics = calculateCharacteristics();
+      }
+
       return _characteristics;
    }
 

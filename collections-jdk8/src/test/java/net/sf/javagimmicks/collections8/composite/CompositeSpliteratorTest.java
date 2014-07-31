@@ -74,7 +74,7 @@ public class CompositeSpliteratorTest
 
       assertEquals(DIM * DIM, s.getExactSizeIfKnown());
 
-      final List<Integer> resultList = list.parallelStream().collect(toList());
+      final List<Integer> resultList = streamIntoList(list);
 
       assertEquals(_referenceList, resultList);
    }
@@ -99,7 +99,7 @@ public class CompositeSpliteratorTest
 
       assertEquals(DIM * DIM, s.getExactSizeIfKnown());
 
-      final List<Integer> resultList = list.parallelStream().collect(toList());
+      final List<Integer> resultList = streamIntoList(list);
 
       assertEquals(_referenceList.size(), resultList.size());
       assertTrue(resultList.containsAll(_referenceList));
@@ -129,9 +129,22 @@ public class CompositeSpliteratorTest
 
       assertEquals(DIM * DIM, s.getExactSizeIfKnown());
 
-      final List<Integer> resultList = list.parallelStream().collect(toList());
+      final List<Integer> resultList = streamIntoList(list);
 
       assertEquals(_referenceList.size(), resultList.size());
       assertTrue(resultList.containsAll(_referenceList));
+   }
+
+   private List<Integer> streamIntoList(final Collection<Integer> list)
+   {
+      long start = System.currentTimeMillis();
+      final List<Integer> resultList = list.parallelStream().collect(toList());
+      System.out.printf("Parallel stream collect took %s milliseconds%n", System.currentTimeMillis() - start);
+
+      start = System.currentTimeMillis();
+      list.parallelStream().collect(toList());
+      System.out.printf("Sequential stream collect took %s milliseconds%n", System.currentTimeMillis() - start);
+
+      return resultList;
    }
 }

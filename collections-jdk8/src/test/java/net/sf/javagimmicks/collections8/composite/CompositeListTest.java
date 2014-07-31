@@ -310,6 +310,7 @@ public class CompositeListTest
       assertEquals(4, it.nextIndex());
    }
 
+   @SuppressWarnings("unchecked")
    private static <E> List<E> buildReference(final List<? extends E>... lists)
    {
       final ArrayList<E> result = new ArrayList<E>();

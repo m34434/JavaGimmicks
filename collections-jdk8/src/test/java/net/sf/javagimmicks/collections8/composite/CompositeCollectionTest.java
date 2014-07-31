@@ -168,6 +168,7 @@ public class CompositeCollectionTest
       assertTrue(_composite.contains("Z"));
    }
 
+   @SuppressWarnings("unchecked")
    private static <E> Collection<E> buildReference(final Collection<? extends E>... collections)
    {
       final ArrayList<E> result = new ArrayList<E>();
