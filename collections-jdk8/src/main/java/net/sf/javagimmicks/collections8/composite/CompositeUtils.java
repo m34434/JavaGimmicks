@@ -5,8 +5,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Spliterator;
 
 /**
  * The central entry point into the composite API. Provides numerous creation
@@ -179,6 +181,32 @@ public class CompositeUtils
    public static <E> ListIterator<E> listIterator(final ListIterator<E> it1, final ListIterator<E> it2)
    {
       return new CompositeListIterator<E>(Arrays.asList(it1, it2));
+   }
+
+   /**
+    * Creates a composite {@link Spliterator} around any number of other ones
+    * (provided as {@link List} of {@link Spliterator}s)
+    * 
+    * @param spliterators
+    *           the {@link Spliterator}s to wrap a composite one around
+    * @return a composite {@link Spliterator} wrapped around the given ones
+    */
+   public static <E> Spliterator<E> spliterator(final List<Spliterator<E>> spliterators)
+   {
+      return new CompositeSpliterator<E>(new LinkedList<>(spliterators));
+   }
+
+   /**
+    * Creates a composite {@link Spliterator} around any number of other ones
+    * (provided as variable argument list of {@link Spliterator}s)
+    * 
+    * @param spliterators
+    *           the {@link Spliterator}s to wrap a composite one around
+    * @return a composite {@link Spliterator} wrapped around the given ones
+    */
+   public static <E> Spliterator<E> spliterator(final Spliterator<E>... spliterators)
+   {
+      return spliterator(Arrays.asList(spliterators));
    }
 
    /**

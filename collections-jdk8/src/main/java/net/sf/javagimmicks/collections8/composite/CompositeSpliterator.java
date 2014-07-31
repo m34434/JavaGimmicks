@@ -4,17 +4,19 @@ import static net.sf.javagimmicks.util.MoreCollectors.summingLongToBigInteger;
 
 import java.math.BigInteger;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 class CompositeSpliterator<E> implements Spliterator<E>
 {
    protected final LinkedList<Spliterator<E>> _spliterators;
-
-   protected int _currentIndex = -1;
    protected final int _characteristics;
 
    CompositeSpliterator(final LinkedList<Spliterator<E>> spliterators)
@@ -41,7 +43,10 @@ class CompositeSpliterator<E> implements Spliterator<E>
       {
          final Spliterator<E> spliterator = _spliterators.removeFirst();
 
-         result |= spliterator.tryAdvance(action);
+         while (spliterator.tryAdvance(action))
+         {
+            result = true;
+         }
       }
 
       return result;
@@ -83,29 +88,19 @@ class CompositeSpliterator<E> implements Spliterator<E>
 
    private int calculateCharacteristics()
    {
-      int result = 0;
+      // We cannot guarantee "DISTINCT" or "SORTED", since we would have to
+      // cross-check all elements
 
-      // We cannot guarantee "DISTINCT", since we would have to cross-check all
-      // elements
+      // Walk over all Spliterator and merge the characteristics for each into a
+      // Map
+      final Map<Integer, Boolean> m = new HashMap<>();
+      _spliterators.forEach(s -> IntStream.of(ORDERED, NONNULL, SIZED, SUBSIZED, IMMUTABLE, CONCURRENT).forEach(
+            c -> m.put(c, m.getOrDefault(c, true) && s.hasCharacteristics(c))));
 
-      result = checkAndApplyIfAll(result, CONCURRENT);
-      result = checkAndApplyIfAll(result, IMMUTABLE);
-      result = checkAndApplyIfAll(result, NONNULL);
-      result = checkAndApplyIfAll(result, ORDERED);
-      result = checkAndApplyIfAll(result, SIZED);
-      result = checkAndApplyIfAll(result, SORTED);
-      result = checkAndApplyIfAll(result, SUBSIZED);
+      // Map/reduce to the final characteristics
+      final Optional<Integer> result = m.entrySet().stream().filter(e -> e.getValue()).map(e -> e.getKey())
+            .reduce((a, b) -> a | b);
 
-      return result;
-   }
-
-   private int checkAndApplyIfAll(int base, final int characteristics)
-   {
-      if (_spliterators.stream().allMatch(s -> s.hasCharacteristics(characteristics)))
-      {
-         base |= characteristics;
-      }
-
-      return base;
+      return result.orElse(0);
    }
 }
