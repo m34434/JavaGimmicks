@@ -1,6 +1,6 @@
 package net.sf.javagimmicks.collections8.filter;
 
-import static net.sf.javagimmicks.collections8.Collections.crossProductForEach;
+import static net.sf.javagimmicks.collections8.MoreCollections.crossProductForEach;
 import static net.sf.javagimmicks.collections8.Lists.forEachWithIndex;
 
 import java.lang.ref.Reference;

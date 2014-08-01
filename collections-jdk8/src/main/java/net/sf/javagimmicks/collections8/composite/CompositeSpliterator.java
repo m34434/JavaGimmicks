@@ -1,10 +1,11 @@
 package net.sf.javagimmicks.collections8.composite;
 
-import static net.sf.javagimmicks.util.MoreCollectors.summingLongToBigInteger;
+import static net.sf.javagimmicks.collections8.MoreCollectors.summingLongToBigInteger;
 
 import java.math.BigInteger;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -33,21 +34,19 @@ class CompositeSpliterator<E> implements Spliterator<E>
    @Override
    public boolean tryAdvance(final Consumer<? super E> action)
    {
-      boolean result = false;
-
-      // Advance through all remaining Spliterators continuously removing them
-      // from this Composite
-      while (!_spliterators.isEmpty())
+      for (final Iterator<Spliterator<E>> spliteratorIter = _spliterators.iterator(); spliteratorIter.hasNext();)
       {
-         final Spliterator<E> spliterator = _spliterators.removeFirst();
+         final Spliterator<E> spliterator = spliteratorIter.next();
 
-         while (spliterator.tryAdvance(action))
+         if (spliterator.tryAdvance(action))
          {
-            result = true;
+            return true;
          }
+
+         spliteratorIter.remove();
       }
 
-      return result;
+      return false;
    }
 
    @Override

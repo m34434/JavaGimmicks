@@ -1,10 +1,15 @@
 package net.sf.javagimmicks.collections8;
 
+import java.util.Collection;
 import java.util.function.BiConsumer;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
-public class Collections
+import net.sf.javagimmicks.util.Pair;
+
+public class MoreCollections
 {
-   private Collections()
+   private MoreCollections()
    {}
 
    /**
@@ -32,5 +37,17 @@ public class Collections
       aElements.forEach(aElement -> //
             bElements.forEach(bElement -> //
                   action.accept(aElement, bElement)));
+   }
+
+   public static <A, B> Stream<Pair<A, B>> crossProductStream(final Collection<? extends A> aCollection,
+         final Collection<? extends B> bCollection)
+   {
+      return StreamSupport.stream(new CrossProductSpliterator<A, B>(aCollection, bCollection), false);
+   }
+
+   public static <A, B> Stream<Pair<A, B>> crossProductParallelStream(final Collection<? extends A> aCollection,
+         final Collection<? extends B> bCollection)
+   {
+      return StreamSupport.stream(new CrossProductSpliterator<A, B>(aCollection, bCollection), true);
    }
 }

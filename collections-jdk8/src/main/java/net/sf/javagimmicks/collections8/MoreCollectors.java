@@ -1,4 +1,4 @@
-package net.sf.javagimmicks.util;
+package net.sf.javagimmicks.collections8;
 
 import java.math.BigInteger;
 import java.util.function.Function;
