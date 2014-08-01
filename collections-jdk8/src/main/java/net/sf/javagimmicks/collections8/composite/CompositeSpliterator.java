@@ -53,27 +53,43 @@ class CompositeSpliterator<E> implements Spliterator<E>
    @Override
    public Spliterator<E> trySplit()
    {
-      final Spliterator<E> firstSpliterator = _spliterators.getFirst();
-      final int firstSpliteratorCharacteristics = firstSpliterator.characteristics();
-
-      // If the first Spliterator can split, return the result
-      final Spliterator<E> splitTry = firstSpliterator.trySplit();
-      if (splitTry != null)
+      final int spliteratorsCount = _spliterators.size();
+      if (spliteratorsCount == 0)
       {
-         // Re-check if characteristics have changed - if yes, we have to
-         // re-calculate
-         if (firstSpliteratorCharacteristics != firstSpliterator.characteristics())
-         {
-            _characteristics = null;
-         }
-         return splitTry;
+         // Update characteristics
+         _characteristics = 0;
+
+         return null;
       }
 
-      // If it cannot split
-      // - enforce re-calc of characteristics
-      // - return the WHOLE Spliterator, but remove it from the current one
+      if (spliteratorsCount == 1)
+      {
+         final Spliterator<E> theLastSpliterator = _spliterators.getFirst();
+         final Spliterator<E> result = theLastSpliterator.trySplit();
+
+         // Update characteristics
+         _characteristics = theLastSpliterator.characteristics();
+
+         return result;
+      }
+
+      // Cut in the middle (not regarding sizes)
+      final int middle = _spliterators.size() / 2;
+
+      // Create new List of Spliterators simply by using and cloning a SubList
+      final List<Spliterator<E>> splitSpliteratorsSubList = _spliterators.subList(0, middle);
+      final LinkedList<Spliterator<E>> splitSpliteratorsNewList = new LinkedList<Spliterator<E>>(
+            splitSpliteratorsSubList);
+
+      // Clear the SubList which effectively removes its elements from this
+      // Spliterator
+      splitSpliteratorsSubList.clear();
+
+      // Reset characteristics
       _characteristics = null;
-      return _spliterators.removeFirst();
+
+      return splitSpliteratorsNewList.size() > 1 ? new CompositeSpliterator<E>(splitSpliteratorsNewList)
+            : splitSpliteratorsNewList.getFirst();
    }
 
    @Override

@@ -1,6 +1,7 @@
 package net.sf.javagimmicks.collections8.composite;
 
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -9,25 +10,23 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.Spliterator;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collector;
 import java.util.stream.IntStream;
 
-import org.junit.After;
 import org.junit.Test;
 
 public class CompositeSpliteratorTest
 {
-   private static final int DIM = 200;
+   private static final int DIM = 500;
 
-   private List<Integer> _referenceList;
-
-   private <C extends Collection<Integer>> C setup(final Supplier<C> collectionSupplier,
+   private <C extends Collection<Integer>> C setup(final Collection<Integer> reference,
+         final Supplier<C> collectionSupplier,
          final Function<List<C>, C> compositeBuilder)
    {
-      _referenceList = new ArrayList<>(DIM * DIM);
-
       final List<C> collections = new ArrayList<>(DIM);
 
       IntStream.range(0, DIM).forEach(i ->
@@ -38,7 +37,7 @@ public class CompositeSpliteratorTest
          {
             final int count = i * DIM + j;
             collection.add(count);
-            _referenceList.add(count);
+            reference.add(count);
          });
 
          collections.add(collection);
@@ -47,17 +46,12 @@ public class CompositeSpliteratorTest
       return compositeBuilder.apply(collections);
    }
 
-   @After
-   public void teardown()
-   {
-      _referenceList.clear();
-      _referenceList = null;
-   }
-
    @Test
    public void testArrayListParallelStream()
    {
-      final List<Integer> list = setup(() -> {
+      final List<Integer> referenceList = new ArrayList<Integer>(DIM * DIM);
+
+      final List<Integer> list = setup(referenceList, () -> {
          final List<Integer> result = new ArrayList<Integer>(DIM);
          return result;
       }, l -> CompositeUtils.list(l));
@@ -74,15 +68,17 @@ public class CompositeSpliteratorTest
 
       assertEquals(DIM * DIM, s.getExactSizeIfKnown());
 
-      final List<Integer> resultList = streamIntoList(list);
+      final List<Integer> resultList = streamIntoCollection(list, toList());
 
-      assertEquals(_referenceList, resultList);
+      assertEquals(referenceList, resultList);
    }
 
    @Test
    public void testHashSetParallelStream()
    {
-      final Collection<Integer> list = setup(() -> {
+      final Set<Integer> referenceSet = new HashSet<>();
+
+      final Collection<Integer> list = setup(referenceSet, () -> {
          final Collection<Integer> result = new HashSet<Integer>();
          return result;
       }, l -> CompositeUtils.collection(l));
@@ -99,16 +95,17 @@ public class CompositeSpliteratorTest
 
       assertEquals(DIM * DIM, s.getExactSizeIfKnown());
 
-      final List<Integer> resultList = streamIntoList(list);
+      final Set<Integer> resultSet = streamIntoCollection(list, toSet());
 
-      assertEquals(_referenceList.size(), resultList.size());
-      assertTrue(resultList.containsAll(_referenceList));
+      assertEquals(referenceSet, resultSet);
    }
 
    @Test
    public void testArrayListWithOneHashSetParallelStream()
    {
-      final Collection<Integer> list = setup(() -> {
+      final Set<Integer> referenceSet = new HashSet<>();
+
+      final Collection<Integer> list = setup(referenceSet, () -> {
          final Collection<Integer> result = new ArrayList<Integer>(DIM);
          return result;
       }, l -> {
@@ -129,16 +126,16 @@ public class CompositeSpliteratorTest
 
       assertEquals(DIM * DIM, s.getExactSizeIfKnown());
 
-      final List<Integer> resultList = streamIntoList(list);
+      final Set<Integer> resultSet = streamIntoCollection(list, toSet());
 
-      assertEquals(_referenceList.size(), resultList.size());
-      assertTrue(resultList.containsAll(_referenceList));
+      assertEquals(referenceSet, resultSet);
    }
 
-   private List<Integer> streamIntoList(final Collection<Integer> list)
+   private <C extends Collection<Integer>> C streamIntoCollection(final Collection<Integer> list,
+         final Collector<Integer, ?, C> collector)
    {
       long start = System.currentTimeMillis();
-      final List<Integer> resultList = list.parallelStream().collect(toList());
+      final C resultList = list.parallelStream().collect(collector);
       System.out.printf("Parallel stream collect took %s milliseconds%n", System.currentTimeMillis() - start);
 
       start = System.currentTimeMillis();
