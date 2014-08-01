@@ -5,6 +5,7 @@ import java.util.function.Function;
 import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
 import java.util.stream.Collector;
+import java.util.stream.Collector.Characteristics;
 
 public class MoreCollectors
 {
@@ -20,7 +21,7 @@ public class MoreCollectors
                a[0] = a[0].add(b[0]);
                return a;
             },//
-            a -> a[0]);
+            a -> a[0], Characteristics.UNORDERED);
    }
 
    public static <T> Collector<T, ?, BigInteger> summingLongToBigInteger(
@@ -32,7 +33,7 @@ public class MoreCollectors
                a[0] = a[0].add(b[0]);
                return a;
             },//
-            a -> a[0]);
+            a -> a[0], Characteristics.UNORDERED);
    }
 
    public static <T> Collector<T, ?, BigInteger> summingIntToBigInteger(
@@ -44,6 +45,6 @@ public class MoreCollectors
                a[0] = a[0].add(b[0]);
                return a;
             },//
-            a -> a[0]);
+            a -> a[0], Characteristics.UNORDERED);
    }
 }

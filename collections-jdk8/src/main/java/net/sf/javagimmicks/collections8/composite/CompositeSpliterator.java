@@ -122,13 +122,19 @@ class CompositeSpliterator<E> implements Spliterator<E>
       // Walk over all Spliterator and merge the characteristics for each into a
       // Map
       final Map<Integer, Boolean> m = new HashMap<>();
-      _spliterators.forEach(s -> IntStream.of(ORDERED, NONNULL, SIZED, SUBSIZED, IMMUTABLE, CONCURRENT).forEach(
-            c -> m.put(c, m.getOrDefault(c, true) && s.hasCharacteristics(c))));
+      _spliterators.forEach(s -> characteristicsStream().forEach(
+            c -> m.merge(c, s.hasCharacteristics(c), (a, b) -> a && b)));
 
-      // Map/reduce to the final characteristics
+      // Filter/map/reduce to the final characteristics (skip all "false"
+      // characteristics and merge them via "|" operator
       final Optional<Integer> result = m.entrySet().stream().filter(e -> e.getValue()).map(e -> e.getKey())
             .reduce((a, b) -> a | b);
 
       return result.orElse(0);
+   }
+
+   private static IntStream characteristicsStream()
+   {
+      return IntStream.of(ORDERED, NONNULL, SIZED, SUBSIZED, IMMUTABLE, CONCURRENT);
    }
 }
