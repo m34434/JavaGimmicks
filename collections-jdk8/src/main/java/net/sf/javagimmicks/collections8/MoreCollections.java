@@ -44,12 +44,40 @@ public class MoreCollections
                   action.accept(aElement, bElement)));
    }
 
+   /**
+    * Creates a sequential {@link Stream} which contains the cross-product of
+    * two given {@link Collection}s as {@link Pair} objects.
+    * 
+    * @param aCollection
+    *           the "outer" {@link Collection} for the cross-product
+    * @param bCollection
+    *           the "inner" {@link Collection} for the cross-product
+    * @param <A>
+    *           the type of elements of the "outer" {@link Collection}
+    * @param <B>
+    *           the type of elements of the "inner" {@link Collection}
+    * @return the resulting {@link Stream} of {@link Pair}s
+    */
    public static <A, B> Stream<Pair<A, B>> crossProductStream(final Collection<? extends A> aCollection,
          final Collection<? extends B> bCollection)
    {
       return StreamSupport.stream(new CrossProductSpliterator<A, B>(aCollection, bCollection), false);
    }
 
+   /**
+    * Creates a parallel {@link Stream} which contains the cross-product of two
+    * given {@link Collection}s as {@link Pair} objects.
+    * 
+    * @param aCollection
+    *           the "outer" {@link Collection} for the cross-product
+    * @param bCollection
+    *           the "inner" {@link Collection} for the cross-product
+    * @param <A>
+    *           the type of elements of the "outer" {@link Collection}
+    * @param <B>
+    *           the type of elements of the "inner" {@link Collection}
+    * @return the resulting {@link Stream} of {@link Pair}s
+    */
    public static <A, B> Stream<Pair<A, B>> crossProductParallelStream(final Collection<? extends A> aCollection,
          final Collection<? extends B> bCollection)
    {
