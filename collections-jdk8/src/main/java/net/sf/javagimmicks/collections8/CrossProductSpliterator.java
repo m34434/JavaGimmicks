@@ -14,75 +14,132 @@ class CrossProductSpliterator<A, B> implements Spliterator<Pair<A, B>>
    private final Collection<? extends A> _aCollection;
    private final Collection<? extends B> _bCollection;
 
+   private Integer _characteristics;
+
+   private Iterator<? extends A> _aIterator;
+   private int _aElementsUsed;
+
+   private AElementSpliterator<A, B> _currentAElementSpliterator;
+
    CrossProductSpliterator(final Collection<? extends A> aCollection, final Collection<? extends B> bCollection)
    {
       this._aCollection = aCollection;
       this._bCollection = bCollection;
+
+      _aIterator = aCollection.iterator();
    }
 
    @Override
    public boolean tryAdvance(final Consumer<? super Pair<A, B>> action)
    {
-      // TODO Auto-generated method stub
+      while (_currentAElementSpliterator != null || _aIterator.hasNext())
+      {
+         if (_currentAElementSpliterator == null)
+         {
+            _currentAElementSpliterator = new AElementSpliterator<A, B>(getNextA(), _bCollection.spliterator());
+         }
+
+         if (_currentAElementSpliterator.tryAdvance(action))
+         {
+            return true;
+         }
+
+         _currentAElementSpliterator = null;
+      }
+
       return false;
    }
 
    @Override
    public Spliterator<Pair<A, B>> trySplit()
    {
-      final int aSize = _aCollection.size();
-      if (aSize == 0)
+      final int aRemaining = getRemainingSize();
+      if (aRemaining == 0)
       {
          return null;
       }
 
-      if (aSize == 1)
+      if (aRemaining == 1)
       {
-         final A aElement = _aCollection.iterator().next();
-         return new AElementSpliterator<A, B>(aElement, _bCollection.spliterator());
+         if (_currentAElementSpliterator == null)
+         {
+            return null;
+         }
+
+         final AElementSpliterator<A, B> result = _currentAElementSpliterator;
+
+         _currentAElementSpliterator = new AElementSpliterator<A, B>(
+               getNextA(), _bCollection.spliterator());
+
+         return result;
       }
 
-      final List<A> aFirstHalf = new ArrayList<>(aSize / 2);
-      final Iterator<? extends A> aIter = _aCollection.iterator();
-      for (int i = 0; i < aSize / 2; ++i)
+      final List<A> aFirstHalf = new ArrayList<>(aRemaining / 2);
+      for (int i = 0; i < aRemaining / 2; ++i)
       {
-         final A aElement = aIter.next();
-         aFirstHalf.add(aElement);
-         aIter.remove();
+         aFirstHalf.add(getNextA());
       }
 
-      return new CrossProductSpliterator<A, B>(aFirstHalf, _bCollection);
+      final CrossProductSpliterator<A, B> result = new CrossProductSpliterator<A, B>(aFirstHalf, _bCollection);
+      result._currentAElementSpliterator = this._currentAElementSpliterator;
+      this._currentAElementSpliterator = null;
+
+      return result;
    }
 
    @Override
    public long estimateSize()
    {
-      return _aCollection.size() * _bCollection.size();
+      long result = (long) getRemainingSize() * _bCollection.size();
+      if (_currentAElementSpliterator != null)
+      {
+         result += _currentAElementSpliterator.estimateSize();
+      }
+
+      return result;
    }
 
    @Override
    public int characteristics()
    {
-      final Spliterator<? extends A> aSpliterator = _aCollection.spliterator();
-      final Spliterator<? extends B> bSpliterator = _bCollection.spliterator();
-
-      final boolean concurrent = aSpliterator.hasCharacteristics(CONCURRENT)
-            && bSpliterator.hasCharacteristics(CONCURRENT);
-
-      int result = concurrent ? CONCURRENT : SIZED | SUBSIZED;
-      result |= NONNULL;
-
-      if (aSpliterator.hasCharacteristics(DISTINCT) && bSpliterator.hasCharacteristics(DISTINCT))
+      if (_characteristics == null)
       {
-         result |= DISTINCT;
+         final Spliterator<? extends A> aSpliterator = _aCollection.spliterator();
+         final Spliterator<? extends B> bSpliterator = _bCollection.spliterator();
+
+         // Result it not SORTED or CONCURRENT
+
+         int result = NONNULL;
+         result = updateCharacteristics(result, ORDERED, aSpliterator, bSpliterator);
+         result = updateCharacteristics(result, DISTINCT, aSpliterator, bSpliterator);
+         result = updateCharacteristics(result, SIZED, aSpliterator, bSpliterator);
+         result = updateCharacteristics(result, SUBSIZED, aSpliterator, bSpliterator);
+         result = updateCharacteristics(result, IMMUTABLE, aSpliterator, bSpliterator);
+
+         _characteristics = result;
       }
 
-      if (aSpliterator.hasCharacteristics(IMMUTABLE) && bSpliterator.hasCharacteristics(IMMUTABLE))
-      {
-         result |= IMMUTABLE;
-      }
+      return _characteristics;
+   }
 
+   private int getRemainingSize()
+   {
+      return _aCollection.size() - _aElementsUsed;
+   }
+
+   private A getNextA()
+   {
+      final A result = _aIterator.next();
+      ++_aElementsUsed;
       return result;
+   }
+
+   private static int updateCharacteristics(final int currentCharacteristics, final int checkedCharacteristic,
+         final Spliterator<?> aSpliterator, final Spliterator<?> bSpliterator)
+   {
+      return aSpliterator.hasCharacteristics(checkedCharacteristic)
+            && bSpliterator.hasCharacteristics(checkedCharacteristic) ? currentCharacteristics | checkedCharacteristic
+            : currentCharacteristics;
    }
 
    static class AElementSpliterator<A, B> implements Spliterator<Pair<A, B>>

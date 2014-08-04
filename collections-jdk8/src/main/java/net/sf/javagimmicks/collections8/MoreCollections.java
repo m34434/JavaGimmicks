@@ -1,19 +1,24 @@
 package net.sf.javagimmicks.collections8;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import net.sf.javagimmicks.util.Pair;
 
+/**
+ * Provides some {@link Collection} helper functions in addition to
+ * {@link Collections}.
+ */
 public class MoreCollections
 {
    private MoreCollections()
    {}
 
    /**
-    * Performs a classic "cross-product"
+    * Performs a classic "cross-product" (non-parallel)
     * {@link Iterable#forEach(java.util.function.Consumer)} operation on two
     * given {@link Iterable}s invoking the given {@link BiConsumer} for each
     * combination of elements.
