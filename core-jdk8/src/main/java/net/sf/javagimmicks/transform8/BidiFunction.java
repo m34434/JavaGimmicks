@@ -68,7 +68,7 @@ public interface BidiFunction<F, T> extends Function<F, T>
     *           the "to" or target type
     * @return a resulting {@link BidiFunction}
     */
-   static <F, T> BidiFunction<F, T> create(final Function<F, T> forwardFunction, final Function<T, F> backwardFunction)
+   static <F, T> BidiFunction<F, T> of(final Function<F, T> forwardFunction, final Function<T, F> backwardFunction)
    {
       return new BidiFunction<F, T>()
       {

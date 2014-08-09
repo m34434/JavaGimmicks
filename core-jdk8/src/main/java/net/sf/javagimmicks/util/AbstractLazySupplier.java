@@ -2,11 +2,11 @@ package net.sf.javagimmicks.util;
 
 import java.util.function.Supplier;
 
-abstract class AbstractCreateOnDemandSupplier<E> implements Supplier<E>
+abstract class AbstractLazySupplier<E> implements Supplier<E>
 {
    private final Supplier<E> _baseSupplier;
 
-   protected AbstractCreateOnDemandSupplier(final Supplier<E> baseSupplier)
+   protected AbstractLazySupplier(final Supplier<E> baseSupplier)
    {
       _baseSupplier = baseSupplier;
    }

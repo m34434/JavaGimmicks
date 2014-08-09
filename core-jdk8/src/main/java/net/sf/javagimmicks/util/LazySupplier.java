@@ -10,7 +10,7 @@ import java.util.function.Supplier;
  * @param <E>
  *           the type of object the supplier can carry
  */
-public class CreateOnDemandSupplier<E> extends AbstractCreateOnDemandSupplier<E>
+public class LazySupplier<E> extends AbstractLazySupplier<E>
 {
    private E _instance;
 
@@ -20,7 +20,7 @@ public class CreateOnDemandSupplier<E> extends AbstractCreateOnDemandSupplier<E>
     * @param supplier
     *           the {@link Supplier} to use for creating the instance
     */
-   public CreateOnDemandSupplier(final Supplier<E> supplier)
+   public LazySupplier(final Supplier<E> supplier)
    {
       super(supplier);
    }

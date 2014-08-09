@@ -1,5 +1,6 @@
 package net.sf.javagimmicks.util;
 
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
@@ -9,13 +10,13 @@ import java.util.function.Supplier;
  * @param <E>
  *           the type of object the container can carry
  */
-public interface WritableSupplier<E> extends Supplier<E>
+public interface WritableSupplier<E> extends Supplier<E>, Consumer<E>
 {
    /**
     * Returns if an already set object instance may be replaced by another one
     * 
     * @return if an already set object instance my be replaced by another one
-    * @see #set(Object)
+    * @see #accept(Object)
     */
    boolean isAllowOverwrite();
 
@@ -30,7 +31,7 @@ public interface WritableSupplier<E> extends Supplier<E>
     *            {@link #isAllowOverwrite()} is <code>true</code>
     * @see #isAllowOverwrite()
     */
-   void set(E instance) throws IllegalStateException;
+   void accept(E instance) throws IllegalStateException;
 
    /**
     * Removes the instance (if any) from the container
