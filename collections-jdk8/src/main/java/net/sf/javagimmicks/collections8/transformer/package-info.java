@@ -27,11 +27,11 @@
  * Of course, in order to be able to work with transforming
  * instances, you need to provide to them the transformation rules.
  * You can do so by writing a class that implements the
- * {@link net.sf.javagimmicks.transform.Transformer} or
+ * {@link java.util.function.Function} or
  * {@link net.sf.javagimmicks.transform8.BidiFunction} interface
  * which are both contained in this API.
  * <p>
- * When providing a {@link net.sf.javagimmicks.transform.Transformer},
+ * When providing a {@link java.util.function.Function},
  * you will only be able to perform operations on the transforming instance that
  * do not need to convert from the external format to the internal
  * format. For example, you will be able to iterate over a
@@ -48,7 +48,7 @@
  * (and {@code decorateKeyBased()} and {@code decorateValueBased()}
  * for {@link java.util.Map}s) which can be used to create transformed instances
  * of a number of (generic) base classes by providing an instance of this
- * base class and one of {@link net.sf.javagimmicks.transform.Transformer} or
+ * base class and one of {@link java.util.function.Function} or
  * {@link net.sf.javagimmicks.transform8.BidiFunction}.
  * <p>
  * The resulting instance will implement the same interface (but
@@ -1254,3 +1254,4 @@
  * @author Michael Scholz
  */
 package net.sf.javagimmicks.collections8.transformer;
+
