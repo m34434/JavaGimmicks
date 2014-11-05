@@ -1,12 +1,12 @@
 package net.sf.javagimmicks.util;
 
-abstract class AbstractCreateOnDemandObjectContainer<E> implements ObjectContainer<E>
+abstract class AbstractCreateOnDemandObjectContainer<E> implements Supplier<E>
 {
-   private final Factory<E> _factory;
+   private final Supplier<E> _baseSupplier;
 
-   protected AbstractCreateOnDemandObjectContainer(final Factory<E> factory)
+   protected AbstractCreateOnDemandObjectContainer(final Supplier<E> factory)
    {
-      _factory = factory;
+      _baseSupplier = factory;
    }
 
    @Override
@@ -23,7 +23,7 @@ abstract class AbstractCreateOnDemandObjectContainer<E> implements ObjectContain
          instance = getInstance();
          if (instance == null)
          {
-            instance = _factory.create();
+            instance = _baseSupplier.get();
             setInstance(instance);
          }
       }

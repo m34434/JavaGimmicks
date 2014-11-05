@@ -2,7 +2,7 @@ package net.sf.javagimmicks.collections.transformer;
 
 import java.util.Set;
 
-import net.sf.javagimmicks.transform.BidiTransformer;
+import net.sf.javagimmicks.transform.BidiFunction;
 import net.sf.javagimmicks.transform.BidiTransforming;
 
 class BidiTransformingSet<F, T>
@@ -13,14 +13,14 @@ class BidiTransformingSet<F, T>
     * @deprecated Use TranformerUtils.decorate() instead
     */
    @Deprecated
-   public BidiTransformingSet(Set<F> set, BidiTransformer<F, T> transformer)
+   public BidiTransformingSet(Set<F> set, BidiFunction<F, T> transformer)
    {
       super(set, transformer);
    }
    
-   public BidiTransformer<F, T> getBidiTransformer()
+   public BidiFunction<F, T> getTransformerBidiFunction()
    {
-      return (BidiTransformer<F, T>)getTransformer();
+      return (BidiFunction<F, T>)getTransformerFunction();
    }
 
    @Override
@@ -67,6 +67,6 @@ class BidiTransformingSet<F, T>
    
    protected F transformBack(T element)
    {
-      return getBidiTransformer().transformBack(element);
+      return getTransformerBidiFunction().applyReverse(element);
    }
 }

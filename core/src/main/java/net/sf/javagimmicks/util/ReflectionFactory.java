@@ -125,11 +125,11 @@ public class ReflectionFactory<E> implements Factory<E>
    }
 
    @Override
-   public final E create()
+   public final E get()
    {
       try
       {
-         return _constructor.newInstance(_argFactory.create());
+         return _constructor.newInstance(_argFactory.get());
       }
 
       // Should not occur since we ensured in the constructor that the called
@@ -173,7 +173,7 @@ public class ReflectionFactory<E> implements Factory<E>
    private static final Factory<Object[]> EMPTY_ARG_FACTORY = new Factory<Object[]>()
    {
       @Override
-      public Object[] create()
+      public Object[] get()
       {
          return new Object[0];
       }

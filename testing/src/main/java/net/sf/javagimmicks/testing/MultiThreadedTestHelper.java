@@ -134,7 +134,7 @@ public class MultiThreadedTestHelper<R>
          {
             if (factory != null)
             {
-               final Callable<R> worker = factory.create();
+               final Callable<R> worker = factory.get();
                if (worker != null)
                {
                   _workers.add(worker);

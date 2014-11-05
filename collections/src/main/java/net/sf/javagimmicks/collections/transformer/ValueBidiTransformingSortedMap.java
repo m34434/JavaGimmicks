@@ -4,7 +4,7 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.SortedMap;
 
-import net.sf.javagimmicks.transform.BidiTransformer;
+import net.sf.javagimmicks.transform.BidiFunction;
 
 class ValueBidiTransformingSortedMap<K, VF, VT> extends ValueBidiTransformingMap<K, VF, VT> implements SortedMap<K, VT>
 {
@@ -12,7 +12,7 @@ class ValueBidiTransformingSortedMap<K, VF, VT> extends ValueBidiTransformingMap
     * @deprecated Use TranformerUtils.decorateValueBased() instead
     */
    @Deprecated
-   public ValueBidiTransformingSortedMap(final Map<K, VF> map, final BidiTransformer<VF, VT> valueTransformer)
+   public ValueBidiTransformingSortedMap(final Map<K, VF> map, final BidiFunction<VF, VT> valueTransformer)
    {
       super(map, valueTransformer);
    }
@@ -34,7 +34,7 @@ class ValueBidiTransformingSortedMap<K, VF, VT> extends ValueBidiTransformingMap
    {
       return TransformerUtils.decorateValueBased(
             getSortedMap().headMap(toKey),
-            getBidiTransformer());
+            getTransformerBidiFunction());
    }
 
    @Override
@@ -48,7 +48,7 @@ class ValueBidiTransformingSortedMap<K, VF, VT> extends ValueBidiTransformingMap
    {
       return TransformerUtils.decorateValueBased(
             getSortedMap().subMap(fromKey, toKey),
-            getBidiTransformer());
+            getTransformerBidiFunction());
    }
 
    @Override
@@ -56,7 +56,7 @@ class ValueBidiTransformingSortedMap<K, VF, VT> extends ValueBidiTransformingMap
    {
       return TransformerUtils.decorateValueBased(
             getSortedMap().tailMap(fromKey),
-            getBidiTransformer());
+            getTransformerBidiFunction());
    }
 
    protected SortedMap<K, VF> getSortedMap()

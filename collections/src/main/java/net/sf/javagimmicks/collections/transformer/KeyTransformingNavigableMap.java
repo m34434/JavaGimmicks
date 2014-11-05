@@ -3,7 +3,7 @@ package net.sf.javagimmicks.collections.transformer;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
 
-import net.sf.javagimmicks.transform.Transformer;
+import net.sf.javagimmicks.util.Function;
 
 class KeyTransformingNavigableMap<KF, KT, V>
       extends KeyTransformingSortedMap<KF, KT, V>
@@ -13,7 +13,7 @@ class KeyTransformingNavigableMap<KF, KT, V>
     * @deprecated Use TranformerUtils.decorateKeyBased() instead
     */
    @Deprecated
-   public KeyTransformingNavigableMap(final NavigableMap<KF, V> map, final Transformer<KF, KT> transformer)
+   public KeyTransformingNavigableMap(final NavigableMap<KF, V> map, final Function<KF, KT> transformer)
    {
       super(map, transformer);
    }
@@ -35,7 +35,7 @@ class KeyTransformingNavigableMap<KF, KT, V>
    {
       return TransformerUtils.decorate(
             getNavigableMap().descendingKeySet(),
-            getTransformer());
+            getTransformerFunction());
    }
 
    @Override
@@ -43,7 +43,7 @@ class KeyTransformingNavigableMap<KF, KT, V>
    {
       return TransformerUtils.decorateKeyBased(
             getNavigableMap().descendingMap(),
-            getTransformer());
+            getTransformerFunction());
    }
 
    @Override
@@ -53,7 +53,7 @@ class KeyTransformingNavigableMap<KF, KT, V>
 
       return firstEntry == null ? null : new KeyTransformingEntry<KF, KT, V>(
             firstEntry,
-            getTransformer());
+            getTransformerFunction());
    }
 
    @Override
@@ -93,7 +93,7 @@ class KeyTransformingNavigableMap<KF, KT, V>
 
       return lastEntry == null ? null : new KeyTransformingEntry<KF, KT, V>(
             lastEntry,
-            getTransformer());
+            getTransformerFunction());
    }
 
    @Override
@@ -113,7 +113,7 @@ class KeyTransformingNavigableMap<KF, KT, V>
    {
       return TransformerUtils.decorate(
             getNavigableMap().navigableKeySet(),
-            getTransformer());
+            getTransformerFunction());
    }
 
    @Override
@@ -123,7 +123,7 @@ class KeyTransformingNavigableMap<KF, KT, V>
 
       return first == null ? null : new KeyTransformingEntry<KF, KT, V>(
             first,
-            getTransformer());
+            getTransformerFunction());
    }
 
    @Override
@@ -133,7 +133,7 @@ class KeyTransformingNavigableMap<KF, KT, V>
 
       return lastEntry == null ? null : new KeyTransformingEntry<KF, KT, V>(
             lastEntry,
-            getTransformer());
+            getTransformerFunction());
    }
 
    @Override

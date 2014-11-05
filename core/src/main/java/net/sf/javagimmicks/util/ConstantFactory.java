@@ -2,7 +2,7 @@ package net.sf.javagimmicks.util;
 
 /**
  * An implementation of {@link Factory} which holds a constant object of the
- * required type and returns it upon every call to {@link #create()}
+ * required type and returns it upon every call to {@link #get()}
  */
 public class ConstantFactory<E> implements Factory<E>
 {
@@ -20,7 +20,7 @@ public class ConstantFactory<E> implements Factory<E>
    }
 
    @Override
-   public E create()
+   public E get()
    {
       return _value;
    }

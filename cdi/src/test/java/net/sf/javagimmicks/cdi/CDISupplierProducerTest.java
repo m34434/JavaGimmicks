@@ -11,13 +11,13 @@ import net.sf.javagimmicks.cdi.injectable.Coolness;
 import net.sf.javagimmicks.cdi.injectable.FunnyClass;
 import net.sf.javagimmicks.cdi.qualifier.Cool;
 import net.sf.javagimmicks.cdi.testing.WeldJUnit4TestRunner;
-import net.sf.javagimmicks.util.Factory;
+import net.sf.javagimmicks.util.Supplier;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(WeldJUnit4TestRunner.class)
-public class CDIFactoryProducerTest
+public class CDISupplierProducerTest
 {
    @Inject
    private CoolFunnyContainerBean _funnyContainer;
@@ -67,14 +67,14 @@ public class CDIFactoryProducerTest
 
    }
 
-   public static class CoolFunnyClassProducer extends CDIFactoryProducer<FunnyClass>
+   public static class CoolFunnyClassProducer extends CDISupplierProducer<FunnyClass>
    {
       public CoolFunnyClassProducer()
       {
-         super(new Factory<FunnyClass>()
+         super(new Supplier<FunnyClass>()
          {
             @Override
-            public FunnyClass create()
+            public FunnyClass get()
             {
                return new FunnyClass("");
             }

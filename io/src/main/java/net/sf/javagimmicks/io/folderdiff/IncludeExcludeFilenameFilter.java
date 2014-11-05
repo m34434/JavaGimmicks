@@ -5,16 +5,16 @@ import java.io.FilenameFilter;
 import java.util.Collection;
 
 import net.sf.javagimmicks.collections.transformer.TransformerUtils;
-import net.sf.javagimmicks.transform.Transformer;
+import net.sf.javagimmicks.util.Function;
 import net.sf.javagimmicks.util.IncludeExcludePatternFilter;
 
 class IncludeExcludeFilenameFilter implements FilenameFilter
 {
    private final IncludeExcludePatternFilter _filter = new IncludeExcludePatternFilter();
-   private static final Transformer<String, String> _patternTransformer = new Transformer<String, String>()
+   private static final Function<String, String> _patternTransformer = new Function<String, String>()
    {
       @Override
-      public String transform(final String source)
+      public String apply(final String source)
       {
          return source.replaceAll("\\.", "\\.").replaceAll("\\*", ".*").replaceAll("\\?", ".");
       }
@@ -54,7 +54,7 @@ class IncludeExcludeFilenameFilter implements FilenameFilter
 
    public void addIncludePattern(final String pattern)
    {
-      _filter.addIncludePatterns(_patternTransformer.transform(pattern));
+      _filter.addIncludePatterns(_patternTransformer.apply(pattern));
    }
 
    public void addIncludePatterns(final Collection<String> patterns)
@@ -64,7 +64,7 @@ class IncludeExcludeFilenameFilter implements FilenameFilter
 
    public void addExcludePattern(final String pattern)
    {
-      _filter.addExcludePatterns(_patternTransformer.transform(pattern));
+      _filter.addExcludePatterns(_patternTransformer.apply(pattern));
    }
 
    public void addExcludePatterns(final Collection<String> patterns)

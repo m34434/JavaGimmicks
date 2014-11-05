@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
-import net.sf.javagimmicks.transform.Transformer;
+import net.sf.javagimmicks.util.Function;
 
 class CompositeListIterator<E> implements ListIterator<E>
 {
@@ -83,9 +83,9 @@ class CompositeListIterator<E> implements ListIterator<E>
       _iterators.next();
    }
    
-   static class ListIteratorExtractor<E, C extends List<E>> implements Transformer<C, ListIterator<E>>
+   static class ListIteratorExtractor<E, C extends List<E>> implements Function<C, ListIterator<E>>
    {
-      public ListIterator<E> transform(C source)
+      public ListIterator<E> apply(C source)
       {
          return source.listIterator();
       }

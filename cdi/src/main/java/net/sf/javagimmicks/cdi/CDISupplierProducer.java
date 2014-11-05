@@ -2,10 +2,10 @@ package net.sf.javagimmicks.cdi;
 
 import javax.enterprise.inject.spi.InjectionPoint;
 
-import net.sf.javagimmicks.util.Factory;
+import net.sf.javagimmicks.util.Supplier;
 
 /**
- * A base class for writing CDI producers based on a given {@link Factory} and
+ * A base class for writing CDI producers based on a given {@link Supplier} and
  * allowing advances instance configuration via {@link InjectionPoint}.
  * <p>
  * Subclasses should call {@link #produceInternal(InjectionPoint)} in their
@@ -15,17 +15,17 @@ import net.sf.javagimmicks.util.Factory;
  * @param <E>
  *           The type of beans to create
  */
-public abstract class CDIFactoryProducer<E>
+public abstract class CDISupplierProducer<E>
 {
-   private final Factory<? extends E> _factory;
+   private final Supplier<? extends E> _factory;
 
    /**
-    * Creates a new instance around the given {@link Factory}
+    * Creates a new instance around the given {@link Supplier}
     * 
     * @param factory
-    *           the {@link Factory} responsible for creating new bean instances
+    *           the {@link Supplier} responsible for creating new bean instances
     */
-   public CDIFactoryProducer(final Factory<? extends E> factory)
+   public CDISupplierProducer(final Supplier<? extends E> factory)
    {
       _factory = factory;
    }
@@ -45,7 +45,7 @@ public abstract class CDIFactoryProducer<E>
     */
    protected final E produceInternal(final InjectionPoint injectionPoint)
    {
-      final E result = _factory.create();
+      final E result = _factory.get();
 
       if (injectionPoint != null)
       {

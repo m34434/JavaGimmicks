@@ -228,7 +228,7 @@ public class MapGraphBuilder<VertexType, EdgeType extends Edge<VertexType, EdgeT
    private static class HashSetFactory<E> implements Factory<Set<E>>
    {
       @Override
-      public Set<E> create()
+      public Set<E> get()
       {
          return new HashSet<E>();
       }

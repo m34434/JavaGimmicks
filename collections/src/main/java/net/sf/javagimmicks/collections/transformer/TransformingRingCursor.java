@@ -5,27 +5,27 @@ package net.sf.javagimmicks.collections.transformer;
 
 import net.sf.javagimmicks.collections.AbstractRingCursor;
 import net.sf.javagimmicks.collections.RingCursor;
-import net.sf.javagimmicks.transform.Transformer;
 import net.sf.javagimmicks.transform.Transforming;
+import net.sf.javagimmicks.util.Function;
 
 class TransformingRingCursor<F, T>
    extends AbstractRingCursor<T>
    implements Transforming<F, T>
 {
    protected final RingCursor<F> _internalRingCursor;
-   private final Transformer<F, T> _transformer;
+   private final Function<F, T> _transformer;
    
    /**
     * @deprecated Use TranformerUtils.decorate() instead
     */
    @Deprecated
-   public TransformingRingCursor(RingCursor<F> ringCursor, Transformer<F, T> transformer)
+   public TransformingRingCursor(RingCursor<F> ringCursor, Function<F, T> transformer)
    {
       _internalRingCursor = ringCursor;
       _transformer = transformer;
    }
    
-   public Transformer<F, T> getTransformer()
+   public Function<F, T> getTransformerFunction()
    {
       return _transformer;
    }
@@ -37,7 +37,7 @@ class TransformingRingCursor<F, T>
 
    public T get()
    {
-      return getTransformer().transform(_internalRingCursor.get());
+      return getTransformerFunction().apply(_internalRingCursor.get());
    }
 
    public void insertAfter(T value)
@@ -52,22 +52,22 @@ class TransformingRingCursor<F, T>
 
    public T next()
    {
-      return getTransformer().transform(_internalRingCursor.next());
+      return getTransformerFunction().apply(_internalRingCursor.next());
    }
 
    public T previous()
    {
-      return getTransformer().transform(_internalRingCursor.previous());
+      return getTransformerFunction().apply(_internalRingCursor.previous());
    }
 
    public T remove()
    {
-      return getTransformer().transform(_internalRingCursor.remove());
+      return getTransformerFunction().apply(_internalRingCursor.remove());
    }
 
    public RingCursor<T> cursor()
    {
-      return TransformerUtils.decorate(_internalRingCursor.cursor(), getTransformer());
+      return TransformerUtils.decorate(_internalRingCursor.cursor(), getTransformerFunction());
    }
 
 }

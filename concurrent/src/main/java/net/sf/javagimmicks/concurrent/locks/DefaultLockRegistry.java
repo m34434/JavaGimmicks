@@ -63,7 +63,7 @@ class DefaultLockRegistry<K> implements LockRegistry<K>, Serializable
          Collection<Thread> threadsForResource = _shRegistry.get(resource);
          if (threadsForResource == null)
          {
-            threadsForResource = _shCollectionFactory.create();
+            threadsForResource = _shCollectionFactory.get();
             _shRegistry.put(resource, threadsForResource);
          }
 
@@ -132,7 +132,7 @@ class DefaultLockRegistry<K> implements LockRegistry<K>, Serializable
       private static final long serialVersionUID = 3613642441786733902L;
 
       @Override
-      public Collection<Thread> create()
+      public Collection<Thread> get()
       {
          return new HashSet<Thread>();
       }

@@ -197,7 +197,7 @@ public class TransformingListTest extends AbstractTransformingCollectionTest
       for(int i = 0; i < size; ++i)
       {
          Integer integer = random.nextInt();
-         String string = _transformer.transformBack(integer);
+         String string = _transformer.applyReverse(integer);
          
          Integer oldInteger = testPair.getTransformed().get(i);
          
@@ -218,7 +218,7 @@ public class TransformingListTest extends AbstractTransformingCollectionTest
       {
          int index = addIterator.nextIndex();
          Integer integer = addIterator.next();
-         String string = _transformer.transformBack(integer);
+         String string = _transformer.applyReverse(integer);
          
          assertEquals(string, testPair.getBase().get(index));
       }
@@ -267,7 +267,7 @@ public class TransformingListTest extends AbstractTransformingCollectionTest
 
       Integer removedInteger = transformedSubList.remove(index);
       
-      assertEquals(removedString, _transformer.transformBack(removedInteger));
+      assertEquals(removedString, _transformer.applyReverse(removedInteger));
       
       assertEquals(baseList.contains(removedString), transformedList.contains(removedInteger));
       assertFalse(transformedSubList.contains(removedInteger));
@@ -275,7 +275,7 @@ public class TransformingListTest extends AbstractTransformingCollectionTest
       // Add operation
       index = random.nextInt(transformedSubList.size());
       Integer integerToAdd = random.nextInt();
-      String stringToAdd = _transformer.transformBack(integerToAdd);
+      String stringToAdd = _transformer.applyReverse(integerToAdd);
       
       assertEquals(baseList.contains(removedString), transformedList.contains(removedInteger));
 

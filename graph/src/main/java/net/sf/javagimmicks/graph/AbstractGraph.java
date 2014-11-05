@@ -8,8 +8,8 @@ import java.util.Set;
 import net.sf.javagimmicks.collections.AbstractMap2;
 import net.sf.javagimmicks.collections.transformer.TransformerUtils;
 import net.sf.javagimmicks.lang.LangUtils;
-import net.sf.javagimmicks.transform.Transformer;
 import net.sf.javagimmicks.util.Factory;
+import net.sf.javagimmicks.util.Function;
 
 /**
  * An abstract {@link Graph} implementation taking care about many basic
@@ -183,7 +183,7 @@ public abstract class AbstractGraph<V, E extends Edge<V, E>> implements Graph<V,
 
    protected Set<E> createEdgeSet()
    {
-      return _edgeSetFactory.create();
+      return _edgeSetFactory.get();
    }
 
    protected class EdgeMap extends AbstractMap2<V, Set<E>>
@@ -201,7 +201,7 @@ public abstract class AbstractGraph<V, E extends Edge<V, E>> implements Graph<V,
       }
    }
 
-   protected static class EdgeToTargetTransformer<E extends Edge<V, E>, V> implements Transformer<E, V>
+   protected static class EdgeToTargetTransformer<E extends Edge<V, E>, V> implements Function<E, V>
    {
       protected final V _source;
 
@@ -211,7 +211,7 @@ public abstract class AbstractGraph<V, E extends Edge<V, E>> implements Graph<V,
       }
 
       @Override
-      public V transform(final E edge)
+      public V apply(final E edge)
       {
          return edge.getOutgoingVertex(_source);
       }

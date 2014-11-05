@@ -3,7 +3,7 @@ package net.sf.javagimmicks.collections.transformer;
 import java.util.Comparator;
 import java.util.SortedSet;
 
-import net.sf.javagimmicks.transform.Transformer;
+import net.sf.javagimmicks.util.Function;
 
 class TransformingSortedSet<F, T> extends TransformingSet<F, T> implements SortedSet<T>
 {
@@ -11,7 +11,7 @@ class TransformingSortedSet<F, T> extends TransformingSet<F, T> implements Sorte
     * @deprecated Use TranformerUtils.decorate() instead
     */
    @Deprecated
-   public TransformingSortedSet(SortedSet<F> set, Transformer<F, T> transformer)
+   public TransformingSortedSet(SortedSet<F> set, Function<F, T> transformer)
    {
       super(set, transformer);
    }
@@ -53,7 +53,7 @@ class TransformingSortedSet<F, T> extends TransformingSet<F, T> implements Sorte
    
    protected T transform(F element)
    {
-      return getTransformer().transform(element);
+      return getTransformerFunction().apply(element);
    }
    
 }

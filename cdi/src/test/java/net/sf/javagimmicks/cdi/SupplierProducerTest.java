@@ -8,13 +8,13 @@ import javax.inject.Inject;
 
 import net.sf.javagimmicks.cdi.injectable.NiceClass;
 import net.sf.javagimmicks.cdi.testing.WeldJUnit4TestRunner;
-import net.sf.javagimmicks.util.Factory;
+import net.sf.javagimmicks.util.Supplier;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(WeldJUnit4TestRunner.class)
-public class FactoryProducerTest
+public class SupplierProducerTest
 {
    static final String DEFAULT_NICENESS = "Nice!";
 
@@ -28,13 +28,13 @@ public class FactoryProducerTest
       assertEquals(DEFAULT_NICENESS, _nice.getNiceness());
    }
 
-   public static class NiceClassFactory implements Factory<NiceClass>
+   public static class NiceClassFactory implements Supplier<NiceClass>
    {
       @Override
       @Produces
-      public NiceClass create()
+      public NiceClass get()
       {
-         return new NiceClass(FactoryProducerTest.DEFAULT_NICENESS);
+         return new NiceClass(SupplierProducerTest.DEFAULT_NICENESS);
       }
    }
 }

@@ -3,7 +3,7 @@ package net.sf.javagimmicks.collections.transformer;
 import java.util.Comparator;
 import java.util.SortedMap;
 
-import net.sf.javagimmicks.transform.BidiTransformer;
+import net.sf.javagimmicks.transform.BidiFunction;
 import net.sf.javagimmicks.util.ComparableComparator;
 
 class KeyBidiTransformingSortedMap<KF, KT, V> extends KeyBidiTransformingMap<KF, KT, V> implements SortedMap<KT, V>
@@ -12,7 +12,7 @@ class KeyBidiTransformingSortedMap<KF, KT, V> extends KeyBidiTransformingMap<KF,
     * @deprecated Use TranformerUtils.decorateKeyBased() instead
     */
    @Deprecated
-   public KeyBidiTransformingSortedMap(SortedMap<KF, V> map, BidiTransformer<KF, KT> transformer)
+   public KeyBidiTransformingSortedMap(SortedMap<KF, V> map, BidiFunction<KF, KT> transformer)
    {
       super(map, transformer);
    }
@@ -28,7 +28,7 @@ class KeyBidiTransformingSortedMap<KF, KT, V> extends KeyBidiTransformingMap<KF,
       
       return TransformerUtils.decorate(
          baseComparator,
-         getBidiTransformer().invert());
+         getTransformerBidiFunction().invert());
    }
 
    public KT firstKey()
@@ -40,7 +40,7 @@ class KeyBidiTransformingSortedMap<KF, KT, V> extends KeyBidiTransformingMap<KF,
    {
       return TransformerUtils.decorateKeyBased(
          getSortedMap().headMap(transformBack(toKey)),
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
 
    public KT lastKey()
@@ -54,14 +54,14 @@ class KeyBidiTransformingSortedMap<KF, KT, V> extends KeyBidiTransformingMap<KF,
          getSortedMap().subMap(
             transformBack(fromKey),
             transformBack(toKey)),
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
 
    public SortedMap<KT, V> tailMap(KT fromKey)
    {
       return TransformerUtils.decorateKeyBased(
          getSortedMap().tailMap(transformBack(fromKey)),
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
 
    protected SortedMap<KF, V> getSortedMap()

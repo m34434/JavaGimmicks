@@ -1,4 +1,4 @@
-package net.sf.javagimmicks.transform;
+package net.sf.javagimmicks.util;
 
 /**
  * A simple interface for classes that can transform objects into another value
@@ -9,7 +9,7 @@ package net.sf.javagimmicks.transform;
  * @param <T>
  *           the target object type
  */
-public interface Transformer<F, T>
+public interface Function<F, T>
 {
    /**
     * Transforms a given object into another value and/or type
@@ -18,5 +18,5 @@ public interface Transformer<F, T>
     *           the source object
     * @return the transformed object
     */
-   public T transform(F source);
+   public T apply(F source);
 }

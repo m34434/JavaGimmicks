@@ -9,7 +9,7 @@ import java.util.NavigableSet;
 import java.util.SortedSet;
 
 import net.sf.javagimmicks.collections.transformer.TransformerUtils;
-import net.sf.javagimmicks.transform.Transformer;
+import net.sf.javagimmicks.util.Function;
 
 class NavigableMapKeySetDecorator<K, V> extends AbstractSet<K> implements NavigableSet<K>
 {
@@ -138,10 +138,10 @@ class NavigableMapKeySetDecorator<K, V> extends AbstractSet<K> implements Naviga
       return tailSet(fromElement, true);
    }
 
-   protected static class KeyTransformer<K, V> implements Transformer<Entry<K, V>, K>
+   protected static class KeyTransformer<K, V> implements Function<Entry<K, V>, K>
    {
       @Override
-      public K transform(final Entry<K, V> source)
+      public K apply(final Entry<K, V> source)
       {
          return source.getKey();
       }

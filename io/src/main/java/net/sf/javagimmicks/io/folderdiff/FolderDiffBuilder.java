@@ -16,7 +16,7 @@ import net.sf.javagimmicks.collections.transformer.TransformerUtils;
 import net.sf.javagimmicks.event.EventListener;
 import net.sf.javagimmicks.event.ObservableBase;
 import net.sf.javagimmicks.io.folderdiff.FileInfo.Origin;
-import net.sf.javagimmicks.transform.Transformer;
+import net.sf.javagimmicks.util.Function;
 
 /**
  * This class is the starting point for comparing two folders - it allows to
@@ -446,10 +446,10 @@ public class FolderDiffBuilder extends ObservableBase<FolderDiffEvent>
       return TransformerUtils.decorate(collection, FILE_TO_PATH_INFO);
    }
 
-   private static final Transformer<FileInfo, PathInfo> FILE_TO_PATH_INFO = new Transformer<FileInfo, PathInfo>()
+   private static final Function<FileInfo, PathInfo> FILE_TO_PATH_INFO = new Function<FileInfo, PathInfo>()
    {
       @Override
-      public PathInfo transform(final FileInfo source)
+      public PathInfo apply(final FileInfo source)
       {
          return source.getPathInfo();
       }

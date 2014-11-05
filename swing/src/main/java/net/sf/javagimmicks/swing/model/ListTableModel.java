@@ -22,7 +22,7 @@ import javax.swing.table.TableModel;
 
 import net.sf.javagimmicks.beans.BeanUtils;
 import net.sf.javagimmicks.collections.transformer.TransformerUtils;
-import net.sf.javagimmicks.transform.Transformer;
+import net.sf.javagimmicks.util.Function;
 
 /**
  * A {@link TableModel} implementation that is basically a {@link List} of a
@@ -779,10 +779,10 @@ public class ListTableModel<E> extends AbstractList<E> implements TableModel
       }
    }
 
-   private static class ColumnPropertyNameTransformer implements Transformer<ColumnProperty, String>
+   private static class ColumnPropertyNameTransformer implements Function<ColumnProperty, String>
    {
       @Override
-      public String transform(final ColumnProperty source)
+      public String apply(final ColumnProperty source)
       {
          return source.getPropertyName();
       }

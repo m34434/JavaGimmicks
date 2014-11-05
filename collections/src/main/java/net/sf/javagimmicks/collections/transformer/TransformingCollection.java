@@ -4,27 +4,27 @@ import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Iterator;
 
-import net.sf.javagimmicks.transform.Transformer;
 import net.sf.javagimmicks.transform.Transforming;
+import net.sf.javagimmicks.util.Function;
 
 class TransformingCollection<F, T>
 	extends AbstractCollection<T>
 	implements Transforming<F, T>
 {
    protected final Collection<F> _internalCollection;
-   private final Transformer<F, T> _transformer;
+   private final Function<F, T> _transformer;
    
    /**
     * @deprecated Use TranformerUtils.decorate() instead
     */
    @Deprecated
-   public TransformingCollection(Collection<F> collection, Transformer<F, T> transformer)
+   public TransformingCollection(Collection<F> collection, Function<F, T> transformer)
    {
       _internalCollection = collection;
       _transformer = transformer;
    }
    
-   public Transformer<F, T> getTransformer()
+   public Function<F, T> getTransformerFunction()
 	{
 		return _transformer;
 	}
@@ -32,7 +32,7 @@ class TransformingCollection<F, T>
    @Override
    public Iterator<T> iterator()
    {
-      return TransformerUtils.decorate(_internalCollection.iterator(), getTransformer());
+      return TransformerUtils.decorate(_internalCollection.iterator(), getTransformerFunction());
    }
 
    @Override

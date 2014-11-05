@@ -27,7 +27,7 @@ public class MultiLockProviderTest
    private static final Format FORMAT = new MessageFormat("{0,number,00}");
    private static final MultiLockProvider<Character> PROVIDER = MultiLockProviderFactory
          .<Character> getHashBasedInstance()
-         .create();
+         .get();
 
    static
    {

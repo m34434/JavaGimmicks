@@ -1,20 +1,22 @@
 package net.sf.javagimmicks.transform;
 
+import net.sf.javagimmicks.util.Function;
+
 /**
- * An interface for objects that carry a {@link Transformer} for internally
+ * An interface for objects that carry a {@link Function} for internally
  * transforming objects.
  * 
  * @param <F>
- *           the source object type of the contained {@link Transformer}
+ *           the source object type of the contained {@link Function}
  * @param <T>
- *           the target object type of the contained {@link Transformer}
+ *           the target object type of the contained {@link Function}
  */
 public interface Transforming<F, T>
 {
    /**
-    * Returns the internal {@link Transformer}
+    * Returns the internal {@link Function}
     * 
-    * @return the internal {@link Transformer}
+    * @return the internal {@link Function}
     */
-   public Transformer<F, T> getTransformer();
+   public Function<F, T> getTransformerFunction();
 }

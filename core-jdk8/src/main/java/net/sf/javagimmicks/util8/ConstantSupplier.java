@@ -1,4 +1,4 @@
-package net.sf.javagimmicks.util;
+package net.sf.javagimmicks.util8;
 
 import java.util.Objects;
 import java.util.function.Supplier;

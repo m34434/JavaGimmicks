@@ -7,7 +7,7 @@ package net.sf.javagimmicks.util;
  * @param <E>
  *           the type of object the container can carry
  */
-public interface ObjectContainer<E>
+public interface Supplier<E>
 {
    /**
     * Retrieves the registered instance (if present)

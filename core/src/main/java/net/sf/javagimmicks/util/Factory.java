@@ -7,12 +7,13 @@ package net.sf.javagimmicks.util;
  * @param <E>
  *           the type of the instances to create
  */
-public interface Factory<E>
+public interface Factory<E> extends Supplier<E>
 {
    /**
     * Create a new instance of the respective type
     * 
     * @return the resulting instance
     */
-   public E create();
+   @Override
+   public E get();
 }

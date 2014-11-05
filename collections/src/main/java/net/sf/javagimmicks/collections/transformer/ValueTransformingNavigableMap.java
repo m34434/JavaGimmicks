@@ -3,7 +3,7 @@ package net.sf.javagimmicks.collections.transformer;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
 
-import net.sf.javagimmicks.transform.Transformer;
+import net.sf.javagimmicks.util.Function;
 
 class ValueTransformingNavigableMap<K, VF, VT>
    extends ValueTransformingSortedMap<K, VF, VT>
@@ -13,7 +13,7 @@ class ValueTransformingNavigableMap<K, VF, VT>
     * @deprecated Use TranformerUtils.decorateValueBased() instead
     */
    @Deprecated
-   public ValueTransformingNavigableMap(NavigableMap<K, VF> map, Transformer<VF, VT> valueTransformer)
+   public ValueTransformingNavigableMap(NavigableMap<K, VF> map, Function<VF, VT> valueTransformer)
    {
       super(map, valueTransformer);
    }
@@ -24,7 +24,7 @@ class ValueTransformingNavigableMap<K, VF, VT>
       
       return ceilingEntry == null ? null : new ValueTransformingEntry<K, VF, VT>(
          ceilingEntry,
-         getTransformer());
+         getTransformerFunction());
    }
 
    public K ceilingKey(K key)
@@ -41,7 +41,7 @@ class ValueTransformingNavigableMap<K, VF, VT>
    {
       return TransformerUtils.decorateValueBased(
          getNavigableMap().descendingMap(),
-         getTransformer());
+         getTransformerFunction());
    }
 
    public Entry<K, VT> firstEntry()
@@ -50,7 +50,7 @@ class ValueTransformingNavigableMap<K, VF, VT>
       
       return firstEntry == null ? null : new ValueTransformingEntry<K, VF, VT>(
          firstEntry,
-         getTransformer());
+         getTransformerFunction());
    }
 
    public Entry<K, VT> floorEntry(K key)
@@ -59,7 +59,7 @@ class ValueTransformingNavigableMap<K, VF, VT>
       
       return floorEntry == null ? null : new ValueTransformingEntry<K, VF, VT>(
          floorEntry,
-         getTransformer());
+         getTransformerFunction());
    }
 
    public K floorKey(K key)
@@ -71,14 +71,14 @@ class ValueTransformingNavigableMap<K, VF, VT>
    {
       return TransformerUtils.decorateValueBased( 
          getNavigableMap().headMap(toKey, inclusive),
-         getTransformer());
+         getTransformerFunction());
    }
 
    public Entry<K, VT> higherEntry(K key)
    {
       return new ValueTransformingEntry<K, VF, VT>(
          getNavigableMap().higherEntry(key),
-         getTransformer());
+         getTransformerFunction());
    }
 
    public K higherKey(K key)
@@ -92,14 +92,14 @@ class ValueTransformingNavigableMap<K, VF, VT>
       
       return lastEntry == null ? null : new ValueTransformingEntry<K, VF, VT>(
          lastEntry,
-         getTransformer());
+         getTransformerFunction());
    }
 
    public Entry<K, VT> lowerEntry(K key)
    {
       return new ValueTransformingEntry<K, VF, VT>(
          getNavigableMap().lowerEntry(key),
-         getTransformer());
+         getTransformerFunction());
    }
 
    public K lowerKey(K key)
@@ -118,7 +118,7 @@ class ValueTransformingNavigableMap<K, VF, VT>
       
       return firstEntry == null ? null : new ValueTransformingEntry<K, VF, VT>(
          firstEntry,
-         getTransformer());
+         getTransformerFunction());
    }
 
    public Entry<K, VT> pollLastEntry()
@@ -127,7 +127,7 @@ class ValueTransformingNavigableMap<K, VF, VT>
       
       return lastEntry == null ? null : new ValueTransformingEntry<K, VF, VT>(
          lastEntry,
-         getTransformer());
+         getTransformerFunction());
    }
 
    public NavigableMap<K, VT> subMap(K fromKey, boolean fromInclusive, K toKey,
@@ -135,14 +135,14 @@ class ValueTransformingNavigableMap<K, VF, VT>
    {
       return TransformerUtils.decorateValueBased( 
          getNavigableMap().subMap(fromKey, fromInclusive, toKey, toInclusive),
-         getTransformer());
+         getTransformerFunction());
    }
 
    public NavigableMap<K, VT> tailMap(K fromKey, boolean inclusive)
    {
       return TransformerUtils.decorateValueBased( 
          getNavigableMap().tailMap(fromKey, inclusive),
-         getTransformer());
+         getTransformerFunction());
    }
 
    protected NavigableMap<K, VF> getNavigableMap()

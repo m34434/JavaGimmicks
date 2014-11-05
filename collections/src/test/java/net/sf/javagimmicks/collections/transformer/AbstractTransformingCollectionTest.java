@@ -11,9 +11,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import net.sf.javagimmicks.transform.AbstractBidiTransformer;
-import net.sf.javagimmicks.transform.BidiTransformer;
-import net.sf.javagimmicks.transform.Transformer;
+import net.sf.javagimmicks.transform.AbstractBidiFunction;
+import net.sf.javagimmicks.transform.BidiFunction;
+import net.sf.javagimmicks.util.Function;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -27,19 +27,19 @@ public abstract class AbstractTransformingCollectionTest
    protected static final List<Integer> CONTAINS_SOME_DATA = Arrays.asList(new Integer[] {1, 2, 9, 13});
    protected static final List<Integer> CONTAINS_NONE_DATA = Arrays.asList(new Integer[] {2, 4, 6, 8, 10});
 
-   protected BidiTransformer<String, Integer> _transformer;
+   protected BidiFunction<String, Integer> _transformer;
    
    @Before
    public void setUp()
    {
-      _transformer = new AbstractBidiTransformer<String, Integer>()
+      _transformer = new AbstractBidiFunction<String, Integer>()
       {
-         public String transformBack(Integer source)
+         public String applyReverse(Integer source)
          {
             return String.valueOf(source.intValue());
          }
 
-         public Integer transform(String source)
+         public Integer apply(String source)
          {
             return Integer.parseInt(source);
          }
@@ -53,15 +53,15 @@ public abstract class AbstractTransformingCollectionTest
    @Test
    public void testTransformer()
    {
-      BidiTransformer<Integer, String> invertedTransformer = _transformer.invert();
+      BidiFunction<Integer, String> invertedTransformer = _transformer.invert();
       
       String s1 = "1";
       assertEquals(s1, transformBack(transform(s1)));
-      assertEquals(s1, invertedTransformer.transform(invertedTransformer.transformBack(s1)));
+      assertEquals(s1, invertedTransformer.apply(invertedTransformer.applyReverse(s1)));
       
       int i1 = 1;
       assertEquals(i1, transform(transformBack(i1)).intValue());
-      assertEquals(i1, invertedTransformer.transformBack(invertedTransformer.transform(i1)).intValue());
+      assertEquals(i1, invertedTransformer.applyReverse(invertedTransformer.apply(i1)).intValue());
    }
    
    @Test
@@ -157,24 +157,24 @@ public abstract class AbstractTransformingCollectionTest
       return new TestPair(base, decorateBidi(base));
    }
    
-   protected final Transformer<String, Integer> getTransformer()
+   protected final Function<String, Integer> getTransformer()
    {
       return _transformer;
    }
    
-   protected final BidiTransformer<String, Integer> getBidiTransformer()
+   protected final BidiFunction<String, Integer> getBidiTransformer()
    {
       return _transformer;
    }
    
    protected Integer transform(String value)
    {
-      return _transformer.transform(value);
+      return _transformer.apply(value);
    }
    
    protected String transformBack(Integer value)
    {
-      return _transformer.transformBack(value);
+      return _transformer.applyReverse(value);
    }
    
    protected static void testEmpty(TestPair testPair, boolean empty)

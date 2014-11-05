@@ -53,15 +53,15 @@ public class MultiLockProviderFactory<K> implements Factory<MultiLockProvider<K>
    }
 
    @Override
-   public MultiLockProvider<K> create()
+   public MultiLockProvider<K> get()
    {
-      return new RegistryLockProvider<K>(_registryFactory.create());
+      return new RegistryLockProvider<K>(_registryFactory.get());
    }
 
    private static class HashLockRegistryFactory<K> implements Factory<LockRegistry<K>>
    {
       @Override
-      public LockRegistry<K> create()
+      public LockRegistry<K> get()
       {
          return DefaultLockRegistry.createHashBasedInstance();
       }
@@ -70,7 +70,7 @@ public class MultiLockProviderFactory<K> implements Factory<MultiLockProvider<K>
    private static class TreeLockRegistryFactory<K> implements Factory<LockRegistry<K>>
    {
       @Override
-      public LockRegistry<K> create()
+      public LockRegistry<K> get()
       {
          return DefaultLockRegistry.createTreeBasedInstance();
       }

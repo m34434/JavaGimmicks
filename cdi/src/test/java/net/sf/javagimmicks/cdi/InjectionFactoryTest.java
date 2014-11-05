@@ -15,7 +15,7 @@ public class InjectionFactoryTest
    {
       // The factory is instantiated via normal constructor but the instances it
       // creates are created from CDI
-      final B b = new InjectionFactory<B>(B.class).create();
+      final B b = new InjectionFactory<B>(B.class).get();
       assertNotNull(b);
    }
 }

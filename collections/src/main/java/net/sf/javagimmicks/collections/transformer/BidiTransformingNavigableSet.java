@@ -3,7 +3,7 @@ package net.sf.javagimmicks.collections.transformer;
 import java.util.Iterator;
 import java.util.NavigableSet;
 
-import net.sf.javagimmicks.transform.BidiTransformer;
+import net.sf.javagimmicks.transform.BidiFunction;
 
 class BidiTransformingNavigableSet<F, T>
    extends BidiTransformingSortedSet<F, T>
@@ -13,7 +13,7 @@ class BidiTransformingNavigableSet<F, T>
     * @deprecated Use TranformerUtils.decorate() instead
     */
    @Deprecated
-   public BidiTransformingNavigableSet(NavigableSet<F> set, BidiTransformer<F, T> transformer)
+   public BidiTransformingNavigableSet(NavigableSet<F> set, BidiFunction<F, T> transformer)
    {
       super(set, transformer);
    }
@@ -28,14 +28,14 @@ class BidiTransformingNavigableSet<F, T>
    {
       return TransformerUtils.decorate(
          getNavigableSet().descendingIterator(),
-         getTransformer());
+         getTransformerFunction());
    }
 
    public NavigableSet<T> descendingSet()
    {
       return TransformerUtils.decorate(
          getNavigableSet().descendingSet(),
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
 
    public T floor(T e)
@@ -48,7 +48,7 @@ class BidiTransformingNavigableSet<F, T>
    {
       return TransformerUtils.decorate(
          getNavigableSet().headSet(transformBack(toElement), inclusive),
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
 
    public T higher(T e)
@@ -82,14 +82,14 @@ class BidiTransformingNavigableSet<F, T>
          getNavigableSet().subSet(
                transformBack(fromElement), fromInclusive,
                transformBack(toElement), toInclusive),
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
 
    public NavigableSet<T> tailSet(T fromElement, boolean inclusive)
    {
       return TransformerUtils.decorate(
          getNavigableSet().tailSet(transformBack(fromElement), inclusive),
-         getBidiTransformer());
+         getTransformerBidiFunction());
    }
 
    protected NavigableSet<F> getNavigableSet()

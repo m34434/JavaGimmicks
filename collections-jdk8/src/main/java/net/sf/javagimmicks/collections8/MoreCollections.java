@@ -6,7 +6,7 @@ import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import net.sf.javagimmicks.util.Pair;
+import net.sf.javagimmicks.util8.Pair;
 
 /**
  * Provides some {@link Collection} helper functions in addition to

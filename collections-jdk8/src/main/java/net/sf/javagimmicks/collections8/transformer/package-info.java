@@ -67,7 +67,7 @@
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
- *          <th>Transformer</th>
+ *          <th>Function</th>
  *          <th>BidiFunction</th>
  *       </tr>
  *    </thead>
@@ -93,7 +93,7 @@
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
- *          <th>Transformer</th>
+ *          <th>Function</th>
  *          <th>BidiFunction</th>
  *       </tr>
  *    </thead>
@@ -157,7 +157,7 @@
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
- *          <th>Transformer</th>
+ *          <th>Function</th>
  *          <th>BidiFunction</th>
  *       </tr>
  *    </thead>
@@ -228,7 +228,7 @@
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
- *          <th>Transformer</th>
+ *          <th>Function</th>
  *          <th>BidiFunction</th>
  *       </tr>
  *    </thead>
@@ -276,7 +276,7 @@
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
- *          <th>Transformer</th>
+ *          <th>Function</th>
  *          <th>BidiFunction</th>
  *       </tr>
  *    </thead>
@@ -349,7 +349,7 @@
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
- *          <th>Transformer</th>
+ *          <th>Function</th>
  *          <th>BidiFunction</th>
  *       </tr>
  *    </thead>
@@ -393,7 +393,7 @@
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
- *          <th>Transformer</th>
+ *          <th>Function</th>
  *          <th>BidiFunction</th>
  *       </tr>
  *    </thead>
@@ -450,7 +450,7 @@
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
- *          <th>Transformer</th>
+ *          <th>Function</th>
  *          <th>BidiFunction</th>
  *       </tr>
  *    </thead>
@@ -531,7 +531,7 @@
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
- *          <th>Transformer</th>
+ *          <th>Function</th>
  *          <th>BidiFunction</th>
  *       </tr>
  *    </thead>
@@ -579,7 +579,7 @@
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
- *          <th>Transformer</th>
+ *          <th>Function</th>
  *          <th>BidiFunction</th>
  *       </tr>
  *    </thead>
@@ -684,7 +684,7 @@
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
- *          <th>Transformer</th>
+ *          <th>Function</th>
  *          <th>BidiFunction</th>
  *       </tr>
  *    </thead>
@@ -762,7 +762,7 @@
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
- *          <th>Transformer</th>
+ *          <th>Function</th>
  *          <th>BidiFunction</th>
  *       </tr>
  *    </thead>
@@ -804,7 +804,7 @@
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
- *          <th>Transformer</th>
+ *          <th>Function</th>
  *          <th>BidiFunction</th>
  *       </tr>
  *    </thead>
@@ -895,9 +895,9 @@
  * <a name="mapKeyValue"></a>
  * <h3>Operations on a key- and value-based transformed {@link java.util.Map}</h3>
  * <p>
- * <b>Note:</b> When using a combination of one Transformer and one BidiFunction
+ * <b>Note:</b> When using a combination of one Function and one BidiFunction
  * for keys and values allows you can fall back to the supported operation list
- * for the part that only has a Transformer.
+ * for the part that only has a Function.
  * <p>
  * For example a key-transformed and value-<b>bidi</b>-transformed {@link java.util.Map}
  * supports the same operations than a <a href="#mapKey">purely key-transformed</a>
@@ -910,7 +910,7 @@
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
- *          <th>Key- and Value-Transformer</th>
+ *          <th>Key- and Value-Function</th>
  *          <th>Key- and Value-BidiFunction</th>
  *       </tr>
  *    </thead>
@@ -990,9 +990,9 @@
  * <p><b>Note:</b> the sorting order of a transformed {@link java.util.SortedMap}
  * remains that from the wrapped one
  * <p>
- * <b>Note:</b> When using a combination of one Transformer and one BidiFunction
+ * <b>Note:</b> When using a combination of one Function and one BidiFunction
  * for keys and values allows you can fall back to the supported operation list
- * for the part that only has a Transformer.
+ * for the part that only has a Function.
  * <p>
  * For example a key-transformed and value-<b>bidi</b>-transformed {@link java.util.SortedMap}
  * supports the same operations than a <a href="#sortedMapKey">purely key-transformed</a>
@@ -1005,7 +1005,7 @@
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
- *          <th>Key- and Value-Transformer</th>
+ *          <th>Key- and Value-Function</th>
  *          <th>Key- and Value-BidiFunction</th>
  *       </tr>
  *    </thead>
@@ -1050,9 +1050,9 @@
  * <p><b>Note:</b> the sorting order of a transformed {@link java.util.NavigableMap}
  * remains that from the wrapped one
  * <p>
- * <b>Note:</b> When using a combination of one Transformer and one BidiFunction
+ * <b>Note:</b> When using a combination of one Function and one BidiFunction
  * for keys and values allows you can fall back to the supported operation list
- * for the part that only has a Transformer.
+ * for the part that only has a Function.
  * <p>
  * For example a key-transformed and value-<b>bidi</b>-transformed {@link java.util.NavigableMap}
  * supports the same operations than a <a href="#navigableMapKey">purely key-transformed</a>
@@ -1065,7 +1065,7 @@
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
- *          <th>Key- and Value-Transformer</th>
+ *          <th>Key- and Value-Function</th>
  *          <th>Key- and Value-BidiFunction</th>
  *       </tr>
  *    </thead>
@@ -1170,7 +1170,7 @@
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
- *          <th>Transformer</th>
+ *          <th>Function</th>
  *          <th>BidiFunction</th>
  *       </tr>
  *    </thead>
@@ -1235,7 +1235,7 @@
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
- *          <th>Transformer</th>
+ *          <th>Function</th>
  *          <th>BidiFunction</th>
  *       </tr>
  *    </thead>

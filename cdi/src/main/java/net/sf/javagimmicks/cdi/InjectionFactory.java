@@ -5,37 +5,37 @@ import java.lang.annotation.Annotation;
 import javax.inject.Qualifier;
 
 import net.sf.javagimmicks.util.ConstantFactory;
-import net.sf.javagimmicks.util.Factory;
+import net.sf.javagimmicks.util.Supplier;
 
 /**
- * A {@link Factory} implementation that creates new instances via CDI lookup
+ * A {@link Supplier} implementation that creates new instances via CDI lookup
  * mechanisms. Lookups can be configured using the {@link InjectionSpec} API.
  */
-public class InjectionFactory<E> extends CDIAware implements Factory<E>
+public class InjectionFactory<E> extends CDIAware implements Supplier<E>
 {
-   private final Factory<InjectionSpec<E>> _injectionFactory;
+   private final Supplier<InjectionSpec<E>> _injectionFactory;
 
    /**
-    * Creates a new instance based on a given {@link Factory} for
+    * Creates a new instance based on a given {@link Supplier} for
     * {@link InjectionSpec}s.
     * <p>
-    * Every call to {@link #create()} will result in a respective call to
+    * Every call to {@link #get()} will result in a respective call to
     * {@link InjectionSpec#getInstance(javax.enterprise.inject.spi.BeanManager)}.
     * 
     * @param injectionFactory
-    *           the {@link Factory} to use for creating injection information
+    *           the {@link Supplier} to use for creating injection information
     *           via {@link InjectionSpec} instances.
     */
-   public InjectionFactory(final Factory<InjectionSpec<E>> injectionFactory)
+   public InjectionFactory(final Supplier<InjectionSpec<E>> injectionFactory)
    {
       _injectionFactory = injectionFactory;
    }
 
    /**
-    * Convenience constructor to {@link #InjectionFactory(Factory)} that always
+    * Convenience constructor to {@link #InjectionFactory(Supplier)} that always
     * uses the specified {@link InjectionSpec} for looking up objects instead of
     * creating a new {@link InjectionSpec} all the time for each call to
-    * {@link #create()}.
+    * {@link #get()}.
     * 
     * @param injection
     *           the {@link InjectionSpec} to use for bean creation
@@ -73,8 +73,8 @@ public class InjectionFactory<E> extends CDIAware implements Factory<E>
    }
 
    @Override
-   public final E create()
+   public final E get()
    {
-      return _injectionFactory.create().getInstance(getBeanManager());
+      return _injectionFactory.get().getInstance(getBeanManager());
    }
 }

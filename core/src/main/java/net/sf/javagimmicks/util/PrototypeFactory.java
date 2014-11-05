@@ -51,7 +51,7 @@ public class PrototypeFactory<E extends Cloneable> implements Factory<E>
 
     @SuppressWarnings("unchecked")
     @Override
-    public E create()
+    public E get()
     {
         try
         {

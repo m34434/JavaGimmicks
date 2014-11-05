@@ -1,7 +1,7 @@
 package net.sf.javagimmicks.util;
 
 /**
- * An implementation of {@link ObjectContainer} that creates an own instance per
+ * An implementation of {@link Supplier} that creates an own instance per
  * thread when it is requested for the first time using an underlying
  * {@link Factory} which is commonly known as "lazy loading" pattern.
  * 

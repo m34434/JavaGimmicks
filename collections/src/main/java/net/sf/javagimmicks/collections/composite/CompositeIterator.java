@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import net.sf.javagimmicks.collections.transformer.TransformerUtils;
-import net.sf.javagimmicks.transform.Transformer;
+import net.sf.javagimmicks.util.Function;
 
 class CompositeIterator<E> implements Iterator<E>
 {
@@ -25,9 +25,9 @@ class CompositeIterator<E> implements Iterator<E>
    
    static <E, C extends Collection<E>> CompositeIterator<E> fromCollectionList(List<C> collections)
    {
-      final Transformer<C, Iterator<E>> iteratorExtractor = new Transformer<C, Iterator<E>>()
+      final Function<C, Iterator<E>> iteratorExtractor = new Function<C, Iterator<E>>()
       {
-         public Iterator<E> transform(C source)
+         public Iterator<E> apply(C source)
          {
             return source.iterator();
          }

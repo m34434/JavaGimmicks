@@ -5,27 +5,27 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-import net.sf.javagimmicks.transform.Transformer;
 import net.sf.javagimmicks.transform.Transforming;
+import net.sf.javagimmicks.util.Function;
 
 class TransformingList<F, T>
 	extends AbstractList<T>
 	implements Transforming<F, T>
 {
    protected final List<F> _internalList;
-   private final Transformer<F, T> _transformer;
+   private final Function<F, T> _transformer;
    
    /**
     * @deprecated Use TranformerUtils.decorate() instead
     */
    @Deprecated
-   public TransformingList(List<F> list, Transformer<F, T> transformer)
+   public TransformingList(List<F> list, Function<F, T> transformer)
    {
       _internalList = list;
       _transformer = transformer;
    }
    
-   public Transformer<F, T> getTransformer()
+   public Function<F, T> getTransformerFunction()
 	{
 		return _transformer;
 	}
@@ -51,19 +51,19 @@ class TransformingList<F, T>
    @Override
    public Iterator<T> iterator()
    {
-      return TransformerUtils.decorate(_internalList.iterator(), getTransformer());
+      return TransformerUtils.decorate(_internalList.iterator(), getTransformerFunction());
    }
     
    @Override
    public ListIterator<T> listIterator()
    {
-      return TransformerUtils.decorate(_internalList.listIterator(), getTransformer());
+      return TransformerUtils.decorate(_internalList.listIterator(), getTransformerFunction());
    }
     
    @Override
    public ListIterator<T> listIterator(int index)
    {
-      return TransformerUtils.decorate(_internalList.listIterator(index), getTransformer());
+      return TransformerUtils.decorate(_internalList.listIterator(index), getTransformerFunction());
    }
    
    @Override
@@ -74,6 +74,6 @@ class TransformingList<F, T>
 
    protected T transform(F element)
    {
-      return getTransformer().transform(element);
+      return getTransformerFunction().apply(element);
    }
 }

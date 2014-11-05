@@ -7,7 +7,7 @@ import java.util.List;
 import javax.swing.tree.TreeNode;
 
 import net.sf.javagimmicks.collections.transformer.TransformerUtils;
-import net.sf.javagimmicks.transform.Transformer;
+import net.sf.javagimmicks.util.Function;
 
 /**
  * An abstract base implementation of {@link TypedParentTreeNode} that provides
@@ -72,10 +72,10 @@ public abstract class AbstractTypedParentTreeNode<V, CV, C extends TypedChildTre
 
    abstract protected C buildChildNode(CV childValue);
 
-   private final Transformer<CV, C> _valueToNodeTransformer = new Transformer<CV, C>()
+   private final Function<CV, C> _valueToNodeTransformer = new Function<CV, C>()
    {
       @Override
-      public C transform(final CV childValue)
+      public C apply(final CV childValue)
       {
          return buildChildNode(childValue);
       }

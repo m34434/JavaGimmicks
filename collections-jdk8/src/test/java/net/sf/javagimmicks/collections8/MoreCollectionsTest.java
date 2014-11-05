@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-import net.sf.javagimmicks.util.Pair;
+import net.sf.javagimmicks.util8.Pair;
 
 import org.junit.Assert;
 import org.junit.Test;

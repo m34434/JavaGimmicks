@@ -4,9 +4,9 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import net.sf.javagimmicks.transform.BidiTransformer;
+import net.sf.javagimmicks.transform.BidiFunction;
 import net.sf.javagimmicks.transform.BidiTransforming;
-import net.sf.javagimmicks.transform.Transformers;
+import net.sf.javagimmicks.transform.Functions;
 
 class ValueBidiTransformingMap<K, VF, VT>
    extends ValueTransformingMap<K, VF, VT>
@@ -16,14 +16,14 @@ class ValueBidiTransformingMap<K, VF, VT>
     * @deprecated Use TranformerUtils.decorateValueBased() instead
     */
    @Deprecated
-   public ValueBidiTransformingMap(Map<K, VF> map, BidiTransformer<VF, VT> valueTransformer)
+   public ValueBidiTransformingMap(Map<K, VF> map, BidiFunction<VF, VT> valueTransformer)
    {
       super(map, valueTransformer);
    }
    
-   public BidiTransformer<VF, VT> getBidiTransformer()
+   public BidiFunction<VF, VT> getTransformerBidiFunction()
    {
-      return (BidiTransformer<VF, VT>)getTransformer();
+      return (BidiFunction<VF, VT>)getTransformerFunction();
    }
    
    @SuppressWarnings("unchecked")
@@ -32,7 +32,7 @@ class ValueBidiTransformingMap<K, VF, VT>
    {
       try
       {
-         return _internalMap.containsValue(getBidiTransformer().transformBack((VT)value));
+         return _internalMap.containsValue(getTransformerBidiFunction().applyReverse((VT)value));
       }
       catch (ClassCastException e)
       {
@@ -45,7 +45,7 @@ class ValueBidiTransformingMap<K, VF, VT>
    {
       return TransformerUtils.decorate(
          _internalMap.entrySet(),
-         new ValueBidiTransformingEntryBidiTransformer<K, VF, VT>(getBidiTransformer()));
+         new ValueBidiTransformingEntryBidiTransformer<K, VF, VT>(getTransformerBidiFunction()));
    }
 
    @Override
@@ -53,60 +53,60 @@ class ValueBidiTransformingMap<K, VF, VT>
    {
       boolean keyContained = containsKey(key);
 
-      VF result = _internalMap.put(key, getBidiTransformer().transformBack(value));
-      return !keyContained ? null : getTransformer().transform(result);
+      VF result = _internalMap.put(key, getTransformerBidiFunction().applyReverse(value));
+      return !keyContained ? null : getTransformerFunction().apply(result);
    }
    
    @Override
    public Collection<VT> values()
    {
-      return TransformerUtils.decorate(_internalMap.values(), getBidiTransformer());
+      return TransformerUtils.decorate(_internalMap.values(), getTransformerBidiFunction());
    }
 
    protected static class ValueBidiTransformingEntry<K, VF, VT>
       extends ValueTransformingEntry<K, VF, VT>
       implements BidiTransforming<VF, VT>
    {
-      public ValueBidiTransformingEntry(Entry<K, VF> entry, BidiTransformer<VF, VT> transformer)
+      public ValueBidiTransformingEntry(Entry<K, VF> entry, BidiFunction<VF, VT> transformer)
       {
          super(entry, transformer);
       }
       
-      public BidiTransformer<VF, VT> getBidiTransformer()
+      public BidiFunction<VF, VT> getTransformerBidiFunction()
       {
-         return (BidiTransformer<VF, VT>)_transformer;
+         return (BidiFunction<VF, VT>)_transformer;
       }
 
       @Override
       public VT setValue(VT value)
       {
-         VF result = _internalEntry.setValue(getBidiTransformer().transformBack(value));
-         return getTransformer().transform(result);
+         VF result = _internalEntry.setValue(getTransformerBidiFunction().applyReverse(value));
+         return getTransformerFunction().apply(result);
       }
    }
 
    protected static class ValueBidiTransformingEntryBidiTransformer<K, VF, VT>
       extends ValueTransformingEntryTransformer<K, VF, VT>
-      implements BidiTransformer<Map.Entry<K, VF>, Map.Entry<K, VT>>
+      implements BidiFunction<Map.Entry<K, VF>, Map.Entry<K, VT>>
    {
-      public ValueBidiTransformingEntryBidiTransformer(BidiTransformer<VF, VT> transformer)
+      public ValueBidiTransformingEntryBidiTransformer(BidiFunction<VF, VT> transformer)
       {
          super(transformer);
       }
 
-      public Entry<K, VF> transformBack(Entry<K, VT> source)
+      public Entry<K, VF> applyReverse(Entry<K, VT> source)
       {
          return new ValueBidiTransformingEntry<K, VT, VF>(source, getTransformer().invert());
       }
 
-      public BidiTransformer<Entry<K, VT>, Entry<K, VF>> invert()
+      public BidiFunction<Entry<K, VT>, Entry<K, VF>> invert()
       {
-         return Transformers.invert(this);
+         return Functions.invert(this);
       }
 
-      protected BidiTransformer<VF, VT> getTransformer()
+      protected BidiFunction<VF, VT> getTransformer()
       {
-         return (BidiTransformer<VF, VT>)_transformer;
+         return (BidiFunction<VF, VT>)_transformer;
       }
    }
 }

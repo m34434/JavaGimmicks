@@ -3,7 +3,7 @@ package net.sf.javagimmicks.collections.transformer;
 import java.util.Comparator;
 import java.util.SortedMap;
 
-import net.sf.javagimmicks.transform.Transformer;
+import net.sf.javagimmicks.util.Function;
 
 class ValueTransformingSortedMap<K, VF, VT> extends ValueTransformingMap<K, VF, VT> implements SortedMap<K, VT>
 {
@@ -11,7 +11,7 @@ class ValueTransformingSortedMap<K, VF, VT> extends ValueTransformingMap<K, VF, 
     * @deprecated Use TranformerUtils.decorateValueBased() instead
     */
    @Deprecated
-   public ValueTransformingSortedMap(SortedMap<K, VF> map, Transformer<VF, VT> valueTransformer)
+   public ValueTransformingSortedMap(SortedMap<K, VF> map, Function<VF, VT> valueTransformer)
    {
       super(map, valueTransformer);
    }
@@ -30,7 +30,7 @@ class ValueTransformingSortedMap<K, VF, VT> extends ValueTransformingMap<K, VF, 
    {
       return TransformerUtils.decorateValueBased(
          getSortedMap().headMap(toKey),
-         getTransformer());
+         getTransformerFunction());
    }
 
    public K lastKey()
@@ -42,14 +42,14 @@ class ValueTransformingSortedMap<K, VF, VT> extends ValueTransformingMap<K, VF, 
    {
       return TransformerUtils.decorateValueBased(
          getSortedMap().subMap(fromKey, toKey),
-         getTransformer());
+         getTransformerFunction());
    }
 
    public SortedMap<K, VT> tailMap(K fromKey)
    {
       return TransformerUtils.decorateValueBased(
          getSortedMap().tailMap(fromKey),
-         getTransformer());
+         getTransformerFunction());
    }
 
    protected SortedMap<K, VF> getSortedMap()

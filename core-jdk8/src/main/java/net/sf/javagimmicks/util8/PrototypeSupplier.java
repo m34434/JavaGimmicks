@@ -1,4 +1,4 @@
-package net.sf.javagimmicks.util;
+package net.sf.javagimmicks.util8;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

@@ -1,10 +1,12 @@
 package net.sf.javagimmicks.transform;
 
+import net.sf.javagimmicks.util.Function;
+
 /**
- * A bidirectional version of {@link Transformer} that is able to transform
+ * A bidirectional version of {@link Function} that is able to transform
  * object back into their original value and/or format.
  */
-public interface BidiTransformer<F, T> extends Transformer<F, T>
+public interface BidiFunction<F, T> extends Function<F, T>
 {
    /**
     * Transforms a give (transformed object) back into the source value and/or
@@ -14,13 +16,13 @@ public interface BidiTransformer<F, T> extends Transformer<F, T>
     *           the source object to be transformed back
     * @return the back-transformed object
     */
-   public F transformBack(T source);
+   public F applyReverse(T source);
 
    /**
-    * Returns a new {@link BidiTransformer} that transforms in exactly the
+    * Returns a new {@link BidiFunction} that transforms in exactly the
     * different directions.
     * 
-    * @return an inverted version of this {@link BidiTransformer}
+    * @return an inverted version of this {@link BidiFunction}
     */
-   public BidiTransformer<T, F> invert();
+   public BidiFunction<T, F> invert();
 }

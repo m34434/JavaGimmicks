@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 
-import net.sf.javagimmicks.util.Pair;
+import net.sf.javagimmicks.util8.Pair;
 
 class CrossProductSpliterator<A, B> implements Spliterator<Pair<A, B>>
 {

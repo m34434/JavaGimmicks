@@ -1,13 +1,13 @@
 package net.sf.javagimmicks.util;
 
 /**
- * This interface extends {@link ObjectContainer} by providing additional
+ * This interface extends {@link Supplier} by providing additional
  * methods that allow write access to the contained object.
  * 
  * @param <E>
  *           the type of object the container can carry
  */
-public interface WritableObjectContainer<E> extends ObjectContainer<E>
+public interface WritableObjectContainer<E> extends Supplier<E>
 {
    /**
     * Returns if an already set object instance may be replaced by another one

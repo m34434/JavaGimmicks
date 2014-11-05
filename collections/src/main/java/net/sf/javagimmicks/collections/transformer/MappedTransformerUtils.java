@@ -3,13 +3,13 @@ package net.sf.javagimmicks.collections.transformer;
 import java.util.Map;
 
 import net.sf.javagimmicks.collections.bidimap.BidiMap;
-import net.sf.javagimmicks.transform.BidiTransformer;
-import net.sf.javagimmicks.transform.Transformer;
-import net.sf.javagimmicks.transform.Transformers;
+import net.sf.javagimmicks.transform.BidiFunction;
+import net.sf.javagimmicks.transform.Functions;
+import net.sf.javagimmicks.util.Function;
 
 /**
- * Provides features to build {@link Transformer}s based on {@link Map}s and
- * {@link BidiTransformer}s based on {@link BidiMap}s.
+ * Provides features to build {@link Function}s based on {@link Map}s and
+ * {@link BidiFunction}s based on {@link BidiMap}s.
  */
 public class MappedTransformerUtils
 {
@@ -17,49 +17,49 @@ public class MappedTransformerUtils
    {}
 
    /**
-    * Creates a new {@link Transformer} based on a given {@link Map} which
+    * Creates a new {@link Function} based on a given {@link Map} which
     * transforms values by looking them up in the given {@link Map}.
     * <p>
-    * <b>Attention:</b> the resulting {@link Transformer} will throw an
+    * <b>Attention:</b> the resulting {@link Function} will throw an
     * {@link IllegalArgumentException} if it should transform a value the has no
     * corresponding key within the given {@link Map}.
     * 
     * @param map
-    *           the {@link Map} to wrap into a {@link Transformer}
+    *           the {@link Map} to wrap into a {@link Function}
     * @param <F>
     *           the "from" or source type
     * @param <T>
     *           the "to" or target type
     * 
-    * @return the resulting {@link Transformer}
+    * @return the resulting {@link Function}
     */
-   public static <F, T> Transformer<F, T> asTransformer(final Map<F, T> map)
+   public static <F, T> Function<F, T> asTransformer(final Map<F, T> map)
    {
       return new MapTransformer<F, T>(map);
    }
 
    /**
-    * Creates a new {@link BidiTransformer} based on a given {@link BidiMap}
+    * Creates a new {@link BidiFunction} based on a given {@link BidiMap}
     * which transforms values by looking them up in the given {@link BidiMap}.
     * <p>
-    * <b>Attention:</b> the resulting {@link BidiTransformer} will throw an
+    * <b>Attention:</b> the resulting {@link BidiFunction} will throw an
     * {@link IllegalArgumentException} if it should transform a value the has no
     * corresponding key (or value) within the given {@link BidiMap}.
     * 
     * @param bidiMap
-    *           the {@link BidiMap} to wrap into a {@link BidiTransformer}
+    *           the {@link BidiMap} to wrap into a {@link BidiFunction}
     * @param <F>
     *           the "from" or source type
     * @param <T>
     *           the "to" or target type
-    * @return the resulting {@link BidiTransformer}
+    * @return the resulting {@link BidiFunction}
     */
-   public static <F, T> BidiTransformer<F, T> asBidiTransformer(final BidiMap<F, T> bidiMap)
+   public static <F, T> BidiFunction<F, T> asBidiTransformer(final BidiMap<F, T> bidiMap)
    {
       return new BidiMapBidiTransformer<F, T>(bidiMap);
    }
 
-   protected static class MapTransformer<F, T> implements Transformer<F, T>
+   protected static class MapTransformer<F, T> implements Function<F, T>
    {
       protected final Map<F, T> _baseMap;
 
@@ -69,7 +69,7 @@ public class MappedTransformerUtils
       }
 
       @Override
-      public T transform(final F source)
+      public T apply(final F source)
       {
          if (!_baseMap.containsKey(source))
          {
@@ -81,7 +81,7 @@ public class MappedTransformerUtils
       }
    }
 
-   protected static class BidiMapBidiTransformer<F, T> extends MapTransformer<F, T> implements BidiTransformer<F, T>
+   protected static class BidiMapBidiTransformer<F, T> extends MapTransformer<F, T> implements BidiFunction<F, T>
    {
       protected BidiMapBidiTransformer(final BidiMap<F, T> map)
       {
@@ -89,13 +89,13 @@ public class MappedTransformerUtils
       }
 
       @Override
-      public BidiTransformer<T, F> invert()
+      public BidiFunction<T, F> invert()
       {
-         return Transformers.invert(this);
+         return Functions.invert(this);
       }
 
       @Override
-      public F transformBack(final T target)
+      public F applyReverse(final T target)
       {
          if (!_baseMap.containsValue(target))
          {
