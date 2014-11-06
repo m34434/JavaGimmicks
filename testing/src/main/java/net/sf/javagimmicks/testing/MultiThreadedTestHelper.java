@@ -151,14 +151,14 @@ public class MultiThreadedTestHelper<R>
     * @param count
     *           the number of instances each provided {@link Supplier} should
     *           create
-    * @param factories
+    * @param suppliers
     *           any number of {@link Supplier} instances that should create
     *           workers
-    * @see #addWorkers(int, Iterable...)
+    * @see #addWorkers(int, Iterable)
     */
-   public void addWorkers(final int count, final Supplier<? extends Callable<R>>... factories)
+   public void addWorkers(final int count, final Supplier<? extends Callable<R>>... suppliers)
    {
-      addWorkers(count, Arrays.asList(factories));
+      addWorkers(count, Arrays.asList(suppliers));
    }
 
    /**
@@ -170,6 +170,8 @@ public class MultiThreadedTestHelper<R>
     * @param mainWorker
     *           the "main" worker which will be started within the main test
     *           thread after all "sub" workers have been started
+    * @param <F>
+    *           the type of object that the given "main" worker will produce
     * @return the {@link TestResult} containing all test result details
     *         (including any thrown errors)
     * @throws AssertionError
@@ -202,6 +204,8 @@ public class MultiThreadedTestHelper<R>
     *           the test run is aborted
     * @param unit
     *           the unit of time to wait until the test run is aborted
+    * @param <F>
+    *           the type of object that the given "main" worker will produce
     * @return the {@link TestResult} containing all test result details
     *         (including any thrown errors)
     * @throws AssertionError
@@ -226,6 +230,14 @@ public class MultiThreadedTestHelper<R>
     * Convenience method for {@link #executeWorkers(Callable)} but taking the
     * main worker as a {@link Runnable}
     * 
+    * @param mainWorker
+    *           the "main" worker which will be started within the main test
+    *           thread after all "sub" workers have been started
+    * @return the {@link TestResult} containing all test result details
+    *         (including any thrown errors)
+    * @throws AssertionError
+    *            if anything in the test run went wrong and
+    *            {@link #isAutoFail()} is <code>true</code>
     * @see #executeWorkers(Callable)
     */
    public TestResult<Void, R> executeWorkers(final Runnable mainWorker) throws AssertionError
@@ -237,6 +249,19 @@ public class MultiThreadedTestHelper<R>
     * Convenience method for {@link #executeWorkers(Callable, long, TimeUnit)}
     * but taking the main worker as a {@link Runnable}
     * 
+    * @param mainWorker
+    *           the "main" worker which will be started within the main test
+    *           thread after all "sub" workers have been started
+    * @param timeout
+    *           the amount of time to wait with the given {@link TimeUnit} until
+    *           the test run is aborted
+    * @param unit
+    *           the unit of time to wait until the test run is aborted
+    * @return the {@link TestResult} containing all test result details
+    *         (including any thrown errors)
+    * @throws AssertionError
+    *            if anything in the test run went wrong and
+    *            {@link #isAutoFail()} is <code>true</code>
     * @see #executeWorkers(Callable, long, TimeUnit)
     */
    public TestResult<Void, R> executeWorkers(final Runnable mainWorker, final long timeout, final TimeUnit unit)
@@ -250,6 +275,11 @@ public class MultiThreadedTestHelper<R>
     * Convenience method for {@link #executeWorkers(Callable)} that will run the
     * test without a "main" worker
     * 
+    * @return the {@link TestResult} containing all test result details
+    *         (including any thrown errors)
+    * @throws AssertionError
+    *            if anything in the test run went wrong and
+    *            {@link #isAutoFail()} is <code>true</code>
     * @see #executeWorkers(Callable)
     */
    public TestResult<Void, R> executeWorkers() throws AssertionError
@@ -261,6 +291,16 @@ public class MultiThreadedTestHelper<R>
     * Convenience method for {@link #executeWorkers(Callable, long, TimeUnit)}
     * that will run the test without a "main" worker
     * 
+    * @param timeout
+    *           the amount of time to wait with the given {@link TimeUnit} until
+    *           the test run is aborted
+    * @param unit
+    *           the unit of time to wait until the test run is aborted
+    * @return the {@link TestResult} containing all test result details
+    *         (including any thrown errors)
+    * @throws AssertionError
+    *            if anything in the test run went wrong and
+    *            {@link #isAutoFail()} is <code>true</code>
     * @see #executeWorkers(Callable, long, TimeUnit)
     */
    public TestResult<Void, R> executeWorkers(final long timeout, final TimeUnit unit) throws AssertionError

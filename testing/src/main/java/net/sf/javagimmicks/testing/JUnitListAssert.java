@@ -23,6 +23,8 @@ public class JUnitListAssert
     *           the actual values as {@link List}
     * @param expected
     *           the expected values as variable argument list
+    * @param <E>
+    *           the type of elements of the given {@link List} and argument list
     */
    public static <E> void assertListEquals(final String message, final List<? extends E> actual, final E... expected)
    {
@@ -37,6 +39,8 @@ public class JUnitListAssert
     *           the actual values as {@link List}
     * @param expected
     *           the expected values as variable argument list
+    * @param <E>
+    *           the type of elements of the given {@link List} and argument list
     */
    public static <E> void assertListEquals(final List<? extends E> actual, final E... expected)
    {
