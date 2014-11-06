@@ -12,6 +12,9 @@ import net.sf.javagimmicks.collections.event.ObservableEventNavigableSet;
 /**
  * An implementation of {@link EventNavigableSetListener} that re-fires the
  * received {@link NavigableSetEvent}s as {@link CDINavigableSetEvent} via CDI.
+ * 
+ * @param <E>
+ *           the element type of the treated events
  */
 public class CDIBridgeNavigableSetEventListener<E> extends CDIBrigeBase implements EventNavigableSetListener<E>
 {
@@ -27,6 +30,8 @@ public class CDIBridgeNavigableSetEventListener<E> extends CDIBrigeBase implemen
     * @param annotations
     *           the qualifier {@link Annotation}s that the fired events should
     *           have
+    * @param <E>
+    *           the element type of the treated events
     * @return the registered {@link CDIBridgeNavigableSetEventListener}
     */
    public static <E> CDIBridgeNavigableSetEventListener<E> install(final ObservableEventNavigableSet<E> set,
@@ -49,6 +54,8 @@ public class CDIBridgeNavigableSetEventListener<E> extends CDIBrigeBase implemen
     * @param annotations
     *           the qualifier {@link Annotation}s that the fired events should
     *           have
+    * @param <E>
+    *           the element type of the treated events
     * @return the CDI-enabled {@link ObservableEventNavigableSet}
     */
    public static <E> ObservableEventNavigableSet<E> createAndInstall(final NavigableSet<E> set,

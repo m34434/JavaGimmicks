@@ -12,6 +12,9 @@ import net.sf.javagimmicks.collections.event.ObservableEventList;
 /**
  * An implementation of {@link EventListListener} that re-fires the received
  * {@link ListEvent}s as {@link CDIListEvent} via CDI.
+ * 
+ * @param <E>
+ *           the element type of the treated events
  */
 public class CDIBridgeListEventListener<E> extends CDIBrigeBase implements EventListListener<E>
 {
@@ -27,6 +30,8 @@ public class CDIBridgeListEventListener<E> extends CDIBrigeBase implements Event
     * @param annotations
     *           the qualifier {@link Annotation}s that the fired events should
     *           have
+    * @param <E>
+    *           the element type of the treated events
     * @return the registered {@link CDIBridgeListEventListener}
     */
    public static <E> CDIBridgeListEventListener<E> install(final ObservableEventList<E> list,
@@ -48,6 +53,8 @@ public class CDIBridgeListEventListener<E> extends CDIBrigeBase implements Event
     * @param annotations
     *           the qualifier {@link Annotation}s that the fired events should
     *           have
+    * @param <E>
+    *           the element type of the treated events
     * @return the CDI-enabled {@link ObservableEventList}
     */
    public static <E> ObservableEventList<E> createAndInstall(final List<E> list, final Annotation... annotations)

@@ -1186,7 +1186,7 @@ public class TransformerUtils
     *           the "to" or target type
     * @return the {@link ArrayList} containing the transformed elements
     */
-   public static <F, T> ArrayList<T> tronsformToArrayList(final Collection<F> fromCollection,
+   public static <F, T> ArrayList<T> transformToArrayList(final Collection<F> fromCollection,
          final Function<F, T> transformer)
    {
       return transformInternal(fromCollection, new ArrayList<T>(fromCollection.size()), transformer);

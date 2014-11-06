@@ -89,6 +89,12 @@ public class DualMapValueMappings<L, R, E> extends AbstractValueMappings<L, R, E
     * {@link TreeMap} for the right view - so left keys and right keys should be
     * {@link Comparable}.
     * 
+    * @param <L>
+    *           the type of the left keys
+    * @param <R>
+    *           the type of the right keys
+    * @param <E>
+    *           the type of the values
     * @return the new instance
     */
    public static <L, R, E> DualMapValueMappings<L, R, E> createTreeTreeInstance()

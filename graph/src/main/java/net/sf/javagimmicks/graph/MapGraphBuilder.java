@@ -47,6 +47,8 @@ public class MapGraphBuilder<VertexType, EdgeType extends Edge<VertexType, EdgeT
     * default constructor} and applies a {@link DefaultEdgeFactory} for
     * {@link #setEdgeFactory(EdgeFactory)}.
     * 
+    * @param <VertexType>
+    *           the type of vertices that the built {@link Graph}s can carry
     * @return the new {@link MapGraphBuilder}
     */
    public static <VertexType> MapGraphBuilder<VertexType, DefaultEdge<VertexType>> withDefaultEdgeFactory()
@@ -60,6 +62,10 @@ public class MapGraphBuilder<VertexType, EdgeType extends Edge<VertexType, EdgeT
     * default constructor} and applies a {@link DefaultValuedEdgeFactory} for
     * {@link #setEdgeFactory(EdgeFactory)}.
     * 
+    * @param <VertexType>
+    *           the type of vertices that the built {@link Graph}s can carry
+    * @param <ValueType>
+    *           the type of values that the built {@link Graph}s can carry
     * @return the new {@link MapGraphBuilder}
     */
    public static <VertexType, ValueType> MapGraphBuilder<VertexType, DefaultValuedEdge<VertexType, ValueType>> withDefaultValuedEdgeFactory()

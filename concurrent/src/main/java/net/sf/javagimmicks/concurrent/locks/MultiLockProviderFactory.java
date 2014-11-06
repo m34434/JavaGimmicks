@@ -25,6 +25,8 @@ public class MultiLockProviderFactory<K> implements Supplier<MultiLockProvider<K
     * Returns the hash-based {@link MultiLockProviderFactory} instance which
     * manages resource identifiers using {@link HashMap}s.
     * 
+    * @param <K>
+    *           The type of the internally used resource identifiers
     * @return the hash-bases instance
     */
    @SuppressWarnings("unchecked")
@@ -37,6 +39,8 @@ public class MultiLockProviderFactory<K> implements Supplier<MultiLockProvider<K
     * Returns the tree-based {@link MultiLockProviderFactory} instance which
     * manages resource identifiers using {@link TreeMap}s.
     * 
+    * @param <K>
+    *           The type of the internally used resource identifiers
     * @return the hash-bases instance
     */
    @SuppressWarnings("unchecked")

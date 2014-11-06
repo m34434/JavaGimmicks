@@ -91,6 +91,10 @@ public class AutoComboBoxEditor extends BasicComboBoxEditor
     * {@link AutoComboBoxEditor#setMarkOnFocus(boolean)}, in non-case-sensitive
     * mode (see {@link AutoComboBoxEditor#setCaseSensitive(boolean)}) and strict
     * mode (see {@link AutoComboBoxEditor#setStrict(boolean)}).
+    * 
+    * @param comboBox
+    *           the {@link JComboBox} where to register the
+    *           {@link AutoComboBoxEditor}
     */
    public static void install(final JComboBox comboBox)
    {

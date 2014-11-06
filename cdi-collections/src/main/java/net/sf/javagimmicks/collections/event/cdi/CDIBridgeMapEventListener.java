@@ -12,6 +12,11 @@ import net.sf.javagimmicks.collections.event.ObservableEventMap;
 /**
  * An implementation of {@link EventMapListener} that re-fires the received
  * {@link MapEvent}s as {@link CDIMapEvent} via CDI.
+ * 
+ * @param <K>
+ *           the key element type of the treated events
+ * @param <V>
+ *           the value element type of the treated events
  */
 public class CDIBridgeMapEventListener<K, V> extends CDIBrigeBase implements EventMapListener<K, V>
 {
@@ -27,6 +32,10 @@ public class CDIBridgeMapEventListener<K, V> extends CDIBrigeBase implements Eve
     * @param annotations
     *           the qualifier {@link Annotation}s that the fired events should
     *           have
+    * @param <K>
+    *           the key element type of the treated events
+    * @param <V>
+    *           the value element type of the treated events
     * @return the registered {@link CDIBridgeMapEventListener}
     */
    public static <K, V> CDIBridgeMapEventListener<K, V> install(final ObservableEventMap<K, V> map,
@@ -48,6 +57,10 @@ public class CDIBridgeMapEventListener<K, V> extends CDIBrigeBase implements Eve
     * @param annotations
     *           the qualifier {@link Annotation}s that the fired events should
     *           have
+    * @param <K>
+    *           the key element type of the treated events
+    * @param <V>
+    *           the value element type of the treated events
     * @return the CDI-enabled {@link ObservableEventMap}
     */
    public static <K, V> ObservableEventMap<K, V> createAndInstall(final Map<K, V> map, final Annotation... annotations)

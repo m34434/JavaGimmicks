@@ -12,6 +12,11 @@ import net.sf.javagimmicks.collections.event.SortedMapEvent;
 /**
  * An implementation of {@link EventSortedMapListener} that re-fires the
  * received {@link SortedMapEvent}s as {@link CDISortedMapEvent} via CDI.
+ * 
+ * @param <K>
+ *           the key element type of the treated events
+ * @param <V>
+ *           the value element type of the treated events
  */
 public class CDIBridgeSortedMapEventListener<K, V> extends CDIBrigeBase implements EventSortedMapListener<K, V>
 {
@@ -27,6 +32,10 @@ public class CDIBridgeSortedMapEventListener<K, V> extends CDIBrigeBase implemen
     * @param annotations
     *           the qualifier {@link Annotation}s that the fired events should
     *           have
+    * @param <K>
+    *           the key element type of the treated events
+    * @param <V>
+    *           the value element type of the treated events
     * @return the registered {@link CDIBridgeSortedMapEventListener}
     */
    public static <K, V> CDIBridgeSortedMapEventListener<K, V> install(final ObservableEventSortedMap<K, V> map,
@@ -49,6 +58,10 @@ public class CDIBridgeSortedMapEventListener<K, V> extends CDIBrigeBase implemen
     * @param annotations
     *           the qualifier {@link Annotation}s that the fired events should
     *           have
+    * @param <K>
+    *           the key element type of the treated events
+    * @param <V>
+    *           the value element type of the treated events
     * @return the CDI-enabled {@link ObservableEventSortedMap}
     */
    public static <K, V> ObservableEventSortedMap<K, V> createAndInstall(final SortedMap<K, V> map,

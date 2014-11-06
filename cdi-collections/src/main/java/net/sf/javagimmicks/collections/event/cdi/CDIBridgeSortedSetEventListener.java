@@ -12,6 +12,9 @@ import net.sf.javagimmicks.collections.event.SortedSetEvent;
 /**
  * An implementation of {@link EventSortedSetListener} that re-fires the
  * received {@link SortedSetEvent}s as {@link CDISortedSetEvent} via CDI.
+ * 
+ * @param <E>
+ *           the element type of the treated events
  */
 public class CDIBridgeSortedSetEventListener<E> extends CDIBrigeBase implements EventSortedSetListener<E>
 {
@@ -27,6 +30,8 @@ public class CDIBridgeSortedSetEventListener<E> extends CDIBrigeBase implements 
     * @param annotations
     *           the qualifier {@link Annotation}s that the fired events should
     *           have
+    * @param <E>
+    *           the element type of the treated events
     * @return the registered {@link CDIBridgeSortedSetEventListener}
     */
    public static <E> CDIBridgeSortedSetEventListener<E> install(final ObservableEventSortedSet<E> set,
@@ -49,6 +54,8 @@ public class CDIBridgeSortedSetEventListener<E> extends CDIBrigeBase implements 
     * @param annotations
     *           the qualifier {@link Annotation}s that the fired events should
     *           have
+    * @param <E>
+    *           the element type of the treated events
     * @return the CDI-enabled {@link ObservableEventSortedSet}
     */
    public static <E> ObservableEventSortedSet<E> createAndInstall(final SortedSet<E> set,

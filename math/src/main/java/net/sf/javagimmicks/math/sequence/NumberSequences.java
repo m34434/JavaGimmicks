@@ -26,6 +26,8 @@ public class NumberSequences
     * 
     * @param clazz
     *           the {@link Class} of the {@link NumberSequence} to retrieve
+    * @param <S>
+    *           the type of {@link NumberSequence} to retrieve
     * @return the resulting {@link NumberSequence} or {@code null} of there is
     *         no such instance cached
     */
@@ -40,6 +42,8 @@ public class NumberSequences
     * 
     * @param sequence
     *           the new {@link NumberSequence} to cache
+    * @param <S>
+    *           the type of {@link NumberSequence} to register
     */
    public static <S extends NumberSequence<?>> void register(final S sequence)
    {

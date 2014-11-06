@@ -23,6 +23,7 @@ import net.sf.javagimmicks.util.WritableObjectContainer;
  * static default instance can be used.
  * <p>
  * This class intensively uses {@link BlockingObjectContainer} internally
+ * 
  * @see BlockingObjectContainer
  */
 public class BlockingSingletonRegistry
@@ -61,11 +62,13 @@ public class BlockingSingletonRegistry
     * 
     * @param instance
     *           the singleton instance to register
+    * @param <T>
+    *           the type of the singleton object to register
     * @throws IllegalStateException
     *            if there is already another instance of the given class
     *            registered (it's not a singleton)
     */
-   public <T> void set(T instance) throws IllegalStateException
+   public <T> void set(final T instance) throws IllegalStateException
    {
       if (instance == null)
       {
@@ -74,7 +77,7 @@ public class BlockingSingletonRegistry
 
       // Get the class of the singleton instance
       @SuppressWarnings("unchecked")
-      Class<T> clazz = (Class<T>) instance.getClass();
+      final Class<T> clazz = (Class<T>) instance.getClass();
 
       // Get ore create a Container for the class and set the instance
       getOrCreateContainer(clazz).accept(instance);
@@ -83,10 +86,12 @@ public class BlockingSingletonRegistry
    /**
     * Removes the singleton of the given class from the registry
     * 
+    * @param <T>
+    *           the type of the singleton object to remove
     * @param clazz
     *           the singleton class whose instance should be removed
     */
-   public <T> void remove(Class<T> clazz)
+   public <T> void remove(final Class<T> clazz)
    {
       if (clazz == null)
       {
@@ -109,11 +114,13 @@ public class BlockingSingletonRegistry
     * 
     * @param instance
     *           the singleton instance that should be removed
+    * @param <T>
+    *           the type of the singleton object to remove
     * @throws IllegalArgumentException
     *            if another one than the registered singleton instance should be
     *            removed
     */
-   public <T> void remove(T instance)
+   public <T> void remove(final T instance)
    {
       if (instance == null)
       {
@@ -161,9 +168,11 @@ public class BlockingSingletonRegistry
     * 
     * @param clazz
     *           the class whose singleton instance should be retrieved
+    * @param <T>
+    *           the type of the singleton object to retrieve
     * @return the resulting singleton instance of the given class
     */
-   public <T> T get(Class<T> clazz)
+   public <T> T get(final Class<T> clazz)
    {
       return getOrCreateContainer(clazz).get();
    }
@@ -178,11 +187,13 @@ public class BlockingSingletonRegistry
     * 
     * @param clazz
     *           the class whose singleton instance should be retrieved
+    * @param <T>
+    *           the type of the singleton object to retrieve
     * @return the resulting singleton instance of the given class
     * @throws InterruptedException
     *            if the waiting Thread is interrupted while waiting
     */
-   public <T> T getInterruptibly(Class<T> clazz) throws InterruptedException
+   public <T> T getInterruptibly(final Class<T> clazz) throws InterruptedException
    {
       return getOrCreateContainer(clazz).getInterruptibly();
    }
@@ -199,11 +210,13 @@ public class BlockingSingletonRegistry
     *           returns
     * @param timeUnit
     *           the {@link TimeUnit} of the given time amount to wait
+    * @param <T>
+    *           the type of the singleton object to retrieve
     * @return the resulting singleton instance of the given class
     * @throws InterruptedException
     *            if the waiting Thread is interrupted while waiting
     */
-   public <T> T get(Class<T> clazz, final long time, final TimeUnit timeUnit) throws InterruptedException
+   public <T> T get(final Class<T> clazz, final long time, final TimeUnit timeUnit) throws InterruptedException
    {
       return getOrCreateContainer(clazz).get(time, timeUnit);
    }
@@ -215,17 +228,18 @@ public class BlockingSingletonRegistry
     * 
     * @param clazz
     *           the class whose singleton instance should be retrieved
-    * 
+    * @param <T>
+    *           the type of the singleton object to retrieve
     * @return the registered singleton instance or <code>null</code> if non is
     *         registered
     */
-   public <T> T getNoWait(Class<T> clazz)
+   public <T> T getNoWait(final Class<T> clazz)
    {
       return getOrCreateContainer(clazz).getNoWait();
    }
 
    @SuppressWarnings("unchecked")
-   protected <E> BlockingObjectContainer<E> getOrCreateContainer(Class<E> clazz)
+   protected <E> BlockingObjectContainer<E> getOrCreateContainer(final Class<E> clazz)
    {
       // Get the potentially registered container
       BlockingObjectContainer<E> result = (BlockingObjectContainer<E>) _theContainers.get(clazz);

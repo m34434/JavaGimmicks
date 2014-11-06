@@ -12,6 +12,9 @@ import net.sf.javagimmicks.collections.event.SetEvent;
 /**
  * An implementation of {@link EventSetListener} that re-fires the received
  * {@link SetEvent}s as {@link CDISetEvent} via CDI.
+ * 
+ * @param <E>
+ *           the element type of the treated events
  */
 public class CDIBridgeSetEventListener<E> extends CDIBrigeBase implements EventSetListener<E>
 {
@@ -27,6 +30,8 @@ public class CDIBridgeSetEventListener<E> extends CDIBrigeBase implements EventS
     * @param annotations
     *           the qualifier {@link Annotation}s that the fired events should
     *           have
+    * @param <E>
+    *           the element type of the treated events
     * @return the registered {@link CDIBridgeSetEventListener}
     */
    public static <E> CDIBridgeSetEventListener<E> install(final ObservableEventSet<E> set,
@@ -48,6 +53,8 @@ public class CDIBridgeSetEventListener<E> extends CDIBrigeBase implements EventS
     * @param annotations
     *           the qualifier {@link Annotation}s that the fired events should
     *           have
+    * @param <E>
+    *           the element type of the treated events
     * @return the CDI-enabled {@link ObservableEventSet}
     */
    public static <E> ObservableEventSet<E> createAndInstall(final Set<E> set, final Annotation... annotations)
