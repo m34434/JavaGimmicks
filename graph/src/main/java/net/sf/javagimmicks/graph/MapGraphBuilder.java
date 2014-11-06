@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import net.sf.javagimmicks.util.Factory;
+import net.sf.javagimmicks.util.Supplier;
 
 /**
  * A builder for creating {@link MapGraph} instances using a fluent API.
@@ -14,13 +14,13 @@ import net.sf.javagimmicks.util.Factory;
  * <ol>
  * <li>The core {@link Map} of vertices to a {@link Set} of {@link Edge}s - can
  * be provided via {@link #setEdgeMap(Map)}</li>
- * <li>A {@link Factory} creating new {@link Set} instances for {@link Edge}s -
- * can be provided via {@link #setEdgeSetFactory(Factory)}</li>
+ * <li>A {@link Supplier} creating new {@link Set} instances for {@link Edge}s -
+ * can be provided via {@link #setEdgeSetFactory(Supplier)}</li>
  * <li>An {@link EdgeFactory} for creating new {@link Edge} instances - can be
  * provided via {@link #setEdgeFactory(EdgeFactory)}</li>
  * </ol>
  * If nothing else is provided by the client, {@link MapGraphBuilder} uses by
- * default a {@link HashMap} for {@code 1.} and a {@link Factory} creating
+ * default a {@link HashMap} for {@code 1.} and a {@link Supplier} creating
  * {@link HashSet}s for {@code 2.} - for {@code 3.} the client <b>must</b>
  * provide an instance.
  * <p>
@@ -39,7 +39,7 @@ public class MapGraphBuilder<VertexType, EdgeType extends Edge<VertexType, EdgeT
 {
    protected boolean _directed = false;
    protected Map<VertexType, Set<EdgeType>> _edgeMap = new HashMap<VertexType, Set<EdgeType>>();
-   protected Factory<? extends Set<EdgeType>> _edgeSetFactory = new HashSetFactory<EdgeType>();
+   protected Supplier<? extends Set<EdgeType>> _edgeSetFactory = new HashSetFactory<EdgeType>();
    protected EdgeFactory<VertexType, EdgeType> _edgeFactory;
 
    /**
@@ -70,7 +70,7 @@ public class MapGraphBuilder<VertexType, EdgeType extends Edge<VertexType, EdgeT
 
    /**
     * Creates a new instance with a internal {@link HashMap}, a {@link HashSet}
-    * creating {@link Factory} and for non-directed mode.
+    * creating {@link Supplier} and for non-directed mode.
     */
    public MapGraphBuilder()
    {}
@@ -137,13 +137,13 @@ public class MapGraphBuilder<VertexType, EdgeType extends Edge<VertexType, EdgeT
    }
 
    /**
-    * Returns the {@link Factory} for {@link Edge}-{@link Set}s that the
+    * Returns the {@link Supplier} for {@link Edge}-{@link Set}s that the
     * generated {@link MapGraph}s will internally use.
     * 
-    * @return the {@link Factory} for {@link Edge}-{@link Set}s that the
+    * @return the {@link Supplier} for {@link Edge}-{@link Set}s that the
     *         generated {@link MapGraph}s will internally use
     */
-   public Factory<? extends Set<EdgeType>> getEdgeSetFactory()
+   public Supplier<? extends Set<EdgeType>> getEdgeSetFactory()
    {
       return _edgeSetFactory;
    }
@@ -194,15 +194,15 @@ public class MapGraphBuilder<VertexType, EdgeType extends Edge<VertexType, EdgeT
    }
 
    /**
-    * Sets the {@link Factory} for {@link Edge}-{@link Set}s that generated
+    * Sets the {@link Supplier} for {@link Edge}-{@link Set}s that generated
     * {@link MapGraph}s will internally use.
     * 
     * @param edgeSetFactory
-    *           the {@link Factory} for {@link Edge}-{@link Set}s that generated
-    *           {@link MapGraph}s will internally use
+    *           the {@link Supplier} for {@link Edge}-{@link Set}s that
+    *           generated {@link MapGraph}s will internally use
     * @return the {@link MapGraphBuilder} itself
     */
-   public MapGraphBuilder<VertexType, EdgeType> setEdgeSetFactory(final Factory<? extends Set<EdgeType>> edgeSetFactory)
+   public MapGraphBuilder<VertexType, EdgeType> setEdgeSetFactory(final Supplier<? extends Set<EdgeType>> edgeSetFactory)
    {
       _edgeSetFactory = edgeSetFactory;
 
@@ -225,7 +225,7 @@ public class MapGraphBuilder<VertexType, EdgeType extends Edge<VertexType, EdgeT
       return this;
    }
 
-   private static class HashSetFactory<E> implements Factory<Set<E>>
+   private static class HashSetFactory<E> implements Supplier<Set<E>>
    {
       @Override
       public Set<E> get()

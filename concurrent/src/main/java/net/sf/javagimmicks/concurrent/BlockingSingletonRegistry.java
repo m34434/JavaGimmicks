@@ -77,7 +77,7 @@ public class BlockingSingletonRegistry
       Class<T> clazz = (Class<T>) instance.getClass();
 
       // Get ore create a Container for the class and set the instance
-      getOrCreateContainer(clazz).set(instance);
+      getOrCreateContainer(clazz).accept(instance);
    }
 
    /**

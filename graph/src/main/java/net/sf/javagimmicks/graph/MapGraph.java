@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import net.sf.javagimmicks.util.Factory;
+import net.sf.javagimmicks.util.Supplier;
 
 /**
  * An implementation of {@link Graph} that internally maintains a {@link Map} of
@@ -39,7 +39,7 @@ public class MapGraph<V, E extends Edge<V, E>> extends AbstractGraph<V, E>
 
    protected final boolean _directed;
 
-   MapGraph(final Map<V, Set<E>> edges, final Factory<? extends Set<E>> edgeSetFactory,
+   MapGraph(final Map<V, Set<E>> edges, final Supplier<? extends Set<E>> edgeSetFactory,
          final EdgeFactory<V, E> edgeFactory, final boolean directed)
    {
       super(edgeSetFactory);

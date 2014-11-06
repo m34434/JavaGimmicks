@@ -1,10 +1,10 @@
 package net.sf.javagimmicks.util;
 
 /**
- * An implementation of {@link Factory} which holds a constant object of the
+ * An implementation of {@link Supplier} which holds a constant object of the
  * required type and returns it upon every call to {@link #get()}
  */
-public class ConstantFactory<E> implements Factory<E>
+public class ConstantSupplier<E> implements Supplier<E>
 {
    private final E _value;
 
@@ -14,7 +14,7 @@ public class ConstantFactory<E> implements Factory<E>
     * @param value
     *           the value to use for every creation call
     */
-   public ConstantFactory(final E value)
+   public ConstantSupplier(final E value)
    {
       _value = value;
    }

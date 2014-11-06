@@ -5,35 +5,35 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 
 /**
- * An implementation of {@link Factory} that creates instances by calling a
+ * An implementation of {@link Supplier} that creates instances by calling a
  * constructor on a given {@link Class} via reflection
  * 
  * @param <E>
  *           the type of the instances to create
  */
-public class ReflectionFactory<E> implements Factory<E>
+public class ReflectionSupplier<E> implements Supplier<E>
 {
    protected final Constructor<? extends E> _constructor;
-   protected final Factory<Object[]> _argFactory;
+   protected final Supplier<Object[]> _argSupplier;
 
    /**
-    * Configures this {@link ReflectionFactory} to create instances by calling
+    * Configures this {@link ReflectionSupplier} to create instances by calling
     * the given {@link Constructor} taking the constructor arguments from the
-    * given argument {@link Factory}. The constructor must be public, must
+    * given argument {@link Supplier}. The constructor must be public, must
     * belong to a non-abstract class and may not throw checked {@link Exception
     * Exceptions}.
     * 
     * @param constructor
     *           the {@link Constructor} to invoke to create new instances
-    * @param argFactory
-    *           the {@link Factory} to invoke to get the constructor arguments
+    * @param argSupplier
+    *           the {@link Supplier} to invoke to get the constructor arguments
     * @throws IllegalArgumentException
     *            if the given {@link Constructor} is not public, throws any
     *            checked {@link Exception} or belongs to an abstract class
     * @throws SecurityException
     *            if the given {@link Constructor} cannot be set accessible
     */
-   public ReflectionFactory(final Constructor<? extends E> constructor, final Factory<Object[]> argFactory)
+   public ReflectionSupplier(final Constructor<? extends E> constructor, final Supplier<Object[]> argSupplier)
          throws IllegalArgumentException, SecurityException
    {
       final Class<? extends E> declaringClass = constructor.getDeclaringClass();
@@ -66,14 +66,14 @@ public class ReflectionFactory<E> implements Factory<E>
       }
 
       _constructor = constructor;
-      _argFactory = argFactory != null ? argFactory : EMPTY_ARG_FACTORY;
+      _argSupplier = argSupplier != null ? argSupplier : EMPTY_ARG_SUPPLIER;
    }
 
    /**
-    * Configures this {@link ReflectionFactory} to create instances by calling
+    * Configures this {@link ReflectionSupplier} to create instances by calling
     * the {@link Constructor} identified by the given {@link Class} object and
     * list of constructor argument types on the given type taking the
-    * constructor arguments from the given argument {@link Factory}. The
+    * constructor arguments from the given argument {@link Supplier}. The
     * constructor must be public, must belong to a non-abstract class and may
     * not throw checked {@link Exception}s.
     * 
@@ -83,8 +83,8 @@ public class ReflectionFactory<E> implements Factory<E>
     * @param argTypes
     *           an array of {@link Class} objects identifying the parameter
     *           types of the constructor to find on the given type
-    * @param argFactory
-    *           the {@link Factory} to invoke to get the constructor arguments
+    * @param argSupplier
+    *           the {@link Supplier} to invoke to get the constructor arguments
     * @throws IllegalArgumentException
     *            if the given {@link Constructor} is not public, throws any
     *            checked {@link Exception} or belongs to an abstract class
@@ -94,14 +94,15 @@ public class ReflectionFactory<E> implements Factory<E>
     *            if access to the identified {@link Constructor} is secured via
     *            {@link SecurityManager}
     */
-   public ReflectionFactory(final Class<? extends E> type, final Class<?>[] argTypes, final Factory<Object[]> argFactory)
+   public ReflectionSupplier(final Class<? extends E> type, final Class<?>[] argTypes,
+         final Supplier<Object[]> argSupplier)
          throws IllegalArgumentException, SecurityException, NoSuchMethodException
    {
-      this(type.getConstructor(argTypes), argFactory);
+      this(type.getConstructor(argTypes), argSupplier);
    }
 
    /**
-    * Configures this {@link ReflectionFactory} to create instances by calling
+    * Configures this {@link ReflectionSupplier} to create instances by calling
     * the default {@link Constructor} on the given type The constructor must be
     * public and accessible, must belong to a non-abstract class and may not
     * throw checked {@link Exception}s.
@@ -118,7 +119,7 @@ public class ReflectionFactory<E> implements Factory<E>
     *            if access to the default {@link Constructor} is secured via
     *            {@link SecurityManager}
     */
-   public ReflectionFactory(final Class<? extends E> type) throws IllegalArgumentException, SecurityException,
+   public ReflectionSupplier(final Class<? extends E> type) throws IllegalArgumentException, SecurityException,
          NoSuchMethodException
    {
       this(type, new Class<?>[0], null);
@@ -129,7 +130,7 @@ public class ReflectionFactory<E> implements Factory<E>
    {
       try
       {
-         return _constructor.newInstance(_argFactory.get());
+         return _constructor.newInstance(_argSupplier.get());
       }
 
       // Should not occur since we ensured in the constructor that the called
@@ -170,7 +171,7 @@ public class ReflectionFactory<E> implements Factory<E>
       }
    }
 
-   private static final Factory<Object[]> EMPTY_ARG_FACTORY = new Factory<Object[]>()
+   private static final Supplier<Object[]> EMPTY_ARG_SUPPLIER = new Supplier<Object[]>()
    {
       @Override
       public Object[] get()

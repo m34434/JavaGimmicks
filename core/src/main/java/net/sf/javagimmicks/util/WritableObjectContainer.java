@@ -1,19 +1,19 @@
 package net.sf.javagimmicks.util;
 
 /**
- * This interface extends {@link Supplier} by providing additional
- * methods that allow write access to the contained object.
+ * This interface extends {@link Supplier} by providing additional methods that
+ * allow write access to the contained object.
  * 
  * @param <E>
  *           the type of object the container can carry
  */
-public interface WritableObjectContainer<E> extends Supplier<E>
+public interface WritableObjectContainer<E> extends Supplier<E>, Consumer<E>
 {
    /**
     * Returns if an already set object instance may be replaced by another one
     * 
     * @return if an already set object instance my be replaced by another one
-    * @see #set(Object)
+    * @see #accept(Object)
     */
    boolean isAllowOverwrite();
 
@@ -28,7 +28,8 @@ public interface WritableObjectContainer<E> extends Supplier<E>
     *            {@link #isAllowOverwrite()} is <code>true</code>
     * @see #isAllowOverwrite()
     */
-   void set(E instance) throws IllegalStateException;
+   @Override
+   void accept(E instance) throws IllegalStateException;
 
    /**
     * Removes the instance (if any) from the container

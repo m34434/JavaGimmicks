@@ -32,7 +32,7 @@ public class FilenameFilterFileFilterAdapter implements FileFilter
    {
       if (filter == null)
       {
-         throw new IllegalArgumentException("Filter is null!");
+         throw new IllegalArgumentException("Predicate is null!");
       }
 
       if (mode == null)

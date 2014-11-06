@@ -1,12 +1,12 @@
 package net.sf.javagimmicks.util;
 
-abstract class AbstractCreateOnDemandObjectContainer<E> implements Supplier<E>
+abstract class AbstractLazySupplier<E> implements Supplier<E>
 {
    private final Supplier<E> _baseSupplier;
 
-   protected AbstractCreateOnDemandObjectContainer(final Supplier<E> factory)
+   protected AbstractLazySupplier(final Supplier<E> baseSupplier)
    {
-      _baseSupplier = factory;
+      _baseSupplier = baseSupplier;
    }
 
    @Override

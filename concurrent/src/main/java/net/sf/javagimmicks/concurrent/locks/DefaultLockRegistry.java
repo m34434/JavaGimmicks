@@ -7,36 +7,36 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.TreeMap;
 
-import net.sf.javagimmicks.util.Factory;
+import net.sf.javagimmicks.util.Supplier;
 
 class DefaultLockRegistry<K> implements LockRegistry<K>, Serializable
 {
    private static final long serialVersionUID = -785304313135882910L;
 
-   private static final Factory<Collection<Thread>> HASHSET_SHARED_COLLECTION_FACTORY = new HashSetSharedCollectionFactory();
+   private static final Supplier<Collection<Thread>> HASHSET_SHARED_COLLECTION_SUPPLIER = new HashSetSharedCollectionSupplier();
 
    public static <K> DefaultLockRegistry<K> createHashBasedInstance()
    {
       return new DefaultLockRegistry<K>(new HashMap<K, Thread>(), new HashMap<K, Collection<Thread>>(),
-            HASHSET_SHARED_COLLECTION_FACTORY);
+            HASHSET_SHARED_COLLECTION_SUPPLIER);
    }
 
    public static <K> DefaultLockRegistry<K> createTreeBasedInstance()
    {
       return new DefaultLockRegistry<K>(new TreeMap<K, Thread>(), new TreeMap<K, Collection<Thread>>(),
-            HASHSET_SHARED_COLLECTION_FACTORY);
+            HASHSET_SHARED_COLLECTION_SUPPLIER);
    }
 
    protected final Map<K, Thread> _exRegistry;
    protected final Map<K, Collection<Thread>> _shRegistry;
-   protected final Factory<Collection<Thread>> _shCollectionFactory;
+   protected final Supplier<Collection<Thread>> _shCollectionSupplier;
 
    public DefaultLockRegistry(final Map<K, Thread> exRegistry, final Map<K, Collection<Thread>> shRegistry,
-         final Factory<Collection<Thread>> sharedCollectionFactory)
+         final Supplier<Collection<Thread>> sharedCollectionFactory)
    {
       _exRegistry = exRegistry;
       _shRegistry = shRegistry;
-      _shCollectionFactory = sharedCollectionFactory;
+      _shCollectionSupplier = sharedCollectionFactory;
    }
 
    @Override
@@ -63,7 +63,7 @@ class DefaultLockRegistry<K> implements LockRegistry<K>, Serializable
          Collection<Thread> threadsForResource = _shRegistry.get(resource);
          if (threadsForResource == null)
          {
-            threadsForResource = _shCollectionFactory.get();
+            threadsForResource = _shCollectionSupplier.get();
             _shRegistry.put(resource, threadsForResource);
          }
 
@@ -127,7 +127,7 @@ class DefaultLockRegistry<K> implements LockRegistry<K>, Serializable
       }
    }
 
-   private static final class HashSetSharedCollectionFactory implements Factory<Collection<Thread>>, Serializable
+   private static final class HashSetSharedCollectionSupplier implements Supplier<Collection<Thread>>, Serializable
    {
       private static final long serialVersionUID = 3613642441786733902L;
 

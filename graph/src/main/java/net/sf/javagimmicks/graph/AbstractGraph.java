@@ -8,8 +8,8 @@ import java.util.Set;
 import net.sf.javagimmicks.collections.AbstractMap2;
 import net.sf.javagimmicks.collections.transformer.TransformerUtils;
 import net.sf.javagimmicks.lang.LangUtils;
-import net.sf.javagimmicks.util.Factory;
 import net.sf.javagimmicks.util.Function;
+import net.sf.javagimmicks.util.Supplier;
 
 /**
  * An abstract {@link Graph} implementation taking care about many basic
@@ -17,9 +17,9 @@ import net.sf.javagimmicks.util.Function;
  */
 public abstract class AbstractGraph<V, E extends Edge<V, E>> implements Graph<V, E>
 {
-   protected final Factory<? extends Set<E>> _edgeSetFactory;
+   protected final Supplier<? extends Set<E>> _edgeSetFactory;
 
-   protected AbstractGraph(final Factory<? extends Set<E>> edgeSetFactory)
+   protected AbstractGraph(final Supplier<? extends Set<E>> edgeSetFactory)
    {
       _edgeSetFactory = edgeSetFactory;
    }

@@ -37,7 +37,7 @@ public class BlockingObjectContainer<E> implements WritableObjectContainer<E>
     * 
     * @param allowOverwrite
     *           the setting for overwriting an existing instance
-    * @see WritableObjectContainer#set(Object)
+    * @see WritableObjectContainer#accept(Object)
     * @see WritableObjectContainer#isAllowOverwrite()
     */
    public BlockingObjectContainer(boolean allowOverwrite)
@@ -60,7 +60,7 @@ public class BlockingObjectContainer<E> implements WritableObjectContainer<E>
    }
 
    @Override
-   public void set(E instance) throws IllegalStateException
+   public void accept(E instance) throws IllegalStateException
    {
       // Unset case
       if (instance == null)

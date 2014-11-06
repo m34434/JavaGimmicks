@@ -6,11 +6,11 @@ import java.util.Collection;
 
 import net.sf.javagimmicks.collections.transformer.TransformerUtils;
 import net.sf.javagimmicks.util.Function;
-import net.sf.javagimmicks.util.IncludeExcludePatternFilter;
+import net.sf.javagimmicks.util.IncludeExcludePatternPredicate;
 
 class IncludeExcludeFilenameFilter implements FilenameFilter
 {
-   private final IncludeExcludePatternFilter _filter = new IncludeExcludePatternFilter();
+   private final IncludeExcludePatternPredicate _filter = new IncludeExcludePatternPredicate();
    private static final Function<String, String> _patternTransformer = new Function<String, String>()
    {
       @Override
@@ -49,7 +49,7 @@ class IncludeExcludeFilenameFilter implements FilenameFilter
    @Override
    public boolean accept(final File dir, final String name)
    {
-      return _filter.accepts(name);
+      return _filter.test(name);
    }
 
    public void addIncludePattern(final String pattern)

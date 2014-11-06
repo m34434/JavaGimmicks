@@ -50,7 +50,7 @@ class RegistryLockProvider<K> implements MultiLockProvider<K>, Serializable
       {
          final List<K> internalResourceList = new ArrayList<K>();
 
-         // Filter out null resources
+         // Predicate out null resources
          for (final K resource : resources)
          {
             if (resource != null)

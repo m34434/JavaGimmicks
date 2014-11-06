@@ -3,23 +3,23 @@ package net.sf.javagimmicks.concurrent.locks;
 import java.util.HashMap;
 import java.util.TreeMap;
 
-import net.sf.javagimmicks.util.Factory;
+import net.sf.javagimmicks.util.Supplier;
 
 /**
- * Serves as central {@link Factory} for {@link MultiLockProvider} instances.
+ * Serves as central {@link Supplier} for {@link MultiLockProvider} instances.
  * Instances can only be retrieved by the static getters
  * {@link #getHashBasedInstance()} and {@link #getTreeBasedInstance()}.
  * 
  * @param <K>
  *           The type of the internally used resource identifiers
  */
-public class MultiLockProviderFactory<K> implements Factory<MultiLockProvider<K>>
+public class MultiLockProviderFactory<K> implements Supplier<MultiLockProvider<K>>
 {
    private static final MultiLockProviderFactory<Object> HASH_INSTANCE = new MultiLockProviderFactory<Object>(
-         new HashLockRegistryFactory<Object>());
+         new HashLockRegistrySupplier<Object>());
 
    private static final MultiLockProviderFactory<Object> TREE_INSTANCE = new MultiLockProviderFactory<Object>(
-         new TreeLockRegistryFactory<Object>());
+         new TreeLockRegistrySupplier<Object>());
 
    /**
     * Returns the hash-based {@link MultiLockProviderFactory} instance which
@@ -45,20 +45,20 @@ public class MultiLockProviderFactory<K> implements Factory<MultiLockProvider<K>
       return (MultiLockProviderFactory<K>) TREE_INSTANCE;
    }
 
-   private final Factory<LockRegistry<K>> _registryFactory;
+   private final Supplier<LockRegistry<K>> _registrySupplier;
 
-   private MultiLockProviderFactory(final Factory<LockRegistry<K>> registryFactory)
+   private MultiLockProviderFactory(final Supplier<LockRegistry<K>> registrySupplier)
    {
-      _registryFactory = registryFactory;
+      _registrySupplier = registrySupplier;
    }
 
    @Override
    public MultiLockProvider<K> get()
    {
-      return new RegistryLockProvider<K>(_registryFactory.get());
+      return new RegistryLockProvider<K>(_registrySupplier.get());
    }
 
-   private static class HashLockRegistryFactory<K> implements Factory<LockRegistry<K>>
+   private static class HashLockRegistrySupplier<K> implements Supplier<LockRegistry<K>>
    {
       @Override
       public LockRegistry<K> get()
@@ -67,7 +67,7 @@ public class MultiLockProviderFactory<K> implements Factory<MultiLockProvider<K>
       }
    }
 
-   private static class TreeLockRegistryFactory<K> implements Factory<LockRegistry<K>>
+   private static class TreeLockRegistrySupplier<K> implements Supplier<LockRegistry<K>>
    {
       @Override
       public LockRegistry<K> get()

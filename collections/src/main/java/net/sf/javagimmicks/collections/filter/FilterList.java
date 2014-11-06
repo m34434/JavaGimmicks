@@ -11,12 +11,12 @@ import java.util.List;
 import java.util.ListIterator;
 
 import net.sf.javagimmicks.collections.event.AbstractEventList;
-import net.sf.javagimmicks.util.Filter;
+import net.sf.javagimmicks.util.Predicate;
 
 /**
  * A decorating implementation of {@link List} that allows to create filtered
  * views of itself - child {@link List} that only contain elements from the
- * parent that are accepted by a given {@link Filter}.
+ * parent that are accepted by a given {@link Predicate}.
  */
 public class FilterList<E> extends AbstractEventList<E>
 {
@@ -75,23 +75,23 @@ public class FilterList<E> extends AbstractEventList<E>
 
    /**
     * Creates a new filtered child {@link List} (of type {@link FilteredList})
-    * based on the given {@link Filter}. Please have a look at
+    * based on the given {@link Predicate}. Please have a look at
     * {@link FilteredList FilteredList documentation} for more details about the
     * Behavior of filtered child {@link List}s.
     * 
     * @param filter
-    *           the {@link Filter} that determines which elements should be
+    *           the {@link Predicate} that determines which elements should be
     *           contained within the child {@link FilteredList}
     * @return a filtered view of this instance with type {@link FilteredList}
     * @see FilteredList
     */
-   public FilteredList createFilteredList(final Filter<E> filter)
+   public FilteredList createFilteredList(final Predicate<E> filter)
    {
       final FilteredList result = new FilteredList(filter);
 
       for (final ListIterator<E> iterElements = getDecorated().listIterator(); iterElements.hasNext();)
       {
-         if (filter.accepts(iterElements.next()))
+         if (filter.test(iterElements.next()))
          {
             result._realIndeces.add(iterElements.previousIndex());
          }
@@ -144,7 +144,7 @@ public class FilterList<E> extends AbstractEventList<E>
       {
          for (final E element : elements)
          {
-            doAdd(filteredList, index, filteredList._filter.accepts(element));
+            doAdd(filteredList, index, filteredList._filter.test(element));
          }
       }
    }
@@ -163,8 +163,8 @@ public class FilterList<E> extends AbstractEventList<E>
    {
       for (final FilteredList filteredList : getAliveFilterLists())
       {
-         final boolean acceptsOld = filteredList._filter.accepts(oldElement);
-         final boolean acceptsNew = filteredList._filter.accepts(newElement);
+         final boolean acceptsOld = filteredList._filter.test(oldElement);
+         final boolean acceptsNew = filteredList._filter.test(newElement);
 
          if (acceptsOld == acceptsNew)
          {
@@ -286,9 +286,9 @@ public class FilterList<E> extends AbstractEventList<E>
    public class FilteredList extends AbstractList<E>
    {
       protected final List<Integer> _realIndeces = new ArrayList<Integer>();
-      protected final Filter<E> _filter;
+      protected final Predicate<E> _filter;
 
-      protected FilteredList(final Filter<E> filter)
+      protected FilteredList(final Predicate<E> filter)
       {
          _filter = filter;
       }
@@ -311,7 +311,7 @@ public class FilterList<E> extends AbstractEventList<E>
             throw new UnsupportedOperationException();
          }
 
-         if (!_filter.accepts(e))
+         if (!_filter.test(e))
          {
             final String string = "Cannot add an element to a " + getClass().getSimpleName()
                   + " which is not accepted by the filter!";
@@ -331,7 +331,7 @@ public class FilterList<E> extends AbstractEventList<E>
             throw new UnsupportedOperationException();
          }
 
-         if (!_filter.accepts(element))
+         if (!_filter.test(element))
          {
             final String string = "Cannot set an element in a " + getClass().getSimpleName()
                   + " which is not accepted by the filter!";

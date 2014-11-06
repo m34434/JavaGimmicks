@@ -6,8 +6,8 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 import net.sf.javagimmicks.testing.MultiThreadedTestHelper;
-import net.sf.javagimmicks.util.Factory;
-import net.sf.javagimmicks.util.PrototypeFactory;
+import net.sf.javagimmicks.util.PrototypeSupplier;
+import net.sf.javagimmicks.util.Supplier;
 
 import org.junit.After;
 import org.junit.Before;
@@ -59,30 +59,32 @@ public class BlockingSingletonRegistryTest
    public void testMultiThreaded() throws Exception
    {
       // Prepare two Factories for the two test worker types
-      final Factory<TestWorker<TestSingletonClass1>> factory1 = createFactory(_testInstance1);
-      final Factory<TestWorker<TestSingletonClass2>> factory2 = createFactory(_testInstance2);
-      
-      // Create the main worker - it waits a second and then propagates the singleton instances
+      final Supplier<TestWorker<TestSingletonClass1>> factory1 = createFactory(_testInstance1);
+      final Supplier<TestWorker<TestSingletonClass2>> factory2 = createFactory(_testInstance2);
+
+      // Create the main worker - it waits a second and then propagates the
+      // singleton instances
       final Callable<Void> mainWorker = new Callable<Void>()
       {
          @Override
          public Void call() throws Exception
          {
-            // We simulate some business logic (to setup our singleton instances)
+            // We simulate some business logic (to setup our singleton
+            // instances)
             Thread.sleep(1000);
 
             // Finally, we propagate the singleton instances
             _testee.set(_testInstance1);
             _testee.set(_testInstance2);
-            
+
             return null;
          }
       };
-      
+
       // Create a MultiThreadedTestHelper to run the workers
       final MultiThreadedTestHelper<Void> testHelper = new MultiThreadedTestHelper<Void>();
       testHelper.addWorkers(THREAD_COUNT, factory1, factory2);
-      
+
       testHelper.executeWorkers(mainWorker, 10, TimeUnit.SECONDS);
    }
 
@@ -96,17 +98,18 @@ public class BlockingSingletonRegistryTest
    {
       private final T _refInstance;
 
-      public TestWorker(T refInstance)
+      public TestWorker(final T refInstance)
       {
          _refInstance = refInstance;
       }
-      
+
       @Override
       public Object clone() throws CloneNotSupportedException
       {
          return super.clone();
       }
 
+      @Override
       public Void call() throws Exception
       {
          // Get the singleton class (the one of the given reference instance)
@@ -119,13 +122,13 @@ public class BlockingSingletonRegistryTest
 
          // Check if it's the same object as the reference object
          assertSame("Fetched singleton instance is different to the reference one", _refInstance, instance);
-         
+
          return null;
       }
    }
-   
-   private <T> Factory<TestWorker<T>> createFactory(T testInstance)
+
+   private <T> Supplier<TestWorker<T>> createFactory(final T testInstance)
    {
-      return new PrototypeFactory<TestWorker<T>>(new TestWorker<T>(testInstance));
+      return new PrototypeSupplier<TestWorker<T>>(new TestWorker<T>(testInstance));
    }
 }

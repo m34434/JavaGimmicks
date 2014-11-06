@@ -10,10 +10,10 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
- * A {@link Filter} for {@link CharSequence}s that internally uses any number of
+ * A {@link Predicate} for {@link CharSequence}s that internally uses any number of
  * include and exclude regular expression {@link Pattern}s for filtering.
  */
-public class IncludeExcludePatternFilter implements Filter<CharSequence>
+public class IncludeExcludePatternPredicate implements Predicate<CharSequence>
 {
    /**
     * Creates a new instance for given {@link Collection}s of include and
@@ -25,10 +25,10 @@ public class IncludeExcludePatternFilter implements Filter<CharSequence>
     *           the {@link Collection} of exclude {@link Pattern}s
     * @return the new instance
     */
-   public static IncludeExcludePatternFilter fromPatterns(final Collection<Pattern> includePatterns,
+   public static IncludeExcludePatternPredicate fromPatterns(final Collection<Pattern> includePatterns,
          final Collection<Pattern> excludePatterns)
    {
-      return new IncludeExcludePatternFilter(
+      return new IncludeExcludePatternPredicate(
             new ArrayList<Pattern>(includePatterns),
             new ArrayList<Pattern>(excludePatterns));
    }
@@ -41,7 +41,7 @@ public class IncludeExcludePatternFilter implements Filter<CharSequence>
     *           the {@link Collection} of include {@link Pattern}s
     * @return the new instance
     */
-   public static IncludeExcludePatternFilter fromPatterns(final Collection<Pattern> includePatterns)
+   public static IncludeExcludePatternPredicate fromPatterns(final Collection<Pattern> includePatterns)
    {
       final Collection<Pattern> excludePatterns = Collections.emptySet();
 
@@ -58,7 +58,7 @@ public class IncludeExcludePatternFilter implements Filter<CharSequence>
     *           the {@link Collection} of exclude patterns
     * @return the new instance
     */
-   public static IncludeExcludePatternFilter fromStringPatterns(final Collection<String> includePatterns,
+   public static IncludeExcludePatternPredicate fromStringPatterns(final Collection<String> includePatterns,
          final Collection<String> excludePatterns)
    {
       return fromPatterns(bulkCompile(includePatterns), bulkCompile(excludePatterns));
@@ -72,7 +72,7 @@ public class IncludeExcludePatternFilter implements Filter<CharSequence>
     *           the {@link Collection} of include patterns
     * @return the new instance
     */
-   public static IncludeExcludePatternFilter fromStringPatterns(final Collection<String> includePatterns)
+   public static IncludeExcludePatternPredicate fromStringPatterns(final Collection<String> includePatterns)
    {
       final Collection<String> excludePatterns = Collections.emptySet();
 
@@ -85,12 +85,12 @@ public class IncludeExcludePatternFilter implements Filter<CharSequence>
    /**
     * Creates a new instance without any include or exclude {@link Pattern}s.
     */
-   public IncludeExcludePatternFilter()
+   public IncludeExcludePatternPredicate()
    {
       this(new ArrayList<Pattern>(), new ArrayList<Pattern>());
    }
 
-   private IncludeExcludePatternFilter(final List<Pattern> includePatterns, final List<Pattern> excludePatterns)
+   private IncludeExcludePatternPredicate(final List<Pattern> includePatterns, final List<Pattern> excludePatterns)
    {
       _includePatterns = includePatterns;
       _excludePatterns = excludePatterns;
@@ -205,7 +205,7 @@ public class IncludeExcludePatternFilter implements Filter<CharSequence>
    }
 
    @Override
-   public boolean accepts(final CharSequence charSequence)
+   public boolean test(final CharSequence charSequence)
    {
       return (_includePatterns.isEmpty() || matchesAny(_includePatterns, charSequence))
             && !matchesAny(_excludePatterns, charSequence);

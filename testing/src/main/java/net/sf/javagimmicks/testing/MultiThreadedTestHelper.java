@@ -17,7 +17,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import net.sf.javagimmicks.util.CallableRunnableAdapter;
-import net.sf.javagimmicks.util.Factory;
+import net.sf.javagimmicks.util.Supplier;
 
 /**
  * This class helps to execute multi-threaded unit tests in a manner of
@@ -111,30 +111,30 @@ public class MultiThreadedTestHelper<R>
 
    /**
     * Convenience method for massively adding workers. Worker are not specified
-    * directly, instead a number {@link Factory} instances can be provided
+    * directly, instead a number {@link Supplier} instances can be provided
     * together with a count that determines, how many instances each
-    * {@link Factory} should add here.
+    * {@link Supplier} should add here.
     * <p>
     * This means, the number of workers added is the multiplication of the given
-    * <code>count</code> parameter and the number of given {@link Factory}
+    * <code>count</code> parameter and the number of given {@link Supplier}
     * instances
     * 
     * @param count
-    *           the number of instances each provided {@link Factory} should
+    *           the number of instances each provided {@link Supplier} should
     *           create
-    * @param factories
-    *           any number of {@link Factory} instances that should create
+    * @param suppliers
+    *           any number of {@link Supplier} instances that should create
     *           workers
     */
-   public void addWorkers(final int count, final Iterable<Factory<? extends Callable<R>>> factories)
+   public void addWorkers(final int count, final Iterable<Supplier<? extends Callable<R>>> suppliers)
    {
       for (int i = 0; i < count; ++i)
       {
-         for (final Factory<? extends Callable<R>> factory : factories)
+         for (final Supplier<? extends Callable<R>> supplier : suppliers)
          {
-            if (factory != null)
+            if (supplier != null)
             {
-               final Callable<R> worker = factory.get();
+               final Callable<R> worker = supplier.get();
                if (worker != null)
                {
                   _workers.add(worker);
@@ -146,17 +146,17 @@ public class MultiThreadedTestHelper<R>
 
    /**
     * Convenience method for {@link #addWorkers(int, Iterable)} that allows
-    * specifying {@link Factory} instances as var-args list
+    * specifying {@link Supplier} instances as var-args list
     * 
     * @param count
-    *           the number of instances each provided {@link Factory} should
+    *           the number of instances each provided {@link Supplier} should
     *           create
     * @param factories
-    *           any number of {@link Factory} instances that should create
+    *           any number of {@link Supplier} instances that should create
     *           workers
-    * @see #addWorkers(int, Factory...)
+    * @see #addWorkers(int, Iterable...)
     */
-   public void addWorkers(final int count, final Factory<? extends Callable<R>>... factories)
+   public void addWorkers(final int count, final Supplier<? extends Callable<R>>... factories)
    {
       addWorkers(count, Arrays.asList(factories));
    }

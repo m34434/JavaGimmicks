@@ -6,14 +6,14 @@ package net.sf.javagimmicks.util;
  * @param <E>
  *           the type of objects to filter
  */
-public interface Filter<E>
+public interface Predicate<E>
 {
    /**
-    * Determines of a given element is accepted by this {@link Filter}.
+    * Determines of a given element is accepted by this {@link Predicate}.
     * 
     * @param element
     *           the element to filter out or not
-    * @return if the given element is accepted by this {@link Filter}
+    * @return if the given element is accepted by this {@link Predicate}
     */
-   public boolean accepts(E element);
+   public boolean test(E element);
 }

@@ -4,7 +4,7 @@ import java.lang.annotation.Annotation;
 
 import javax.inject.Qualifier;
 
-import net.sf.javagimmicks.util.ConstantFactory;
+import net.sf.javagimmicks.util.ConstantSupplier;
 import net.sf.javagimmicks.util.Supplier;
 
 /**
@@ -42,7 +42,7 @@ public class InjectionFactory<E> extends CDIAware implements Supplier<E>
     */
    public InjectionFactory(final InjectionSpec<E> injection)
    {
-      this(new ConstantFactory<InjectionSpec<E>>(injection));
+      this(new ConstantSupplier<InjectionSpec<E>>(injection));
    }
 
    /**

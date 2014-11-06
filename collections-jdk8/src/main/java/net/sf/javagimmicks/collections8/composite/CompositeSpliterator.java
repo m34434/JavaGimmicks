@@ -124,7 +124,7 @@ class CompositeSpliterator<E> implements Spliterator<E>
       _spliterators.forEach(s -> characteristicsStream().forEach(
             c -> m.merge(c, s.hasCharacteristics(c), (a, b) -> a && b)));
 
-      // Filter/map/reduce to the final characteristics (skip all "false"
+      // Predicate/map/reduce to the final characteristics (skip all "false"
       // characteristics and merge them via "|" operator
       final Optional<Integer> result = m.entrySet().stream().filter(e -> e.getValue()).map(e -> e.getKey())
             .reduce((a, b) -> a | b);
