@@ -17,6 +17,8 @@ public class ReverseList<E> extends AbstractList<E>
     * 
     * @param list
     *           the {@link List} whose element to reverse
+    * @param <E>
+    *           the type of elements of the {@link List} to reverse
     * @return the decorated instance with reverse element order
     */
    public static <E> ReverseList<E> decorate(final List<E> list)

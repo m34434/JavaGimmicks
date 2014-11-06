@@ -20,6 +20,8 @@ public class ArrayUtils
     * 
     * @param array
     *           the array to wrap
+    * @param <E>
+    *           the type of elements of the {@link List} to create
     * @return the resulting {@link List}
     * 
     * @see Arrays#asList(Object...)

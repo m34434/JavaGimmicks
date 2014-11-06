@@ -41,6 +41,8 @@ public class AnnotationLiteralHelper
     *           the {@link Annotation} type to create a literal for
     * @param memberValues
     *           the member values of the literal to create
+    * @param <A>
+    *           the {@link Annotation} type to create a literal for
     * @throws IllegalArgumentException
     *            if there is no value specified for at least one member
     * @return the resulting {@link Annotation} literal instance

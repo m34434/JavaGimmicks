@@ -39,15 +39,18 @@ public class CollectionUtils
    }
 
    /**
-    * Adds all elements that a given {@link Iterator} provides to given
+    * Adds all elements that a given {@link Iterator} provides to a given
     * {@link Collection} of appropriate type
     * 
     * @param targetCollection
     *           the {@link Collection} where to add the elements
     * @param sourceIterator
     *           the {@link Iterator} where to get the elements from
+    * @param <T>
+    *           the type of elements to transfer
     */
-   public static <T> void addAll(final Collection<T> targetCollection, final Iterator<? extends T> sourceIterator)
+   public static <T> void addAll(final Collection<? super T> targetCollection,
+         final Iterator<? extends T> sourceIterator)
    {
       while (sourceIterator.hasNext())
       {

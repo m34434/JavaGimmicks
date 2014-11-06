@@ -29,6 +29,8 @@ public class CompositeUtils
     * 
     * @param enumerations
     *           the {@link Enumeration}s to wrap a composite one around
+    * @param <E>
+    *           the type of elements of treated {@link Enumeration}s
     * @return a composite {@link Enumeration} wrapped around the given ones
     */
    public static <E> Enumeration<E> enumeration(final Collection<Enumeration<E>> enumerations)
@@ -42,6 +44,8 @@ public class CompositeUtils
     * 
     * @param enumerations
     *           the {@link Enumeration}s to wrap a composite one around
+    * @param <E>
+    *           the type of elements of treated {@link Enumeration}s
     * @return a composite {@link Enumeration} wrapped around the given ones
     */
    public static <E> Enumeration<E> enumeration(final Enumeration<E>... enumerations)
@@ -56,6 +60,8 @@ public class CompositeUtils
     *           the first {@link Enumeration} to build a composite one from
     * @param e2
     *           the first {@link Enumeration} to build a composite one from
+    * @param <E>
+    *           the type of elements of treated {@link Enumeration}s
     * @return a composite {@link Enumeration} wrapped around the given ones
     */
    public static <E> Enumeration<E> enumeration(final Enumeration<E> e1, final Enumeration<E> e2)
@@ -69,6 +75,10 @@ public class CompositeUtils
     * 
     * @param iterators
     *           the {@link Iterator}s to wrap a composite one around
+    * @param <E>
+    *           the type of elements of treated {@link Iterator}s
+    * @param <C>
+    *           the {@link Collection} type containing the {@link Iterator}s
     * @return a composite {@link Iterator} wrapped around the given ones
     */
    public static <E, C extends Iterator<E>> Iterator<E> iterator(final Collection<C> iterators)
@@ -82,6 +92,8 @@ public class CompositeUtils
     * 
     * @param iterators
     *           the {@link Iterator}s to wrap a composite one around
+    * @param <E>
+    *           the type of elements of treated {@link Iterator}s
     * @return a composite {@link Iterator} wrapped around the given ones
     */
    public static <E> Iterator<E> iterator(final Iterator<E>... iterators)
@@ -96,6 +108,8 @@ public class CompositeUtils
     *           the first {@link Iterator} to build a composite one from
     * @param i2
     *           the first {@link Iterator} to build a composite one from
+    * @param <E>
+    *           the type of elements of treated {@link Iterator}s
     * @return a composite {@link Iterator} wrapped around the given ones
     */
    public static <E> Iterator<E> iterator(final Iterator<E> i1, final Iterator<E> i2)
@@ -109,6 +123,10 @@ public class CompositeUtils
     * 
     * @param collections
     *           the {@link Collection}s to wrap a composite one around
+    * @param <E>
+    *           the type of elements of treated {@link Collection}s
+    * @param <C>
+    *           the {@link Collection} type containing the {@link Collection}s
     * @return a composite {@link Collection} wrapped around the given ones
     */
    public static <E, C extends Collection<E>> Collection<E> collection(final Collection<C> collections)
@@ -122,6 +140,8 @@ public class CompositeUtils
     * 
     * @param collections
     *           the {@link Collection}s to wrap a composite one around
+    * @param <E>
+    *           the type of elements of treated {@link Collection}s
     * @return a composite {@link Collection} wrapped around the given ones
     */
    public static <E> Collection<E> collection(final Collection<E>... collections)
@@ -136,6 +156,8 @@ public class CompositeUtils
     *           the first {@link Collection} to build a composite one from
     * @param c2
     *           the first {@link Collection} to build a composite one from
+    * @param <E>
+    *           the type of elements of treated {@link Collection}s
     * @return a composite {@link Collection} wrapped around the given ones
     */
    public static <E> Collection<E> collection(final Collection<E> c1, final Collection<E> c2)
@@ -149,6 +171,10 @@ public class CompositeUtils
     * 
     * @param listIterators
     *           the {@link ListIterator}s to wrap a composite one around
+    * @param <E>
+    *           the type of elements of treated {@link ListIterator}s
+    * @param <C>
+    *           the {@link Collection} type containing the {@link ListIterator}s
     * @return a composite {@link ListIterator} wrapped around the given ones
     */
    public static <E, C extends ListIterator<E>> ListIterator<E> listIterator(final List<C> listIterators)
@@ -162,6 +188,8 @@ public class CompositeUtils
     * 
     * @param listIterators
     *           the {@link ListIterator}s to wrap a composite one around
+    * @param <E>
+    *           the type of elements of treated {@link ListIterator}s
     * @return a composite {@link ListIterator} wrapped around the given ones
     */
    public static <E> ListIterator<E> listIterator(final ListIterator<E>... listIterators)
@@ -176,6 +204,8 @@ public class CompositeUtils
     *           the first {@link ListIterator} to build a composite one from
     * @param it2
     *           the first {@link ListIterator} to build a composite one from
+    * @param <E>
+    *           the type of elements of treated {@link ListIterator}s
     * @return a composite {@link ListIterator} wrapped around the given ones
     */
    public static <E> ListIterator<E> listIterator(final ListIterator<E> it1, final ListIterator<E> it2)
@@ -189,6 +219,8 @@ public class CompositeUtils
     * 
     * @param spliterators
     *           the {@link Spliterator}s to wrap a composite one around
+    * @param <E>
+    *           the type of elements of treated {@link Spliterator}s
     * @return a composite {@link Spliterator} wrapped around the given ones
     */
    public static <E> Spliterator<E> spliterator(final List<Spliterator<E>> spliterators)
@@ -202,6 +234,8 @@ public class CompositeUtils
     * 
     * @param spliterators
     *           the {@link Spliterator}s to wrap a composite one around
+    * @param <E>
+    *           the type of elements of treated {@link Spliterator}s
     * @return a composite {@link Spliterator} wrapped around the given ones
     */
    public static <E> Spliterator<E> spliterator(final Spliterator<E>... spliterators)
@@ -215,6 +249,10 @@ public class CompositeUtils
     * 
     * @param lists
     *           the {@link List}s to wrap a composite one around
+    * @param <E>
+    *           the type of elements of treated {@link List}s
+    * @param <C>
+    *           the {@link Collection} type containing the {@link List}s
     * @return a composite {@link List} wrapped around the given ones
     */
    public static <E, C extends List<E>> List<E> list(final List<C> lists)
@@ -228,6 +266,8 @@ public class CompositeUtils
     * 
     * @param lists
     *           the {@link List}s to wrap a composite one around
+    * @param <E>
+    *           the type of elements of treated {@link List}s
     * @return a composite {@link List} wrapped around the given ones
     */
    public static <E> List<E> list(final List<E>... lists)
@@ -242,6 +282,8 @@ public class CompositeUtils
     *           the first {@link List} to build a composite one from
     * @param l2
     *           the first {@link List} to build a composite one from
+    * @param <E>
+    *           the type of elements of treated {@link List}s
     * @return a composite {@link List} wrapped around the given ones
     */
    public static <E> List<E> list(final List<E> l1, final List<E> l2)

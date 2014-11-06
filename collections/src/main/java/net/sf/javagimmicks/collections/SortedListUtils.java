@@ -24,9 +24,11 @@ public class SortedListUtils
     *           the {@link List} where to insert the new element
     * @param element
     *           the new element to insert
+    * @param <T>
+    *           the type of element to get the insert index for
     * @return the respective insert index to keep the sorting order valid
     */
-   public static <T extends Comparable<? super T>> int getInsertIndex(final List<T> list, final T element)
+   public static <T> int getInsertIndex(final List<? extends Comparable<? super T>> list, final T element)
    {
       int index = Collections.binarySearch(list, element);
 
@@ -49,9 +51,12 @@ public class SortedListUtils
     *           the new element to insert
     * @param comparator
     *           the {@link Comparator} that determines the sorting order
+    * @param <T>
+    *           the type of element to get the insert index for
     * @return the respective insert index to keep the sorting order valid
     */
-   public static <T> int getInsertIndex(final List<T> list, final T element, final Comparator<? super T> comparator)
+   public static <T> int getInsertIndex(final List<? extends T> list, final T element,
+         final Comparator<? super T> comparator)
    {
       int index = Collections.binarySearch(list, element, comparator);
 
@@ -71,6 +76,8 @@ public class SortedListUtils
     *           the {@link List} where to insert the new element
     * @param element
     *           the new element to insert
+    * @param <T>
+    *           the type of elements of the given {@link List}
     */
    public static <T extends Comparable<? super T>> void addSorted(final List<T> list, final T element)
    {
@@ -88,6 +95,8 @@ public class SortedListUtils
     *           the new element to insert
     * @param comparator
     *           the {@link Comparator} that determines the sorting order
+    * @param <T>
+    *           the type of elements of the given {@link List}
     */
    public static <T> void addSorted(final List<T> list, final T element, final Comparator<? super T> comparator)
    {
@@ -102,6 +111,8 @@ public class SortedListUtils
     * 
     * @param list
     *           the {@link List} to decorate
+    * @param <T>
+    *           the type of elements of the {@link List} to decorate
     * @return the sorting facade {@link List}
     */
    @SuppressWarnings("unchecked")
@@ -123,6 +134,8 @@ public class SortedListUtils
     *           the {@link List} to decorate
     * @param comparator
     *           the {@link Comparator} that determines the sorting order
+    * @param <T>
+    *           the type of elements of the {@link List} to decorate
     * @return the sorting facade {@link List}
     */
    public static <T> List<T> decorate(final List<T> list, final Comparator<? super T> comparator)
@@ -136,6 +149,8 @@ public class SortedListUtils
     * 
     * @param list
     *           the decorated {@link List} to resort
+    * @param <T>
+    *           the type of elements of the {@link List} to resort
     */
    public static <T> void resort(final List<T> list)
    {
@@ -158,6 +173,9 @@ public class SortedListUtils
     *           {@link Comparator}
     * @param comparator
     *           the new {@link Comparator} for the {@link List}
+    * @param <T>
+    *           the type of elements of the {@link List} to modify
+    * @return a new {@link List} with the changed sorting and {@link Comparator}
     */
    public static <T> List<T> exchangeComparator(final List<T> list, final Comparator<? super T> comparator)
    {

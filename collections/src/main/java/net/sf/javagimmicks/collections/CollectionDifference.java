@@ -13,8 +13,8 @@ import java.util.List;
  * which ones are only contained in the second one.
  * 
  * @param <E>
- *           the type of elements the to be compared {@link Collection}s must
- *           have
+ *           the common basic type of elements that the to be compared
+ *           {@link Collection}s must have
  */
 public class CollectionDifference<E>
 {
@@ -30,6 +30,9 @@ public class CollectionDifference<E>
     *           the first {@link Collection} to find differences
     * @param b
     *           the second {@link Collection} to find differences
+    * @param <E>
+    *           the common basic type of elements that the to be compared
+    *           {@link Collection}s must have
     * @return the {@link CollectionDifference} containing the differences
     *         between the two given {@link Collection}s
     */
@@ -38,11 +41,7 @@ public class CollectionDifference<E>
       return new CollectionDifference<E>(a, b);
    }
 
-   /**
-    * @deprecated Use {@link #create(Collection, Collection)} instead
-    */
-   @Deprecated
-   public CollectionDifference(final Collection<? extends E> a, final Collection<? extends E> b)
+   private CollectionDifference(final Collection<? extends E> a, final Collection<? extends E> b)
    {
       for (final E element : a)
       {
@@ -65,16 +64,37 @@ public class CollectionDifference<E>
       }
    }
 
+   /**
+    * Returns the {@link List} of elements that are only contained in the first
+    * (or "a") {@link Collection}.
+    * 
+    * @return the {@link List} of elements that are only contained in the first
+    *         (or "a") {@link Collection}
+    */
    public List<E> getOnlyA()
    {
       return _onlyA;
    }
 
+   /**
+    * Returns the {@link List} of elements that are only contained in the second
+    * (or "b") {@link Collection}.
+    * 
+    * @return the {@link List} of elements that are only contained in the second
+    *         (or "b") {@link Collection}
+    */
    public List<E> getOnlyB()
    {
       return _onlyB;
    }
 
+   /**
+    * Returns the {@link List} of elements that are contained in both
+    * {@link Collection}s.
+    * 
+    * @return the {@link List} of elements that are contained in both
+    *         {@link Collection}s
+    */
    public List<E> getBoth()
    {
       return _both;

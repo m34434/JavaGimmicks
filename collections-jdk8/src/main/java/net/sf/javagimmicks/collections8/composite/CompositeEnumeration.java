@@ -8,64 +8,66 @@ import java.util.NoSuchElementException;
 class CompositeEnumeration<E> implements Enumeration<E>
 {
    protected final Iterator<Enumeration<E>> _enumerations;
-   
+
    protected Enumeration<E> _currentEnumeration;
    protected Enumeration<E> _nextEnumeration;
-   
-   CompositeEnumeration(List<Enumeration<E>> enumerations)
+
+   CompositeEnumeration(final List<Enumeration<E>> enumerations)
    {
       _enumerations = enumerations.iterator();
-      
+
       findNextEnumeration();
    }
-   
+
+   @Override
    public boolean hasMoreElements()
    {
-      if(_currentEnumeration != null && _currentEnumeration.hasMoreElements())
+      if (_currentEnumeration != null && _currentEnumeration.hasMoreElements())
       {
          return true;
       }
-      
+
       findNextEnumeration();
       return _nextEnumeration != null && _nextEnumeration.hasMoreElements();
    }
 
+   @Override
    public E nextElement()
    {
-      if(!hasMoreElements())
+      if (!hasMoreElements())
       {
          throw new NoSuchElementException();
       }
-      
+
       return moveNext();
    }
 
    protected void findNextEnumeration()
    {
-      if(_nextEnumeration != null)
+      if (_nextEnumeration != null)
       {
          return;
       }
-      
-      while(_enumerations.hasNext())
+
+      while (_enumerations.hasNext())
       {
-          _nextEnumeration = _enumerations.next();
-          
-          if(_nextEnumeration.hasMoreElements())
-          {
-             break;
-          }
+         _nextEnumeration = _enumerations.next();
+
+         if (_nextEnumeration.hasMoreElements())
+         {
+            break;
+         }
       }
    }
 
    protected E moveNext()
    {
-      if(_nextEnumeration != null)
+      if (_nextEnumeration != null)
       {
          _currentEnumeration = _nextEnumeration;
          _nextEnumeration = null;
       }
-      
+
       return _currentEnumeration.nextElement();
    }
 }

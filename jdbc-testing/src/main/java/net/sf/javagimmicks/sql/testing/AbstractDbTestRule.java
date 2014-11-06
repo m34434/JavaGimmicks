@@ -96,6 +96,9 @@ public abstract class AbstractDbTestRule extends ExternalResource
     * Retrieves a new {@link Connection} to the temporary embedded database.
     * 
     * @return a new {@link Connection} to the temporary embedded database
+    * 
+    * @throws SQLException
+    *            if a database access error occurs
     */
    public Connection getConnection() throws SQLException
    {
