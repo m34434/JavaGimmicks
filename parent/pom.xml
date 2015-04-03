@@ -230,8 +230,15 @@
 								<packages>net.sf.javagimmicks.beans:net.sf.javagimmicks.event:net.sf.javagimmicks.lang:net.sf.javagimmicks.sql:net.sf.javagimmicks.transform:net.sf.javagimmicks.util:net.sf.javagimmicks.xml</packages>
 							</group>
 							<group>
-								<title>Module "collections" - Basic utilities for and around the
-									Java Collection API</title>
+								<title>Module "core8" - Additional or alternative Core Utilities for Java 8</title>
+								<packages>net.sf.javagimmicks.transform8:net.sf.javagimmicks.util8</packages>
+							</group>
+							<group>
+								<title>Module "collections" - Basic utilities for and around the Java 8 Collection API</title>
+								<packages>net.sf.javagimmicks.collections8:net.sf.javagimmicks.collections8.builder:net.sf.javagimmicks.collections8.composite:net.sf.javagimmicks.collections8.decorators:net.sf.javagimmicks.collections8.diff:net.sf.javagimmicks.collections8.event:net.sf.javagimmicks.collections8.filter:net.sf.javagimmicks.collections8.mapping:net.sf.javagimmicks.collections8.transformer</packages>
+							</group>
+							<group>
+								<title>Module "collections8" - Basic utilities for and around the Java Collection API</title>
 								<packages>net.sf.javagimmicks.collections:net.sf.javagimmicks.collections.bidimap:net.sf.javagimmicks.collections.builder:net.sf.javagimmicks.collections.composite:net.sf.javagimmicks.collections.decorators:net.sf.javagimmicks.collections.diff:net.sf.javagimmicks.collections.event:net.sf.javagimmicks.collections.filter:net.sf.javagimmicks.collections.mapping:net.sf.javagimmicks.collections.transformer</packages>
 							</group>
 							<group>
