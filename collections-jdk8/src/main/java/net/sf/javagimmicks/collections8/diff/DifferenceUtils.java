@@ -37,6 +37,9 @@ import net.sf.javagimmicks.collections8.diff.Difference.Range;
  */
 public class DifferenceUtils
 {
+   private DifferenceUtils()
+   {}
+
    /**
     * Finds the differences between two provided {@link List}s using the
     * "longest common subsequences" algorithm.

@@ -24,6 +24,8 @@ public class MoreCollectors
     * @param toBigIntegerFunction
     *           a {@link Function} to map elements to {@link BigInteger}
     *           instances
+    * @param <T>
+    *           the type of elements the generated {@link Collector} operates on
     * @return the sum of all mapped {@link BigInteger} values
     */
    public static <T> Collector<T, ?, BigInteger> summingBigInteger(
@@ -45,6 +47,8 @@ public class MoreCollectors
     * 
     * @param toLongFunction
     *           a {@link ToLongFunction} to map elements to {@code long} values
+    * @param <T>
+    *           the type of elements the generated {@link Collector} operates on
     * @return the sum of all mapped {@code long} values as {@link BigInteger}
     */
    public static <T> Collector<T, ?, BigInteger> summingLongToBigInteger(
@@ -66,6 +70,8 @@ public class MoreCollectors
     * 
     * @param toIntFunction
     *           a {@link ToIntFunction} to map elements to {@code int} values
+    * @param <T>
+    *           the type of elements the generated {@link Collector} operates on
     * @return the sum of all mapped {@code int} values as {@link BigInteger}
     */
    public static <T> Collector<T, ?, BigInteger> summingIntToBigInteger(

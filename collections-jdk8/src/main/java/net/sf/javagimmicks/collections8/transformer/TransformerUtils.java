@@ -126,6 +126,28 @@ public class TransformerUtils
    }
 
    /**
+    * Wraps a new transforming {@link Spliterator} using the given
+    * {@link BidiFunction} around a given {@link Spliterator}.
+    * <p>
+    * For a list of available operations see <a
+    * href="package-summary.html#spliterator">package description</a>.
+    * 
+    * @param spliterator
+    *           the {@link Spliterator} to wrap around
+    * @param transformer
+    *           the {@link BidiFunction} to use for wrapping
+    * @param <F>
+    *           the "from" or source type
+    * @param <T>
+    *           the "to" or target type
+    * @return the transforming wrapped {@link Spliterator}
+    */
+   public static <F, T> Spliterator<T> decorate(final Spliterator<F> spliterator, final BidiFunction<F, T> transformer)
+   {
+      return new TransformingSpliterator<F, T>(spliterator, transformer);
+   }
+
+   /**
     * Wraps a new transforming {@link ListIterator} using the given
     * {@link Function} around a given {@link ListIterator}.
     * <p>

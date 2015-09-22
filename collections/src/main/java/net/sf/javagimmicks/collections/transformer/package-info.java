@@ -61,6 +61,23 @@
  * no data itself. Any changes on it will affect the internal one and
  * vice versa.
  * 
+ * <a name="comparator"></a>
+ * <h3>Operations on a transformed {@link java.util.Comparator}</h3>
+ * <table border="2" summary="Operations on a transformed Comparator">
+ *    <thead>
+ *       <tr>
+ *          <th>Operation</th>
+ *          <th>Function</th>
+ *       </tr>
+ *    </thead>
+ *    <tbody>
+ *       <tr>
+ *          <td>compare()</td>
+ *          <td align="center">supported</td>
+ *       </tr>
+ *    </tbody>
+ * </table>
+ * 
  * <a name="iterator"></a>
  * <h3>Operations on a transformed {@link java.util.Iterator}</h3>
  * <table border="2" summary="Operations on a transformed Iterator">
@@ -68,24 +85,24 @@
  *       <tr>
  *          <th>Operation</th>
  *          <th>Function</th>
- *          <th>BidiFunction</th>
  *       </tr>
  *    </thead>
  *    <tbody>
  *       <tr>
  *          <td>hasNext()</td>
- *          <td align="center" colspan="2">supported</td>
+ *          <td align="center">supported</td>
  *       </tr>
  *       <tr>
  *          <td>next()</td>
- *          <td align="center" colspan="2">supported</td>
+ *          <td align="center">supported</td>
  *       </tr>
  *       <tr>
  *          <td>remove()</td>
- *          <td align="center" colspan="2">supported</td>
+ *          <td align="center">supported</td>
  *       </tr>
  *    </tbody>
  * </table>
+ * 
  * 
  * <a name="collection"></a>
  * <h3>Operations on a transformed {@link java.util.Collection}</h3>

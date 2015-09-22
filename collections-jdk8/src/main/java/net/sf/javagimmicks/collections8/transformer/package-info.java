@@ -61,9 +61,74 @@
  * no data itself. Any changes on it will affect the internal one and
  * vice versa.
  * 
+ * <a name="consumer"></a>
+ * <h3>Operations on a transformed {@link java.util.function.Consumer}</h3>
+ * <table border="2" summary="Operations on a transformed Consumer">
+ *    <thead>
+ *       <tr>
+ *          <th>Operation</th>
+ *          <th>Function</th>
+ *       </tr>
+ *    </thead>
+ *    <tbody>
+ *       <tr>
+ *          <td>accept()</td>
+ *          <td align="center">supported</td>
+ *       </tr>
+ *    </tbody>
+ *    <tbody>
+ *       <tr>
+ *          <td>andThen()</td>
+ *          <td align="center">supported</td>
+ *       </tr>
+ *    </tbody>
+ * </table>
+
+ * <a name="comparator"></a>
+ * <h3>Operations on a transformed {@link java.util.Comparator}</h3>
+ * <table border="2" summary="Operations on a transformed Comparator">
+ *    <thead>
+ *       <tr>
+ *          <th>Operation</th>
+ *          <th>Function</th>
+ *       </tr>
+ *    </thead>
+ *    <tbody>
+ *       <tr>
+ *          <td>compare()</td>
+ *          <td align="center">supported</td>
+ *       </tr>
+ *    </tbody>
+ * </table>
+
  * <a name="iterator"></a>
  * <h3>Operations on a transformed {@link java.util.Iterator}</h3>
  * <table border="2" summary="Operations on a transformed Iterator">
+ *    <thead>
+ *       <tr>
+ *          <th>Operation</th>
+ *          <th>Function</th>
+ *       </tr>
+ *    </thead>
+ *    <tbody>
+ *       <tr>
+ *          <td>hasNext()</td>
+ *          <td align="center">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>next()</td>
+ *          <td align="center">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>remove()</td>
+ *          <td align="center">supported</td>
+ *       </tr>
+ *    </tbody>
+ * </table>
+ * 
+ * <a name="spliterator"></a>
+ * <h3>Operations on a transformed {@link java.util.Spliterator}</h3>
+ * <table border="2" summary="Operations on a transformed Spliterator">
  *    <thead>
  *       <tr>
  *          <th>Operation</th>
@@ -73,16 +138,37 @@
  *    </thead>
  *    <tbody>
  *       <tr>
- *          <td>hasNext()</td>
+ *          <td>tryAdvance()</td>
  *          <td align="center" colspan="2">supported</td>
  *       </tr>
  *       <tr>
- *          <td>next()</td>
+ *          <td>trySplit()</td>
  *          <td align="center" colspan="2">supported</td>
  *       </tr>
  *       <tr>
- *          <td>remove()</td>
+ *          <td>estimatedSize()</td>
  *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>characteristics()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>hasCharacteristics()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>forEachRemaining()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>getExactSizeIfKnown()</td>
+ *          <td align="center" colspan="2">supported</td>
+ *       </tr>
+ *       <tr>
+ *          <td>getComparator()</td>
+ *          <td align="center">not supported</td>
+ *          <td align="center">supported</td>
  *       </tr>
  *    </tbody>
  * </table>

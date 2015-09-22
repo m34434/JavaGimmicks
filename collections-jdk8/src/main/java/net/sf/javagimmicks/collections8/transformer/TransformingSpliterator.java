@@ -11,14 +11,14 @@ class TransformingSpliterator<F, T> implements Transforming<F, T>, Spliterator<T
    protected final Spliterator<F> _internalSpliterator;
    private final Function<F, T> _transformer;
 
-   TransformingSpliterator(Spliterator<F> internalSpliterator, Function<F, T> transformer)
+   TransformingSpliterator(final Spliterator<F> internalSpliterator, final Function<F, T> transformer)
    {
       _internalSpliterator = internalSpliterator;
       _transformer = transformer;
    }
 
    @Override
-   public boolean tryAdvance(Consumer<? super T> action)
+   public boolean tryAdvance(final Consumer<? super T> action)
    {
       return _internalSpliterator.tryAdvance(TransformerUtils.decorate(action, getTransformerFunction()));
    }
@@ -26,8 +26,8 @@ class TransformingSpliterator<F, T> implements Transforming<F, T>, Spliterator<T
    @Override
    public Spliterator<T> trySplit()
    {
-      Spliterator<F> split = _internalSpliterator.trySplit();
-      
+      final Spliterator<F> split = _internalSpliterator.trySplit();
+
       return split != null ? TransformerUtils.decorate(split, getTransformerFunction()) : null;
    }
 
