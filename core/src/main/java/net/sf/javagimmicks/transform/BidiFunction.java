@@ -3,8 +3,8 @@ package net.sf.javagimmicks.transform;
 import net.sf.javagimmicks.util.Function;
 
 /**
- * A bidirectional version of {@link Function} that is able to transform
- * object back into their original value and/or format.
+ * A bidirectional version of {@link Function} that is able to transform objects
+ * back into their original value and/or format.
  */
 public interface BidiFunction<F, T> extends Function<F, T>
 {

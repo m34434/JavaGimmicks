@@ -7,6 +7,9 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+/**
+ * Contains some static helper operations for dealing with {@link List}s.
+ */
 public class Lists
 {
    private Lists()

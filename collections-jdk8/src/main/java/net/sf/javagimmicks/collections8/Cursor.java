@@ -3,6 +3,7 @@ package net.sf.javagimmicks.collections8;
 import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
+import java.util.function.Supplier;
 
 /**
  * Defines operations on a data structure that has a well-definied order of
@@ -27,7 +28,7 @@ import java.util.NoSuchElementException;
  * @param <E>
  *           the type of elements this {@link Cursor} operates on
  */
-public interface Cursor<E>
+public interface Cursor<E> extends Supplier<E>
 {
 
    /**
@@ -126,6 +127,7 @@ public interface Cursor<E>
     * @throws NoSuchElementException
     *            if the underlying data structure is empty
     */
+   @Override
    E get() throws NoSuchElementException;
 
    /**

@@ -8,9 +8,9 @@ import java.util.Collection;
  * beginning or end.
  * <p>
  * The interface fully extends the {@link Collection} interface but additionally
- * extends {@link RingCursorProvider} that allows to create a {@link RingCursor} for it
- * which is a special kind of iterator that defines not beginning or end but
- * operations to modify or traverse the underlying data structure.
+ * extends {@link RingCursorProvider} that allows to create a {@link RingCursor}
+ * for it which is a special kind of iterator that defines no beginning or end
+ * but operations to modify or traverse the underlying data structure.
  * 
  * @param <E>
  *           the type of elements this {@link Ring} can contain

@@ -9,15 +9,16 @@ import java.util.Iterator;
  * beginning or end.
  * <p>
  * The interface fully extends the {@link Collection} interface but additionally
- * extends {@link RingCursorProvider} that allows to create a {@link RingCursor} for it
- * which is a special kind of iterator that defines not beginning or end but
- * operations to modify or traverse the underlying data structure.
+ * extends {@link RingCursorProvider} that allows to create a {@link RingCursor}
+ * for it which is a special kind of iterator that defines no beginning or end
+ * but operations to modify or traverse the underlying data structure.
  * 
  * @param <E>
  *           the type of elements this {@link Ring} can contain
  */
 public interface Ring<E> extends Collection<E>, RingCursorProvider<E>
 {
+   @Override
    default boolean add(final E value)
    {
       // Get the initial RingCursor add the element before the current position
@@ -26,7 +27,8 @@ public interface Ring<E> extends Collection<E>, RingCursorProvider<E>
 
       return true;
    }
-   
+
+   @Override
    default boolean addAll(final Collection<? extends E> collection)
    {
       // Get the initial RingCursor add the elements before the current position
@@ -35,7 +37,8 @@ public interface Ring<E> extends Collection<E>, RingCursorProvider<E>
 
       return true;
    }
-   
+
+   @Override
    default Iterator<E> iterator()
    {
       return cursor().iterator();

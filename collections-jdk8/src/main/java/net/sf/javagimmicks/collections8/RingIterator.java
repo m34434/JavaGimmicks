@@ -3,6 +3,13 @@ package net.sf.javagimmicks.collections8;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+ * An implementation of {@link Iterator} that wraps around a given
+ * {@link RingCursor}.
+ * 
+ * @param <E>
+ *           the type of elements this {@link RingIterator} operates on
+ */
 public class RingIterator<E> implements Iterator<E>
 {
    private final RingCursor<E> _ringCursor;
@@ -11,6 +18,12 @@ public class RingIterator<E> implements Iterator<E>
    private int _counter = 0;
    private boolean _removeCalled = true;
 
+   /**
+    * Constructs a new instance around the given {@link RingCursor}.
+    * 
+    * @param ringCursor
+    *           the {@link RingCursor} over which's elements should be iterated
+    */
    public RingIterator(final RingCursor<E> ringCursor)
    {
       _ringCursor = ringCursor;

@@ -3,7 +3,7 @@ package net.sf.javagimmicks.transform8;
 import java.util.function.Function;
 
 /**
- * A bidirectional version of {@link Function} that is able to transform object
+ * A bidirectional version of {@link Function} that is able to transform objects
  * back into their original value and/or format.
  * 
  * @param <F>
