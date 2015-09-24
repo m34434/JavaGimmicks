@@ -12,7 +12,6 @@ import javax.enterprise.inject.spi.InjectionTargetFactory;
 import javax.inject.Named;
 import javax.inject.Qualifier;
 import javax.naming.InitialContext;
-import javax.naming.NamingException;
 
 /**
  * This is the central access point to the CDI {@link BeanManager} from non-CDI
@@ -83,7 +82,7 @@ public class CDIContext
             return result;
          }
       }
-      catch (final IllegalStateException ex)
+      catch (final Throwable t)
       {
       }
 
@@ -91,7 +90,7 @@ public class CDIContext
       {
          return (BeanManager) InitialContext.doLookup(JNDI_FULL_EE);
       }
-      catch (final NamingException e)
+      catch (final Throwable t)
       {
       }
 
@@ -99,7 +98,7 @@ public class CDIContext
       {
          return (BeanManager) InitialContext.doLookup(JNDI_SERVLET);
       }
-      catch (final NamingException e)
+      catch (final Throwable t)
       {
       }
 
