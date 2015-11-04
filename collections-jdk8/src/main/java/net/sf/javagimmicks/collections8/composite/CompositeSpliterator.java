@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Spliterator;
 import java.util.function.Consumer;
@@ -27,7 +28,7 @@ class CompositeSpliterator<E> implements Spliterator<E>
 
    static <E, C extends Collection<E>> CompositeSpliterator<E> fromCollectionList(final List<C> collections)
    {
-      return new CompositeSpliterator<E>(collections.stream().map(c -> c.spliterator())
+      return new CompositeSpliterator<E>(collections.stream().map(Collection::spliterator)
             .collect(Collectors.toCollection(LinkedList::new)));
    }
 
@@ -96,7 +97,7 @@ class CompositeSpliterator<E> implements Spliterator<E>
    {
       // Sum up all estimations of remaining spliterator into a BigInteger
       final BigInteger sum = _spliterators.stream().collect(
-            summingLongToBigInteger(s -> s.estimateSize()));
+            summingLongToBigInteger(Spliterator::estimateSize));
 
       // Return the sum with an upper limit of Long.MAX_VALUE
       return sum.min(BigInteger.valueOf(Long.MAX_VALUE)).longValue();
@@ -118,7 +119,7 @@ class CompositeSpliterator<E> implements Spliterator<E>
       // We cannot guarantee "DISTINCT" or "SORTED", since we would have to
       // cross-check all elements
 
-      // Walk over all Spliterator and merge the characteristics for each into a
+      // Walk over all Spliterators and merge the characteristics for each into a
       // Map
       final Map<Integer, Boolean> m = new HashMap<>();
       _spliterators.forEach(s -> characteristicsStream().forEach(
@@ -126,7 +127,7 @@ class CompositeSpliterator<E> implements Spliterator<E>
 
       // Predicate/map/reduce to the final characteristics (skip all "false"
       // characteristics and merge them via "|" operator
-      final Optional<Integer> result = m.entrySet().stream().filter(e -> e.getValue()).map(e -> e.getKey())
+      final Optional<Integer> result = m.entrySet().stream().filter(Entry::getValue).map(Entry::getKey)
             .reduce((a, b) -> a | b);
 
       return result.orElse(0);

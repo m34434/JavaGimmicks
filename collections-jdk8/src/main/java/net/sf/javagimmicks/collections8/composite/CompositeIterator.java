@@ -25,7 +25,7 @@ class CompositeIterator<E> implements Iterator<E>
    static <E, C extends Collection<E>> CompositeIterator<E> fromCollectionList(final List<C> collections)
    {
       final List<Iterator<E>> iteratorList = new ArrayList<Iterator<E>>(decorate(collections,
-            source -> source.iterator()));
+            Collection::iterator));
 
       return new CompositeIterator<E>(iteratorList);
    }

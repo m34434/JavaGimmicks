@@ -41,7 +41,7 @@ class NavigableMapKeySetDecorator<K, V> extends AbstractSet<K> implements Naviga
    public Iterator<K> iterator()
    {
       final Iterator<Entry<K, V>> entryIterator = _parent.entrySet().iterator();
-      return TransformerUtils.decorate(entryIterator, entry -> entry.getKey());
+      return TransformerUtils.decorate(entryIterator, Entry::getKey);
    }
 
    @Override

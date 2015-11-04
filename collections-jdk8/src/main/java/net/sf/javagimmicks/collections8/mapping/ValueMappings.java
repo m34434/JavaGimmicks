@@ -265,7 +265,7 @@ public interface ValueMappings<L, R, E> extends Iterable<Mapping<L, R, E>>
     */
    default Collection<E> getValues()
    {
-      return TransformerUtils.decorate(getMappingSet(), source -> source.getValue());
+      return TransformerUtils.decorate(getMappingSet(), Mapping::getValue);
    }
 
    /**
