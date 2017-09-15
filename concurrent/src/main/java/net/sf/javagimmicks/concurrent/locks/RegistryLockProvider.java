@@ -1,6 +1,8 @@
 package net.sf.javagimmicks.concurrent.locks;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -16,6 +18,7 @@ class RegistryLockProvider<K> implements MultiLockProvider<K>, Serializable
    private static final long serialVersionUID = 6807627151240655773L;
 
    protected final LockRegistry<K> _registry;
+   protected LockStatisticsImpl _stats;
 
    protected final Lock _exLock = new ReentrantLock();
    protected final Condition _exCondition = _exLock.newCondition();
@@ -38,6 +41,50 @@ class RegistryLockProvider<K> implements MultiLockProvider<K>, Serializable
    public MultiReadWriteLock<K> newLock(final K... resources)
    {
       return newLock(Arrays.asList(resources));
+   }
+
+   @Override
+   public LockStatistics<K> getStatistics()
+   {
+      // Lazy getter
+      if (_stats == null)
+      {
+         synchronized (this)
+         {
+            if (_stats == null)
+            {
+               _stats = new LockStatisticsImpl();
+            }
+         }
+      }
+
+      return _stats;
+   }
+
+   protected class LockStatisticsImpl implements LockStatistics<K>
+   {
+      @Override
+      public void dump(final Writer out) throws IOException
+      {
+         try
+         {
+            _exLock.lockInterruptibly();
+         }
+         catch (final InterruptedException e)
+         {
+            // If this thread is interrupted from outside, we just skip dumping
+            return;
+         }
+
+         try
+         {
+            _registry.dump(out);
+         }
+         finally
+         {
+            _exLock.unlock();
+         }
+      }
    }
 
    protected class MultiReadWriteLockImpl implements MultiReadWriteLock<K>

@@ -31,4 +31,12 @@ public interface MultiLockProvider<K>
     * @return the new {@link MultiReadWriteLock} instance
     */
    MultiReadWriteLock<K> newLock(K... resourceIds);
+
+   /**
+    * Return a {@link LockStatistics} instance for this provider to get some
+    * statistical information.
+    * 
+    * @return a {@link LockStatistics} instance for this provider
+    */
+   LockStatistics<K> getStatistics();
 }

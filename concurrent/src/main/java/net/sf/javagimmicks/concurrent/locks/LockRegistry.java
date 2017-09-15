@@ -1,5 +1,7 @@
 package net.sf.javagimmicks.concurrent.locks;
 
+import java.io.IOException;
+import java.io.Writer;
 import java.util.Collection;
 
 interface LockRegistry<K>
@@ -15,4 +17,6 @@ interface LockRegistry<K>
    void registerExclusive(Collection<K> resources);
 
    void unregisterExclusive(Collection<K> resources);
+
+   void dump(Writer out) throws IOException;
 }

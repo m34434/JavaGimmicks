@@ -1,10 +1,14 @@
 package net.sf.javagimmicks.concurrent.locks;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.Serializable;
+import java.io.Writer;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import net.sf.javagimmicks.util.Supplier;
@@ -125,6 +129,42 @@ class DefaultLockRegistry<K> implements LockRegistry<K>, Serializable
       {
          _exRegistry.remove(resource);
       }
+   }
+
+   @Override
+   public void dump(final Writer out) throws IOException
+   {
+      final PrintWriter pw = new PrintWriter(out);
+
+      pw.println();
+      pw.println("Exclusive Lock Registry entries:");
+      for (final Entry<K, Thread> entry : _exRegistry.entrySet())
+      {
+         final String resource = entry.getKey().toString();
+         final Thread thread = entry.getValue();
+
+         pw.println(String.format("\t-Resource: %s is locked by Thread with name: '%s' and id: '%d'",
+               resource,
+               thread.getName(),
+               thread.getId()));
+
+      }
+
+      pw.println();
+      pw.println("Shared Lock Registry entries:");
+      for (final Entry<K, Collection<Thread>> entry : _shRegistry.entrySet())
+      {
+         final String resource = entry.getKey().toString();
+         final Collection<Thread> threads = entry.getValue();
+
+         pw.println(String.format("\t-Resource: %s is locked by:", resource));
+         for (final Thread thread : threads)
+         {
+            pw.println(String.format("\t\tThread with name: '%s' and id: '%d'", thread.getName(), thread.getId()));
+         }
+      }
+
+      pw.flush();
    }
 
    private static final class HashSetSharedCollectionSupplier implements Supplier<Collection<Thread>>, Serializable
