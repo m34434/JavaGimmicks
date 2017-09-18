@@ -3,7 +3,7 @@
 
 	<groupId>net.sf.javagimmicks</groupId>
 	<artifactId>gimmicks-parent</artifactId>
-	<version>0.99-alpha1-SNAPSHOT</version>
+	<version>0.99-alpha1</version>
 
 	<packaging>pom</packaging>
 
@@ -455,7 +455,7 @@
 		<url>https://github.com/m34434/JavaGimmicks/parent</url>
 		<connection>scm:git:https://github.com/m34434/JavaGimmicks.git/parent</connection>
 		<developerConnection>scm:git:https://github.com/m34434/JavaGimmicks.git/parent</developerConnection>
-	  <tag>HEAD</tag>
+	  <tag>0.99-alpha1</tag>
   </scm>
 
 </project>
