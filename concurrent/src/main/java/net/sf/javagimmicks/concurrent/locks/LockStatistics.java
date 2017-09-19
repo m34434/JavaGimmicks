@@ -17,6 +17,10 @@ public interface LockStatistics<K>
     * 
     * @param w
     *           the {@link Writer} to dump into
+    * 
+    * @throws IOException
+    *            if there is a problem writing the statistics to the given
+    *            {@link Writer}
     */
    void dump(Writer w) throws IOException;
 }
