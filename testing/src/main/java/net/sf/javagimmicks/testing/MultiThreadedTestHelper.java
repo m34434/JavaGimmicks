@@ -1,5 +1,7 @@
 package net.sf.javagimmicks.testing;
 
+import static java.util.concurrent.Executors.callable;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,7 +18,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-import net.sf.javagimmicks.util.CallableRunnableAdapter;
 import net.sf.javagimmicks.util.Supplier;
 
 /**
@@ -94,8 +95,7 @@ public class MultiThreadedTestHelper<R>
     * 
     * @param workers
     *           an {@link Iterable} of workers represented as {@link Callable}
-    *           objects (see {@link CallableRunnableAdapter} for adding
-    *           {@link Runnable} objects instead)
+    *           objects
     * @see CallableRunnableAdapter
     */
    public void addWorkers(final Iterable<? extends Callable<R>> workers)
@@ -181,8 +181,7 @@ public class MultiThreadedTestHelper<R>
     */
    public <F> TestResult<F, R> executeWorkers(final Callable<F> mainWorker) throws AssertionError
    {
-      return executeWorkers(mainWorker, new LatchWaitStrategy()
-      {
+      return executeWorkers(mainWorker, new LatchWaitStrategy() {
          @Override
          public boolean await(final CountDownLatch latch) throws InterruptedException
          {
@@ -216,8 +215,7 @@ public class MultiThreadedTestHelper<R>
    public <F> TestResult<F, R> executeWorkers(final Callable<F> mainWorker, final long timeout, final TimeUnit unit)
          throws AssertionError
    {
-      return executeWorkers(mainWorker, new LatchWaitStrategy()
-      {
+      return executeWorkers(mainWorker, new LatchWaitStrategy() {
          @Override
          public boolean await(final CountDownLatch latch) throws InterruptedException, AssertionError
          {
@@ -242,7 +240,7 @@ public class MultiThreadedTestHelper<R>
     */
    public TestResult<Void, R> executeWorkers(final Runnable mainWorker) throws AssertionError
    {
-      return executeWorkers(mainWorker != null ? new CallableRunnableAdapter(mainWorker) : (Callable<Void>) null);
+      return executeWorkers(mainWorker != null ? callable(mainWorker, (Void) null) : (Callable<Void>) null);
    }
 
    /**
@@ -267,7 +265,7 @@ public class MultiThreadedTestHelper<R>
    public TestResult<Void, R> executeWorkers(final Runnable mainWorker, final long timeout, final TimeUnit unit)
          throws AssertionError
    {
-      return executeWorkers(mainWorker != null ? new CallableRunnableAdapter(mainWorker) : (Callable<Void>) null,
+      return executeWorkers(mainWorker != null ? callable(mainWorker, (Void) null) : (Callable<Void>) null,
             timeout, unit);
    }
 
