@@ -31,16 +31,15 @@ public class BlockingTestWorkerTest
       e = newSingleThreadExecutor();
 
       final TestThreeStepWorker w = new TestThreeStepWorker();
-      final Future<String> f1 = e.submit(w);
+      final Future<String> f1 = w.submit(e);
 
-      w.awaitExecution();
       Assert.assertFalse(f1.isDone());
 
-      w.awaitNextBreak();
+      w.awaitPausing();
       Assert.assertFalse(f1.isDone());
       Assert.assertEquals("1", w.getState());
 
-      w.signal();
+      w.signal().awaitPausing();
       Assert.assertFalse(f1.isDone());
       Assert.assertEquals("2", w.getState());
 
@@ -64,9 +63,8 @@ public class BlockingTestWorkerTest
       e = newSingleThreadExecutor();
 
       final TestThreeStepWorker w = new TestThreeStepWorker();
-      final Future<String> f1 = e.submit(w);
+      final Future<String> f1 = w.submit(e);
 
-      w.awaitExecution();
       Assert.assertFalse(f1.isDone());
 
       w.finish();
@@ -89,12 +87,11 @@ public class BlockingTestWorkerTest
       e = newSingleThreadExecutor();
 
       final TestThreeStepWorker w = new TestThreeStepWorker();
-      e.submit(w);
-      w.awaitExecution();
+      w.submit(e);
 
       try
       {
-         w.pause();
+         w.pauseInterruptibly();
          Assert.fail("IllegalStateException expected!");
       }
       catch (final IllegalStateException ex)
@@ -114,13 +111,14 @@ public class BlockingTestWorkerTest
 
       testIllegalWorkerCall(new IllegalWorkerSignal());
       testIllegalWorkerCall(new IllegalWorkerFinish());
-      testIllegalWorkerCall(new IllegalWorkerAwaitNextBreak());
+      testIllegalWorkerCall(new IllegalWorkerAwaitNextPausing());
+      testIllegalWorkerCall(new IllegalWorkerAwaitNextBlocking());
       testIllegalWorkerCall(new IllegalWorkerAwaitExecution());
    }
 
-   private void testIllegalWorkerCall(final BlockingTestWorker<Void> w) throws InterruptedException
+   private void testIllegalWorkerCall(final BlockingTestWorker<Void> w) throws InterruptedException, TimeoutException
    {
-      final Future<Void> f = e.submit(w);
+      final Future<Void> f = w.submit(e);
 
       try
       {
@@ -147,10 +145,10 @@ public class BlockingTestWorkerTest
       protected String doWork() throws Exception
       {
          state = "1";
-         pause();
+         pauseInterruptibly();
 
          state = "2";
-         pause();
+         pauseInterruptibly();
 
          state = "3";
 
@@ -180,12 +178,23 @@ public class BlockingTestWorkerTest
       }
    }
 
-   private static class IllegalWorkerAwaitNextBreak extends BlockingTestWorker<Void>
+   private static class IllegalWorkerAwaitNextPausing extends BlockingTestWorker<Void>
    {
       @Override
       protected Void doWork() throws Exception
       {
-         awaitNextBreak();
+         awaitPausing();
+
+         return null;
+      }
+   }
+
+   private static class IllegalWorkerAwaitNextBlocking extends BlockingTestWorker<Void>
+   {
+      @Override
+      protected Void doWork() throws Exception
+      {
+         awaitBlocking();
 
          return null;
       }

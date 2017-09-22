@@ -1,211 +1,129 @@
 package net.sf.javagimmicks.concurrent.locks;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
-import java.text.Format;
-import java.text.MessageFormat;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
-import javax.swing.JOptionPane;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Test;
+
+import net.sf.javagimmicks.testing.BlockingTestWorker;
 
 public class MultiLockProviderTest
 {
-   private static final int NUM_RESOURCES = 20;
-   private static final int NUM_WORKERS = 50;
-   private static final long WAIT_TIME = 1000;
-   private static final long WORK_TIME = 250;
-   private static final int FRACTION_EX = 10;
-   private static final int FRACTION_LOCKS = 4;
-
-   private static final PrintStream LOG;
-   private static final Random RANDOM = new Random();
-   private static final List<Character> RESOURCES = new ArrayList<Character>(NUM_RESOURCES);
-   private static final Format FORMAT = new MessageFormat("{0,number,00}");
-   private static final MultiLockProvider<Character> PROVIDER = MultiLockProviderFactory
-         .<Character> getHashBasedInstance()
+   private static final MultiLockProvider<String> PROVIDER = MultiLockProviderFactory
+         .<String> getHashBasedInstance()
          .get();
 
-   static
+   private ExecutorService e;
+
+   @After
+   public void shutdown()
    {
-      for (int i = 0; i < NUM_RESOURCES; ++i)
+      if (e != null && !e.isShutdown())
       {
-         RESOURCES.add((char) ('a' + i));
-      }
-
-      PrintStream log;
-      try
-      {
-         log = new PrintStream(new FileOutputStream("status.log"));
-      }
-      catch (final FileNotFoundException e)
-      {
-         log = System.out;
-      }
-      LOG = log;
-   }
-
-   public static void main(final String[] args)
-   {
-      final List<Thread> threads = new ArrayList<Thread>(NUM_WORKERS);
-      for (int i = 1; i <= NUM_WORKERS; ++i)
-      {
-         // Thread thread = new Thread(new StrictLockWorker(i));
-         final Thread thread = new Thread(new TimeoutTryWorker(i));
-         // Thread thread = new Thread(new TryWorker(i));
-         threads.add(thread);
-         thread.start();
-      }
-
-      JOptionPane.showMessageDialog(null, "Click to exit");
-
-      for (final Thread thread : threads)
-      {
-         thread.interrupt();
+         e.shutdownNow();
       }
    }
 
-   protected static class TimeoutTryWorker extends Worker
+   @Test
+   public void testBasic() throws Exception
    {
-      public TimeoutTryWorker(final int id)
+      e = Executors.newFixedThreadPool(3);
+
+      final WriteLockWorker ab = new WriteLockWorker("a", "b");
+      final WriteLockWorker a = new WriteLockWorker("a");
+      final WriteLockWorker b = new WriteLockWorker("b");
+
+      final Future<Void> fab = ab.submit(e);
+      final Future<Void> fa = a.submit(e);
+      final Future<Void> fb = b.submit(e);
+
+      ab.awaitPausing();
+      a.awaitPausing();
+      b.awaitPausing();
+
+      // No worker has passed the first gate, so no lock is acquired
+      Assert.assertFalse(ab.locked);
+      Assert.assertFalse(a.locked);
+      Assert.assertFalse(b.locked);
+
+      // "ab" may pass - it will get the lock and reach the second pause point
+      ab.signal().awaitPausing();
+      Assert.assertTrue(ab.locked);
+
+      // "a" may now pass - it will get stuck when waiting for it's lock =>
+      // because "ab" is currently locked
+      a.signal().awaitBlocking();
+      Assert.assertFalse(a.locked);
+
+      // "b" may now pass - it will get stuck when waiting for it's lock =>
+      // because "ab" is currently locked
+      b.signal().awaitBlocking();
+      Assert.assertFalse(b.locked);
+
+      // "ab" may now pass the second pause point
+      // i.e. release the lock and finish
+      ab.signal();
+      fab.get();
+      Assert.assertFalse(ab.locked);
+
+      // "a" should now be able to continue and get it's lock for "a"
+      a.awaitPausing();
+      Assert.assertTrue(a.locked);
+
+      // "b" should now be able to continue and get it's lock for "b"
+      b.awaitPausing();
+      Assert.assertTrue(b.locked);
+
+      System.out.println("=================");
+   }
+
+   private static class WriteLockWorker extends BlockingTestWorker<Void>
+   {
+      private final List<String> resources;
+      private final MultiReadWriteLock<String> lock;
+      private final MultiLock<String> writeLock;
+
+      private boolean locked;
+
+      public WriteLockWorker(final String... resources)
       {
-         super(id);
+         this.resources = Arrays.asList(resources);
+         lock = PROVIDER.newLock(this.resources);
+         writeLock = lock.writeLock();
       }
 
       @Override
-      protected boolean doLock(final MultiLock<Character> lock) throws InterruptedException
+      protected Void doWork() throws Exception
       {
-         return lock.tryLock(WAIT_TIME, TimeUnit.MILLISECONDS);
-      }
-   }
+         System.out.printf("%s : (1) About to pause!%n", this.resources);
+         pauseInterruptibly();
+         System.out.printf("%s : (2) Now continuing!%n", this.resources);
 
-   protected static class TryWorker extends Worker
-   {
-      public TryWorker(final int id)
-      {
-         super(id);
-      }
+         System.out.printf("%s : (3) About to get write lock!%n", this.resources);
+         writeLock.lock();
+         locked = true;
+         System.out.printf("%s : (4) Got write lock!%n", this.resources);
 
-      @Override
-      protected boolean doLock(final MultiLock<Character> lock) throws InterruptedException
-      {
-         return lock.tryLock();
-      }
-   }
-
-   protected static class StrictLockWorker extends Worker
-   {
-      public StrictLockWorker(final int id)
-      {
-         super(id);
-      }
-
-      @Override
-      protected boolean doLock(final MultiLock<Character> lock) throws InterruptedException
-      {
-         lock.lock();
-
-         return true;
-      }
-   }
-
-   protected abstract static class Worker implements Runnable
-   {
-      protected final int _id;
-
-      public Worker(final int id)
-      {
-         _id = id;
-      }
-
-      protected abstract boolean doLock(MultiLock<Character> lock) throws InterruptedException;
-
-      @Override
-      public void run()
-      {
-         while (!Thread.currentThread().isInterrupted())
+         try
          {
-            final List<Character> resources = getResources();
-            final boolean shared = RANDOM.nextInt(FRACTION_EX) != 0;
-
-            final MultiReadWriteLock<Character> rwLock = PROVIDER.newLock(resources);
-            final MultiLock<Character> lock = shared ? rwLock.readLock() : rwLock.writeLock();
-
-            log(shared, resources, "ready");
-            try
-            {
-               long time = System.currentTimeMillis();
-
-               if (doLock(lock))
-               {
-                  time = System.currentTimeMillis() - time;
-
-                  log(shared, resources, "lock (" + time + ")");
-
-                  try
-                  {
-                     Thread.sleep(WORK_TIME);
-                  }
-                  catch (final InterruptedException e)
-                  {
-                     log(shared, resources, "aborted work");
-                     lock.unlock();
-                     log(shared, resources, "unlock");
-                     break;
-                  }
-
-                  lock.unlock();
-                  log(shared, resources, "unlock");
-               }
-               else
-               {
-                  log(shared, resources, "failed");
-               }
-            }
-            catch (final InterruptedException e)
-            {
-               log(shared, resources, "interrupted");
-               break;
-            }
+            System.out.printf("%s : (5) About to pause!%n", this.resources);
+            pauseInterruptibly();
+            System.out.printf("%s : (6) Now continuing!%n", this.resources);
          }
-      }
-
-      @Override
-      public String toString()
-      {
-         return "Worker" + FORMAT.format(new Object[] { _id });
-      }
-
-      protected List<Character> getResources()
-      {
-         final List<Character> result = new ArrayList<Character>(NUM_RESOURCES);
-
-         for (final Character c : RESOURCES)
+         finally
          {
-            if (RANDOM.nextInt(FRACTION_LOCKS) == 0)
-            {
-               result.add(c);
-            }
+            System.out.printf("%s : (7) About to release write lock!%n", this.resources);
+            writeLock.unlock();
+            locked = false;
+            System.out.printf("%s : (8) Released write lock!%n", this.resources);
          }
 
-         return result;
-      }
-
-      protected void log(final boolean shared, final List<Character> resources, final String message)
-      {
-         final String output = new StringBuilder()
-               .append(toString())
-               .append(" ")
-               .append(shared ? "SH " : "EX ")
-               .append(message)
-               .append(" ")
-               .append(resources.toString())
-               .toString();
-
-         LOG.println(output);
+         return null;
       }
    }
 }
